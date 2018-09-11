@@ -1,0 +1,113 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+        {% include 'link_css.html' %}
+        <script type="text/javascript" src="{% static 'js/jquery.min.js'%}"></script>
+
+         <script>
+            //定义函数myClose关闭当前窗口
+            function myClose(){
+                //将id为time的元素的内容转为整数，保存在变量n中
+                var n=parseInt(time.innerHTML);
+                n--;//将n-1
+                //如果n==0,关闭页面
+                //否则, 将n+秒钟后自动关闭，再保存回time的内容中
+                if(n>0){
+                    time.innerHTML=n+"秒钟后自动关闭";
+                    timer=setTimeout(myClose,1000);
+                }else{
+                    close();
+                }
+            }
+            var timer=null;
+            //当页面加载后，启动周期性定时器，每个1秒执行myClose
+            window.onload=function(){
+                timer=setTimeout(myClose,1000);
+            }
+         </script>
+	</head>
+	<body>
+
+        {% include 'main-header.html' %}
+
+        {% include 'main-sidebar.html' %}
+
+		<div id="content-wrapper">
+            <section id="content">
+                <h2>用户管理</h2>
+
+                <form method='post' action="addAdminSubmit">
+
+                    <table>
+                        <tr>
+                            <td>用户名：</td>
+                            <td><input type="text" name="username"></td>
+                        </tr>
+                         <tr>
+                            <td>邮箱：</td>
+                            <td><input type="text" name="email"></td>
+                        </tr>
+                        <tr>
+                            <td>密码：</td>
+                            <td><input type="text" name="password"></td>
+                        </tr>
+                        <tr>
+                            <td>用户权限：</td>
+                            <td>
+                                <select name="perm" >
+                                <option value="0">普通用户</option>
+                                <option value="1">管理员</option>
+                            </select></td>
+                        </tr>
+                    </table>
+                    <input class="butn" type="submit" value="注册新用户" >
+
+                </form>
+                <div style="border-bottom: rgba(127,176,255,0.48) 1px solid;height:15px; margin: 10px 0"></div>
+                <div style="margin-top: 20px">
+                    <form method="post" action="http://127.0.0.1:8000/accounts/manageUser">
+                        <table class="gridtable">
+                            <tr>
+                                <th>选择</th>
+                                <th>序号</th>
+                                <th>用户名</th>
+                                <th>邮箱</th>
+                                <th>管理员</th>
+                            </tr>
+                            {% for i in admin %}
+                            <tr>
+                                <th><input type="checkbox" name="delete_admin" value="{{ i.pk }}"></th>
+                                <th>{{ i.pk }}</th>
+                                <th>{{ i.username}}</th>
+                                <th>{{ i.email}}</th>
+                                <th>{{ i.is_superuser}}</th>
+                            </tr>
+                            {% endfor %}
+
+                        </table>
+                        <input class="butn" type="submit" value="删除">
+                    </form>
+                </div>
+
+                <div style="border-bottom: rgba(127,176,255,0.48) 1px solid;height:15px; margin: 10px 0"></div>
+
+
+                <div style="margin: 20px">
+                    <a id="closeWindow" href="editAdminBack">完成编辑，点此退出</a>
+                </div>
+
+
+
+             </section>
+        </div>
+
+
+        <footer id="footer"></footer>
+
+    </body>
+</html>
+

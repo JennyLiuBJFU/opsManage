@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block css_block %}
+    {#<link rel="stylesheet" href="https://cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css">#}
+    <link rel="stylesheet" href="/static/dist/css/wiki.css">
+    <link href="/static/dist/css/xcConfirm.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block main_content %}
+    <div id="page-wrapper">
+        <div class="content-body">
+
+
+            <div class="row">
+                <!--  标题栏   -->
+                <div class="col-lg-12">
+                    <h1 class="page-header"><i class="fa  fa-book  "></i> <code>Wiki</code>文档列表</h1>
+                </div>
+
+                <!-- 文章内容  -->
+                <div class="col-md-10">
+                    {% for post in postList %}
+                        <article class="post post-{{ post.id }}">
+                            <header class="entry-header">
+                                <h1 class="entry-title">
+                                    <a style="text-decoration:none; color:#404040"
+                                       href="/wiki/view/{{ post.id }}/">{{ post.title }}</a>
+                                </h1>
+                                <div class="entry-meta">
+			                    <span class="post-category">
+			                        <a style="text-decoration:none; color:#404040"
+                                       href="/wiki/category/{{ article.category.id }}">{{ post.category.name }}‧</a></span>
+                                    <span class="post-date"><a style="text-decoration:none; color:black" href="#"><time
+                                            class="entry-date"
+                                            datetime="{{ post.created_time }}">{{ post.created_time }}‧</time></a></span>
+                                    <span class="post-author"><a style="text-decoration:none; color:black"
+                                                                 href="#">{{ post.author }}</a></span>
+                                </div>
+                            </header>
+                            <div>
+                                <p>
+                                    {% autoescape off %}
+                                        {{ post.content|truncatewords:"10" }}
+                                    {% endautoescape %}
+                                </p>
+                                <div class="read-more cl-effect-14">
+                                    <a style="text-decoration:none; color:#404040" href="/wiki/view/{{ post.id }}/"
+                                       class="more-link">继续阅读 <span class="meta-nav">→</span></a>
+                                </div>
+                            </div>
+                        </article>
+                    {% empty %}
+                        <div class="no-post">暂时还没有发布的文章！</div>
+                    {% endfor %}
+                </div>
+                <!-- /文档内容 -->
+
+                <!-- 右边栏 -->
+                <div class="col-md-2">
+                    {% block toc %}
+                    {% endblock toc %}
+
+                    <!-- 最新文章  -->
+                    <div class="widget widget-recent-posts">
+                        <h3 class="widget-title">最新文章</h3>
+                        <ul>
+                            {% for post in postList %}
+                                <li>
+                                    <a style="text-decoration:none; color:#404040"
+                                       href="/wiki/view/{{ post.id }}/">{{ post.title }}</a>
+                                </li>
+                            {% empty %}
+                                暂无文章！
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- 归档  -->
+                    <div class="widget widget-archives">
+                        <h3 class="widget-title">归档</h3>
+                        <ul>
+                            {% for date in dateList %}
+                                <li>
+                                    <a style="text-decoration:none; color:#404040"
+                                       href="/wiki/archive/{{ date.cdate }}">
+                                        {{ date.cdate }} ({{ date.count }})</a>
+                                </li>
+                            {% empty %}
+                                暂无归档！
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- 分类  -->
+                    <div class="widget widget-category">
+                        <h3 class="widget-title">分类</h3>
+                        <ul>
+                            {% for category in categoryList %}
+                                <li>
+                                    <a style="text-decoration:none; color:#404040"
+                                       href="/wiki/category/{{ category.id }}">{{ category.name }} <span
+                                            class="post-count">({{ category.post_count }})</span></a>
+                                </li>
+                            {% empty %}
+                                暂无分类！
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- 标签  -->
+                    <div class="widget widget-tag-cloud">
+                        <h3 class="widget-title">标签云</h3>
+                        <ul class="list-unstyled list-inline">
+                            {% for tag in tagList %}
+                                <li>
+                                    <a style="text-decoration:none; color:#404040"
+                                       href="/wiki/tag/{{ tag.id }}">{{ tag.name }}</a>
+                                </li>
+                            {% empty %}
+                                暂无标签！
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                </div>
+                <!-- /右边栏 -->
+
+            </div>
+        </div>
+    </div>
+
+{% endblock main_content %}
+
+
+
+{% block foot_js %}
+    <script  src="/static/dist/js/xcConfirm.js"> </script>
+    <script type="text/javascript">
+        {% if errorInfo %}
+            window.wxc.xcConfirm("{{errorInfo}}", window.wxc.xcConfirm.typeEnum.error);
+        {% endif %}
+    </script>
+
+{% endblock %}

@@ -1,0 +1,74 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+        <link rel="stylesheet" type="text/css" href="/static/css/demo.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+		<link rel="stylesheet" type="text/css" href="/static/css/animate-custom.css" />
+	</head>
+	<body>
+
+{#		<div id="content-wrapper">#}
+{#            <section id="content">#}
+{#                <h2>用户管理</h2>#}
+{#            <div id="userinfo">#}
+{#                <div id="icon">#}
+{#			        <a href="#"><img src="/static/img/icon.jpg"/></a>#}
+{#		        </div>#}
+{#                <div id="username">当前用户：{{ USERNAME }}</div><br />#}
+{#                <button class="butt" onclick="window.location.href='http://127.0.0.1:8000/accounts/setPassword'">修改密码</button>#}
+{#                <button class="butt" onclick="window.location.href='http://127.0.0.1:8000/logout'">注销登录</button>#}
+{#                {% if Perm %}#}
+{#                    <button class="butt" onclick="window.location.href='http://127.0.0.1:8000/accounts/manageUser'">管理员权限</button>#}
+{#                {% endif %}#}
+{#                <br>#}
+{#                {% if Flag %}#}
+{##}
+{#                    <form class="cd-form" action="newPasswordSubmit" method="post">#}
+{#                    <p class="fieldset">#}
+{#                        <label class="image-replace cd-password" for="signin-password">新密码</label>#}
+{#                        <input name="newPassword" class="full-width has-padding has-border" id="signin-username" type="password" placeholder="请输入新密码">#}
+{#                    </p>#}
+{##}
+{#					<p class="fieldset">#}
+{#						<label class="image-replace cd-password" for="signin-password">再次输入</label>#}
+{#						<input  name="checkPassword" class="full-width has-padding has-border" id="signin-password" type="password"  placeholder="再次确认密码">#}
+{#					</p>#}
+{##}
+{#					<p class="fieldset">#}
+{#						<input class="full-width2" type="submit" value="确 定">#}
+{#					</p>#}
+{#				</form>#}
+{##}
+{#                {% endif %}#}
+{#            </div>#}
+{#             </section>#}
+{#        </div>#}
+        <section>
+            <div id="container_demo" >
+                <div id="wrapper">
+                    <div id="login" class="animate form">
+                        <form  class="cd-form" method="post" action="http://127.0.0.1:8000/accounts/newPasswordSubmit">
+                            <h1 style="font-size: 2em;"></h1>
+                            <p>
+                                <label for="username" class="youpasswd" data-icon="p"> 新密码 </label>
+                                <input id="username" name="newPassword" required="required" type="password" placeholder="请输入新密码"/>
+                            </p>
+                            <p>
+                                <label for="password" class="youpasswd" data-icon="p"> 再次确认 </label>
+                                <input id="password" name="checkPassword" required="required" type="password" placeholder="请再次输入密码" />
+                            </p>
+
+                            <input type="submit" class="btn btn-block btn-primary" style="padding:0.5em; width: 80px;float: right;margin-top: 2em;margin-right: 2em;"  value="确 定">
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </body>
+</html>
+

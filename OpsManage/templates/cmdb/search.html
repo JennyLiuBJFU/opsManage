@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+
+    {#        <!-- 顶部图表区域 -->#}
+    {#        <!--  .row  -->#}
+    {#        <div class="row">#}
+    {##}
+    {#            <!-- /.col (LEFT) -->#}
+    {#            <div class="col-xs-6">#}
+    {##}
+    {#                <div class="box box-danger">#}
+    {#                    <div class="box-header with-border">#}
+    {#                        <h3 class="box-title">Donut Chart</h3>#}
+    {##}
+    {#                        <div class="box-tools pull-right">#}
+    {#                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i#}
+    {#                                    class="fa fa-minus"></i>#}
+    {#                            </button>#}
+    {#                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>#}
+    {#                            </button>#}
+    {#                        </div>#}
+    {#                    </div>#}
+    {#                    <div class="box-body">#}
+    {#                        <canvas id="pieChart" style="height:250px"></canvas>#}
+    {#                    </div>#}
+    {#                    <!-- /.box-body -->#}
+    {#                </div>#}
+    {#                <!-- /.box -->#}
+    {#            </div>#}
+    {##}
+    {##}
+    {#            <!-- /.col (RIGHT) -->#}
+    {#            <div class="col-md-6">#}
+    {#                <!-- LINE CHART -->#}
+    {#                <div class="box box-info">#}
+    {#                    <div class="box-header with-border">#}
+    {#                        <h3 class="box-title">Line Chart</h3>#}
+    {##}
+    {#                        <div class="box-tools pull-right">#}
+    {#                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i#}
+    {#                                    class="fa fa-minus"></i>#}
+    {#                            </button>#}
+    {#                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>#}
+    {#                            </button>#}
+    {#                        </div>#}
+    {#                    </div>#}
+    {#                    <div class="box-body">#}
+    {#                        <div class="chart">#}
+    {#                            <canvas id="lineChart" style="height:250px"></canvas>#}
+    {#                        </div>#}
+    {#                    </div>#}
+    {#                    <!-- /.box-body -->#}
+    {#                </div>#}
+    {#                <!-- /.box -->#}
+    {#            </div>#}
+    {##}
+    {#        </div>#}
+    {#        <!--  /.row  -->#}
+    {#        <!-- /顶部图表区域 -->#}
+    {##}
+
+
+
+    <!-- .row  -->
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+
+                <!-- 标题行 -->
+                <div class="box-header">
+                    <h3 class="box-title">资产列表</h3>
+                </div>
+
+
+                <div class="box-body">
+
+                    <!-- -------------------按钮-------------------------  -->
+                    <div class="margin ">
+
+
+                        <!-- 按钮1 -->
+                        <form id="filterForm" >
+                            <select name="myType" id="selectedType">
+                                <option value="0" selected="selected">资产类型</option>
+                                <option value="1">服务器</option>
+                                <option value="2">网络设备</option>
+                                <option value="3">安全设备</option>
+                                <option value="4">存储设备</option>
+                                <option value="5">其他</option>
+                            </select>
+                            <!-- 按钮1 -->
+
+                            <select name="myOrg" id="selectedOrg">
+                                <option value="0" selected="selected">所属单位</option>
+                                {% for Organization in Organizations %}
+                                    <option value={{ Organization.id }}>{{ Organization.org_name }}</option>
+                                {% endfor %}
+                            </select>
+
+                        </form>
+
+                    <form method='get' action="/search/" target="_blank">
+                        <input type="text" name="q">
+                        <input type="submit" value="查询">
+                    </form>
+
+
+
+
+                    </div>
+                    <!-- -------------------/按钮-------------------------  -->
+
+
+                    <!-- -------------------表格-------------------------  -->
+                    <!-- 资产表格   -->
+                    <div id="div01">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th class="text-center">序号</th>
+                                <th class="text-center">资产名称</th>
+                                <th class="text-center">资产类型</th>
+                                <th class="text-center">资产编号</th>
+                                <th class="text-center">设备品牌</th>
+                                <th class="text-center">设备型号</th>
+                                <th class="text-center">设备序列号</th>
+                                <th class="text-center">管理地址</th>
+                                <th class="text-center">所处网络</th>
+                                <th class="text-center">所属单位</th>
+                                <th class="text-center">设备状态</th>
+                                <th class="text-center">操作</th>
+                            </tr>
+                            </thead>
+
+
+                            <tbody>
+{#                            {% for result in page.object_list %}#}
+                            {% for Asset in page.object_list %}
+                                <tr>
+                                    <td class="text-center">{{ forloop.counter }}</td>
+
+                                    <td><a href="#">
+                                        <li id="asset_detail" style="list-style-type:none"
+                                            onclick="return detail(this.value)"
+                                            value="{{ Asset.id }}"> {{ Asset.asset_name }}</li>
+                                    </a>
+                                    </td>
+                                    <td>{{ Asset.get_asset_type_display }}</td>
+                                    <td>{{ Asset.asset_no }}</td>
+                                    <td>{{ Asset.model.vendor }}</td>
+                                    <td>{{ Asset.model }}</td>
+                                    <td>{{ Asset.sn }}</td>
+                                    <td>{{ Asset.manage_ip }}</td>
+                                    <td>{{ Asset.get_network_location_display }}</td>
+                                    <td>{{ Asset.organization }}</td>
+                                    <td class="text-center">{{ Asset.get_status_display }}</td>
+                                    <td class="text-center">
+                                        <a href="http://127.0.0.1:8000/cmdb/index/deleteARecord?myid={{ Asset.id }}">
+                                            <i class="glyphicon glyphicon-edit text-info" style="margin-right: 5px"></i>
+                                        </a>
+                                        <a href="http://127.0.0.1:8000/cmdb/index/editARecord?myid={{ Asset.id }}">
+                                            <i class="glyphicon glyphicon-trash text-danger"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+
+
+                        </table>
+                        <!-- -------------------表格-------------------------  -->
+                    </div>
+
+                    <!-- -------------------分页-------------------------  -->
+                    <nav aria-label="...">
+                        <ul class="pagination">
+                            <li class="disabled">
+                              <span>
+                                <span aria-hidden="true">&laquo;</span>
+                              </span>
+                            </li>
+                            <li class="active">
+                                <span>1 <span class="sr-only pagination-sm">(current)</span></span>
+                            </li>
+
+                        </ul>
+                    </nav>
+                    <!-- -------------------/分页-------------------------  -->
+
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /col-xs-12   -->
+    </div>
+    <!-- /row -->
+
+{% endblock main_content %}
+
+
+
+
+
+{% block foot_js %}
+    <script src="/static/plugins/layer/layer.js"></script>
+    <script>
+        function detail(n) {
+            layer.open({
+                type: 2,
+                title: '资产信息',
+                closeBtn: 1,
+                area: ['960px', '850px'],
+                shadeClose: true, //点击遮罩关闭
+                content: ['/cmdb/detail' + n],
+            });
+        };
+
+        $(function () {
+            $("#selectedType").change(function () {
+                var args = $("#filterForm").serialize();
+                window.location = "{%url 'cmdb:filter'%}?" + args;
+                var x1 = "{%url 'cmdb:filter'%}?" + args;
+                $("#div01").load(x1 + " #div01")
+            });
+         });
+
+        $(function () {
+            $("#selectedOrg").change(function () {
+                var args = $("#filterForm").serialize();
+                window.location = "{%url 'cmdb:filter'%}?" + args;
+                var x2 = "{%url 'cmdb:filter'%}?" + args;
+                $("#div01").load(x2 + " #div01")
+            });
+        });
+
+    </script>
+{% endblock foot_js %}
+

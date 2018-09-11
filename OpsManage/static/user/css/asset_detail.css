@@ -1,0 +1,28 @@
+
+.container {
+    width: 650px;
+    font-family: "Helvetica Neue", "Microsoft Yahei", "Hiragino Sans GB";
+    margin: 30px;
+}
+
+#asset_title {
+    border-bottom: #9f191f 7px solid;
+}
+
+#asset_name {
+    margin-top: 15px;
+}
+
+#erweima_img {
+    height: 100px;
+    width: 100px;
+    display: block;
+}
+
+/*th{*/
+/*text-align: right;*/
+/*}*/
+
+#i2 {
+    border: #c0c0c0 1px solid;
+}

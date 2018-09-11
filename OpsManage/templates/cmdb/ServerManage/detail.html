@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/dist/css/AdminLTE.min.css">
+    {#    <link href="/static/user/css/asset_detail.css" rel="stylesheet">#}
+    <title>资产信息</title>
+
+    <style>
+        body{
+            width: 640px;
+            {#margin:30px;#}
+        }
+        .container {
+            width: 640px;
+            font-family: "Helvetica Neue", "Microsoft Yahei", "Hiragino Sans GB";
+            margin:0px 30px;
+        }
+
+        #asset_title {
+            border-bottom: #9f191f 7px solid;
+            margin-bottom: 10px;
+        }
+
+        #asset_name {
+            margin-top: 15px;
+        }
+
+        #erweima_img {
+            height: 100px;
+            width: 100px;
+            display: block;
+        }
+
+
+    </style>
+
+</head>
+<body>
+<section>
+<div class="container">
+    <div class="row" id="asset_title">
+        <div class="col-xs-8 " id="asset_name">
+            <header class="header">
+                <h3>{{ ASSET.asset_name }}<br/>
+                    <small>资产编号:{{ ASSET.asset_no }}</small>
+                </h3>
+            </header>
+        </div>
+
+        <div class="col-xs-4 " id="erweima">
+            <img class="img-responsive center-block" src="/static/user/img/erweima.jpg" id="erweima_img">
+        </div>
+    </div>
+</div>
+</section>
+
+<section>
+    <div class="container">
+      <div class="row" >
+
+        <div class="col-xs-7 " id="i1">
+
+            <table class="table table-condensed  table-hover no-border">
+                <tr>
+                    <td class="text text-right ">资产名称</td>
+                    <td class="text ">{{ ASSET.asset_name }}</td>
+                </tr>
+                <tr>
+                    <td class="text-right">所属单位</td>
+                    <td class="text">{{ ASSET.organization }}</td>
+                </tr>
+                <tr>
+                    <td class="text-right">来源合同</td>
+                    <td class="text">{{ ASSET.contract }}</td>
+                </tr>
+                <tr>
+                    <td class="text-right">供应厂商</td>
+                    <td class="text">{{ ASSET.vendor }}</td>
+                </tr>
+
+                <tr>
+                    <td class="text-right">购买日期</td>
+                    <td class="align"><i>{{ ASSET.purchase_day.isoformat}}</i></td>
+                </tr>
+
+                <tr>
+                    <td class="text-right">过保日期</td>
+                    <td ><i>{{ASSET.expire_day.isoformat}}</i></td>
+                </tr>
+                <tr>
+                    <td class="text-right">管理人员</td>
+                    <td class="text">{{ ASSET.admin }}</td>
+                </tr>
+{#                <tr>#}
+{#                    <td class="text text-right">设备状态</td>#}
+{#                    <td class="text" >{{ ASSET.asset_status}}</td>#}
+{#                </tr>#}
+
+            </table>
+            </div>
+
+
+        <div class="col-xs-5" id="i2">
+            <img class="img-responsive center-block" src="/static/user/img/Power770.png" id="i3">
+        </div>
+    </div>
+</div>
+</section>
+
+
+<section>
+<div class="container">
+    <div class="row">
+        <header class="page-header" id="event_info">
+            <h4>设备信息</h4>
+        </header>
+        <div class="col-xs-12">
+
+            <table class="table table-condensed table-bordered" id="event_table">
+                <tr>
+                    <td class="text text-center text-primary">设备类型</td>
+                    <td class="text ">{{ ASSET.get_asset_type_display }}</td>
+                    <td class="text text-center text-primary">设备品牌</td>
+                    <td class="text">{{ ASSET.vendor }}</td>
+                </tr>
+                <tr>
+                    <td class="text text-center text-primary">设备序列号</td>
+                    <td class="text" colspan="3">{{ ASSET.sn }}</td>
+                </tr>
+
+                <tr>
+                    <td class="text text-center text-primary">设备型号</td>
+                    <td class="text">{{ ASSET.model }}</td>
+                    <td class="text text-center text-primary">管理地址</td>
+                    <td class="text">{{ ASSET.manage_ip }}</td>
+                </tr>
+
+                <tr>
+                    <td class="text text-center text-primary">设备位置</td>
+                    <td class="">{{ ASSET.idc}}</td>
+                    <td class="text text-center text-primary">机柜位置</td>
+                    <td class="">A6-4</td>
+                </tr>
+
+                <tr>
+                    <td class="text text-center text-primary">所属网络</td>
+                    <td class="text">{{ ASSET.get_network_location_display }}</td>
+                    <td class="text text-center text-primary">机柜位置</td>
+                    <td class="text">{{ASSET.id}}</td>
+                </tr>
+
+
+
+            </table>
+
+
+        </div>
+    </div>
+</div>
+</section>
+
+
+<section>
+<div class="container">
+    <div class="row">
+        <header class="page-header" id="event_info">
+            <h4>设备事件</h4>
+        </header>
+        <div class="col-xs-12">
+
+             <table class="table table-condensed table-bordered" id="event_table">
+                <tr>
+                    <td class="text text-center text-primary">序号</td>
+                    <td class="text text-center text-primary">部件类型</td>
+                    <td class="text text-center text-primary">部件型号</td>
+                    <td class="text text-center text-primary">部件编号</td>
+                </tr>
+                 <tr>
+                    <td class="text text-center"></td>
+                    <td class="text "></td>
+                    <td class="text "></td>
+                    <td class="text "></td>
+                </tr>
+
+
+            </table>
+
+
+        </div>
+    </div>
+</div>
+</section>
+
+<section>
+<div class="container">
+    <header class="page-header" id="event_info">
+        <h4>设备备注</h4>
+    </header>
+    <div class="panel panel-default">
+        {#        <div class="panel-heading">Panel heading</div>#}
+        <div class="panel-body">
+            <p>{{ ASSET.memo }}</p>
+        </div>
+
+        <div class="modal-footer" >
+            <button type="button" class="btn btn-default">打印</button>
+            <button type="button" class="btn btn-default">导出</button>
+            <button type="button" class="btn btn-default" id="bclose" >关闭</button>
+        </div>
+    </div>
+
+</div>
+</section>
+
+<script src="/static/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/static/dist/js/adminlte.min.js"></script>
+{#<script src="/static/user/js/asset_detail.js" rel="stylesheet"></script>#}
+<script>
+    $(document).ready(function () {
+        $("#i2").css("height", $("#i1").css("height"));
+        $('#i3').css({"position": "relative", "top": "50%", "transform": "translateY(-50%)"});
+    });
+
+    $(document).ready(function () {
+        $("#bclose").click(function () {
+            window.close();
+        });
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+<section id="getintouch" class="bounceIn animated">
+        <div class="container2" style="border-bottom: 0;">
+            <h1>
+                <span>请填写网络设备信息</span>
+            </h1>
+        </div>
+        <div class="container">
+            <form class="contact" action="networkDeviceSubmit" method="post" id="form">
+            <div class="row clearfix">
+                <div class="lbl">
+                    <label>
+                        网络设备类型</label>
+                </div>
+                <div class="ctrl">
+                     <select name="sub_asset_type">
+                         <option value="0">请选择网络设备类型</option>
+                         <option value="1">路由器</option>
+                         <option value="2">交换机</option>
+                         <option value="3">工业交换机</option>
+                         <option value="4">无线控制器</option>
+                         <option value="5">无线ＡＰ</option>
+                    </select><br>
+                </div>
+            </div>
+            <div class="row  clearfix">
+                <div class="span10 offset2" style="width: 95%">
+                    <input type="hidden" name="assetId" value="{{ ID }}">
+                    <input style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: right;" type="submit" name="submit" id="submit" class="submit btn btn-block btn-primary" value="下一步">
+                    <button type="button" style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: left;" class="btn btn-block btn-success" onclick="window.location.href='http://127.0.0.1:8000/cmdb'">返回</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </section>
+{% endblock main_content %}
+
+
+

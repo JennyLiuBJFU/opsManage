@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/dist/css/AdminLTE.min.css">
+    {#    <link href="/static/user/css/asset_detail.css" rel="stylesheet">#}
+    <title>资产信息</title>
+
+    <style>
+        body {
+            width: 910px;
+        {#margin:30px;#}
+        }
+
+        .container {
+            width: 910px;
+            font-family: "Helvetica Neue", "Microsoft Yahei", "Hiragino Sans GB";
+            margin: 0px 30px;
+        }
+
+        #asset_title {
+            border-bottom: #9f191f 7px solid;
+            margin-bottom: 10px;
+        }
+
+        #asset_name {
+            margin-top: 15px;
+        }
+
+        #erweima_img {
+            height: 100px;
+            width: 100px;
+            display: block;
+        }
+
+        #CPU_info_table td {
+            text-align: center;
+        }
+
+        #i3 {
+            image-rendering: optimizeQuality;
+            max-width: 95%;
+            max-height: 95%;
+            width: auto;
+        }
+    </style>
+
+</head>
+
+
+<body id="right11">
+<section>
+    <div class="container">
+        <div class="row" id="asset_title">
+            <div class="col-xs-8 " id="asset_name">
+                <header class="header">
+                    <h3>{{ ASSET.asset_name }}<br/>
+                        <small>资产编号:{{ ASSET.asset_no }}</small>
+                    </h3>
+                </header>
+            </div>
+
+            <div class="col-xs-4 " id="erweima">
+                <img class="img-responsive center-block" src="/static/user/img/erweima.jpg" id="erweima_img">
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+
+            <div class="col-xs-7 " id="i1">
+
+                <table class="table table-condensed  table-hover no-border">
+                    <tr>
+                        <td class="text text-right ">资产名称:</td>
+                        <td class="text ">{{ ASSET.asset_name }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">所属单位:</td>
+                        <td class="text">{{ ASSET.organization }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">来源合同:</td>
+                        <td class="text">{{ ASSET.contract }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">供应厂商:</td>
+                        <td class="text">{{ ASSET.supplier }}</td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-right">购买日期:</td>
+                        <td class="align"><i>{{ ASSET.purchase_day.isoformat }}</i></td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-right">过保日期:</td>
+                        <td><i>{{ ASSET.expire_day.isoformat }}</i></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">资产状态:</td>
+                        <td class="text">{{ ASSET.get_status_display }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">管理人员:</td>
+                        <td class="text">{{ ASSET.admin }}</td>
+                    </tr>
+
+                </table>
+            </div>
+
+
+            <div class="col-xs-5" id="i2">
+                <img class="img-responsive center-block" src="{{ ASSET.model.img.url }}" id="i3">
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <header class="page-header" id="event_info">
+                <h4>设备信息</h4>
+            </header>
+            <div class="col-xs-12">
+
+                <table class="table table-condensed table-bordered table-hover" id="device_info_table">
+                    <tr>
+                        <td class="text text-center text-primary">设备序列号</td>
+                        <td class="text" colspan="3">{{ ASSET.sn }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text text-center text-primary">设备类型</td>
+                        <td class="text ">{{ ASSET.get_asset_type_display }}</td>
+                        <td class="text text-center text-primary">设备品牌</td>
+                        <td class="text">{{ ASSET.model.vendor }}</td>
+                    </tr>
+
+
+                    <tr>
+                        <td class="text text-center text-primary">设备型号</td>
+                        <td class="text">{{ ASSET.model }}</td>
+                        <td class="text text-center text-primary">管理地址</td>
+                        <td class="text">{{ ASSET.manage_ip }}</td>
+                    </tr>
+
+                    <tr>
+                        <td class="text text-center text-primary">设备位置</td>
+                        <td class="">{{ ASSET.idc }}</td>
+                        <td class="text text-center text-primary">所属网络</td>
+                        <td class="text">{{ ASSET.get_network_location_display }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text text-center text-primary">所在机柜</td>
+                        <td class="">{{ ASSET.cabinet }}</td>
+                        <td class="text text-center text-primary">机柜位置</td>
+                        <td class="text">{{ CabinetSpace }}</td>
+                    </tr>
+
+
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="device_part">
+    <div class="container">
+        <div class="row">
+            <header class="page-header" id="event_info">
+                <h4>配件信息</h4>
+            </header>
+            <div class="col-xs-12">
+
+                <div id="CPU_info">
+                    <h5 class="text-navy">CPU信息</h5>
+                    <table class="table table-condensed table-bordered table-hover vertical" id="CPU_info_table">
+                        <tr>
+                            <td class="text text-center text-primary">序号</td>
+                            <td class="text text-center text-primary">品牌</td>
+                            <td class="text text-center text-primary">型号</td>
+                            <td class="text text-center text-primary">插槽</td>
+                            <td class="text text-center text-primary">核数</td>
+                            <td class="text text-center text-primary">频率</td>
+                        </tr>
+
+
+                        {% for cpu in  ASSET.cpu_set.all %}
+                            <tr>
+                                <td class="text text-center">{{ forloop.counter }}</td>
+                                <td class="text ">{{ cpu.cpu_brand }}</td>
+                                <td class="text ">{{ cpu.cpu_model }}</td>
+                                <td class="text ">{{ cpu.cpu_slot }}</td>
+                                <td class="text ">{{ cpu.cpu_core_count }}</td>
+                                <td class="text ">{{ cpu.cpu_speed }}</td>
+                            </tr>
+
+                        {% endfor %}
+
+                    </table>
+                </div>
+
+                <div id="RAM_info">
+                    <h5 class="text-navy">内存信息</h5>
+                    <table class="table table-condensed table-bordered table-hover" id="RAM_info_table">
+                        <tr>
+                            <td class="text text-center text-primary">序号</td>
+                            <td class="text text-center text-primary">品牌</td>
+                            <td class="text text-center text-primary">型号</td>
+                            <td class="text text-center text-primary">插槽</td>
+                            <td class="text text-center text-primary">容量</td>
+                            <td class="text text-center text-primary">状态</td>
+                        </tr>
+
+                        {% for ram in  ASSET.ram_set.all %}
+                            <tr>
+                                <td class="text text-center">{{ forloop.counter }}</td>
+                                <td class="text ">{{ ram.ram_brand }}</td>
+                                <td class="text ">{{ ram.ram_model }}</td>
+                                <td class="text ">{{ ram.ram_slot }}</td>
+                                <td class="text ">{{ ram.ram_volume }}</td>
+                                <td class="text ">{{ ram.ram_status }}</td>
+                            </tr>
+
+                        {% endfor %}
+
+                    </table>
+                </div>
+
+                <div id="Disk_info">
+                    <h5 class="text-navy">硬盘信息</h5>
+                    <table class="table table-condensed table-bordered table-hover" id="Disk_info_table">
+                        <tr>
+                            <td class="text text-center text-primary">序号</td>
+                            <td class="text text-center text-primary">品牌</td>
+                            <td class="text text-center text-primary">型号</td>
+                            <td class="text text-center text-primary">名称</td>
+                            <td class="text text-center text-primary">插槽</td>
+                            <td class="text text-center text-primary">容量</td>
+                            <td class="text text-center text-primary">状态</td>
+                        </tr>
+
+                        {% for disk in  ASSET.disk_set.all %}
+                            <tr>
+                                <td class="text text-center">{{ forloop.counter }}</td>
+                                <td class="text ">{{ disk.disk_brand }}</td>
+                                <td class="text " style="font-size: small">{{ disk.disk_model }}</td>
+                                <td class="text ">{{ disk.disk_name }}</td>
+                                <td class="text " style="text-align: left;font-size:small">{{ disk.disk_slot }}</td>
+                                <td class="text ">{{ disk.disk_volume }}</td>
+                                <td class="text ">{{ disk.disk_status }}</td>
+                            </tr>
+
+                        {% endfor %}
+
+                    </table>
+                </div>
+
+
+                <div id="Parts_info">
+                    <h5 class="text-navy">其他配件</h5>
+                    <table class="table table-condensed table-bordered table-hover" id="Parts_info">
+                        <tr>
+                            <td class="text text-center text-primary">序号</td>
+                            <td class="text text-center text-primary">类型</td>
+                            <td class="text text-center text-primary">名称</td>
+                            <td class="text text-center text-primary">型号</td>
+                            <td class="text text-center text-primary">SN</td>
+                            <td class="text text-center text-primary">插槽</td>
+                            <td class="text text-center text-primary">状态</td>
+                        </tr>
+
+                        {% for part in  ASSET.parts_set.all %}
+                            <tr>
+                                <td class="text text-center">{{ forloop.counter }}</td>
+                                <td class="text ">{{ part.parts_type }}</td>
+                                <td class="text ">{{ part.parts_name }}</td>
+                                <td class="text">{{ part.parts_model }}</td>
+                                <td class="text ">{{ part.parts_sn }}</td>
+                                <td class="text ">{{ part.parts_slot }}</td>
+                                <td class="text ">{{ part.part.status }}</td>
+                            </tr>
+
+                        {% endfor %}
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <header class="page-header" id="event_info">
+                <h4>接口信息</h4>
+            </header>
+            <div class="col-xs-12">
+
+                <table class="table table-condensed table-bordered table-hover" id="Port_info">
+                    <tr>
+                        <td class="text text-center text-primary">序号</td>
+                        <td class="text text-center text-primary">类型</td>
+                        <td class="text text-center text-primary">名称</td>
+                        <td class="text text-center text-primary">插槽</td>
+                        <td class="text text-center text-primary">vlan</td>
+                        <td class="text text-center text-primary">ip</td>
+                        <td class="text text-center text-primary">从ip</td>
+                        <td class="text text-center text-primary">掩码</td>
+                        <td class="text text-center text-primary">带宽</td>
+                        <td class="text text-center text-primary">状态</td>
+                    </tr>
+
+                    {% for port in  ASSET.port_set.all %}
+                        <tr>
+                            <td class="text text-center">{{ forloop.counter }}</td>
+                            <td class="text ">{{ port.port_type }}</td>
+                            <td class="text ">{{ port.port_name }}</td>
+                            <td class="text ">{{ port.port_slot }}</td>
+                            <td class="text ">{{ port.vlan }}</td>
+                            <td class="text ">{{ port.ip }}</td>
+                            <td class="text ">{{ port.sub_ip }}</td>
+                            <td class="text ">{{ port.mask }}</td>
+                            <td class="text ">{{ port.bandwidth }}</td>
+                            <td class="text ">{{ port.status }}</td>
+                        </tr>
+
+                    {% endfor %}
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <header class="page-header" id="event_info">
+                <h4>设备备注</h4>
+            </header>
+            <div class="col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <p>{{ ASSET.memo }}</p>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="print">打印</button>
+                    <button type="button" class="btn btn-default" id="export">导出</button>
+                    <button type="button" class="btn btn-default" id="bclose">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="/static/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/static/dist/js/adminlte.min.js"></script>
+
+<script src="/static/plugins/jsPDF-1.3.2/libs/html2canvas/dist/html2canvas.js"></script>
+<script src="/static/plugins/jsPDF-1.3.2/dist/jspdf.debug.js"></script>
+
+<script>
+
+    /* 调整设备图片大小 */
+    $(document).ready(function () {
+        $("#i2").css("height", $("#i1").css("height"));
+        $('#i3').css({"position": "relative", "top": "50%", "transform": "translateY(-50%)"});
+    });
+
+    /*  关闭当前层  */
+    $(document).ready(function () {
+        $("#bclose").click(function () {
+            var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+            parent.layer.close(index);
+        });
+    });
+
+    /*  打印当前页面  */
+    $(document).ready(function () {
+        $("#print").click(function () {
+            window.print();
+        });
+    });
+
+
+    /*  导出pdf文件  */
+    $(document).ready(function () {
+        $("#export").click(function () {
+
+            var target = document.getElementById("right11");
+            target.style.background = "#FFFFFF";
+
+            html2canvas(target, {
+                onrendered: function (canvas) {
+                    var contentWidth = canvas.width;
+                    var contentHeight = canvas.height;
+
+                    //一页pdf显示html页面生成的canvas高度;
+                    var pageHeight = contentWidth / 592.28 * 841.89;
+                    //未生成pdf的html页面高度
+                    var leftHeight = contentHeight;
+                    //页面偏移
+                    var position = 0;
+                    //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
+                    var imgWidth = 595.28;
+                    var imgHeight = 592.28 / contentWidth * contentHeight;
+
+                    var pageData = canvas.toDataURL('image/jpeg', 1.0);
+
+                    var pdf = new jsPDF('', 'pt', 'a4');
+
+                    //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
+                    //当内容未超过pdf一页显示的范围，无需分页
+                    if (leftHeight < pageHeight) {
+                        pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight);
+                    } else {
+                        while (leftHeight > 0) {
+                            pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight);
+                            leftHeight -= pageHeight;
+                            position -= 841.89;
+                            //避免添加空白页
+                            if (leftHeight > 0) {
+                                pdf.addPage();
+                            }
+                        }
+                    }
+                    pdf.save("{{ ASSET.asset_name }}" + ".pdf");
+                }
+            })
+        });
+    });
+
+
+
+    
+    /* 如果内容为空，就不现实这部分 */
+    $(document).ready(function () {
+        if ('{{ASSET.cpu_set.all.count}}' == 0) {
+            $('#CPU_info').hide();
+        }
+        ;
+        if ('{{ASSET.ram_set.all.count}}' == 0) {
+            $('#RAM_info').hide();
+        }
+        ;
+        if ('{{ASSET.disk_set.all.count}}' == 0) {
+            $('#Disk_info').hide();
+        }
+        ;
+        if ('{{ASSET.parts_set.all.count}}' == 0) {
+            $('#Parts_info').hide();
+        }
+        ;
+        if ('{{ASSET.cpu_set.all.count}}' == 0 &&
+            '{{ASSET.ram_set.all.count}}' == 0 &&
+            '{{ASSET.disk_set.all.count}}' == 0 &&
+            '{{ASSET.parts_set.all.count}}' == 0) {
+            $('#device_part').hide();
+        }
+        ;
+    });
+
+
+</script>
+</body>
+</html>

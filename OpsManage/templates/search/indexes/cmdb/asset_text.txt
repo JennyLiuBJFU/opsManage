@@ -1,0 +1,9 @@
+{{ object.asset_name }}
+{{ object.asset_type }}
+{{ object.organization }}
+{{ object.network_location }}
+{{ object.model.models }}
+{{ object.model.vendor }}
+{{ object.manage_ip }}
+{{ object.idc }}
+{{ object.asset_no}}
