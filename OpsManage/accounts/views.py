@@ -36,7 +36,7 @@ def setPassword(request):
         'Flag':1,
         'Perm':Perm,
     }
-    return render(request, 'accounts/userEdit.html', context)
+    return render(request, 'cmdb/ServerManage/index.html', context)
 
 @login_required()
 def newPasswordSubmit(request):
