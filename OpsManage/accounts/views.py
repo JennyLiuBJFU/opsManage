@@ -15,6 +15,7 @@ def editAdmin(request):
     context = {
         'USERNAME':str(request.user),
         'Perm':Perm,
+        'flag':0,
     }
     return render(request, 'accounts/userEdit.html', context)
 
@@ -41,25 +42,26 @@ def setPassword(request):
 @login_required()
 def newPasswordSubmit(request):
     Perm = 0
+    if request.user.is_superuser:
+        Perm = 1
+    flag=0
     if(request.POST['newPassword']==request.POST['checkPassword']) and len(request.POST['newPassword']):
         request.user.set_password(request.POST['newPassword'])
-        name=request.user.username
-        pwd=request.POST['newPassword']
+        # name=request.user.username
+        # pwd=request.POST['newPassword']
         request.user.save()
-        user = authenticate(username=name, password=pwd)
-        login(request, user)
-        flag=1
-        if request.user.is_superuser:
-            Perm = 1
+        # user = authenticate(username=name, password=pwd)
+        # login(request, user)
+        flag=1   #修改成功
     else:
-        flag=0
+        flag=2  #修改失败
     context = {
         'USERNAME': str(request.user),
-        'Flag': 0,
-        'flag':flag,
         'Perm':Perm,
+        'flag':flag
     }
     return render(request, 'accounts/userEdit.html', context)
+
 
 @login_required()
 def manageUser(request):
@@ -97,7 +99,13 @@ def addAdminSubmit(request):
 def addAdminBack(request):
     Assets = cmdb.models.Asset.objects.all()
     Organizations = cmdb.models.Organization.objects.all()
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
     context = {
+        'USERNAME': str(request.user),
+        'Perm': Perm,
         'Assets': Assets,
         'Organizations': Organizations
     }
