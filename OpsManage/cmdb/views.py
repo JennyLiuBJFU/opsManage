@@ -1148,3 +1148,6 @@ def filter(request):
         'ORG':orgID,
     }
     return render(request, 'cmdb/ServerManage/index.html', context)
+
+def basicData(request):
+    return render(request,'cmdb/basicData/index.html')
