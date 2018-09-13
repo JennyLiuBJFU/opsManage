@@ -2,10 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c1fd018f-31ab-409f-ae4d-30f12aec700e" name="Default Changelist" comment="">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/cmdb/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/cmdb/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmdb/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/cmdb/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/cmdb/ServerManage/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/cmdb/ServerManage/index.html" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/OpsManage.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/OpsManage.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+>>>>>>> 9eef023a2924baef1f4141927086bd6c893ca29d
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -52,11 +58,13 @@
     <session id="-740552228">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
+          <entry key="project.closed" value="5" />
           <entry key="project.open.time.11" value="1" />
+          <entry key="project.open.time.12" value="1" />
           <entry key="project.open.time.14" value="2" />
+          <entry key="project.open.time.19" value="1" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="4" />
+          <entry key="project.opened" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -112,8 +120,22 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/cmdb/ServerManage/index.html">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="660">
               <caret line="50" column="36" selection-start-line="50" selection-start-column="36" selection-end-line="50" selection-end-column="36" />
+=======
+            <state relative-caret-position="60">
+              <caret line="5" column="31" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/accounts/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="945">
+              <caret line="68" column="17" selection-start-line="68" selection-start-column="17" selection-end-line="68" selection-end-column="17" />
+>>>>>>> 9eef023a2924baef1f4141927086bd6c893ca29d
             </state>
           </provider>
         </entry>
@@ -206,6 +228,7 @@
               <item name="OpsManage" type="b2602c69:ProjectViewProjectNode" />
               <item name="OpsManage" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
+<<<<<<< HEAD
               <item name="cmdb" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -221,6 +244,9 @@
               <item name="templates" type="462c0819:PsiDirectoryNode" />
               <item name="cmdb" type="462c0819:PsiDirectoryNode" />
               <item name="ServerManage" type="462c0819:PsiDirectoryNode" />
+=======
+              <item name="wiki" type="462c0819:PsiDirectoryNode" />
+>>>>>>> 9eef023a2924baef1f4141927086bd6c893ca29d
             </path>
           </expand>
           <select />
@@ -293,10 +319,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
+<<<<<<< HEAD
     <frame x="67" y="25" width="1295" height="590" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2289832" />
+=======
+    <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23353624" />
+>>>>>>> 9eef023a2924baef1f4141927086bd6c893ca29d
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -310,7 +342,11 @@
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+<<<<<<< HEAD
       <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.43886462" />
+=======
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.32864866" />
+>>>>>>> 9eef023a2924baef1f4141927086bd6c893ca29d
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -441,18 +477,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/accounts/manageUser.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="114">
           <caret line="147" column="47" lean-forward="true" selection-start-line="147" selection-start-column="47" selection-end-line="147" selection-end-column="47" />
           <folding>
             <element signature="n#style#0;n#a#0;n#div#5;n#form#1;n#div#1;n#section#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
+=======
+        <state relative-caret-position="60">
+          <caret line="5" column="31" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
+>>>>>>> 9eef023a2924baef1f4141927086bd6c893ca29d
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cmdb/urls.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="203">
           <caret line="43" column="39" lean-forward="true" selection-start-line="43" selection-start-column="39" selection-end-line="43" selection-end-column="39" />
+=======
+        <state relative-caret-position="945">
+          <caret line="68" column="17" selection-start-line="68" selection-start-column="17" selection-end-line="68" selection-end-column="17" />
+>>>>>>> 9eef023a2924baef1f4141927086bd6c893ca29d
         </state>
       </provider>
     </entry>

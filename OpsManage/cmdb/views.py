@@ -1150,4 +1150,29 @@ def filter(request):
     return render(request, 'cmdb/ServerManage/index.html', context)
 
 def basicData(request):
-    return render(request,'cmdb/basicData/index.html')
+    Organizations = Organization.objects.all()
+    myOrg=Organization()
+    myIdc=Idc.objects.all()
+    myCabinet=Cabinet()
+    if request.GET:
+        myOrg=Organization.objects.get(id = request.GET['aaa'])
+        myIdc=Idc.objects.filter(organization=myOrg)
+
+        print(myOrg)
+        print(myIdc)
+
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+    context={
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+        'ORGS':Organizations,
+        'myOrg':myOrg,
+        'myIdcs':myIdc,
+        'myCabs':myCabinet,
+
+    }
+
+    return render(request,'cmdb/basicData/index.html',context)
