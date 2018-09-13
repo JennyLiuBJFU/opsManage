@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
+
 import json
-
-import numpy
-from django.shortcuts import render
-
-# Create your views here.
 from django.shortcuts import render
 from django.http import HttpResponse
 from cmdb.models import *
 from django.contrib.auth.decorators import login_required
+import numpy
+import qrcode
+from django.utils.six import BytesIO
+import utils
+
+
 
 @login_required()
 def index(request):
@@ -44,6 +46,7 @@ def addARecord(request):
         Perm = 1
     else:
         Perm = 0
+
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
@@ -157,6 +160,23 @@ def addSubmit(request):
     # for t in tag_list:
     #     ASSET.tags.add(Tag.objects.get(id=t))
     # ASSET.save()
+
+
+    #生成设备的二维码
+    obj_url = "http://127.0.0.1/cmdb/detail" + str(ASSET.id)
+    qr = qrcode.QRCode(version=1,
+                       error_correction=qrcode.constants.ERROR_CORRECT_L,
+                       box_size=8,
+                       border=2,
+                       )
+    qr.add_data(obj_url)
+    qr.make(fit=True)
+    img = qr.make_image()
+    img_name = 'media/QRcode_imgs/' + ASSET.asset_name + '.png'
+    img.save(img_name)
+    ASSET.qrcode = img_name
+    ASSET.save()
+
 
     CapSpasId=request.POST.getlist('cabSpace')
     for cId in CapSpasId:
@@ -638,6 +658,16 @@ def securityDeviceSubmit(request):
     }
     return render(request, 'cmdb/ServerManage/add/addMore.html', context)
 
+
+
+
+
+
+
+
+
+
+
 def detail(request, v):
     print(request)
     ASSET = Asset.objects.get(id=v)
@@ -656,10 +686,15 @@ def detail(request, v):
     else:
         CabinetSpace = None
 
+    #判断是否为超级用户
     if request.user.is_superuser:
         Perm = 1
     else:
         Perm = 0
+
+
+
+
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
@@ -667,6 +702,7 @@ def detail(request, v):
         'CabinetSpace': CabinetSpace,
     }
     return render(request, 'cmdb/detail.html', context)
+
 
 
 @login_required()
@@ -689,7 +725,8 @@ def editModel(request):
         'USERNAME': str(request.user),
         'Perm': Perm,
         'model': model,
-        'vendors':vendors
+        'vendors':vendors,
+        'erweima':X,
     }
 
     return render(request, 'cmdb/ServerManage/add/editForeignKey/editModel.html', context)

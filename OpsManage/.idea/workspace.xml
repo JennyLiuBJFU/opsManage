@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c1fd018f-31ab-409f-ae4d-30f12aec700e" name="Default Changelist" comment="">
 <<<<<<< HEAD
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/cmdb/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/cmdb/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmdb/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/cmdb/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
@@ -12,6 +13,12 @@
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
 >>>>>>> 9eef023a2924baef1f4141927086bd6c893ca29d
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmdb/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/cmdb/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmdb/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/cmdb/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/cmdb/detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/cmdb/detail.html" afterDir="false" />
+>>>>>>> ebe6497d1856467b9aec11548aa0e3210c76c0e0
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -58,66 +65,107 @@
     <session id="-740552228">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="5" />
+          <entry key="project.closed" value="6" />
           <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.12" value="1" />
+          <entry key="project.open.time.13" value="1" />
           <entry key="project.open.time.14" value="2" />
-          <entry key="project.open.time.19" value="1" />
+          <entry key="project.open.time.19" value="2" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="6" />
+          <entry key="project.opened" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="css" value="1" />
+<<<<<<< HEAD
           <entry key="html" value="21" />
           <entry key="py" value="6" />
+=======
+          <entry key="html" value="19" />
+          <entry key="py" value="7" />
+>>>>>>> ebe6497d1856467b9aec11548aa0e3210c76c0e0
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CSS" value="1" />
+<<<<<<< HEAD
           <entry key="HTML" value="21" />
           <entry key="Python" value="6" />
+=======
+          <entry key="HTML" value="19" />
+          <entry key="Python" value="7" />
+>>>>>>> ebe6497d1856467b9aec11548aa0e3210c76c0e0
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="7" />
+<<<<<<< HEAD
           <entry key="html" value="1349" />
           <entry key="py" value="259" />
+=======
+          <entry key="html" value="1337" />
+          <entry key="py" value="793" />
+>>>>>>> ebe6497d1856467b9aec11548aa0e3210c76c0e0
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="7" />
+<<<<<<< HEAD
           <entry key="HTML" value="1349" />
           <entry key="Python" value="259" />
+=======
+          <entry key="HTML" value="1337" />
+          <entry key="Python" value="793" />
+>>>>>>> ebe6497d1856467b9aec11548aa0e3210c76c0e0
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+<<<<<<< HEAD
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cmdb/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="308">
               <caret line="1152" column="32" selection-start-line="1152" selection-start-column="32" selection-end-line="1152" selection-end-column="32" />
+=======
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/cmdb/detail.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="731">
+              <caret line="59" column="60" selection-start-line="59" selection-start-column="60" selection-end-line="59" selection-end-column="60" />
+>>>>>>> ebe6497d1856467b9aec11548aa0e3210c76c0e0
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/cmdb/basicData/index.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="120">
               <caret line="8" column="20" lean-forward="true" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
+=======
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cmdb/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="176" column="16" lean-forward="true" selection-start-line="176" selection-start-column="16" selection-end-line="176" selection-end-column="16" />
+              <folding>
+                <element signature="e#25#36#0" expanded="true" />
+              </folding>
+>>>>>>> ebe6497d1856467b9aec11548aa0e3210c76c0e0
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/templates/cmdb/ServerManage/index.html">
           <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
@@ -126,11 +174,18 @@
 =======
             <state relative-caret-position="60">
               <caret line="5" column="31" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
+=======
+        <entry file="file://$PROJECT_DIR$/cmdb/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="97">
+              <caret line="446" column="102" selection-start-line="446" selection-start-column="102" selection-end-line="446" selection-end-column="102" />
+>>>>>>> ebe6497d1856467b9aec11548aa0e3210c76c0e0
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/accounts/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="945">
@@ -138,6 +193,10 @@
 >>>>>>> 9eef023a2924baef1f4141927086bd6c893ca29d
             </state>
           </provider>
+=======
+        <entry file="file://$PROJECT_DIR$/utils/base.py">
+          <provider selected="true" editor-type-id="text-editor" />
+>>>>>>> ebe6497d1856467b9aec11548aa0e3210c76c0e0
         </entry>
       </file>
     </leaf>
@@ -154,6 +213,9 @@
     <findStrings>
       <find>onclick</find>
       <find>管理员</find>
+      <find>add</find>
+      <find>adda</find>
+      <find>资产信息</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -169,11 +231,19 @@
         <option value="$PROJECT_DIR$/accounts/views.py" />
         <option value="$PROJECT_DIR$/static/css/form2.css" />
         <option value="$PROJECT_DIR$/templates/accounts/manageUser.html" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/cmdb/urls.py" />
         <option value="$PROJECT_DIR$/cmdb/views.py" />
         <option value="$PROJECT_DIR$/templates/base.html" />
         <option value="$PROJECT_DIR$/templates/cmdb/ServerManage/index.html" />
         <option value="$PROJECT_DIR$/templates/cmdb/basicData/index.html" />
+=======
+        <option value="$PROJECT_DIR$/templates/wiki/test1.html" />
+        <option value="$PROJECT_DIR$/templates/base.html" />
+        <option value="$PROJECT_DIR$/cmdb/models.py" />
+        <option value="$PROJECT_DIR$/cmdb/views.py" />
+        <option value="$PROJECT_DIR$/templates/cmdb/detail.html" />
+>>>>>>> ebe6497d1856467b9aec11548aa0e3210c76c0e0
       </list>
     </option>
   </component>
@@ -212,6 +282,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -222,11 +293,12 @@
             <path>
               <item name="OpsManage" type="b2602c69:ProjectViewProjectNode" />
               <item name="OpsManage" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="cmdb" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="OpsManage" type="b2602c69:ProjectViewProjectNode" />
               <item name="OpsManage" type="462c0819:PsiDirectoryNode" />
+<<<<<<< HEAD
               <item name="templates" type="462c0819:PsiDirectoryNode" />
 <<<<<<< HEAD
               <item name="cmdb" type="462c0819:PsiDirectoryNode" />
@@ -247,12 +319,14 @@
 =======
               <item name="wiki" type="462c0819:PsiDirectoryNode" />
 >>>>>>> 9eef023a2924baef1f4141927086bd6c893ca29d
+=======
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
+>>>>>>> ebe6497d1856467b9aec11548aa0e3210c76c0e0
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -326,9 +400,14 @@
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2289832" />
 =======
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
+    <editor active="true" />
     <layout>
+<<<<<<< HEAD
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23353624" />
 >>>>>>> 9eef023a2924baef1f4141927086bd6c893ca29d
+=======
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23907028" />
+>>>>>>> ebe6497d1856467b9aec11548aa0e3210c76c0e0
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -343,10 +422,14 @@
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
 <<<<<<< HEAD
+<<<<<<< HEAD
       <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.43886462" />
 =======
       <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.32864866" />
 >>>>>>> 9eef023a2924baef1f4141927086bd6c893ca29d
+=======
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.06378379" />
+>>>>>>> ebe6497d1856467b9aec11548aa0e3210c76c0e0
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -490,7 +573,18 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/cmdb/urls.py">
+=======
+    <entry file="file://$PROJECT_DIR$/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="138" column="38" selection-start-line="138" selection-start-column="38" selection-end-line="138" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/accounts/views.py">
+>>>>>>> ebe6497d1856467b9aec11548aa0e3210c76c0e0
       <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
         <state relative-caret-position="203">
@@ -502,16 +596,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/base.html">
+    <entry file="file://$PROJECT_DIR$/templates/wiki/test1.html">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="7" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/base.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmdb/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="97">
+          <caret line="446" column="102" selection-start-line="446" selection-start-column="102" selection-end-line="446" selection-end-column="102" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmdb/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="153">
           <caret line="350" column="25" lean-forward="true" selection-start-line="350" selection-start-column="25" selection-end-line="350" selection-end-column="25" />
+=======
+        <state relative-caret-position="300">
+          <caret line="176" column="16" lean-forward="true" selection-start-line="176" selection-start-column="16" selection-end-line="176" selection-end-column="16" />
+>>>>>>> ebe6497d1856467b9aec11548aa0e3210c76c0e0
           <folding>
-            <element signature="n#style#0;n#a#0;n#p#0;n#li#0;n#ul#0;n#li#3;n#ul#0;n#div#0;n#nav#0;n#header#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#25#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/cmdb/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="308">
@@ -530,6 +647,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="8" column="20" lean-forward="true" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
+=======
+    <entry file="file://$PROJECT_DIR$/templates/cmdb/detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="731">
+          <caret line="59" column="60" selection-start-line="59" selection-start-column="60" selection-end-line="59" selection-end-column="60" />
+>>>>>>> ebe6497d1856467b9aec11548aa0e3210c76c0e0
         </state>
       </provider>
     </entry>
