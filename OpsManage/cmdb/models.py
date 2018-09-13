@@ -57,6 +57,7 @@ class Asset(models.Model):
     c_time = models.DateField(null=True, blank=True, verbose_name='批准日期')
     m_time = models.DateField(auto_now=True, verbose_name='更新日期')
     memo = models.CharField(max_length=400, null=True, blank=True, verbose_name='备注')
+    qrcode = models.URLField(max_length=200, null=True, blank=True, verbose_name='二维码')
 
     def __str__(self):
         return '<%s>  %s' % (self.get_asset_type_display(), self.asset_name)
@@ -443,8 +444,7 @@ class Disk(models.Model):
     disk_brand = models.CharField(max_length=32, blank=True, null=True, verbose_name='硬盘生产商')
     disk_serial = models.CharField(max_length=100, blank=True, null=True, verbose_name='硬盘序列号')
     disk_slot = models.CharField(max_length=100, blank=True, null=True, verbose_name='硬盘插槽')
-    disk_status = models.CharField(choices=disk_status_choice, max_length=100, blank=True, null=True,
-                                   verbose_name='硬盘状态')
+    disk_status = models.CharField(choices=disk_status_choice, max_length=100, blank=True, null=True,)
     disk_attr = models.CharField(max_length=100, blank=True, null=True, verbose_name='硬盘属性')
 
     def __str__(self):

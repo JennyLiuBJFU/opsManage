@@ -26,7 +26,7 @@
         }
 
         #asset_name {
-            margin-top: 15px;
+            margin-top: 10px;
         }
 
         #erweima_img {
@@ -45,6 +45,9 @@
             max-height: 95%;
             width: auto;
         }
+        #asset_blank{
+            height: 15px;
+        }
     </style>
 
 </head>
@@ -54,7 +57,14 @@
 <section>
     <div class="container">
         <div class="row" id="asset_title">
-            <div class="col-xs-8 " id="asset_name">
+             <div class="col-xs-12 " id="asset_blank"></div>
+             <div class="col-xs-2 " id="erweima">
+                <img class="img-responsive center-block" src="/{{ ASSET.qrcode }}" id="erweima_img">
+                <script></script>
+            </div>
+
+
+            <div class="col-xs-10 text-right" id="asset_name">
                 <header class="header">
                     <h3>{{ ASSET.asset_name }}<br/>
                         <small>资产编号:{{ ASSET.asset_no }}</small>
@@ -62,9 +72,7 @@
                 </header>
             </div>
 
-            <div class="col-xs-4 " id="erweima">
-                <img class="img-responsive center-block" src="/static/user/img/erweima.jpg" id="erweima_img">
-            </div>
+
         </div>
     </div>
 </section>
