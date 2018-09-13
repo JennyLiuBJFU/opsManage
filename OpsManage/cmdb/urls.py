@@ -46,5 +46,5 @@ url(r'^$', views.index),
     url(r'^DiskDelete', views.DiskDelete),
     url(r'^PortDelete', views.PortDelete),
     url(r'^PartDelete', views.PartDelete),
-
+    url(r'^basicData',views.basicData),
               ]
