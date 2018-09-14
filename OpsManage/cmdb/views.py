@@ -1185,19 +1185,31 @@ def filter(request):
         'ORG':orgID,
     }
     return render(request, 'cmdb/ServerManage/index.html', context)
-
+@login_required()
 def basicData(request):
     Organizations = Organization.objects.all()
     myOrg=Organization()
     myIdc=Idc.objects.all()
-    myCabinet=Cabinet()
-    if request.GET:
+    myCabinet=Cabinet.objects.all()
+    cabFlag=0
+    try :
         myOrg=Organization.objects.get(id = request.GET['aaa'])
-        myIdc=Idc.objects.filter(organization=myOrg)
-
+        myIdc = Idc.objects.filter(organization=myOrg)
         print(myOrg)
         print(myIdc)
+    except:
+        print("没有单位参数")
 
+    try:
+        IDC = request.GET['IDC']
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print(IDC)
+        myCabinet=Cabinet.objects.filter(idc=Idc.objects.get(id=IDC))
+        cabFlag=1
+        print(myCabinet)
+    except:
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print("没有IDC参数")
     if request.user.is_superuser:
         Perm = 1
     else:
@@ -1209,7 +1221,43 @@ def basicData(request):
         'myOrg':myOrg,
         'myIdcs':myIdc,
         'myCabs':myCabinet,
+        'cabFlag':cabFlag,
 
     }
 
     return render(request,'cmdb/basicData/index.html',context)
+@login_required()
+def editCab(request):
+    dCabinets = request.POST.getlist('delete_cabinets')
+    if len(dCabinets):
+        for i in dCabinets:
+            Cabinet.objects.get(pk=i).delete()
+    IDC=Idc.objects.get(id=request.GET['idcId'])
+    Cabinets=Cabinet.objects.filter(idc=IDC)
+    print(Cabinets)
+    context={
+        'IDC':IDC,
+        'Cabinets':Cabinets,
+    }
+    return render (request, 'cmdb/basicData/editCab.html',context)
+
+def addCabSubmit(request):
+    IDC = Idc.objects.get(id=request.POST['idcId'])
+    CAB=Cabinet()
+    CAB.idc=IDC
+    CAB.cabinet_name=request.POST['name']
+    CAB.cabinet_desc=request.POST['desc']
+    CAB.cabinet_height=request.POST['height']
+    CAB.save()
+    Cabinets = Cabinet.objects.filter(idc=IDC)
+    for i in range(1,int(request.POST['height'])+1):
+        CABSPACE=CabinetSpace()
+        CABSPACE.cabinet=CAB
+        CABSPACE.cabinet_location=str(i)
+        CABSPACE.save()
+        print(CABSPACE)
+    context = {
+        'IDC': IDC,
+        'Cabinets': Cabinets,
+    }
+    return render(request, 'cmdb/basicData/editCab.html', context)

@@ -36,11 +36,11 @@
                     </script>
 
                     {% for idc in myIdcs %}
-                        <div class="mybox mybox-teal" style="margin:2em;float:left;width: 40%;">
+                        <div class="mybox mybox-teal" style="margin:2em;float:left;width: 40%;height: 240px;">
                             <div class="mybox-header">
                                 <label for="CPU">{{ idc.idc_name }}</label>
                             </div>
-                            <div class="mybox-body">
+                            <div class="mybox-body" style="height: 240px;">
                                 <div style="float: left;width: 100%;line-height: 2em;">
                                     <label>机房名称 :</label>
                                     <span style="margin-left: 1em">{{ idc.idc_name}}</span><br>
@@ -48,8 +48,18 @@
                                     <span style="margin-left: 1em">{{ idc.idc_address}}</span><br>
                                     <label>备注信息 :</label>
                                     <span style="margin-left: 1em">{{ idc.idc_memo}}</span><br>
-                                    <label>机柜信息 :</label>
-                                    <a href="#" style="margin-left: 1em;line-height: 20px;" class="text-center">展示或编辑机柜信息</a>
+                                    <div id="{{ idc.id }}">
+                                         <label>机柜信息 :</label>
+                                        {% if cabFlag %}
+                                            {% for c in myCabs %}
+                                                <a href="#" style="margin-left: 1em">{{ c.cabinet_name }}</a>
+                                            {% endfor %}
+                                            <a target="_blank" href="http://127.0.0.1:8000/cmdb/editCab?idcId={{ idc.id }}"  style="margin-left: 1em"><i class="fa fa-edit">编辑</i></a>
+                                            <a style="margin-left: 0.5em" onclick="$('#{{ idc.id }}').load(window.location.href+ ' #{{ idc.id }}')"><i class="fa fa-fw fa-refresh"></i></a>
+                                        {% else %}
+                                            <a onclick="var test = window.location.href;if(test.split('?')[1]) url=test+'&IDC={{ idc.id }}'; else url=test+'?IDC={{ idc.id }}';$('#{{ idc.id }}').load(url+ ' #{{ idc.id }}');" style="margin-left: 1em;line-height: 20px;" class="text-center">展示或编辑机柜信息</a>
+                                        {% endif %}
+                                    </div>
                                 </div>
                                 <button style="position: absolute;left:85%;width: 10%;">编 辑</button>
                             </div>

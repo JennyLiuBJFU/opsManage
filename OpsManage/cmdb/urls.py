@@ -47,4 +47,6 @@ url(r'^$', views.index),
     url(r'^PortDelete', views.PortDelete),
     url(r'^PartDelete', views.PartDelete),
     url(r'^basicData',views.basicData),
+    url(r'^editCab',views.editCab),
+    url(r'^addCabSubmit',views.addCabSubmit),
               ]
