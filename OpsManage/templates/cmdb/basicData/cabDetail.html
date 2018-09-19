@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div style="width: 300px;border:1px solid #0a0a0a;margin: 20px auto;padding: 20px;position: absolute;">
+        {% for i in cabSpaces %}
+            {% if i.asset %}
+                <div style="border:1px solid #aaaaaa; height:20px;width:100%;margin:0 auto;text-align: center">
+                    <span style="float: left">{{ i.get_cabinet_location_display}}</span>
+                    <span style="margin-left: 2em">{{ i.asset.asset_name }}</span>
+                </div>
+            {% else %}
+                <div style="border:1px solid #aaaaaa;height:20px;width:100%;margin:0 auto;">
+                    <span style="color: #aaaaaa">{{ i.get_cabinet_location_display}}</span>
+                </div>
+            {% endif %}
+        {% endfor %}
+        {% for a in Assets %}
+            {% if a.height == 1 %}
+                <div style="border:1px solid #0a0a0a;background:#EEEEEE;height:20px;line-height:20px;width:100%;margin:0 auto;text-align: center;">
+                    <a href="">{{ a.asset_name }}</a></div>
+            {% elif a.height == 2 %}
+                <div style="position:absolute;left:0;top:0;border:1px solid #0a0a0a;background:#EEEEEE;height:40px;line-height:40px;width:300px;margin:0 auto;text-align: center;">
+                    <a href="">{{ a.asset_name }}</a></div>
+            {% elif a.height == 3 %}
+                <div style="border:1px solid #0a0a0a;background:#EEEEEE;height:60px;line-height:60px;width:100%;margin:0 auto;text-align: center;">
+                    <a href="">{{ a.asset_name }}</a></div>
+            {% elif a.height == 4 %}
+                <div style="border:1px solid #0a0a0a;background:#EEEEEE;height:80px;line-height:80px;width:100%;margin:0 auto;text-align: center;">
+                    <a href="">{{ a.asset_name }}</a></div>
+            {% else%}
+                <div style="border:1px solid #0a0a0a;background:#EEEEEE;height:100px;line-height:100px;width:100%;margin:0 auto;text-align: center;">
+                    <a href="">{{ a.asset_name }}</a></div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</body>
+</html>

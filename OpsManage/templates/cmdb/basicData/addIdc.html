@@ -76,80 +76,75 @@
 <section id="getintouch" class="rotateInUpLeft animated">
         <div class="container2" style="border-bottom: 0;">
             <h1>
-                <span>修改合同信息</span>
+                <span>填写机房信息</span>
             </h1>
         </div>
-        <div class="container">
-            <form method="post" action="editContract">
-                <table class="table table-bordered table-hover" style="font-size: 0.9em;">
-                    <thead>
-                    <tr>
-                        <th class="text-center">选择</th>
-                        <th class="text-center">序号</th>
-                        <th class="text-center">合同编号</th>
-                        <th class="text-center">合同名称</th>
-                        <th class="text-center">合同内容</th>
-                        <th class="text-center">备注</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for i in contract %}
-                        <tr>
-                            <td class="text-center"><input type="checkbox" name="delete_contract" value="{{ i.pk }}"></td>
-                            <td class="text-center">{{ i.pk }}</td>
-                            <td class="text-center">{{ i.contract_number }}</td>
-                            <td class="text-center">{{ i.contract_name }}</td>
-                            <td class="text-left">{{ i.contract_content }}</td>
-                            <td class="text-center">{{ i.contract_memo }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-                <div class="row  clearfix">
+        <div class="container" >
+            {% if successFlag == 0%}
+                <form class="contact" action="idcSubmit" method="post" id="form" style="padding: 0 30px;">
+                    <div class="row clearfix" style="width:100%; margin: 0 auto;">
+                        <div class="lbl">
+                            <label>
+                                机房名称</label>
+                        </div>
+                        <div class="ctrl" >
+                            <input required type="text" name="name" placeholder="请输入机房名称"  style="width:100%; margin: 0 auto;">
+{#                            <span style="color:red">*</span>#}
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="width:100%; margin: 0 auto;">
+                        <div class="lbl">
+                            <label>
+                                所属单位</label>
+                        </div>
+                        <div class="ctrl" id="model">
+                            <select  required id="o" name="organization"  style="width:100%; margin: 0 auto;">
+                                <option value="0">请选择所属单位</option>
+                                {% for Organization in Organizations %}
+                                    <option value={{ Organization.id }}>{{ Organization.org_name }}</option>
+                                {% endfor %}
+                            </select>
+{#                            <span style="color:red">*</span>#}
+                        </div>
+                    </div>
+
+                    <div class="row clearfix" style="width:100%; margin: 0 auto;">
+                        <div class="lbl">
+                            <label>
+                                机房地址</label>
+                        </div>
+                        <div class="ctrl">
+                            <input required type="text" name="address" placeholder="请输入机房地址"  style="width:100%; margin: 0 auto;">
+{#                            <span style="color:red">*</span>#}
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="width:100%; margin: 0 auto;">
+                        <div class="lbl">
+                            <label>
+                                备注</label>
+                        </div>
+                        <div class="ctrl">
+                            <textarea id="memo" name="memo" rows="6" cols="6"  style="width:100%; margin: 0 auto;"></textarea>
+                         </div>
+                    </div>
                     <div class="span10 offset2" style="width: 100%">
-                        <input style="width: 80px;height: 40px;margin:0 auto;margin-top:20px;" type="submit"  class=" btn btn-block btn-danger " value="删除">
+                        <div class="span10 offset2" style="width: 100%">
+                            <input style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: right;" type="submit" name="submit" id="submit" class="submit btn btn-block btn-primary" value="保存">
+                            <button onclick="javascript:window.opener=null;window.open('','_self');window.close();" type="button" style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: left;" class="btn btn-block btn-success">取消</button>
+
+                        </div>
                     </div>
-                </div>
-            </form>
-            <hr>
-            <form class="contact" action="addContractSubmit" method="post" id="form" style="padding: 30px;margin:0 auto;">
-                <div class="row clearfix">
-                    <div class="ctrl" style="width: 60%;margin:0 auto;">
-                        <label>合同编号</label>
-                        <input style="width: 66%;margin-left: 2em" type="text" name="number" placeholder="请输入合同编号">
-                    </div>
-                </div>
-                <div class="row clearfix">
-                    <div class="ctrl"  style="width: 60%;margin:0 auto;">
-                        <label>合同名称</label>
-                        <input style="width: 66%;margin-left: 2em" type="text" name="name" placeholder="请输入合同名称">
-                    </div>
-                </div>
-                <div class="row clearfix">
-                    <div class="ctrl"  style="width: 60%;margin:0 auto;">
-                        <label style="position: relative;top: -100px;">合同内容</label>
-                        <textarea style="width: 66%;margin-left: 2em;" id="content" name="content" rows="6" cols="6"></textarea>
-{#                        <input style="width: 66%;margin-left: 2em" type="text" name="name" placeholder="请输入合同名称">#}
-                    </div>
-                </div>
-                <div class="row clearfix">
-                    <div class="ctrl"  style="width: 60%;margin:0 auto;">
-                        <label>备注</label>
-                        <input style="width: 66%;margin-left: 4em" type="text" name="memo" placeholder="请输入备注">
-                    </div>
-                </div>
-                <div class="row  clearfix">
-                    <div class="span10 offset2" style="width: 100%">
-                        <input style="width: 80px;height: 40px;margin:0 auto;margin-top:20px;" type="submit"  class="submit btn btn-block btn-success " value="添加">
-                    </div>
-                </div>
+                </form>
+            {% endif %}
+            {% if successFlag == 1 %}
                 <div style="width:200px;margin:80px auto;text-align: center;font-size: 1.2em;">
-                    <a  onclick="alert('如有变动，请点击刷新按钮！')" style="color:#666666;" href="javascript:window.opener=null;window.open('','_self');window.close();">完成编辑，点此退出</a>
+                    <a  onclick="alert('如有变动，请点击刷新按钮！')" style="color:#666666;" href="javascript:window.opener=null;window.open('','_self');window.close();">保存成功，点此退出</a>
                     <i class="fa fa-fw fa-hand-o-left"></i>
                 </div>
-            </form>
+            {% endif %}
         </div>
     </section>
 
 </body>
 </html>
+

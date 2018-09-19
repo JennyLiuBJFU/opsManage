@@ -57,6 +57,8 @@ class Asset(models.Model):
     c_time = models.DateField(null=True, blank=True, verbose_name='批准日期')
     m_time = models.DateField(auto_now=True, verbose_name='更新日期')
     memo = models.CharField(max_length=400, null=True, blank=True, verbose_name='备注')
+    height=models.SmallIntegerField(blank=True, null=True, verbose_name='高度')
+    cab_location = models.SmallIntegerField(blank=True, null=True, verbose_name='机柜位置')
     qrcode = models.URLField(max_length=200, null=True, blank=True, verbose_name='二维码')
 
     def __str__(self):

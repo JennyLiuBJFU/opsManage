@@ -223,9 +223,6 @@
                 <div class="lbl">
                     <label>
                         合同</label>
-                    <a class="btn buttons" onclick="$('#contract').load('http://127.0.0.1:8000/cmdb/addARecord'+ ' #contract')" >
-                        <i class="fa fa-fw fa-refresh"></i>
-                    </a>
                 </div>
                 <div class="ctrl" id="contract">
                     <select  name="contract" >
@@ -234,9 +231,6 @@
                             <option value={{ Contract.id}}>{{ Contract.contract_name }}</option>
                         {% endfor %}
                     </select>
-                    <a class="btn buttons" target="_blank" href="http://127.0.0.1:8000/cmdb/editContract">
-                        <i class="fa fa-edit"></i> add
-                    </a>
                 </div>
              </div>
              <div class="row clearfix">

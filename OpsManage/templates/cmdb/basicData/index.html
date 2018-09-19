@@ -1,3 +1,7 @@
+
+
+
+
 {% extends "base.html" %}
 
 {% block main_content %}
@@ -5,7 +9,17 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-body">
+
+{#########################筛选菜单###################################}
+
                     <div class="demo" style="margin-bottom: 0;">
+                        <div class="sx">
+                            <span>管理：</span>
+                            <a rel="1" class="sx_child" name="bbb" href="javascript:;">机房管理</a>
+                            <a rel="2" class="sx_child" name="bbb" href="javascript:;">合同管理</a>
+                            <a rel="3" class="sx_child" name="bbb" href="javascript:;">员工管理</a>
+
+                        </div>
                         <div class="sx">
                             <span>单位：</span>
                             {% for org in ORGS %}
@@ -13,12 +27,6 @@
                             {% endfor %}
                         </div>
 
-                        <div class="sx">
-                            <span>管理：</span>
-                            <a rel="1" class="sx_child" name="bbb" href="javascript:;">机房管理</a>
-                            <a rel="2" class="sx_child" name="bbb" href="javascript:;">员工管理</a>
-                            <a rel="3" class="sx_child" name="bbb" href="javascript:;">合同管理</a>
-                        </div>
                         <div class="zj" style="display: none;">
                             <span>删选结果：</span>
                             <p class="qcqb">清除全部</p>
@@ -35,38 +43,217 @@
                     });
                     </script>
 
-                    {% for idc in myIdcs %}
-                        <div class="mybox mybox-teal" style="margin:2em;float:left;width: 40%;height: 240px;">
-                            <div class="mybox-header">
-                                <label for="CPU">{{ idc.idc_name }}</label>
+                    <div id="mycontent">
+    {#############################机房管理###########################}
+                        {% if manageFlag == 0 %}
+                            <div id="idcManage">
+                                {% for idc in myIdcs %}
+                                    <div class="mybox mybox-teal" style="margin:2em;float:left;width: 40%;height: 240px;">
+                                        <div class="mybox-header">
+                                            <label for="CPU">{{ idc.idc_name }}</label>
+                                        </div>
+                                        <div class="mybox-body" style="height: 240px;">
+                                            <div style="float: left;width: 100%;line-height: 2em;">
+                                                <label>机房名称 :</label>
+                                                <span style="margin-left: 1em">{{ idc.idc_name}}</span><br>
+                                                <label>机房地址 :</label>
+                                                <span style="margin-left: 1em">{{ idc.idc_address}}</span><br>
+                                                <label>备注信息 :</label>
+                                                <span style="margin-left: 1em">{{ idc.idc_memo}}</span><br>
+                                                <div id="{{ idc.id }}">
+                                                     <label>机柜信息 :</label>
+                                                    {% if cabFlag %}
+                                                        {% for c in myCabs %}
+                                                            <a  onclick="layer.open({type: 2,title: '主机信息',closeBtn: 1,area: ['960px', '850px'],shadeClose: true, content: ['/cmdb/cabDetail?cabId={{ c.id}}'],});" style="margin-left: 1em">{{ c.cabinet_name }}</a>
+                                                        {% endfor %}
+                                                        <a target="_blank" href="http://127.0.0.1:8000/cmdb/editCab?idcId={{ idc.id }}"  style="margin-left: 1em"><i class="fa fa-edit">编辑</i></a>
+                                                        <a style="margin-left: 0.5em" onclick="$('#{{ idc.id }}').load(window.location.href+ ' #{{ idc.id }}')"><i class="fa fa-fw fa-refresh"></i></a>
+                                                    {% else %}
+                                                        <a onclick="var test = window.location.href;if(test.split('?')[1]) url=test+'&IDC={{ idc.id }}'; else url=test+'?IDC={{ idc.id }}';$('#{{ idc.id }}').load(url+ ' #{{ idc.id }}');" style="margin-left: 1em;line-height: 20px;" class="text-center">展示或编辑机柜信息</a>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <button onclick="window.open('http://127.0.0.1:8000/cmdb/editIdc?idcId={{ idc.id }}')" style="position: absolute;left:85%;width: 10%;">编 辑</button>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                <div style="clear: left"></div>
+                                <button onclick="window.open('http://127.0.0.1:8000/cmdb/addIdc')" style="margin-top:2em; margin-left:3em;width:100px;margin-bottom: 30px" class="btn btn-block btn-success">添加机房</button>
                             </div>
-                            <div class="mybox-body" style="height: 240px;">
-                                <div style="float: left;width: 100%;line-height: 2em;">
-                                    <label>机房名称 :</label>
-                                    <span style="margin-left: 1em">{{ idc.idc_name}}</span><br>
-                                    <label>机房地址 :</label>
-                                    <span style="margin-left: 1em">{{ idc.idc_address}}</span><br>
-                                    <label>备注信息 :</label>
-                                    <span style="margin-left: 1em">{{ idc.idc_memo}}</span><br>
-                                    <div id="{{ idc.id }}">
-                                         <label>机柜信息 :</label>
-                                        {% if cabFlag %}
-                                            {% for c in myCabs %}
-                                                <a href="#" style="margin-left: 1em">{{ c.cabinet_name }}</a>
-                                            {% endfor %}
-                                            <a target="_blank" href="http://127.0.0.1:8000/cmdb/editCab?idcId={{ idc.id }}"  style="margin-left: 1em"><i class="fa fa-edit">编辑</i></a>
-                                            <a style="margin-left: 0.5em" onclick="$('#{{ idc.id }}').load(window.location.href+ ' #{{ idc.id }}')"><i class="fa fa-fw fa-refresh"></i></a>
+
+    {#############################合同管理###########################}
+                        {% elif manageFlag == 1%}
+                            <div id="contracManage">
+                                <section id="getintouch" class="rotateInUpLeft animated">
+                                    <div class="container">
+                                        <form method="post" action="basicData?ccc=1&bbb=2">
+                                            <table class="table table-bordered table-hover" style="font-size: 0.9em;">
+                                                <thead>
+                                                <tr>
+                                                    <th class="text-center">选择</th>
+                                                    <th class="text-center">序号</th>
+                                                    <th class="text-center">合同编号</th>
+                                                    <th class="text-center">合同名称</th>
+                                                    <th class="text-center">合同内容</th>
+                                                    <th class="text-center">备注</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for i in contract %}
+                                                    <tr>
+                                                        <td class="text-center"><input type="checkbox" name="delete_contract" value="{{ i.pk }}"></td>
+                                                        <td class="text-center">{{ i.pk }}</td>
+                                                        <td class="text-center">{{ i.contract_number }}</td>
+                                                        <td class="text-center">{{ i.contract_name }}</td>
+                                                        <td class="text-left">{{ i.contract_content }}</td>
+                                                        <td class="text-center">{{ i.contract_memo }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                            <div class="row  clearfix">
+                                                <div class="span10 offset2" style="width: 100%">
+                                                    <input style="width: 80px;height: 40px;margin:0 auto;margin-top:20px;" type="submit"  class=" btn btn-block btn-danger " value="删除">
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <hr>
+                                        <form class="contact" action="basicData?ccc=2&bbb=2" method="post" id="form" style="padding: 30px;margin:0 auto;">
+                                            <div class="row clearfix">
+                                                <div class="ctrl" style="width: 60%;margin:0 auto;">
+                                                    <label>合同编号</label>
+                                                    <input style="width: 66%;margin-left: 2em" type="text" name="number" placeholder="请输入合同编号">
+                                                </div>
+                                            </div>
+                                            <div class="row clearfix">
+                                                <div class="ctrl"  style="width: 60%;margin:0 auto;">
+                                                    <label>合同名称</label>
+                                                    <input style="width: 66%;margin-left: 2em" type="text" name="name" placeholder="请输入合同名称">
+                                                </div>
+                                            </div>
+                                            <div class="row clearfix">
+                                                <div class="ctrl"  style="width: 60%;margin:0 auto;">
+                                                    <label style="position: relative;top: -100px;">合同内容</label>
+                                                    <textarea style="width: 66%;margin-left: 2em;" id="content" name="content" rows="6" cols="6"></textarea>
+                            {#                        <input style="width: 66%;margin-left: 2em" type="text" name="name" placeholder="请输入合同名称">#}
+                                                </div>
+                                            </div>
+                                            <div class="row clearfix">
+                                                <div class="ctrl"  style="width: 60%;margin:0 auto;">
+                                                    <label>备注</label>
+                                                    <input style="width: 66%;margin-left: 4em" type="text" name="memo" placeholder="请输入备注">
+                                                </div>
+                                            </div>
+                                            <div class="row  clearfix">
+                                                <div class="span10 offset2" style="width: 100%">
+                                                    <input style="width: 80px;height: 40px;margin:0 auto;margin-top:20px;" type="submit"  class="submit btn btn-block btn-success " value="添加">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </section>
+                            </div>
+
+    {#############################员工管理###########################}
+                        {% elif manageFlag == 2%}
+                            <div id="userManage" >
+                                <section id="getintouch" class="rotateInUpLeft animated">
+
+                                    <div class="container">
+                                        {% if Perm == 1 %}
+                                            <form method="post" action="basicData?ccc=3&bbb=3">
+                                                <table class="table table-bordered table-hover" style="font-size: 0.9em;">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="text-center">选择</th>
+                                                        <th class="text-center">序号</th>
+                                                        <th class="text-center">用户名</th>
+                                                        <th class="text-center">邮箱</th>
+                                                        <th class="text-center">管理员</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for i in admin %}
+                                                        <tr>
+                                                            <td class="text-center"><input type="checkbox" name="delete_admin" value="{{ i.pk }}"></td>
+                                                            <td class="text-center">{{ i.pk }}</td>
+                                                            <td class="text-center">{{ i.username }}</td>
+                                                            <td class="text-center">{{ i.email}}</td>
+                                                            <td class="text-left">{{ i.is_superuser }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                                <div class="row  clearfix">
+                                                    <div class="span10 offset2" style="width: 100%">
+                                                        <input style="width: 80px;height: 40px;margin:0 auto;margin-top:20px;" type="submit"  class=" btn btn-block btn-danger " value="删除">
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <hr>
+                                            <form class="contact" action="basicData?ccc=4&bbb=3" method="post" id="form" style="padding: 30px;margin:0 auto;">
+                                                <div class="row clearfix">
+                                                    <div class="ctrl" style="width: 60%;margin:0 auto;">
+                                                        <label>用户名</label>
+                                                        <input style="width: 66%;margin-left: 3em" type="text" name="username" placeholder="请输入用户名">
+                                                    </div>
+                                                </div>
+                                                <div class="row clearfix">
+                                                    <div class="ctrl"  style="width: 60%;margin:0 auto;">
+                                                        <label>邮箱地址</label>
+                                                        <input style="width: 66%;margin-left: 2em" type="text" name="email" placeholder="请输入邮箱地址">
+                                                    </div>
+                                                </div>
+                                                <div class="row clearfix">
+                                                    <div class="ctrl"  style="width: 60%;margin:0 auto;">
+                                                        <label>账户密码</label>
+                                                        <input style="width: 66%;margin-left: 2em" type="password" name="password" placeholder="请设置密码">
+                                                    </div>
+                                                </div>
+                                                <div class="row clearfix">
+                                                    <div class="ctrl"  style="width: 60%;margin:0 auto;" >
+                                                        <label>用户权限</label>
+                                                        <select style="width: 66%;margin-left: 2em" name="perm" >
+                                                            <option value="0">普通用户</option>
+                                                            <option value="1">管理员</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row  clearfix">
+                                                    <div class="span10 offset2" style="width: 100%">
+                                                        <input style="width: 80px;height: 40px;margin:0 auto;margin-top:20px;" type="submit"  class="submit btn btn-block btn-success " value="添加">
+                                                    </div>
+                                                </div>
+
+                                            </form>
                                         {% else %}
-                                            <a onclick="var test = window.location.href;if(test.split('?')[1]) url=test+'&IDC={{ idc.id }}'; else url=test+'?IDC={{ idc.id }}';$('#{{ idc.id }}').load(url+ ' #{{ idc.id }}');" style="margin-left: 1em;line-height: 20px;" class="text-center">展示或编辑机柜信息</a>
+                                            <table class="table table-bordered table-hover" style="font-size: 0.9em;">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="text-center">序号</th>
+                                                        <th class="text-center">用户名</th>
+                                                        <th class="text-center">邮箱</th>
+                                                        <th class="text-center">管理员</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for i in admin %}
+                                                        <tr>
+                                                            <td class="text-center">{{ i.pk }}</td>
+                                                            <td class="text-center">{{ i.username }}</td>
+                                                            <td class="text-center">{{ i.email}}</td>
+                                                            <td class="text-left">{{ i.is_superuser }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
                                         {% endif %}
                                     </div>
-                                </div>
-                                <button style="position: absolute;left:85%;width: 10%;">编 辑</button>
+                                </section>
                             </div>
-                        </div>
-                    {% endfor %}
-                <div style="clear: left"></div>
-                <button style="margin-top:2em; margin-left:3em;width:100px;margin-bottom: 30px" class="btn btn-block btn-success">添加机房</button>
+                        {% endif %}
+    {# ############################################################ #}
+                    </div>
                 </div>
             </div>
         </div>

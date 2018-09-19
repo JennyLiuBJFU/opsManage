@@ -177,12 +177,21 @@ def addSubmit(request):
     ASSET.qrcode = img_name
     ASSET.save()
 
-
     CapSpasId=request.POST.getlist('cabSpace')
+    num=0
+    hPlace=0
     for cId in CapSpasId:
+        num=num+1
         CABSPACE=CabinetSpace.objects.get(id=cId)
+        if int(CABSPACE.cabinet_location) > hPlace:
+            hPlace=int(CABSPACE.cabinet_location)
+            print(("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"))
+            print(hPlace)
         CABSPACE.asset=ASSET
         CABSPACE.save()
+    ASSET.height=num
+    ASSET.cab_location = ASSET.cabinet.cabinet_height - hPlace
+    ASSET.save()
 
     Assets = Asset.objects.all()
     Servers=Server.objects.all()
@@ -726,7 +735,6 @@ def editModel(request):
         'Perm': Perm,
         'model': model,
         'vendors':vendors,
-        'erweima':X,
     }
 
     return render(request, 'cmdb/ServerManage/add/editForeignKey/editModel.html', context)
@@ -834,95 +842,6 @@ def addVendorSubmit(request):
     }
 
     return render(request, 'cmdb/ServerManage/add/editForeignKey/editVendor.html', context)
-
-@login_required()
-def editIdc(request):
-    # 判断是否有删除请求，有则删除厂商
-    didc = request.POST.getlist('delete_idc')
-    if len(didc):
-        for i in didc:
-            Idc.objects.get(pk=i).delete()
-
-    # 查询现有所有厂商对象并传给前段页面
-    idc = Idc.objects.all()
-    orgs = Organization.objects.all()
-    print(orgs)
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'idc': idc,
-        'orgs':orgs,
-    }
-
-    return render(request, 'cmdb/ServerManage/add/editForeignKey/editIdc.html',context)
-
-@login_required()
-def addIdcSubmit(request):
-    print(request.POST)
-    o = Idc()
-    o.name=request.POST['name']
-    o.address=request.POST['address']
-    o.memo=request.POST['memo']
-    o.save()
-    idc = Idc.objects.all()
-    orgs = Organization.objects.all()
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'idc': idc,
-        'orgs': orgs,
-    }
-    return render(request, 'cmdb/ServerManage/add/editForeignKey/editIdc.html', context)
-
-@login_required()
-def editContract(request):
-    # 判断是否有删除请求，有则删除厂商
-    dcontract = request.POST.getlist('delete_contract')
-    if len(dcontract):
-        for i in dcontract:
-            Contract.objects.get(pk=i).delete()
-
-    # 查询现有所有厂商对象并传给前段页面
-    contract = Contract.objects.all()
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'contract': contract
-    }
-    return render(request, 'cmdb/ServerManage/add/editForeignKey/editContract.html',context)
-
-@login_required()
-def addContractSubmit(request):
-    o = Contract()
-    o.contract_number=request.POST['number']
-    o.contract_name=request.POST['name']
-    o.contract_content=request.POST['content']
-    o.contract_memo=request.POST['memo']
-    o.save()
-    contract = Contract.objects.all()
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'contract': contract
-    }
-
-    return render(request, 'cmdb/ServerManage/add/editForeignKey/editContract.html', context)
 
 @login_required()
 def editSupplier(request):
@@ -1091,14 +1010,25 @@ def editSubmit(request):
         css.save()
 
     CapSpasId = request.POST.getlist('cabSpace')
+    num=0
+    hPlace=0
     for cId in CapSpasId:
+        num=num+1
         CABSPACE = CabinetSpace.objects.get(id=cId)
+        if int(CABSPACE.cabinet_location)>hPlace:
+            hPlace=int(CABSPACE.cabinet_location)
+            print(("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"))
+            print(hPlace)
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         print(CABSPACE)
         CABSPACE.asset = ASSET
         CABSPACE.save()
-
-
+    ASSET.height=num
+    ASSET.cab_location=(ASSET.cabinet.cabinet_height-hPlace)
+    ASSET.save()
+    print("!!!!!!!!!!!!!!!!!!!")
+    print(ASSET.height)
+    print(ASSET.cab_location)
 
     if ASSET.asset_type=="1" :
         if Server.objects.filter(asset=ASSET):
@@ -1185,36 +1115,95 @@ def filter(request):
         'ORG':orgID,
     }
     return render(request, 'cmdb/ServerManage/index.html', context)
+
+
 @login_required()
 def basicData(request):
     Organizations = Organization.objects.all()
+
     myOrg=Organization()
     myIdc=Idc.objects.all()
     myCabinet=Cabinet.objects.all()
     cabFlag=0
-    try :
+    manageFlag=0
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+    try:
         myOrg=Organization.objects.get(id = request.GET['aaa'])
         myIdc = Idc.objects.filter(organization=myOrg)
         print(myOrg)
         print(myIdc)
     except:
-        print("没有单位参数")
+        print("没有aaa参数!")
 
     try:
         IDC = request.GET['IDC']
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        print(IDC)
         myCabinet=Cabinet.objects.filter(idc=Idc.objects.get(id=IDC))
         cabFlag=1
         print(myCabinet)
     except:
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        print("没有IDC参数")
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
+        print("没有IDC参数!")
+
+    try:
+        if request.GET['bbb']:
+            if request.GET['bbb'] == "2":
+                manageFlag=1
+                try:
+                    if request.GET['ccc'] == "1":
+                        dcontract = request.POST.getlist('delete_contract')
+                        if len(dcontract):
+                            for i in dcontract:
+                                Contract.objects.get(pk=i).delete()
+
+                        # 查询现有所有厂商对象并传给前段页面
+                        contract = Contract.objects.all()
+                except:
+                    print("不是删除合同！")
+
+                try:
+                    if request.GET['ccc'] == "2":
+                        o = Contract()
+                        o.contract_number = request.POST['number']
+                        o.contract_name = request.POST['name']
+                        o.contract_content = request.POST['content']
+                        o.contract_memo = request.POST['memo']
+                        o.save()
+                        contract = Contract.objects.all()
+                except:
+                    print("不是添加合同！")
+            elif request.GET['bbb'] == "3":
+                manageFlag=2
+                try:
+                    if request.GET['ccc'] == "3":
+                        dadmin = request.POST.getlist('delete_admin')
+                        if len(dadmin):
+                            for i in dadmin:
+                                User.objects.get(pk=i).delete()
+
+                        admin = User.objects.all()
+                except:
+                    print("不是删除用户！")
+
+                try:
+                    if request.GET['ccc'] == "4":
+                        user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
+                        if str(request.POST['perm']) != '0':
+                            user.is_superuser = True
+                        user.save()
+                        admin = User.objects.all()
+                except:
+                    print("不是添加用户！")
+
+            else: manageFlag=0
+    except:
+        print("没有bbb参数!")
+
     context={
+        'admin': User.objects.all(),
+        'contract': Contract.objects.all(),
+        'manageFlag':manageFlag,
         'USERNAME': str(request.user),
         'Perm': Perm,
         'ORGS':Organizations,
@@ -1224,8 +1213,10 @@ def basicData(request):
         'cabFlag':cabFlag,
 
     }
-
     return render(request,'cmdb/basicData/index.html',context)
+
+
+
 @login_required()
 def editCab(request):
     dCabinets = request.POST.getlist('delete_cabinets')
@@ -1261,3 +1252,87 @@ def addCabSubmit(request):
         'Cabinets': Cabinets,
     }
     return render(request, 'cmdb/basicData/editCab.html', context)
+
+def addIdc(request):
+    Organizations=Organization.objects.all()
+    successFlag=0
+    context={
+        'successFlag':successFlag,
+        'Organizations':Organizations,
+    }
+    return render (request,'cmdb/basicData/addIdc.html',context)
+
+def idcSubmit(request):
+    print(request.POST)
+    IDC=Idc()
+    IDC.idc_name=request.POST['name']
+    IDC.idc_address=request.POST['address']
+    IDC.organization=Organization.objects.get(id=request.POST['organization'])
+    IDC.idc_memo=request.POST['memo']
+    IDC.save()
+    print(IDC)
+    successFlag=1
+    Organizations = Organization.objects.all()
+    context = {
+        'successFlag':successFlag,
+        'Organizations': Organizations,
+    }
+    return render(request, 'cmdb/basicData/addIdc.html', context)
+
+def editIdc (request):
+    IDC = Idc.objects.get(id=request.GET['idcId'])
+    Organizations = Organization.objects.all()
+    successFlag = 0
+    context = {
+        'IDC':IDC,
+        'successFlag': successFlag,
+        'Organizations': Organizations,
+    }
+    return render(request, 'cmdb/basicData/editIdc.html', context)
+
+def submitIdcEdit(request):
+    print(request.POST)
+    IDC = Idc.objects.get(id=request.GET['idcId'])
+    IDC.idc_name=request.POST['name']
+    IDC.idc_address=request.POST['address']
+    IDC.organization=Organization.objects.get(id=request.POST['organization'])
+    IDC.idc_memo=request.POST['memo']
+    IDC.save()
+    print(IDC)
+    successFlag=1
+    Organizations = Organization.objects.all()
+    context = {
+        'successFlag':successFlag,
+        'Organizations': Organizations,
+    }
+    return render(request, 'cmdb/basicData/editIdc.html', context)
+
+def deleteAIdc (request):
+    IDC = Idc.objects.get(id=request.GET['idcId'])
+    IDC.delete()
+    successFlag = 2
+    Organizations = Organization.objects.all()
+    context = {
+        'successFlag': successFlag,
+        'Organizations': Organizations,
+    }
+    return render(request, 'cmdb/basicData/editIdc.html', context)
+
+
+def cabDetail(request):
+    print(request.GET['cabId'])
+    CAB=Cabinet.objects.get(id=request.GET['cabId'])
+    print(CAB)
+    CabinetSpaces=CabinetSpace.objects.filter(cabinet=CAB)
+    a=set()
+    for c in CabinetSpaces:
+        if c.asset:
+            a.add(c.asset)
+
+    print(a)
+    context={
+        'CAB':CAB,
+        'cabSpaces':CabinetSpaces,
+        'Assets':a,
+    }
+    return render (request,'cmdb/basicData/cabDetail.html',context)

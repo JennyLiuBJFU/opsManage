@@ -14,19 +14,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     a,img{border:0;}
     body{font:12px/180% Arial, Helvetica, sans-serif, "新宋体";}
     </style>
-    <script src="/static/plugins/layer/layer.js"></script>
-     <script>
-        function changePassword() {
-            layer.open({
-                type: 2,
-                title: '',
-                closeBtn: 1,
-                area: ['560px', '600px'],
-                shadeClose: true, //点击遮罩关闭
-                content: ['/accounts/editAdmin'],
-            });
-        }
-    </script>
+
 
     <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
 
@@ -77,6 +65,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             $('#form').ffform({ animation: 'flip', submitButton: '#submit', validationIndicator: '#validation', errorIndicator: '#error', successIndicator: '#success', 'fields': [{ 'id': 'name', required: true, requiredMsg: 'Name is required', type: 'alpha', validate: true, msg: 'Invalid Name' }, { 'id': 'email', required: true, requiredMsg: 'E-Mail is required', type: 'email', validate: true, msg: 'Invalid E-Mail Address' }, { 'id': 'phone', required: false, type: 'custom', validate: false, msg: 'Invalid Phone #' }, { 'id': 'message', required: false, type: 'text', validate: false, msg: ''}] });
         });
     </script>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -89,6 +78,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
     <script type="text/javascript" src="/static/js/jquery-1.7.2.min.js" ></script>
+    <script src="/static/plugins/layer/layer.js"></script>
 
     {% block css_block %} {% endblock %}
 
@@ -282,7 +272,7 @@ desired effect
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat cd-signin" onclick="return changePassword()">修改密码</a>
+                                    <a class="btn btn-default btn-flat cd-signin" onclick=" layer.open({type: 2,closeBtn: 1,area: ['600px', '600px'],shadeClose: true, content: ['/accounts/editAdmin'],});">修改密码</a>
                                 </div>
                                 <div class="pull-right">
                                     <a href="http://127.0.0.1:8000/logout" class="btn btn-default btn-flat">注销登录</a>
