@@ -97,7 +97,15 @@ def showCabSpaces(request):
     CAB=Cabinet.objects.get(id=request.GET['cab'])
     CabSpaces=CabinetSpace.objects.filter(cabinet=CAB)
     CabSpacesRemain=CabSpaces.filter(asset=None)
-    print(CabSpaces)
+    listc = []
+    for cs in CabSpacesRemain:
+        listc.append(cs)
+
+    for i in range(len(listc) - 1):
+        for j in range(len(listc) - i - 1):
+            if int(listc[j].cabinet_location) < int(listc[j + 1].cabinet_location):
+                listc[j], listc[j + 1] = listc[j + 1], listc[j]
+
     if request.user.is_superuser:
         Perm = 1
     else:
@@ -105,7 +113,7 @@ def showCabSpaces(request):
     context={
         'USERNAME': str(request.user),
         'Perm': Perm,
-        'CabSpaces':CabSpacesRemain,
+        'CabSpaces':listc,
     }
     return render(request, 'cmdb/ServerManage/add/add.html',context)
 
@@ -912,6 +920,15 @@ def editARecord(request):
     IDCs = Idc.objects.filter(organization=ASSET.organization)
     Cabinets=Cabinet.objects.filter(idc=ASSET.idc)
     CabSpaces=CabinetSpace.objects.filter(cabinet=ASSET.cabinet,asset=None)
+    listc = []
+    for cs in CabSpaces:
+        listc.append(cs)
+
+    for i in range(len(listc) - 1):
+        for j in range(len(listc) - i - 1):
+            if int(listc[j].cabinet_location) < int(listc[j + 1].cabinet_location):
+                listc[j], listc[j + 1] = listc[j + 1], listc[j]
+
     CSSelected=CabinetSpace.objects.filter(asset=ASSET)
     print("!!!!!!!!!!!!!!!!!!!!!!!")
     print(CSSelected)
@@ -931,7 +948,7 @@ def editARecord(request):
         'Perm': Perm,
         'Models':Models,
         'Cabinets':Cabinets,
-        'CabSpaces':CabSpaces,
+        'CabSpaces':listc,
         'CSSelected':CSSelected,
         'Vendors': Vendors,
         'Organizations': Organizations,
@@ -1024,7 +1041,7 @@ def editSubmit(request):
         CABSPACE.asset = ASSET
         CABSPACE.save()
     ASSET.height=num
-    ASSET.cab_location=(ASSET.cabinet.cabinet_height-hPlace)
+    ASSET.cab_location=(ASSET.cabinet.cabinet_height-hPlace)*22+20
     ASSET.save()
     print("!!!!!!!!!!!!!!!!!!!")
     print(ASSET.height)
@@ -1320,19 +1337,30 @@ def deleteAIdc (request):
 
 
 def cabDetail(request):
-    print(request.GET['cabId'])
-    CAB=Cabinet.objects.get(id=request.GET['cabId'])
-    print(CAB)
-    CabinetSpaces=CabinetSpace.objects.filter(cabinet=CAB)
-    a=set()
-    for c in CabinetSpaces:
-        if c.asset:
-            a.add(c.asset)
-
-    print(a)
+    # print(request.GET['cabId'])
+    # CAB=Cabinet.objects.get(id=request.GET['cabId'])
+    # print(CAB)
+    # CabinetSpaces=CabinetSpace.objects.filter(cabinet=CAB) #这是一个集合，没有顺序
+    #
+    # listc = []
+    # for cs in CabinetSpaces:
+    #     listc.append(cs)
+    #
+    # for i in range(len(listc)-1):
+    #     for j in range(len(listc)-i-1):
+    #         if int(listc[j].cabinet_location)<int(listc[j+1].cabinet_location):
+    #             listc[j],listc[j+1]=listc[j+1],listc[j]
+    IDC=Idc.objects.get(id=request.GET['idcId'])
+    CABS=Cabinet.objects.filter(idc=IDC)
+    assets=Asset.objects.filter(idc=IDC)
+    # for c in CabinetSpaces:
+    #     if c.asset and c.asset not in a:
+    #         a.append(c.asset)
+    #
+    # print(a)
     context={
-        'CAB':CAB,
-        'cabSpaces':CabinetSpaces,
-        'Assets':a,
+        'IDC':IDC,
+        'CABS':CABS,
+        'ASSETS':assets,
     }
     return render (request,'cmdb/basicData/cabDetail.html',context)

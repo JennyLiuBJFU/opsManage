@@ -64,8 +64,10 @@
                                                      <label>机柜信息 :</label>
                                                     {% if cabFlag %}
                                                         {% for c in myCabs %}
-                                                            <a  onclick="layer.open({type: 2,title: '主机信息',closeBtn: 1,area: ['960px', '850px'],shadeClose: true, content: ['/cmdb/cabDetail?cabId={{ c.id}}'],});" style="margin-left: 1em">{{ c.cabinet_name }}</a>
+{#                                                            <a  onclick="layer.open({type: 2,title: '主机信息',closeBtn: 1,area: ['960px', '850px'],shadeClose: true, content: ['/cmdb/cabDetail?cabId={{ c.id}}'],});" style="margin-left: 1em">{{ c.cabinet_name }}</a>#}
+                                                            <span style="margin-left: 1em">{{ c.cabinet_name }}</span>
                                                         {% endfor %}
+                                                        <a onclick="window.open('http://127.0.0.1:8000/cmdb/cabDetail?idcId={{ idc.id }}')" style="margin-left: 1em">机柜图</a>
                                                         <a target="_blank" href="http://127.0.0.1:8000/cmdb/editCab?idcId={{ idc.id }}"  style="margin-left: 1em"><i class="fa fa-edit">编辑</i></a>
                                                         <a style="margin-left: 0.5em" onclick="$('#{{ idc.id }}').load(window.location.href+ ' #{{ idc.id }}')"><i class="fa fa-fw fa-refresh"></i></a>
                                                     {% else %}
