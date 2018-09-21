@@ -188,17 +188,18 @@ def addSubmit(request):
     CapSpasId=request.POST.getlist('cabSpace')
     num=0
     hPlace=0
-    for cId in CapSpasId:
-        num=num+1
-        CABSPACE=CabinetSpace.objects.get(id=cId)
-        if int(CABSPACE.cabinet_location) > hPlace:
-            hPlace=int(CABSPACE.cabinet_location)
-            print(("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"))
-            print(hPlace)
-        CABSPACE.asset=ASSET
-        CABSPACE.save()
-    ASSET.height=num
-    ASSET.cab_location = ASSET.cabinet.cabinet_height - hPlace
+    if CapSpasId:
+        for cId in CapSpasId:
+            num=num+1
+            CABSPACE=CabinetSpace.objects.get(id=cId)
+            if int(CABSPACE.cabinet_location) > hPlace:
+                hPlace=int(CABSPACE.cabinet_location)
+                print(("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"))
+                print(hPlace)
+            CABSPACE.asset=ASSET
+            CABSPACE.save()
+        ASSET.height=num*22-2
+        ASSET.cab_location = ASSET.cabinet.cabinet_height - hPlace
     ASSET.save()
 
     Assets = Asset.objects.all()
@@ -1029,19 +1030,24 @@ def editSubmit(request):
     CapSpasId = request.POST.getlist('cabSpace')
     num=0
     hPlace=0
-    for cId in CapSpasId:
-        num=num+1
-        CABSPACE = CabinetSpace.objects.get(id=cId)
-        if int(CABSPACE.cabinet_location)>hPlace:
-            hPlace=int(CABSPACE.cabinet_location)
-            print(("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"))
-            print(hPlace)
-        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-        print(CABSPACE)
-        CABSPACE.asset = ASSET
-        CABSPACE.save()
-    ASSET.height=num
-    ASSET.cab_location=(ASSET.cabinet.cabinet_height-hPlace)*22+20
+    if CapSpasId:
+        print("有cabSpace哦")
+        for cId in CapSpasId:
+            num=num+1
+            CABSPACE = CabinetSpace.objects.get(id=cId)
+            if int(CABSPACE.cabinet_location)>hPlace:
+                hPlace=int(CABSPACE.cabinet_location)
+                print(("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"))
+                print(hPlace)
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+            print(CABSPACE)
+            CABSPACE.asset = ASSET
+            CABSPACE.save()
+        ASSET.height=num*22-2
+        ASSET.cab_location=(ASSET.cabinet.cabinet_height-hPlace)*22+20
+    else:
+        ASSET.height=None
+        ASSET.cab_location=None
     ASSET.save()
     print("!!!!!!!!!!!!!!!!!!!")
     print(ASSET.height)
@@ -1337,30 +1343,17 @@ def deleteAIdc (request):
 
 
 def cabDetail(request):
-    # print(request.GET['cabId'])
-    # CAB=Cabinet.objects.get(id=request.GET['cabId'])
-    # print(CAB)
-    # CabinetSpaces=CabinetSpace.objects.filter(cabinet=CAB) #这是一个集合，没有顺序
-    #
-    # listc = []
-    # for cs in CabinetSpaces:
-    #     listc.append(cs)
-    #
-    # for i in range(len(listc)-1):
-    #     for j in range(len(listc)-i-1):
-    #         if int(listc[j].cabinet_location)<int(listc[j+1].cabinet_location):
-    #             listc[j],listc[j+1]=listc[j+1],listc[j]
     IDC=Idc.objects.get(id=request.GET['idcId'])
     CABS=Cabinet.objects.filter(idc=IDC)
     assets=Asset.objects.filter(idc=IDC)
-    # for c in CabinetSpaces:
-    #     if c.asset and c.asset not in a:
-    #         a.append(c.asset)
-    #
-    # print(a)
+    ASSETS=set()
+    for a in assets:
+        if a.cab_location:
+            ASSETS.add(a)
+
     context={
         'IDC':IDC,
         'CABS':CABS,
-        'ASSETS':assets,
+        'ASSETS':ASSETS,
     }
     return render (request,'cmdb/basicData/cabDetail.html',context)

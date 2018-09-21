@@ -159,13 +159,6 @@
                 </div>
                 <div class="ctrl" id="cabSpace" style="float:left;height:120px;">
                     <select name="cabSpace" multiple style="height:120px;width: 11em;">
-{#                        {% for CabSpace in CabSpaces %}#}
-{#                            {% if CabSpace in CSSelected %}#}
-{#                                <option selected value={{ CabSpace.id}}>{{CabSpace.get_cabinet_location_display}}</option>#}
-{#                                {% else %}#}
-{#                                    <option value={{ CabSpace.id}}>{{CabSpace.get_cabinet_location_display}}</option>#}
-{#                            {% endif %}#}
-{#                        {% endfor %}#}
                         {% if CSSelected %}
                             {% for cs in CSSelected %}
                             <option selected value={{ cs.id}}>{{cs.get_cabinet_location_display}}</option>}
