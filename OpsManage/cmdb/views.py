@@ -64,9 +64,12 @@ def addARecord(request):
     return render(request, 'cmdb/ServerManage/add/add.html', context)
 
 def showIdcs(request):
-    ORG=Organization.objects.get(id=request.GET['organization'])
-    Idcs=Idc.objects.filter(organization=ORG)
-    print(Idcs)
+    if request.GET['organization']!='0':
+        ORG=Organization.objects.get(id=request.GET['organization'])
+        Idcs=Idc.objects.filter(organization=ORG)
+        print(Idcs)
+    else:
+        Idcs=None
     if request.user.is_superuser:
         Perm = 1
     else:
@@ -79,9 +82,12 @@ def showIdcs(request):
     return render(request, 'cmdb/ServerManage/add/add.html',context)
 
 def showCabs(request):
-    IDC=Idc.objects.get(id=request.GET['idc'])
-    Cabs=Cabinet.objects.filter(idc=IDC)
-    print(Cabs)
+    if request.GET['idc']!='0':
+        IDC=Idc.objects.get(id=request.GET['idc'])
+        Cabs=Cabinet.objects.filter(idc=IDC)
+        print(Cabs)
+    else:
+        Cabs=None
     if request.user.is_superuser:
         Perm = 1
     else:
@@ -94,18 +100,20 @@ def showCabs(request):
     return render(request, 'cmdb/ServerManage/add/add.html',context)
 
 def showCabSpaces(request):
-    CAB=Cabinet.objects.get(id=request.GET['cab'])
-    CabSpaces=CabinetSpace.objects.filter(cabinet=CAB)
-    CabSpacesRemain=CabSpaces.filter(asset=None)
-    listc = []
-    for cs in CabSpacesRemain:
-        listc.append(cs)
+    if request.GET['cab']!='0':
+        CAB=Cabinet.objects.get(id=request.GET['cab'])
+        CabSpaces=CabinetSpace.objects.filter(cabinet=CAB)
+        CabSpacesRemain=CabSpaces.filter(asset=None)
+        listc = []
+        for cs in CabSpacesRemain:
+            listc.append(cs)
 
-    for i in range(len(listc) - 1):
-        for j in range(len(listc) - i - 1):
-            if int(listc[j].cabinet_location) < int(listc[j + 1].cabinet_location):
-                listc[j], listc[j + 1] = listc[j + 1], listc[j]
-
+        for i in range(len(listc) - 1):
+            for j in range(len(listc) - i - 1):
+                if int(listc[j].cabinet_location) < int(listc[j + 1].cabinet_location):
+                    listc[j], listc[j + 1] = listc[j + 1], listc[j]
+    else:
+        listc=None
     if request.user.is_superuser:
         Perm = 1
     else:
@@ -576,10 +584,16 @@ def serverSubmit(request):
     SERVER.created_by="2"
     if request.POST['hosted_on'] != '0':
         SERVER.hosted_on=Server.objects.get(id=request.POST['hosted_on'])
+    else:
+        SERVER.hosted_on=None
     if request.POST['sub_asset_type'] != '0':
         SERVER.sub_asset_type=request.POST['sub_asset_type']
+    else:
+        SERVER.sub_asset_type=None
     if request.POST['os_type'] != '0':
         SERVER.os_type = request.POST['os_type']
+    else:
+        SERVER.os_type=None
     SERVER.microcode=request.POST['microcode']
     SERVER.os_distribution=request.POST['os_distribution']
     SERVER.os_release=request.POST['os_release']
@@ -608,6 +622,8 @@ def networkDeviceSubmit (request):
     NETWORKDEVICE.asset=ASSET
     if request.POST['sub_asset_type'] != '0':
         NETWORKDEVICE.sub_asset_type=request.POST['sub_asset_type']
+    else:
+        NETWORKDEVICE.sub_asset_type=None
     NETWORKDEVICE.save()
     Assets = Asset.objects.all()
     Organizations = Organization.objects.all()
@@ -633,6 +649,8 @@ def storageDeviceSubmit(request):
     STORAGEDEVICE.asset = ASSET
     if request.POST['sub_asset_type'] != '0':
         STORAGEDEVICE.sub_asset_type = request.POST['sub_asset_type']
+    else:
+        STORAGEDEVICE.sub_asset_type=None
     STORAGEDEVICE.save()
     Assets = Asset.objects.all()
     Organizations = Organization.objects.all()
@@ -658,6 +676,8 @@ def securityDeviceSubmit(request):
     SECURITYDEVICE.asset = ASSET
     if request.POST['sub_asset_type'] != '0':
         SECURITYDEVICE.sub_asset_type = request.POST['sub_asset_type']
+    else:
+        SECURITYDEVICE.sub_asset_type=None
     SECURITYDEVICE.memo=request.POST['memo']
     SECURITYDEVICE.save()
     Assets = Asset.objects.all()
@@ -988,29 +1008,49 @@ def editSubmit(request):
     # 直接select标签的3个
     if request.POST['status']!="0":
         ASSET.status = request.POST['status']
+    else:
+        ASSET.status=None
+
     if request.POST['network_location']!="0":
         ASSET.network_location = request.POST['network_location']
-    if request.POST['asset_type']!="0":
-        ASSET.asset_type = request.POST['asset_type']
+    else:
+        ASSET.network_location=None
+
+    ASSET.asset_type = request.POST['asset_type']
 
     # 外键的7个
     if request.POST['admin']!="0":
         ASSET.admin = User.objects.get(id=request.POST['admin'])
-    if request.POST['model']!="0":
-        ASSET.model=Device_model.objects.get(id=request.POST['model'])
+    else:
+        ASSET.admin = None
+
+    ASSET.model=Device_model.objects.get(id=request.POST['model'])
+
     # ASSET.vendor = Vendor.objects.get(id=request.POST['vendor'])
-    if request.POST['organization']:
+    if request.POST['organization']!='0':
         ASSET.organization = Organization.objects.get(id=request.POST['organization'])
+    else:
+        ASSET.organization=None
     if request.POST['idc']!="0":
         ASSET.idc = Idc.objects.get(id=request.POST['idc'])
+    else:
+        ASSET.idc = None
     if request.POST['cab'] !="0":
         ASSET.cabinet = Cabinet.objects.get(id=request.POST['cab'])
+    else:
+        ASSET.cabinet=None
     if request.POST['contract']!="0":
         ASSET.contract = Contract.objects.get(id=request.POST['contract'])
+    else:
+        ASSET.contract=None
     if request.POST['supplier']!="0":
         ASSET.supplier = Supplier.objects.get(id=request.POST['supplier'])
+    else:
+        ASSET.supplier=None
     if request.POST['approved_by']!="0":
         ASSET.approved_by = User.objects.get(id=request.POST['approved_by'])
+    else:
+        ASSET.approved_by=None
 
     # 多对多1个，目前未考虑，暂时按照外键处理
     ASSET.save()
@@ -1021,10 +1061,7 @@ def editSubmit(request):
 
     CSSelected=CabinetSpace.objects.filter(asset=ASSET)
     for css in CSSelected:
-        print("******************************")
-        print(css)
         css.asset= None
-        print(css)
         css.save()
 
     CapSpasId = request.POST.getlist('cabSpace')
@@ -1037,10 +1074,6 @@ def editSubmit(request):
             CABSPACE = CabinetSpace.objects.get(id=cId)
             if int(CABSPACE.cabinet_location)>hPlace:
                 hPlace=int(CABSPACE.cabinet_location)
-                print(("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"))
-                print(hPlace)
-            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-            print(CABSPACE)
             CABSPACE.asset = ASSET
             CABSPACE.save()
         ASSET.height=num*22-2
@@ -1059,12 +1092,19 @@ def editSubmit(request):
         else:
             SERVER=Server()
             SERVER.asset=ASSET
-        SERVER.sub_asset_type=request.POST['sub_asset_type']
+        if SERVER.sub_asset_type!='0':
+            SERVER.sub_asset_type=request.POST['sub_asset_type']
+        else:
+            SERVER.sub_asset_type=None
         if request.POST['hosted_on'] != '0':
             SERVER.hosted_on = Server.objects.get(id=request.POST['hosted_on'])
+        else:
+            SERVER.hosted_on=None
         SERVER.microcode=request.POST['microcode']
-        SERVER.sub_asset_type = request.POST['sub_asset_type']
-        SERVER.os_type = request.POST['os_type']
+        if request.POST['os_type']!='0':
+            SERVER.os_type = request.POST['os_type']
+        else:
+            SERVER.os_type=None
         SERVER.os_distribution = request.POST['os_distribution']
         SERVER.os_release = request.POST['os_release']
         SERVER.save()
@@ -1074,7 +1114,10 @@ def editSubmit(request):
         else:
             NETWORKDEVICE=NetworkDevice()
             NETWORKDEVICE.asset=ASSET
-        NETWORKDEVICE.sub_asset_type = request.POST['sub_asset_type']
+        if request.POST['sub_asset_type']!='0':
+            NETWORKDEVICE.sub_asset_type = request.POST['sub_asset_type']
+        else:
+            NETWORKDEVICE.sub_asset_type=None
         NETWORKDEVICE.save()
     elif ASSET.asset_type == "3":
         if SecurityDevice.objects.filter(asset=ASSET):
@@ -1082,7 +1125,10 @@ def editSubmit(request):
         else:
             SECURITYDEVICE=SecurityDevice()
             SECURITYDEVICE.asset=ASSET
-        SECURITYDEVICE.sub_asset_type = request.POST['sub_asset_type']
+        if request.POST['sub_asset_type']!='0':
+            SECURITYDEVICE.sub_asset_type = request.POST['sub_asset_type']
+        else:
+            SECURITYDEVICE.sub_asset_type=None
         SECURITYDEVICE.memo=request.POST['SeDMemo']
         SECURITYDEVICE.save()
     elif ASSET.asset_type=="4":
@@ -1091,7 +1137,10 @@ def editSubmit(request):
         else:
             STORAGEDEVICE=StorageDevice()
             STORAGEDEVICE.asset=ASSET
-        STORAGEDEVICE.sub_asset_type = request.POST['sub_asset_type']
+        if request.POST['sub_asset_type']!='0':
+            STORAGEDEVICE.sub_asset_type = request.POST['sub_asset_type']
+        else:
+            STORAGEDEVICE.sub_asset_type=None
         STORAGEDEVICE.save()
 
     Assets = Asset.objects.all()
