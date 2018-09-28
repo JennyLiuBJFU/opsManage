@@ -29,7 +29,7 @@ def loginSubmit(request):
             'Assets': Assets,
             'Organizations': Organizations
         }
-        return render(request, 'cmdb/ServerManage/index.html', context)
+        return render(request, 'cmdb/index.html', context)
     else:
         Flag=1
         return render(request,'login.html',{'Flag':Flag})

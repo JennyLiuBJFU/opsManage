@@ -1,7 +1,0 @@
-.demo{width:100%;margin:40px;}
-.sx,.zj{padding-bottom:10px;}
-.sx a{color:#000;line-height:22px;display:inline-block;width:auto;height:22px;margin-right:10px;border:1px solid #fff;text-align:center;padding-right:6px;}
-a.on{border:1px solid red;background:url(/static/img/xx.jpg) no-repeat right top;}
-.sx span,.zj span{display:inline-block;line-height:22px;height:22px;color:#00F;font-size:14px;margin-right:10px;text-align:right;width:70px;}
-.zj a{color:#fff;line-height:22px;display:inline-block;width:100px;height:22px;margin-right:10px;border:1px solid #C00;text-align:center;background:url(/static/img/xx2.jpg) no-repeat right top #C00;padding-right:10px;}
-.qcqb{width:70px;height:22px;line-height:22px;background:#FF0;color:#690;display:none;display:inline-block;text-align:center;border:1px solid #ccc;cursor:pointer;}

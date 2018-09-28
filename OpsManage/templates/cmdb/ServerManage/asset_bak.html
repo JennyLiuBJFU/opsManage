@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<div class="box box-danger">
+    <!-- 标题行 -->
+    <div class="box-header">
+        <h3 class="box-title">资产列表</h3>
+    </div>
+
+    <!-- .content  -->
+    <div class="box-body">
+        <div class="container-fluid">
+
+            <!-- -------------------查询区-----------------------  -->
+            <div class="row " style="margin-bottom: 20px">
+
+                <!-- 按钮 -->
+                <div class="col-sm-1">
+                    <form  id="typeform">
+                        <select class="form-control" name="myType" id="selectedType">
+                            <option c value="0" selected="selected">资产类型</option>
+                            <option value="1">服务器</option>
+                            <option value="2">网络设备</option>
+                            <option value="3">安全设备</option>
+                            <option value="4">存储设备</option>
+                            <option value="5">其他</option>
+                        </select>
+                    </form>
+                </div>
+
+                <div class="col-sm-1">
+                    <form  id="orgform">
+                        <select class="form-control" name="myOrg " id="selectedOrg">
+                            <option value="0" selected="selected">所属单位</option>
+                            {% for Organization in Organizations %}
+                            <option value={{ Organization.id }}>{{ Organization.org_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                </div>
+
+                <!-- blank space  -->
+                <div class="col-sm-8"></div>
+
+                <!-- search form  -->
+                <div class="col-sm-2">
+                    <form action="/search/" method="get" target="_blank">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control" placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.search form -->
+            </div>
+            <!-- -------------------/查询区------------------------  -->
+
+
+            <!-- -------------------表格-------------------------  -->
+            <div class="row ">
+                <!-- 资产表格   -->
+                <div id="div01">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th class="text-center">序号</th>
+                            <th class="text-center">资产名称</th>
+                            <th class="text-center">资产类型</th>
+                            <th class="text-center">资产编号</th>
+                            <th class="text-center">设备品牌</th>
+                            <th class="text-center">设备型号</th>
+                            <th class="text-center">设备序列号</th>
+                            <th class="text-center">管理地址</th>
+                            <th class="text-center">所处网络</th>
+                            <th class="text-center">所属单位</th>
+                            <th class="text-center">设备状态</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                        </thead>
+
+
+                        <tbody>
+                        {% for Asset in page %}
+                        <tr>
+                            <td class="text-center">{{ forloop.counter }}</td>
+
+                            <td><a href="#">
+                                <li id="asset_detail" style="list-style-type:none"
+                                    onclick="return detail(this.value)"
+                                    value="{{ Asset.id }}"> {{ Asset.asset_name }}
+                                </li>
+                            </a>
+                            </td>
+                            <td>{{ Asset.get_asset_type_display }}</td>
+                            <td>{{ Asset.asset_no }}</td>
+                            <td>{{ Asset.model.vendor }}</td>
+                            <td>{{ Asset.model }}</td>
+                            <td>{{ Asset.sn }}</td>
+                            <td>{{ Asset.manage_ip }}</td>
+                            <td>{{ Asset.get_network_location_display }}</td>
+                            <td>{{ Asset.organization }}</td>
+                            <td class="text-center">{{ Asset.get_status_display }}</td>
+                            <td class="text-center">
+                                <a href="http://127.0.0.1:8000/cmdb/index/deleteARecord?myid={{ Asset.id }}">
+                                    <i class="glyphicon glyphicon-edit text-info"
+                                       style="margin-right: 5px"></i>
+                                </a>
+                                <a href="http://127.0.0.1:8000/cmdb/index/editARecord?myid={{ Asset.id }}">
+                                    <i class="glyphicon glyphicon-trash text-danger"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- /row  -->
+            <!-- -------------------表格-------------------------  -->
+
+
+            <!-- -------------------分页-------------------------  -->
+            <div class="row ">
+                <div class="col-sm-4">
+                    <span class="text-center " style="line-height: 34px; margin-left:20px; width: 80px">
+                        共&nbsp<span class="text-primary">{{ page.paginator.num_pages}}</span>&nbsp页
+                    </span>
+                    <span class="text-center " style="line-height:34px; margin-left: 15px; width: 80px">
+                        共&nbsp<span class="text-orange">{{ total}}</span>&nbsp项
+                    </span>
+                </div>
+
+
+                <div class="col-sm-4 brd ">
+                    <ul class="pagination pagination-right" id="pager">
+                        {% if page.has_previous %}
+                        <li class="previous"><a href="/cmdb/?page={{ page.previous_page_number }}">上一页</a></li>
+                        {% else %}
+                        <li class="previous disabled"><a href="#">上一页</a></li>
+                        {% endif %}
+
+                        {% for num in page.paginator.page_range %}
+                        {% if num == page.number %}
+                        <li class="item active"><a href="/cmdb/?page={{ num }}">{{ num }}</a></li>
+                        {% else %}
+                        <li class="item "><a href="/cmdb/?page={{ num }}">{{ num }}</a></li>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if page.has_next %}
+                        <li class="next"><a href="/cmdb/?page={{ page.next_page_number }}">下一页</a></li>
+                        {% else %}
+                        <li class="next disabled"><a href="#">下一页</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+
+                <div class="col-sm-4"></div>
+            </div>
+            <!-- /row -->
+            <!-- -------------------/分页-------------------------  -->
+
+        </div>
+        <!-- /container -->
+
+    </div>
+    <!-- /bos -->
+    {% endblock main_content %}
+
+
+    {% block foot_js %}
+
+    <script type="text/javascript" src="/static/dist/layer/layer.js"></script>
+
+    <script type="text/javascript">
+        function detail(n) {
+            layer.open({
+                type: 2,
+                title: '资产信息',
+                closeBtn: 1,
+                area: ['960px', '850px'],
+                shade:0.8,
+                shadeClose: true, //点击遮罩关闭
+                content: ['/cmdb/detail' + n],
+            });
+        };
+        </script>
+
+        <script type="text/javascript">
+        $(function () {
+            $("#selectedType").change(function () {
+                var args = $("#typeform").serialize();
+                window.location = "{%url 'cmdb:filter'%}?" + args;
+                var x1 = "{%url 'cmdb:filter'%}?" + args;
+                $("#div01").load(x1 + " #div01")
+            });
+        });
+
+
+        $(function () {
+            $("#selectedOrg").change(function () {
+                var args = $("#orgform").serialize();
+                window.location = "{%url 'cmdb:filter'%}?" + args;
+                var x2 = "{%url 'cmdb:filter'%}?" + args;
+                $("#div01").load(x2 + " #div01")
+            });
+        });
+
+        $(function () {
+            $("#page_nav").change(function () {
+                var args = $("#filterForm").serialize();
+                window.location = "{%url 'cmdb:filter'%}?" + args;
+                var x2 = "{%url 'cmdb:filter'%}?" + args;
+                $("#div01").load(x2 + " #div01")
+            });
+        });
+    </script>
+
+    {% endblock foot_js %}
