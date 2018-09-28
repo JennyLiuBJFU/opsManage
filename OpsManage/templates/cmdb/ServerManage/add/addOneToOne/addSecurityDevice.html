@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block css_block %}
+<link href="/static/css/form2.css" type="text/css" rel="stylesheet">
+{% endblock css_block %}
+
 {% block main_content %}
 
 <section id="getintouch" class="bounceIn animated">
@@ -46,7 +50,7 @@
                 <div class="span10 offset2" style="width: 95%">
                     <input type="hidden" name="assetId" value="{{ ID }}">
                     <input style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: right;" type="submit" name="submit" id="submit" class="submit btn btn-block btn-primary" value="下一步">
-                    <button type="button" style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: left;" class="btn btn-block btn-success" onclick="window.location.href='http://127.0.0.1:8000/cmdb'">返回</button>
+                    <button type="button" style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: left;" class="btn btn-block btn-success" onclick="window.location.href='http://127.0.0.1:8000/cmdb/asset'">返回</button>
                 </div>
             </div>
             </form>

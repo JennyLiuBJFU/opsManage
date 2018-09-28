@@ -8,23 +8,23 @@
 
 
 {% block main_content %}
-<div class="box box-danger" id="box1" style="min-height: 500px">
-    <!-- 标题行 -->
-    <div class="box-header">
-        <h3 class="box-title">资产列表</h3>
-    </div>
+<div class="box box-info" id="box1" style="min-height: 500px">
+{#    <!-- 标题行 -->#}
+{#    <div class="box-header">#}
+{#        <h3 class="box-title">资产列表</h3>#}
+{#    </div>#}
 
     <!-- .content  -->
     <div class="box-body" id="box2">
         <div class="container-fluid">
 
             <!-- -------------------查询区-----------------------  -->
-            <div class="row " style="margin-bottom: 10px">
+            <div class="row " style="margin: 20px 0">
                 <!-- 按钮 -->
                     <!-- 查询所有 -->
                     <div class="col-sm-1">
-                        <a href="/cmdb/asset/">
-                            <button class="btn btn-success btn-sm">显示所有</button>
+                        <a href="/cmdb/addARecord">
+                            <button class="btn btn-success btn-sm">添加资产</button>
                         </a>
                     </div>
                 <form id="filterForm">
@@ -59,11 +59,15 @@
                             <option value="3">业务外网</option>
                         </select>
                     </div>
-
+                    <div class="col-sm-1">
+                        <a href="/cmdb/asset/">
+                            <button class="btn  btn-sm">显示所有</button>
+                        </a>
+                    </div>
 
                 <!-- blank space  -->
-                <div class="col-sm-6"></div>
-                    </form >
+                    <div class="col-sm-5"></div>
+                </form >
 
                 <!-- search form  -->
                 <div class="col-sm-2">

@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block css_block %}
+<link href="/static/css/form2.css" type="text/css" rel="stylesheet">
+{% endblock css_block %}
+
 {% block main_content %}
 
 <section id="getintouch" class="fadeInRightBig animated">
@@ -487,7 +491,7 @@
             <div class="row  clearfix">
                 <div class="span10 offset2" style="width: 95%">
                     <input style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: right;" type="submit" name="submit" id="submit" class="submit btn btn-block btn-primary" value="保存">
-                    <button type="button" style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: left;" class="btn btn-block btn-success" onclick="window.location.href='http://127.0.0.1:8000/cmdb'">取消</button>
+                    <button type="button" style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: left;" class="btn btn-block btn-success" onclick="window.location.href='http://127.0.0.1:8000/cmdb/asset'">取消</button>
                     <button type="button" style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: right;margin-right: 2em;" class="btn btn-block btn-warning" onclick="window.location.href='http://127.0.0.1:8000/cmdb/editMore?assetId={{ ASSET.id }}'">编辑部件</button>
 
                 </div>
@@ -498,7 +502,7 @@
 {% endblock main_content %}
 
 {% block foot_js %}
-    <script src="/static/plugins/layer/layer.js"></script>
+    <script type="text/javascript" src="/static/dist/layer/layer.js"></script>
     <script>
         $(function(){
             $("#o").change(function (){

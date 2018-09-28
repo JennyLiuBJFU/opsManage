@@ -44,6 +44,7 @@
  #tabs a:hover, #tabs a:hover::after, #tabs a:focus, #tabs a:focus::after {
  background: #fff;
 }
+
 #tabs a:focus {
 	outline: 0;
 }
