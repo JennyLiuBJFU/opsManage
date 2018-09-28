@@ -57,6 +57,8 @@ class Asset(models.Model):
     c_time = models.DateField(null=True, blank=True, verbose_name='批准日期')
     m_time = models.DateField(auto_now=True, verbose_name='更新日期')
     memo = models.CharField(max_length=400, null=True, blank=True, verbose_name='备注')
+    height=models.SmallIntegerField(blank=True, null=True, verbose_name='高度')
+    cab_location = models.SmallIntegerField(blank=True, null=True, verbose_name='机柜位置')
     qrcode = models.URLField(max_length=200, null=True, blank=True, verbose_name='二维码')
 
     def __str__(self):
@@ -157,6 +159,7 @@ class Cabinet(models.Model):
     idc = models.ForeignKey('Idc', on_delete=models.SET_NULL, null=True, blank=True, verbose_name='所在机房')
     cabinet_name = models.CharField(max_length=100, verbose_name='机柜名称')
     cabinet_desc = models.CharField(max_length=100, blank=True, verbose_name='机柜描述')
+    cabinet_height=models.SmallIntegerField(blank=True, null=True, verbose_name='机柜高度')
 
     def __str__(self):
         return self.cabinet_name
@@ -214,7 +217,7 @@ class CabinetSpace(models.Model):
         (str(42), '42U'),
     )
     asset = models.ForeignKey('Asset',  blank=True, null=True, on_delete=models.SET_NULL, verbose_name='机柜空间')
-    cabinet = models.ForeignKey('Cabinet', on_delete=models.SET_NULL, null=True, blank=True, verbose_name='所在机柜')
+    cabinet = models.ForeignKey('Cabinet', on_delete=models.CASCADE, null=True, blank=True, verbose_name='所在机柜')
     cabinet_location = models.CharField(max_length=64, choices=cabinet_space_choice, blank=True, verbose_name='机柜位置')
 
     def __str__(self):

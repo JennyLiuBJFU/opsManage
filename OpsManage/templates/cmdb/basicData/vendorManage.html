@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+
+{% block css_block %}
+    <link href="/static/dist/css/tab_css.css" type="text/css" rel="stylesheet">
+    <link href="/static/css/form2.css" type="text/css" rel="stylesheet">
+    <style>
+        #selectedTab a{
+            background: white;
+        }
+        #selectedTab a::after{
+            background: white;
+        }
+    </style>
+{% endblock css_block %}
+
+
+{% block main_content %}
+
+
+<ul  id="tabs">
+    <li><a href="http://127.0.0.1:8000/cmdb/orgManage" >组织机构</a></li>
+
+    <li><a href="http://127.0.0.1:8000/cmdb/idcManage" >机房管理</a></li>
+    <li><a href="http://127.0.0.1:8000/cmdb/userManage" >用户管理</a></li>
+    <li><a href="http://127.0.0.1:8000/cmdb/contractManage" >合同管理</a></li>
+    <li><a href="http://127.0.0.1:8000/cmdb/supplierManage" >供应商管理</a></li>
+    <li id="selectedTab"><a href="http://127.0.0.1:8000/cmdb/vendorManage" >厂商管理</a></li>
+</ul>
+
+<!-- content -->
+<div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <div id="vendorManage" >
+                        <section id="getintouch" >
+
+        <div class="container">
+            <form method="post" action="vendorManage">
+                <table class="table table-bordered table-hover" style="font-size: 0.9em;">
+                    <thead>
+                    <tr>
+                        <th class="text-center">选择</th>
+                        <th class="text-center">序号</th>
+                        <th class="text-center">厂商名称</th>
+                        <th class="text-center">联系电话</th>
+                        <th class="text-center">备注</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in vendor %}
+                        <tr>
+                            <td class="text-center"><input type="checkbox" name="delete_vendor" value="{{ i.pk }}"></td>
+                            <td class="text-center">{{ i.pk }}</td>
+                            <td class="text-center">{{ i.vendor_name }}</td>
+                            <td class="text-center">{{ i.vendor_phone }}</td>
+                            <td class="text-center">{{ i.vendor_memo }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="row  clearfix">
+                    <div class="span10 offset2" style="width: 100%">
+                        <input style="width: 80px;height: 40px;margin:0 auto;margin-top:20px;" type="submit"  class=" btn btn-block btn-danger " value="删除">
+                    </div>
+                </div>
+            </form>
+            <hr>
+            <form class="contact" action="addVendorSubmitM" method="post" style="padding: 30px;margin:0 auto;">
+                <div class="row clearfix">
+                    <div class="ctrl" style="width: 60%;margin:0 auto;">
+                        <label>厂商名称</label>
+                        <input style="width: 66%;margin-left: 2em" type="text" name="name" placeholder="请输入厂商名称">
+                    </div>
+                </div>
+                <div class="row clearfix">
+                    <div class="ctrl" style="width: 60%;margin:0 auto;">
+                        <label>联系电话</label>
+                        <input style="width: 66%;margin-left: 2em" type="text" name="phone" placeholder="请输入联系电话">
+                    </div>
+                </div>
+                <div class="row clearfix">
+                    <div class="ctrl"  style="width: 60%;margin:0 auto;">
+                        <label>备注</label>
+                        <input style="width: 66%;margin-left: 4em" type="text" name="memo" placeholder="请输入备注信息">
+                    </div>
+                </div>
+                <div class="row  clearfix">
+                    <div class="span10 offset2" style="width: 100%">
+                        <input style="width: 80px;height: 40px;margin:0 auto;margin-top:20px;" type="submit"  class="submit btn btn-block btn-success " value="添加">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+<!-- /content -->
+{% endblock main_content %}

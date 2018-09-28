@@ -6,30 +6,29 @@
     <title>Title</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="/static/bower_components/font-awesome/css/font-awesome.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="/static/bower_components/Ionicons/css/ionicons.min.css">
+
     <!-- Theme style -->
     <link rel="stylesheet" href="/static/dist/css/AdminLTE.min.css">
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="/static/dist/css/skins/_all-skins.min.css">
-    <!-- Morris chart -->
-    <link rel="stylesheet" href="/static/bower_components/morris.js/morris.css">
-    <!-- jvectormap -->
-    <link rel="stylesheet" href="/static/bower_components/jvectormap/jquery-jvectormap.css">
+
+    <!-- Bootstrap 3.3.1 -->
+    <link rel="stylesheet" href="/static/dist/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <!-- Font Awesome 4.7.0-->
+    <link rel="stylesheet" href="/static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="/static/dist/ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/static/dist/css/AdminLTE.css">
+    <!-- AdminLTE Skins -->
+    <link rel="stylesheet" href="/static/dist/css/skins/skin-blue-light.min.css">
     <!-- Date Picker -->
-    <link rel="stylesheet" href="/static/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+        <link rel="stylesheet" href="/static/dist/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
     <!-- Daterange picker -->
-    <link rel="stylesheet" href="/static/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="/static/dist/bootstrap-daterangepicker/daterangepicker.css">
     <!-- bootstrap wysihtml5 - text editor -->
-    <link rel="stylesheet" href="/static/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
-
-    <link rel="stylesheet" href="{% static 'css/cmdb/ServerManage/topFunc.css'%}">
-
+    <link rel="stylesheet" href="/static/dist/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <!-- Google Font -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 {#    <link rel="stylesheet" href="{% static 'css/cmdb/ServerManage/form.css'%}">#}
         <link href="/static/css/form2.css" rel="stylesheet" type="text/css">
         <style>
@@ -74,13 +73,8 @@
 <body>
 
 <section id="getintouch" class="rotateInUpLeft animated">
-        <div class="container2" style="border-bottom: 0;">
-            <h1>
-                <span>修改单位信息</span>
-            </h1>
-        </div>
         <div class="container">
-            <form method="post" action="editOrganization">
+            <form method="post" action="editOrg">
                 <table class="table table-bordered table-hover" style="font-size: 0.9em;">
                     <thead>
                     <tr>
@@ -88,6 +82,7 @@
                         <th class="text-center">序号</th>
                         <th class="text-center">名称</th>
                         <th class="text-center">地址</th>
+                        <th class="text-center">上级</th>
                         <th class="text-center">备注</th>
                     </tr>
                     </thead>
@@ -98,6 +93,7 @@
                             <td class="text-center">{{ i.pk }}</td>
                             <td class="text-center">{{ i.org_name }}</td>
                             <td class="text-center">{{ i.org_address }}</td>
+                            <td class="text-center">{{ i.parent_org }}</td>
                             <td class="text-center">{{ i.org_memo }}</td>
                         </tr>
                     {% endfor %}
@@ -124,6 +120,21 @@
                     </div>
                 </div>
                 <div class="row clearfix">
+                    <div class="ctrl"  style="width: 60%;margin:0 auto;" >
+                        <label style="float: left;">
+                            上级单位</label>
+                        <div style="float: left;width: 66%;margin-left: 2em;" >
+                            <select style="width: 100%" name="parent_org" >
+                            <option value="0">请选择上级单位</option>
+                            {% for o in org %}
+                                <option value={{ o.id }}>{{ o.org_name}}</option>
+                            {% endfor %}
+                        </select>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row clearfix">
                     <div class="ctrl"  style="width: 60%;margin:0 auto;">
                         <label>备注</label>
                         <input style="width: 66%;margin-left: 4em" type="text" name="memo" placeholder="请输入备注信息">
@@ -131,10 +142,10 @@
                 </div>
                 <div class="row  clearfix">
                     <div class="span10 offset2" style="width: 100%">
-                        <input style="width: 80px;height: 40px;margin:0 auto;margin-top:20px;" type="submit"  class="submit btn btn-block btn-success " value="添加">
+                        <input style="width: 80px;height: 40px;margin:0 auto;margin-top:20px;" type="submit"  class=" btn btn-block btn-success " value="添加">
                     </div>
                 </div>
-                <div style="width:200px;margin:80px auto;text-align: center;font-size: 1.2em;">
+                 <div style="width:200px;margin:80px auto;text-align: center;font-size: 1.2em;">
                     <a  onclick="alert('如有变动，请点击刷新按钮！')" style="color:#666666;" href="javascript:window.opener=null;window.open('','_self');window.close();">完成编辑，点此退出</a>
                     <i class="fa fa-fw fa-hand-o-left"></i>
                 </div>
@@ -144,3 +155,4 @@
 
 </body>
 </html>
+

@@ -31,7 +31,12 @@
     <!-- Google Font -->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+<<<<<<< HEAD
 
+=======
+    <script type="text/javascript" src="/static/js/jquery-1.7.2.min.js" ></script>
+    <script type="text/javascript" src="/static/dist/layer/layer.js"></script>
+>>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
     {% block css_block %} {% endblock %}
 
 </head>
@@ -98,9 +103,19 @@ desired effect
                             <li class="user-header">
                                 <img src="/static/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
+<<<<<<< HEAD
                                 <p>
                                     Alexander Pierce - Web Developer
                                     <small>Member since Nov. 2012</small>
+=======
+                                 <p>
+                                    {{ USERNAME }}
+                                    {% if Perm == 1 %}
+                                        <a target="_blank" class="full-opacity-hover" href="http://127.0.0.1:8000/accounts/manageUser" style="margin-top:0.2em; display: block;font-size: 0.7em;color: white;">管理员权限</a>
+                                    {% else %}
+                                        <small>普通用户</small>
+                                    {% endif %}
+>>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
                                 </p>
                             </li>
 
@@ -122,7 +137,11 @@ desired effect
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
+<<<<<<< HEAD
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
+=======
+                                    <a class="btn btn-default btn-flat cd-signin" onclick=" layer.open({type: 2,closeBtn: 1,area: ['600px', '600px'],shadeClose: true, content: ['/accounts/editAdmin'],});">修改密码</a>
+>>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
                                 </div>
                                 <div class="pull-right">
                                     <a href="#" class="btn btn-default btn-flat">Sign out</a>
@@ -153,7 +172,11 @@ desired effect
 
                 <!-- 资产管理  -->
                 <li class="treeview">
+<<<<<<< HEAD
                     <a href="/cmdb/asset/">
+=======
+                    <a href="/cmdb/">
+>>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
                         <i class="fa fa-cubes"></i>
                         <span>资产管理</span>
                         <i class="fa fa-angle-left pull-right"></i>
@@ -243,6 +266,7 @@ desired effect
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         {% block pageheader %}
+<<<<<<< HEAD
         <section class="content-header">
             <h1>
                 Page Header
@@ -253,6 +277,18 @@ desired effect
                 <li class="active">Here</li>
             </ol>
         </section>
+=======
+{#        <section class="content-header">#}
+{#            <h1>#}
+{#                Page Header#}
+{#                <small>Optional description</small>#}
+{#            </h1>#}
+{#            <ol class="breadcrumb">#}
+{#                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>#}
+{#                <li class="active">Here</li>#}
+{#            </ol>#}
+{#        </section>#}
+>>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
         {% endblock pageheader %}
 
         <!-- Main content -->
@@ -309,7 +345,10 @@ desired effect
 <script type="text/javascript" src="/static/dist/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <!-- AdminLTE App -->
 <script type="text/javascript" src="/static/dist/js/adminlte.min.js"></script>
+<<<<<<< HEAD
 <script type="text/javascript" src="https://cdn.bootcss.com/respond.js/1.4.2/respond.js"></script>
+=======
+>>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
 
 <script>
     $.widget.bridge('uibutton', $.ui.button);
