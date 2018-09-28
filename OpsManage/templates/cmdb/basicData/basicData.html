@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+
+{% block css_block %}
+<link href="/static/dist/css/tab_css.css" type="text/css" rel="stylesheet">
+{% endblock css_block %}
+
+
+{% block main_content %}
+
+
+<ul  id="tabs">
+    <li><a href="#" title="organization">组织机构</a></li>
+    <li><a href="#" title="user">用户管理</a></li>
+    <li><a href="#" title="idc">机房管理</a></li>
+    <li><a href="#" title="vendor">厂商管理</a></li>
+    <li><a href="#" title="supplier">供应商管理</a></li>
+    <li><a href="#" title="contract">合同管理</a></li>
+</ul>
+<!-- content -->
+<div id="content">
+    <!-- 编辑组织机构 -->
+    <div id="organization">
+        <h2>Lorem ipsum sit amet</h2>
+        <p>Praesent risus nisi, iaculis nec condimentum vel, rhoncus vel dolor. Aenean nisi lectus, varius nec tempus
+            id, dapibus non quam.</p>
+        <p>Suspendisse ac libero mauris. Cras lacinia porttitor urna, vitae molestie libero posuere et. Mauris turpis
+            tortor, mollis non vulputate sit amet, rhoncus vitae purus.</p>
+        <h3>Pellentesque habitant</h3>
+        <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.</p>
+    </div>
+    <!-- /编辑组织机构 -->
+
+    <!-- 编辑用户 -->
+    <div id="user">
+        <h2>Vivamus fringilla suscipit justo</h2>
+        <p>Aenean dui nulla, egestas sit amet auctor vitae, facilisis id odio. Donec dictum gravida feugiat.</p>
+        <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras pretium elit
+            et erat condimentum et volutpat lorem vehicula</p>
+        <p>Morbi tincidunt pharetra orci commodo molestie. Praesent ut leo nec dolor tempor eleifend.</p>
+    </div>
+    <!-- /编辑用户 -->
+
+    <!-- 编辑机房 -->
+    <div id="idc">
+        <h2>Phasellus non nibh</h2>
+        <p>Non erat laoreet ullamcorper. Pellentesque magna metus, feugiat eu elementum sit amet, cursus sed diam.
+            Curabitur posuere porttitor lorem, eu malesuada tortor faucibus sed.</p>
+        <h3>Duis pulvinar nibh vel urna</h3>
+        <p>Donec purus leo, porttitor eu molestie quis, porttitor sit amet ipsum. Class aptent taciti sociosqu ad litora
+            torquent per conubia nostra, per inceptos himenaeos. Donec accumsan ornare elit id imperdiet. </p>
+        <p>Suspendisse ac libero mauris. Cras lacinia porttitor urna, vitae molestie libero posuere et. </p>
+    </div>
+    <!-- /编辑机房 -->
+
+    <!-- 编辑厂商 -->
+    <div id="vendor">
+        <h2>Cum sociis natoque penatibus</h2>
+        <p>Magnis dis parturient montes, nascetur ridiculus mus. Nullam ac massa quis nisi porta mollis venenatis sit
+            amet urna. Ut in mauris velit, sed bibendum turpis.</p>
+        <p>Nam ornare vulputate risus, id volutpat elit porttitor non. In consequat nisi vel lectus dapibus sodales.
+            Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent
+            bibendum sagittis libero.</p>
+        <h3>Imperdiet sem interdum nec</h3>
+        <p>Mauris rhoncus tincidunt libero quis fringilla.</p>
+    </div>
+    <!-- /编辑厂商 -->
+
+    <!-- 编辑供应商 -->
+    <div id="supplier">
+        <h2>Cum sociis natoque penatibus</h2>
+        <p>Magnis dis parturient montes, nascetur ridiculus mus. Nullam ac massa quis nisi porta mollis venenatis sit
+            amet urna. Ut in mauris velit, sed bibendum turpis.</p>
+        <p>Nam ornare vulputate risus, id volutpat elit porttitor non. In consequat nisi vel lectus dapibus sodales.
+            Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent
+            bibendum sagittis libero.</p>
+        <h3>Imperdiet sem interdum nec</h3>
+        <p>Mauris rhoncus tincidunt libero quis fringilla.</p>
+    </div>
+    <!-- /编辑供应商 -->
+
+    <!-- 编辑合同 -->
+    <div id="contract">
+        <h2>Cum sociis natoque penatibus</h2>
+        <p>Magnis dis parturient montes, nascetur ridiculus mus. Nullam ac massa quis nisi porta mollis venenatis sit
+            amet urna. Ut in mauris velit, sed bibendum turpis.</p>
+        <p>Nam ornare vulputate risus, id volutpat elit porttitor non. In consequat nisi vel lectus dapibus sodales.
+            Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent
+            bibendum sagittis libero.</p>
+        <h3>Imperdiet sem interdum nec</h3>
+        <p>Mauris rhoncus tincidunt libero quis fringilla.</p>
+    </div>
+    <!-- /编辑合同 -->
+</div>
+<!-- /content -->
+{% endblock main_content %}
+
+{% block foot_js %}
+<script>
+    $(document).ready(function () {
+        $("#content div").hide(); // Initially hide all content
+        $("#tabs li:first").attr("id", "current"); // Activate first tab
+        $("#content div:first").fadeIn(); // Show first tab content
+
+        $('#tabs a').click(function (e) {
+            e.preventDefault();
+            $("#content div").hide(); //Hide all content
+            $("#tabs li").attr("id", ""); //Reset id's
+            $(this).parent().attr("id", "current"); // Activate this
+            $('#' + $(this).attr('title')).fadeIn(); // Show content for current tab
+        });
+    });
+</script>
+{% endblock foot_js %}
+

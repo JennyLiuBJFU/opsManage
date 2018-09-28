@@ -44,7 +44,10 @@
  #tabs a:hover, #tabs a:hover::after, #tabs a:focus, #tabs a:focus::after {
  background: #fff;
 }
+<<<<<<< HEAD
+=======
 
+>>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
 #tabs a:focus {
 	outline: 0;
 }

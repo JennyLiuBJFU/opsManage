@@ -1,17 +1,11 @@
 # -*- coding: utf-8 -*-
 
 
-<<<<<<< HEAD
-from django.core.paginator import *
-=======
 from  django.core.paginator import *
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
 import json
 from django.shortcuts import render
 from django.http import HttpResponse
 from cmdb.models import *
-
-
 from django.contrib.auth.decorators import login_required
 import numpy
 import qrcode
@@ -57,21 +51,18 @@ def pages(post_objects, request):
         show_first = 1
     else:
         show_first = 0
-<<<<<<< HEAD
-=======
 
     if current_page <= (len(paginator.page_range) - 3):
         show_end = 1
     else:
         show_end = 0
 
-    offset_index = (current_page - 1)*int(page_len)
-
-    # 所有对象， 分页器， 本页对象， 所有页码， 本页页码，是否显示第一页，是否显示最后一页,每页对象序号偏移值
-    return post_objects, paginator, page_objects, page_range, current_page, show_first, show_end, end_page, offset_index
+    # 所有对象， 分页器， 本页对象， 所有页码， 本页页码，是否显示第一页，是否显示最后一页
+    return post_objects, paginator, page_objects, page_range, current_page, show_first, show_end, end_page
 
 
-def asset(request):
+
+def asset_1(request):
     USERNAME = str(request.user)
     if request.user.is_superuser:
         Perm = 1
@@ -79,147 +70,57 @@ def asset(request):
         Perm = 0
     asset_find=[]
 
+    #每页显示条目数，由前端传过来
     page_len = request.GET.get('page_len', '')
     Organizations = Organization.objects.all()
 
     #查询关键字列表
     myType = int(request.GET.get('myType', "0"))
     myOrg = int(request.GET.get('myOrg', "0"))
-    myNet = int(request.GET.get('myNet', "0"))
+    myNet = int(request.GET.get('myOrg', "0"))
 
-    search_dict = dict()  # 如果有这个值 就写入到字典中去
-    if myType != 0:
-       search_dict['asset_type'] = myType
-    if myOrg != 0:
-       search_dict['organization'] = myOrg
-    if myNet != 0:
-       search_dict['network_location'] = myNet
+    print("77777777777777777777")
+    print(myType)
+    print(myOrg)
+    print(myNet)
 
-    if len(asset_find) >= 0:
-        asset_find = Asset.objects.filter(**search_dict)
-    else:
+    if (myType == 0) and (myOrg == 0) and (myNet == 0):
         asset_find = Asset.objects.all()
 
-    # 所有对象， 分页器， 本页对象， 所有页码， 本页页码，是否显示第一页，是否显示最后一页
-    assets_list, p, assets, page_range, current_page, show_first, show_end, end_page, offset_index = pages(asset_find, request)
-    print("-------------------")
-    print(offset_index)
-    return render(request, 'cmdb/ServerManage/asset.html', locals())
+    elif (myType != 0) and (myOrg == 0) and (myNet == 0):
+        asset_find = Asset.objects.filter(asset_type=myType)
 
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
+    elif (myType == 0) and (myOrg != 0) and (myNet == 0):
+        asset_find = Asset.objects.filter(organization=myOrg)
 
-    if current_page <= (len(paginator.page_range) - 3):
-        show_end = 1
-    else:
-        show_end = 0
+    elif (myType != 0) and (myOrg != 0):
+        # asset_find = Asset.objects.filter(
+        #     Q(asset_type=myType) |
+        #     Q(organization=myOrg))
+        asset_find = Asset.objects.filter(asset_type=myType).filter(organization=myOrg)
+    print(asset_find)
 
-    offset_index = (current_page - 1)*int(page_len)
-
-<<<<<<< HEAD
-    # 所有对象， 分页器， 本页对象， 所有页码， 本页页码，是否显示第一页，是否显示最后一页,每页对象序号偏移值
-    return post_objects, paginator, page_objects, page_range, current_page, show_first, show_end, end_page, offset_index
-
-
-def asset(request):
-    USERNAME = str(request.user)
-=======
-def index(request):
-    # 查询中线局对象
-    zxj = Organization.objects.get(org_name="中线局")
-    zxj_children = []
-
-    # 查询分局局对象
-    fenju_list = Organization.objects.filter(parent_org=zxj.id)
-
-    #生成各级组织名称
-    for fenju in fenju_list:
-        guanlichu_list = Organization.objects.filter(parent_org=fenju.id)
-        # print(guanlichu_list)
-        fenju_name = fenju.org_name
-        list_tmp = []
-        for guanlichu in guanlichu_list:
-            xiandizhan_list = Organization.objects.filter(parent_org=guanlichu.id)
-            xiandizhan_name = guanlichu.org_name
-            xdz_list = []
-            for xindizhan in xiandizhan_list:
-                xdz_context = {"name": xindizhan.org_name}
-                xdz_list.append(xdz_context)
-            glc_context = {"name": xiandizhan_name,"children":xdz_list}
-            list_tmp.append(glc_context)
-        fenju_children = {"name":fenju_name,"children":list_tmp}
-        zxj_children.append(fenju_children)
-    org_dic = {"name":zxj.org_name,"children": zxj_children}
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-<<<<<<< HEAD
-    asset_find=[]
-
-    page_len = request.GET.get('page_len', '')
-    Organizations = Organization.objects.all()
-
-    #查询关键字列表
-    myType = int(request.GET.get('myType', "0"))
-    myOrg = int(request.GET.get('myOrg', "0"))
-    myNet = int(request.GET.get('myNet', "0"))
-
-    search_dict = dict()  # 如果有这个值 就写入到字典中去
-    if myType != 0:
-       search_dict['asset_type'] = myType
-    if myOrg != 0:
-       search_dict['organization'] = myOrg
-    if myNet != 0:
-       search_dict['network_location'] = myNet
-
-    if len(asset_find) >= 0:
-        asset_find = Asset.objects.filter(**search_dict)
-    else:
-        asset_find = Asset.objects.all()
+    keyword = request.GET.get('keyword', '')
+    print("eeeeeeeeeeeeeeee")
+    print(keyword)
+    if keyword:
+        asset_find = Asset.objects.filter(
+            Q(asset_name__contains=keyword) |
+            Q(asset_type=keyword) |
+            Q(asset_no__contains=keyword) |
+            Q(organization=keyword) |
+            Q(manage_ip__contains=keyword) |
+            Q(idc=keyword) |
+            Q(supplier=keyword) |
+            Q(model=keyword)
+        )
 
     # 所有对象， 分页器， 本页对象， 所有页码， 本页页码，是否显示第一页，是否显示最后一页
-    assets_list, p, assets, page_range, current_page, show_first, show_end, end_page, offset_index = pages(asset_find, request)
-    print("-------------------")
-    print(offset_index)
+    assets_list, p, assets, page_range, current_page, show_first, show_end, end_page = pages(asset_find, request)
+    print(locals())
     return render(request, 'cmdb/asset.html', locals())
 
 
-"""
-备份
-def index(request):
-    # 查询中线局对象
-    zxj = Organization.objects.get(org_name="中线局")
-    zxj_children = []
-
-    # 查询分局局对象
-    fenju_list = Organization.objects.filter(parent_org=zxj.id)
-
-    #生成各级组织名称
-    for fenju in fenju_list:
-        guanlichu_list = Organization.objects.filter(parent_org=fenju.id)
-        # print(guanlichu_list)
-        fenju_name = fenju.org_name
-        list_tmp = []
-        for guanlichu in guanlichu_list:
-            xiandizhan_list = Organization.objects.filter(parent_org=guanlichu.id)
-            xiandizhan_name = guanlichu.org_name
-            xdz_list = []
-            for xindizhan in xiandizhan_list:
-                xdz_context = {"name": xindizhan.org_name}
-                xdz_list.append(xdz_context)
-            glc_context = {"name": xiandizhan_name,"children":xdz_list}
-            list_tmp.append(glc_context)
-        fenju_children = {"name":fenju_name,"children":list_tmp}
-        zxj_children.append(fenju_children)
-    org_dic = {"name":zxj.org_name,"children": zxj_children}
-    
-    context = {
-        'org_data': org_dic,
-    }
-    return render(request, 'cmdb/index.html', context)
-"""
-
 
 
 
@@ -227,153 +128,121 @@ def index(request):
 
 
 def index(request):
-    orglist =Organization.objects.all()
-    Assets = list(Asset.objects.all())
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
 
-    # ------树形图数据计算，排出各单位及其子单位的列表--------
-    zxj = Organization.objects.get(org_name="中线局")
-    zxj_children = []
-    # 查询分局局对象
-    fenju_list = Organization.objects.filter(parent_org=zxj.id)
-    #生成各级组织名称
-    for fenju in fenju_list:
-        guanlichu_list = Organization.objects.filter(parent_org=fenju.id)
-        fenju_name = fenju.org_name
-        list_tmp = []
-        for guanlichu in guanlichu_list:
-            xiandizhan_list = Organization.objects.filter(parent_org=guanlichu.id)
-            xiandizhan_name = guanlichu.org_name
-            xdz_list = []
-            for xindizhan in xiandizhan_list:
-                xdz_context = {"name": xindizhan.org_name}
-                xdz_list.append(xdz_context)
-            glc_context = {"name": xiandizhan_name,"children":xdz_list}
-            list_tmp.append(glc_context)
-        fenju_children = {"name":fenju_name,"children":list_tmp}
-        zxj_children.append(fenju_children)
-    org_dic = {"name":zxj.org_name,"children": zxj_children}
-    # /树形图数据计算，排出各单位及其子单位的列表
+    # h获取前端页码信息
+    if request.GET.get("page"):
+        page_num = request.GET.get("page")
+    else:
+        page_num = 1
 
+    # 使用对所请求的内容分页并将分页回传给前端
+    Assets = Asset.objects.all()
+    paginator = Paginator(Assets, 3)
+    page = paginator.page(page_num)
 
-    #--------柱形表数据构造--------------------
-    zxj01 = Organization.objects.get(id=1)
-    hebei = Organization.objects.get(org_name="河北分局")
-    beijing = Organization.objects.get(org_name="北京分局")
-    tianjin = Organization.objects.get(org_name="天津分局")
-
-    #查询子单位
-    # def seachchildren(org,orglist):
-    #     children_list = []
-    #     for child in orglist:
-    #         if child.parent_org == org:
-    #             children_list.append(child)
-    #     return children_list
-
-    #查询子单位、孙单位
-    def seachchildren2(org, orglist,Assets):
-        children_list = []
-        server_count = 0
-        network_count = 0
-        security_count = 0
-        storage_count = 0
-
-        for i in orglist:
-            try:
-                if (i == org):
-                    children_list.append(i)
-                if (i.parent_org == org):
-                    children_list.append(i)
-                if i.parent_org.parent_org == org:
-                    children_list.append(i)
-            except AttributeError:
-                print(AttributeError)
-
-        for a in Assets:
-            for o in children_list:
-                print("组织")
-                print(o)
-                if (a.organization == o):
-                    if (a.asset_type == "1"):
-                        server_count += 1
-                    if (a.asset_type == "2"):
-                        network_count += 1
-                    if (a.asset_type == "3"):
-                        security_count += 1
-                    if (a.asset_type == "4"):
-                        storage_count += 1
-        return server_count, network_count, security_count, storage_count
-
-    tj_server_count, tj_network_count, tj_security_count, tj_storage_count = seachchildren2(tianjin, orglist, Assets)
-    hb_server_count, hb_network_count, hb_security_count, hb_storage_count = seachchildren2(hebei, orglist, Assets)
-    bj_server_count, bj_network_count, bj_security_count, bj_storage_count = seachchildren2(beijing, orglist, Assets)
-
-    #------统计中线局个类设备数量-------
-    zxj_server_count = 0
-    zxj_network_count = 0
-    zxj_security_count = 0
-    zxj_storage_count = 0
-
-    for obj in Assets:
-        if obj.organization == zxj:
-            if obj.asset_type == "1":
-                zxj_server_count += 1
-            if obj.asset_type == "2":
-                zxj_network_count += 1
-            if obj.asset_type == "3":
-                zxj_security_count += 1
-            if obj.asset_type == "4":
-                zxj_storage_count += 1
-
-    #------统计中线局个类设备数量-------
-    server_total = 0
-    network_total = 0
-    security_total = 0
-    storage_total = 0
-
-    for obj in Assets:
-        if obj.asset_type == "1":
-            server_total += 1
-        if obj.asset_type == "2":
-            network_total += 1
-        if obj.asset_type == "3":
-            security_total += 1
-        if obj.asset_type == "4":
-            storage_total += 1
-
-
-    context = {
-        'org_data': org_dic,
-        'asset_total': len(Assets),
-        'server_total': server_total,
-        'network_total': network_total,
-        'security_total': security_total,
-        'storage_total': storage_total,
-        'tj_server_count': tj_server_count,
-        'tj_network_count': tj_network_count,
-        'tj_security_count': tj_security_count,
-        'tj_storage_count': tj_storage_count,
-        'bj_server_count': bj_server_count,
-        'bj_network_count': bj_network_count,
-        'bj_security_count': bj_security_count,
-        'bj_storage_count': bj_storage_count,
-        'hb_server_count': hb_server_count,
-        'hb_network_count': hb_network_count,
-        'hb_security_count': hb_security_count,
-        'hb_storage_count': hb_storage_count,
-        'zxj_server_count': zxj_server_count,
-        'zxj_network_count': zxj_network_count,
-        'zxj_security_count': zxj_security_count,
-        'zxj_storage_count': zxj_storage_count,
-    }
-    return render(request, 'cmdb/index.html', context)
-=======
+    Organizations = Organization.objects.all()
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
-        'data': org_dic,
+        'Organizations': Organizations,
+        'page': page,
+        'total': Assets.count()
     }
-    return render(request, 'cmdb/index.html', context)
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
+    return render(request, 'cmdb/asset.html', context)
+
+
+"""
+
+def filter(request):
+    typeID = request.GET.get('myType','0')
+    orgID = request.GET.get('myOrg','0')
+
+    if (typeID == "0" and orgID == "0"):
+        ASSET = Asset.objects.all()
+    elif (typeID != "0" and orgID == "0"):
+        ASSET = Asset.objects.filter(asset_type=request.GET['myType'])
+
+    elif (typeID == "0" and orgID != "0"):
+        ASSET = Asset.objects.filter(organization=request.GET['myOrg'])
+
+    else:
+        ASSET = Asset.objects.filter(organization=request.GET['myOrg'], asset_type=request.GET['myType'])
+    Organizations = Organization.objects.all()
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+    context = {
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+        'Assets': ASSET,
+        'Organizations': Organizations,
+        'TYPE': typeID,
+        'ORG': orgID,
+    }
+    # return render(request, 'cmdb/ServerManage/index.html', context)
+    return render(request, 'cmdb/asset.html', context)
+"""
+
+def filter(request):
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+
+    # h获取前端页码信息
+    if request.GET.get("page"):
+        page_num = request.GET.get("page")
+        print("gggggggggggggggggggggggggggg")
+        print(page_num)
+    else:
+        page_num = 1
+
+    # if request.is_ajax():
+    typeID = request.GET.get('myType', '0')
+    orgID = request.GET.get('myOrg', '0')
+    print("tttttttttttttttttttttttttttt")
+    print(typeID)
+    print(orgID)
+
+    print("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW")
+
+    if (typeID == "0" and orgID == "0"):
+        Assets = Asset.objects.all()
+
+    elif (typeID != "0" and orgID == "0"):
+        Assets = Asset.objects.filter(asset_type=request.GET['myType'])
+
+    elif (typeID == "0" and orgID != "0"):
+        Assets = Asset.objects.filter(organization=request.GET['myOrg'])
+
+    else:
+        Assets = Asset.objects.filter(organization=request.GET['myOrg']).filter(organization=request.GET['myOrg'])
+
+    Organizations = Organization.objects.all()
+
+
+    # 使用对所请求的内容分页并将分页回传给前端
+    paginator = Paginator(Assets, 2)
+    page = paginator.page(page_num)
+
+    context = {
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+        'Organizations': Organizations,
+        'page': page,
+        'total': Assets.count()
+    }
+    print(context)
+    # return render(request, 'cmdb/ServerManage/index.html', context)
+    return render(request, 'cmdb/filter.html', context)
+
+
+
 
 
 @login_required()
@@ -411,18 +280,9 @@ def addARecord(request):
 
 
 def showIdcs(request):
-<<<<<<< HEAD
     ORG = Organization.objects.get(id=request.GET['organization'])
     Idcs = Idc.objects.filter(organization=ORG)
     print(Idcs)
-=======
-    if request.GET['organization']!='0':
-        ORG=Organization.objects.get(id=request.GET['organization'])
-        Idcs=Idc.objects.filter(organization=ORG)
-        print(Idcs)
-    else:
-        Idcs=None
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
     if request.user.is_superuser:
         Perm = 1
     else:
@@ -436,18 +296,9 @@ def showIdcs(request):
 
 
 def showCabs(request):
-<<<<<<< HEAD
     IDC = Idc.objects.get(id=request.GET['idc'])
     Cabs = Cabinet.objects.filter(idc=IDC)
     print(Cabs)
-=======
-    if request.GET['idc']!='0':
-        IDC=Idc.objects.get(id=request.GET['idc'])
-        Cabs=Cabinet.objects.filter(idc=IDC)
-        print(Cabs)
-    else:
-        Cabs=None
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
     if request.user.is_superuser:
         Perm = 1
     else:
@@ -461,27 +312,10 @@ def showCabs(request):
 
 
 def showCabSpaces(request):
-<<<<<<< HEAD
     CAB = Cabinet.objects.get(id=request.GET['cab'])
     CabSpaces = CabinetSpace.objects.filter(cabinet=CAB)
     CabSpacesRemain = CabSpaces.filter(asset=None)
     print(CabSpaces)
-=======
-    if request.GET['cab']!='0':
-        CAB=Cabinet.objects.get(id=request.GET['cab'])
-        CabSpaces=CabinetSpace.objects.filter(cabinet=CAB)
-        CabSpacesRemain=CabSpaces.filter(asset=None)
-        listc = []
-        for cs in CabSpacesRemain:
-            listc.append(cs)
-
-        for i in range(len(listc) - 1):
-            for j in range(len(listc) - i - 1):
-                if int(listc[j].cabinet_location) < int(listc[j + 1].cabinet_location):
-                    listc[j], listc[j + 1] = listc[j + 1], listc[j]
-    else:
-        listc=None
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
     if request.user.is_superuser:
         Perm = 1
     else:
@@ -489,11 +323,7 @@ def showCabSpaces(request):
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
-<<<<<<< HEAD
         'CabSpaces': CabSpacesRemain,
-=======
-        'CabSpaces':listc,
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
     }
     return render(request, 'cmdb/ServerManage/add/add.html', context)
 
@@ -563,30 +393,11 @@ def addSubmit(request):
     ASSET.qrcode = img_name
     ASSET.save()
 
-<<<<<<< HEAD
     CapSpasId = request.POST.getlist('cabSpace')
     for cId in CapSpasId:
         CABSPACE = CabinetSpace.objects.get(id=cId)
         CABSPACE.asset = ASSET
         CABSPACE.save()
-=======
-    CapSpasId=request.POST.getlist('cabSpace')
-    num=0
-    hPlace=0
-    if CapSpasId:
-        for cId in CapSpasId:
-            num=num+1
-            CABSPACE=CabinetSpace.objects.get(id=cId)
-            if int(CABSPACE.cabinet_location) > hPlace:
-                hPlace=int(CABSPACE.cabinet_location)
-                print(("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"))
-                print(hPlace)
-            CABSPACE.asset=ASSET
-            CABSPACE.save()
-        ASSET.height=num*22-2
-        ASSET.cab_location = ASSET.cabinet.cabinet_height - hPlace
-    ASSET.save()
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
 
     Assets = Asset.objects.all()
     Servers = Server.objects.all()
@@ -611,7 +422,7 @@ def addSubmit(request):
     elif ASSET.asset_type == '4':
         return render(request, 'cmdb/ServerManage/add/addOneToOne/addStorageDevice.html', context)
     else:
-        return render(request, 'cmdb/ServerManage/asset.html', context)
+        return render(request, 'cmdb/ServerManage/index.html', context)
 
 
 def editMore(request):
@@ -973,7 +784,6 @@ def serverSubmit(request):
     SERVER.asset = ASSET
     SERVER.created_by = "2"
     if request.POST['hosted_on'] != '0':
-<<<<<<< HEAD
         SERVER.hosted_on = Server.objects.get(id=request.POST['hosted_on'])
     if request.POST['sub_asset_type'] != '0':
         SERVER.sub_asset_type = request.POST['sub_asset_type']
@@ -982,22 +792,6 @@ def serverSubmit(request):
     SERVER.microcode = request.POST['microcode']
     SERVER.os_distribution = request.POST['os_distribution']
     SERVER.os_release = request.POST['os_release']
-=======
-        SERVER.hosted_on=Server.objects.get(id=request.POST['hosted_on'])
-    else:
-        SERVER.hosted_on=None
-    if request.POST['sub_asset_type'] != '0':
-        SERVER.sub_asset_type=request.POST['sub_asset_type']
-    else:
-        SERVER.sub_asset_type=None
-    if request.POST['os_type'] != '0':
-        SERVER.os_type = request.POST['os_type']
-    else:
-        SERVER.os_type=None
-    SERVER.microcode=request.POST['microcode']
-    SERVER.os_distribution=request.POST['os_distribution']
-    SERVER.os_release=request.POST['os_release']
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
     SERVER.save()
     Assets = Asset.objects.all()
     Organizations = Organization.objects.all()
@@ -1023,13 +817,7 @@ def networkDeviceSubmit(request):
     NETWORKDEVICE = NetworkDevice()
     NETWORKDEVICE.asset = ASSET
     if request.POST['sub_asset_type'] != '0':
-<<<<<<< HEAD
         NETWORKDEVICE.sub_asset_type = request.POST['sub_asset_type']
-=======
-        NETWORKDEVICE.sub_asset_type=request.POST['sub_asset_type']
-    else:
-        NETWORKDEVICE.sub_asset_type=None
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
     NETWORKDEVICE.save()
     Assets = Asset.objects.all()
     Organizations = Organization.objects.all()
@@ -1056,8 +844,6 @@ def storageDeviceSubmit(request):
     STORAGEDEVICE.asset = ASSET
     if request.POST['sub_asset_type'] != '0':
         STORAGEDEVICE.sub_asset_type = request.POST['sub_asset_type']
-    else:
-        STORAGEDEVICE.sub_asset_type=None
     STORAGEDEVICE.save()
     Assets = Asset.objects.all()
     Organizations = Organization.objects.all()
@@ -1084,13 +870,7 @@ def securityDeviceSubmit(request):
     SECURITYDEVICE.asset = ASSET
     if request.POST['sub_asset_type'] != '0':
         SECURITYDEVICE.sub_asset_type = request.POST['sub_asset_type']
-<<<<<<< HEAD
     SECURITYDEVICE.memo = request.POST['memo']
-=======
-    else:
-        SECURITYDEVICE.sub_asset_type=None
-    SECURITYDEVICE.memo=request.POST['memo']
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
     SECURITYDEVICE.save()
     Assets = Asset.objects.all()
     Organizations = Organization.objects.all()
@@ -1161,12 +941,8 @@ def editModel(request):
         'USERNAME': str(request.user),
         'Perm': Perm,
         'model': model,
-<<<<<<< HEAD
         'vendors': vendors,
         'erweima': X,
-=======
-        'vendors':vendors,
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
     }
 
     return render(request, 'cmdb/ServerManage/add/editForeignKey/editModel.html', context)
@@ -1193,7 +969,6 @@ def addModelSubmit(request):
     }
     return render(request, 'cmdb/ServerManage/add/editForeignKey/editModel.html', context)
 
-<<<<<<< HEAD
 
 @login_required()
 def editOrganization(request):
@@ -1237,8 +1012,6 @@ def addOrgSubmit(request):
     }
 
     return render(request, 'cmdb/ServerManage/add/editForeignKey/editOrganization.html', context)
-=======
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
 
 
 def editVendor(request):
@@ -1285,7 +1058,6 @@ def addVendorSubmit(request):
 
 
 @login_required()
-<<<<<<< HEAD
 def editIdc(request):
     # 判断是否有删除请求，有则删除厂商
     didc = request.POST.getlist('delete_idc')
@@ -1379,8 +1151,6 @@ def addContractSubmit(request):
 
 
 @login_required()
-=======
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
 def editSupplier(request):
     # 判断是否有删除请求，有则删除厂商
     dsupplier = request.POST.getlist('delete_supplier')
@@ -1424,7 +1194,7 @@ def addSupplierSubmit(request):
     return render(request, 'cmdb/ServerManage/add/editForeignKey/editSupplier.html', context)
 
 
-# @login_required()
+@login_required()
 def deleteARecord(request):
     v = request.GET['myid']
     Asset.objects.get(id=v).delete()
@@ -1438,14 +1208,10 @@ def deleteARecord(request):
         'Perm': Perm,
         'Assets': Assets,
     }
-<<<<<<< HEAD
-    return render(request, 'cmdb/asset.html', context)
-=======
-    return render(request, 'cmdb/ServerManage/asset.html', context)
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
+    return render(request, 'cmdb/ServerManage/index.html', context)
 
 
-# @login_required()
+@login_required()
 def editARecord(request):
     v = request.GET['myid']
     ASSET = Asset.objects.get(id=v)
@@ -1454,24 +1220,9 @@ def editARecord(request):
     # Tags = Tag.objects.all()
     Users = User.objects.all()
     IDCs = Idc.objects.filter(organization=ASSET.organization)
-<<<<<<< HEAD
     Cabinets = Cabinet.objects.filter(idc=ASSET.idc)
     CabSpaces = CabinetSpace.objects.filter(cabinet=ASSET.cabinet, asset=None)
     CSSelected = CabinetSpace.objects.filter(asset=ASSET)
-=======
-    Cabinets=Cabinet.objects.filter(idc=ASSET.idc)
-    CabSpaces=CabinetSpace.objects.filter(cabinet=ASSET.cabinet,asset=None)
-    listc = []
-    for cs in CabSpaces:
-        listc.append(cs)
-
-    for i in range(len(listc) - 1):
-        for j in range(len(listc) - i - 1):
-            if int(listc[j].cabinet_location) < int(listc[j + 1].cabinet_location):
-                listc[j], listc[j + 1] = listc[j + 1], listc[j]
-
-    CSSelected=CabinetSpace.objects.filter(asset=ASSET)
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
     print("!!!!!!!!!!!!!!!!!!!!!!!")
     print(CSSelected)
     Contracts = Contract.objects.all()
@@ -1488,17 +1239,10 @@ def editARecord(request):
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
-<<<<<<< HEAD
         'Models': Models,
         'Cabinets': Cabinets,
         'CabSpaces': CabSpaces,
         'CSSelected': CSSelected,
-=======
-        'Models':Models,
-        'Cabinets':Cabinets,
-        'CabSpaces':listc,
-        'CSSelected':CSSelected,
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
         'Vendors': Vendors,
         'Organizations': Organizations,
         # 'Tags': Tags,
@@ -1536,40 +1280,19 @@ def editSubmit(request):
     # 直接select标签的3个
     if request.POST['status'] != "0":
         ASSET.status = request.POST['status']
-<<<<<<< HEAD
     if request.POST['network_location'] != "0":
         ASSET.network_location = request.POST['network_location']
     if request.POST['asset_type'] != "0":
         ASSET.asset_type = request.POST['asset_type']
-=======
-    else:
-        ASSET.status=None
-
-    if request.POST['network_location']!="0":
-        ASSET.network_location = request.POST['network_location']
-    else:
-        ASSET.network_location=None
-
-    ASSET.asset_type = request.POST['asset_type']
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
 
     # 外键的7个
     if request.POST['admin'] != "0":
         ASSET.admin = User.objects.get(id=request.POST['admin'])
-<<<<<<< HEAD
     if request.POST['model'] != "0":
         ASSET.model = Device_model.objects.get(id=request.POST['model'])
-=======
-    else:
-        ASSET.admin = None
-
-    ASSET.model=Device_model.objects.get(id=request.POST['model'])
-
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
     # ASSET.vendor = Vendor.objects.get(id=request.POST['vendor'])
-    if request.POST['organization']!='0':
+    if request.POST['organization']:
         ASSET.organization = Organization.objects.get(id=request.POST['organization'])
-<<<<<<< HEAD
     if request.POST['idc'] != "0":
         ASSET.idc = Idc.objects.get(id=request.POST['idc'])
     if request.POST['cab'] != "0":
@@ -1579,30 +1302,7 @@ def editSubmit(request):
     if request.POST['supplier'] != "0":
         ASSET.supplier = Supplier.objects.get(id=request.POST['supplier'])
     if request.POST['approved_by'] != "0":
-=======
-    else:
-        ASSET.organization=None
-    if request.POST['idc']!="0":
-        ASSET.idc = Idc.objects.get(id=request.POST['idc'])
-    else:
-        ASSET.idc = None
-    if request.POST['cab'] !="0":
-        ASSET.cabinet = Cabinet.objects.get(id=request.POST['cab'])
-    else:
-        ASSET.cabinet=None
-    if request.POST['contract']!="0":
-        ASSET.contract = Contract.objects.get(id=request.POST['contract'])
-    else:
-        ASSET.contract=None
-    if request.POST['supplier']!="0":
-        ASSET.supplier = Supplier.objects.get(id=request.POST['supplier'])
-    else:
-        ASSET.supplier=None
-    if request.POST['approved_by']!="0":
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
         ASSET.approved_by = User.objects.get(id=request.POST['approved_by'])
-    else:
-        ASSET.approved_by=None
 
     # 多对多1个，目前未考虑，暂时按照外键处理
     ASSET.save()
@@ -1613,7 +1313,6 @@ def editSubmit(request):
 
     CSSelected = CabinetSpace.objects.filter(asset=ASSET)
     for css in CSSelected:
-<<<<<<< HEAD
         print("******************************")
         print(css)
         css.asset = None
@@ -1629,38 +1328,9 @@ def editSubmit(request):
         CABSPACE.save()
 
     if ASSET.asset_type == "1":
-=======
-        css.asset= None
-        css.save()
-
-    CapSpasId = request.POST.getlist('cabSpace')
-    num=0
-    hPlace=0
-    if CapSpasId:
-        print("有cabSpace哦")
-        for cId in CapSpasId:
-            num=num+1
-            CABSPACE = CabinetSpace.objects.get(id=cId)
-            if int(CABSPACE.cabinet_location)>hPlace:
-                hPlace=int(CABSPACE.cabinet_location)
-            CABSPACE.asset = ASSET
-            CABSPACE.save()
-        ASSET.height=num*22-2
-        ASSET.cab_location=(ASSET.cabinet.cabinet_height-hPlace)*22+20
-    else:
-        ASSET.height=None
-        ASSET.cab_location=None
-    ASSET.save()
-    print("!!!!!!!!!!!!!!!!!!!")
-    print(ASSET.height)
-    print(ASSET.cab_location)
-
-    if ASSET.asset_type=="1" :
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
         if Server.objects.filter(asset=ASSET):
             SERVER = Server.objects.get(asset=ASSET)
         else:
-<<<<<<< HEAD
             SERVER = Server()
             SERVER.asset = ASSET
         SERVER.sub_asset_type = request.POST['sub_asset_type']
@@ -1669,23 +1339,6 @@ def editSubmit(request):
         SERVER.microcode = request.POST['microcode']
         SERVER.sub_asset_type = request.POST['sub_asset_type']
         SERVER.os_type = request.POST['os_type']
-=======
-            SERVER=Server()
-            SERVER.asset=ASSET
-        if SERVER.sub_asset_type!='0':
-            SERVER.sub_asset_type=request.POST['sub_asset_type']
-        else:
-            SERVER.sub_asset_type=None
-        if request.POST['hosted_on'] != '0':
-            SERVER.hosted_on = Server.objects.get(id=request.POST['hosted_on'])
-        else:
-            SERVER.hosted_on=None
-        SERVER.microcode=request.POST['microcode']
-        if request.POST['os_type']!='0':
-            SERVER.os_type = request.POST['os_type']
-        else:
-            SERVER.os_type=None
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
         SERVER.os_distribution = request.POST['os_distribution']
         SERVER.os_release = request.POST['os_release']
         SERVER.save()
@@ -1693,54 +1346,26 @@ def editSubmit(request):
         if NetworkDevice.objects.filter(asset=ASSET):
             NETWORKDEVICE = NetworkDevice.objects.get(asset=ASSET)
         else:
-<<<<<<< HEAD
             NETWORKDEVICE = NetworkDevice()
             NETWORKDEVICE.asset = ASSET
         NETWORKDEVICE.sub_asset_type = request.POST['sub_asset_type']
-=======
-            NETWORKDEVICE=NetworkDevice()
-            NETWORKDEVICE.asset=ASSET
-        if request.POST['sub_asset_type']!='0':
-            NETWORKDEVICE.sub_asset_type = request.POST['sub_asset_type']
-        else:
-            NETWORKDEVICE.sub_asset_type=None
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
         NETWORKDEVICE.save()
     elif ASSET.asset_type == "3":
         if SecurityDevice.objects.filter(asset=ASSET):
             SECURITYDEVICE = SecurityDevice.objects.get(asset=ASSET)
         else:
-<<<<<<< HEAD
             SECURITYDEVICE = SecurityDevice()
             SECURITYDEVICE.asset = ASSET
         SECURITYDEVICE.sub_asset_type = request.POST['sub_asset_type']
         SECURITYDEVICE.memo = request.POST['SeDMemo']
-=======
-            SECURITYDEVICE=SecurityDevice()
-            SECURITYDEVICE.asset=ASSET
-        if request.POST['sub_asset_type']!='0':
-            SECURITYDEVICE.sub_asset_type = request.POST['sub_asset_type']
-        else:
-            SECURITYDEVICE.sub_asset_type=None
-        SECURITYDEVICE.memo=request.POST['SeDMemo']
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
         SECURITYDEVICE.save()
     elif ASSET.asset_type == "4":
         if StorageDevice.objects.filter(asset=ASSET):
             STORAGEDEVICE = StorageDevice.objects.get(asset=ASSET)
         else:
-<<<<<<< HEAD
             STORAGEDEVICE = StorageDevice()
             STORAGEDEVICE.asset = ASSET
         STORAGEDEVICE.sub_asset_type = request.POST['sub_asset_type']
-=======
-            STORAGEDEVICE=StorageDevice()
-            STORAGEDEVICE.asset=ASSET
-        if request.POST['sub_asset_type']!='0':
-            STORAGEDEVICE.sub_asset_type = request.POST['sub_asset_type']
-        else:
-            STORAGEDEVICE.sub_asset_type=None
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
         STORAGEDEVICE.save()
 
     Assets = Asset.objects.all()
@@ -1755,49 +1380,31 @@ def editSubmit(request):
         'Assets': Assets,
         'Organizations': Organizations
     }
-    return render(request, 'cmdb/ServerManage/asset.html', context)
+    return render(request, 'cmdb/ServerManage/index.html', context)
 
-@login_required()
-def orgManage(request):
-    # 查询中线局对象
-    zxj = Organization.objects.get(org_name="中线局")
-    zxj_children = []
 
-    # 查询分局局对象
-    fenju_list = Organization.objects.filter(parent_org=zxj.id)
-
-    # 生成各级组织名称
-    for fenju in fenju_list:
-        guanlichu_list = Organization.objects.filter(parent_org=fenju.id)
-        # print(guanlichu_list)
-        fenju_name = fenju.org_name
-        list_tmp = []
-        for guanlichu in guanlichu_list:
-            xiandizhan_list = Organization.objects.filter(parent_org=guanlichu.id)
-            xiandizhan_name = guanlichu.org_name
-            xdz_list = []
-            for xindizhan in xiandizhan_list:
-                xdz_context = {"name": xindizhan.org_name}
-                xdz_list.append(xdz_context)
-            glc_context = {"name": xiandizhan_name, "children": xdz_list}
-            list_tmp.append(glc_context)
-        fenju_children = {"name": fenju_name, "children": list_tmp}
-        zxj_children.append(fenju_children)
-    org_dic = {"name": zxj.org_name, "children": zxj_children}
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context = {
-        'data': org_dic,
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-    }
-
-<<<<<<< HEAD
 
 
 """
+def filter(request):
+    print(request)
+    asset_type = request.POST.get('ftype')
+    if asset_type is None:
+        ASSET = Asset.objects.all()
+    elif asset_type:
+        ASSET = Asset.objects.filter(asset_type=asset_type)
+    print("================")
+    print(asset_type)
+    print(ASSET)
+    print("================")
+    context = {
+        'PAGE': ASSET
+    }
+    return HttpResponse("cmdb/",context)
+"""
+
+
+
 def basicData(request):
     Organizations = Organization.objects.all()
     myOrg = Organization()
@@ -1810,25 +1417,6 @@ def basicData(request):
         print(myOrg)
         print(myIdc)
 
-=======
-    return render(request, 'cmdb/basicData/orgManage.html', context)
-
-@login_required()
-def idcManage(request):
-    Organizations = Organization.objects.all()
-    myOrg = Organization()
-    myIdc = Idc.objects.all()
-    myCabinet = Cabinet()
-    cabFlag = 0
-
-    try:
-        IDC = request.GET['IDC']
-        myCabinet=Cabinet.objects.filter(idc=Idc.objects.get(id=IDC))
-        cabFlag=1
-        print(myCabinet)
-    except:
-        print("没有IDC参数!")
-
     if request.user.is_superuser:
         Perm = 1
     else:
@@ -1836,151 +1424,6 @@ def idcManage(request):
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
-        'ORGS': Organizations,
-        'myOrg': myOrg,
-        'myIdcs': myIdc,
-        'myCabs': myCabinet,
-        'cabFlag':cabFlag,
-    }
-
-    return render(request, 'cmdb/basicData/idcManage.html', context)
-
-@login_required()
-def editCab(request):
-    dCabinets = request.POST.getlist('delete_cabinets')
-    if len(dCabinets):
-        for i in dCabinets:
-            Cabinet.objects.get(pk=i).delete()
-    IDC=Idc.objects.get(id=request.GET['idcId'])
-    Cabinets=Cabinet.objects.filter(idc=IDC)
-    print(Cabinets)
-    context={
-        'IDC':IDC,
-        'Cabinets':Cabinets,
-    }
-    return render (request, 'cmdb/basicData/editCab.html',context)
-@login_required()
-def addCabSubmit(request):
-    IDC = Idc.objects.get(id=request.POST['idcId'])
-    CAB=Cabinet()
-    CAB.idc=IDC
-    CAB.cabinet_name=request.POST['name']
-    CAB.cabinet_desc=request.POST['desc']
-    CAB.cabinet_height=request.POST['height']
-    CAB.save()
-    Cabinets = Cabinet.objects.filter(idc=IDC)
-    for i in range(1,int(request.POST['height'])+1):
-        CABSPACE=CabinetSpace()
-        CABSPACE.cabinet=CAB
-        CABSPACE.cabinet_location=str(i)
-        CABSPACE.save()
-        print(CABSPACE)
-    context = {
-        'IDC': IDC,
-        'Cabinets': Cabinets,
-    }
-    return render(request, 'cmdb/basicData/editCab.html', context)
-@login_required()
-def addIdc(request):
-    Organizations=Organization.objects.all()
-    successFlag=0
-    context={
-        'successFlag':successFlag,
-        'Organizations':Organizations,
-    }
-    return render (request,'cmdb/basicData/addIdc.html',context)
-@login_required()
-def idcSubmit(request):
-    print(request.POST)
-    IDC=Idc()
-    IDC.idc_name=request.POST['name']
-    IDC.idc_address=request.POST['address']
-    IDC.organization=Organization.objects.get(id=request.POST['organization'])
-    IDC.idc_memo=request.POST['memo']
-    IDC.save()
-    print(IDC)
-    successFlag=1
-    Organizations = Organization.objects.all()
-    context = {
-        'successFlag':successFlag,
-        'Organizations': Organizations,
-    }
-    return render(request, 'cmdb/basicData/addIdc.html', context)
-@login_required()
-def editIdc (request):
-    IDC = Idc.objects.get(id=request.GET['idcId'])
-    Organizations = Organization.objects.all()
-    successFlag = 0
-    context = {
-        'IDC':IDC,
-        'successFlag': successFlag,
-        'Organizations': Organizations,
-    }
-    return render(request, 'cmdb/basicData/editIdc.html', context)
-@login_required()
-def submitIdcEdit(request):
-    print(request.POST)
-    IDC = Idc.objects.get(id=request.GET['idcId'])
-    IDC.idc_name=request.POST['name']
-    IDC.idc_address=request.POST['address']
-    IDC.organization=Organization.objects.get(id=request.POST['organization'])
-    IDC.idc_memo=request.POST['memo']
-    IDC.save()
-    print(IDC)
-    successFlag=1
-    Organizations = Organization.objects.all()
-    context = {
-        'successFlag':successFlag,
-        'Organizations': Organizations,
-    }
-    return render(request, 'cmdb/basicData/editIdc.html', context)
-@login_required()
-def deleteAIdc (request):
-    IDC = Idc.objects.get(id=request.GET['idcId'])
-    IDC.delete()
-    successFlag = 2
-    Organizations = Organization.objects.all()
-    context = {
-        'successFlag': successFlag,
-        'Organizations': Organizations,
-    }
-    return render(request, 'cmdb/basicData/editIdc.html', context)
-
-@login_required()
-def cabDetail(request):
-    IDC=Idc.objects.get(id=request.GET['idcId'])
-    CABS=Cabinet.objects.filter(idc=IDC)
-    assets=Asset.objects.filter(idc=IDC)
-    ASSETS=set()
-    for a in assets:
-        if a.cab_location:
-            ASSETS.add(a)
-
-    context={
-        'IDC':IDC,
-        'CABS':CABS,
-        'ASSETS':ASSETS,
-    }
-    return render (request,'cmdb/basicData/cabDetail.html',context)
-
-
-@login_required()
-def userManage(request):
-    dadmin = request.POST.getlist('delete_admin')
-    if len(dadmin):
-        for i in dadmin:
-            User.objects.get(pk=i).delete()
-    admin=User.objects.all()
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context = {
-        'admin': admin,
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-<<<<<<< HEAD
         'ORGS': Organizations,
         'myOrg': myOrg,
         'myIdcs': myIdc,
@@ -1989,214 +1432,3 @@ def userManage(request):
     }
 
     return render(request, 'cmdb/basicData/index.html', context)
-"""
-def basicData(request):
-    Organizations = Organization.objects.all()
-    myOrg = Organization()
-    myIdc = Idc.objects.all()
-    myCabinet = Cabinet()
-    if request.GET:
-        myOrg = Organization.objects.get(id=request.GET['aaa'])
-        myIdc = Idc.objects.filter(organization=myOrg)
-=======
-    }
-    return render(request,'cmdb/basicData/userManage.html',context)
-
-@login_required()
-def addUserSubmit(request):
-    user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
-    if str(request.POST['perm']) != '0':
-        user.is_superuser = True
-    user.save()
-    admin = User.objects.all()
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context = {
-        'admin': admin,
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-    }
-    return render(request,'cmdb/basicData/userManage.html',context)
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
-
-@login_required()
-def contractManage(request):
-    dcontract = request.POST.getlist('delete_contract')
-    if len(dcontract):
-        for i in dcontract:
-            Contract.objects.get(pk=i).delete()
-
-    # 查询现有所有厂商对象并传给前段页面
-    contract = Contract.objects.all()
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context = {
-<<<<<<< HEAD
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'ORGS': Organizations,
-        'myOrg': myOrg,
-        'myIdcs': myIdc,
-        'myCabs': myCabinet,
-=======
-        'contract': contract,
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-    }
-    return render(request,'cmdb/basicData/contractManage.html',context)
-
-@login_required()
-def addContractSubmit(request):
-    o = Contract()
-    o.contract_number = request.POST['number']
-    o.contract_name = request.POST['name']
-    o.contract_content = request.POST['content']
-    o.contract_memo = request.POST['memo']
-    o.save()
-    contract = Contract.objects.all()
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context = {
-        'contract': contract,
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-    }
-    return render(request,'cmdb/basicData/contractManage.html',context)
-
-
-@login_required()
-def editOrg(request):
-    # 判断是否有删除请求，有则删除厂商
-    dorg = request.POST.getlist('delete_org')
-    print(dorg)
-    if len(dorg):
-        for i in dorg:
-           Organization.objects.get(pk=i).delete()
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
-
-    # 查询现有所有厂商对象并传给前段页面
-    org = Organization.objects.all()
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'org': org
-    }
-    return render(request, 'cmdb/basicData/editOrg.html',context)
-
-@login_required()
-def addOrgSubmit(request):
-    o = Organization()
-    o.org_name=request.POST['name']
-    o.org_address = request.POST['address']
-    o.org_memo=request.POST['memo']
-    parent_org=Organization.objects.get(id=request.POST['parent_org'])
-    o.parent_org=parent_org
-    o.save()
-    org = Organization.objects.all()
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'org': org
-    }
-
-    return render(request, 'cmdb/basicData/editOrg.html', context)
-
-def supplierManage(request):
- # 判断是否有删除请求，有则删除厂商
-    dsupplier = request.POST.getlist('delete_supplier')
-    if len(dsupplier):
-        for i in dsupplier:
-            Supplier.objects.get(pk=i).delete()
-
-    # 查询现有所有厂商对象并传给前段页面
-    supplier = Supplier.objects.all()
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'supplier': supplier
-    }
-    return render(request, 'cmdb/basicData/supplierManage.html',context)
-
-@login_required()
-def addSupplierSubmitM(request):
-    o = Supplier()
-    o.supplier_name = request.POST['name']
-    o.supplier_contacts = request.POST['contact']
-    o.supplier_phone = request.POST['phone']
-    o.supplier_memo = request.POST['memo']
-    o.save()
-    supplier = Supplier.objects.all()
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'supplier': supplier
-    }
-
-    return render(request, 'cmdb/basicData/supplierManage.html', context)
-
-def vendorManage(request):
-    # 判断是否有删除请求，有则删除厂商
-    dvendor = request.POST.getlist('delete_vendor')
-    print(dvendor)
-    if len(dvendor):
-        for i in dvendor:
-           Vendor.objects.get(pk=i).delete()
-
-    # 查询现有所有厂商对象并传给前段页面
-    vendor = Vendor.objects.all()
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'vendor': vendor,
-    }
-    return render(request, 'cmdb/basicData/vendorManage.html',context)
-
-@login_required()
-def addVendorSubmitM(request):
-    o = Vendor()
-    o.vendor_name=request.POST['name']
-    o.vendor_phone=request.POST['phone']
-    o.vendor_memo=request.POST['memo']
-    o.save()
-    vendor = Vendor.objects.all()
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'vendor': vendor
-    }
-
-<<<<<<< HEAD
-    return render(request, 'cmdb/basicData/basicData.html', context)
-=======
-    return render(request, 'cmdb/basicData/vendorManage.html', context)
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
