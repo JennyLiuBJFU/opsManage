@@ -7,14 +7,12 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from cmdb.models import *
 
-
 from django.contrib.auth.decorators import login_required
 import numpy
 import qrcode
 from django.utils.six import BytesIO
 from django.http import JsonResponse
-from  django.db.models import Q
-
+from django.db.models import Q
 
 
 def page_list_return(total, current=1):
@@ -59,7 +57,7 @@ def pages(post_objects, request):
     else:
         show_end = 0
 
-    offset_index = (current_page - 1)*int(page_len)
+    offset_index = (current_page - 1) * int(page_len)
 
     # 所有对象， 分页器， 本页对象， 所有页码， 本页页码，是否显示第一页，是否显示最后一页,每页对象序号偏移值
     return post_objects, paginator, page_objects, page_range, current_page, show_first, show_end, end_page, offset_index
@@ -71,23 +69,23 @@ def asset(request):
         Perm = 1
     else:
         Perm = 0
-    asset_find=[]
+    asset_find = []
 
     page_len = request.GET.get('page_len', '')
     Organizations = Organization.objects.all()
 
-    #查询关键字列表
+    # 查询关键字列表
     myType = int(request.GET.get('myType', "0"))
     myOrg = int(request.GET.get('myOrg', "0"))
     myNet = int(request.GET.get('myNet', "0"))
 
     search_dict = dict()  # 如果有这个值 就写入到字典中去
     if myType != 0:
-       search_dict['asset_type'] = myType
+        search_dict['asset_type'] = myType
     if myOrg != 0:
-       search_dict['organization'] = myOrg
+        search_dict['organization'] = myOrg
     if myNet != 0:
-       search_dict['network_location'] = myNet
+        search_dict['network_location'] = myNet
 
     if len(asset_find) >= 0:
         asset_find = Asset.objects.filter(**search_dict)
@@ -95,7 +93,8 @@ def asset(request):
         asset_find = Asset.objects.all()
 
     # 所有对象， 分页器， 本页对象， 所有页码， 本页页码，是否显示第一页，是否显示最后一页
-    assets_list, p, assets, page_range, current_page, show_first, show_end, end_page, offset_index = pages(asset_find, request)
+    assets_list, p, assets, page_range, current_page, show_first, show_end, end_page, offset_index = pages(asset_find,
+                                                                                                           request)
     print("-------------------")
     print(offset_index)
     return render(request, 'cmdb/asset.html', locals())
@@ -137,13 +136,8 @@ def index(request):
 """
 
 
-
-
-
-
-
 def index(request):
-    orglist =Organization.objects.all()
+    orglist = Organization.objects.all()
     Assets = list(Asset.objects.all())
 
     # ------树形图数据计算，排出各单位及其子单位的列表--------
@@ -151,7 +145,7 @@ def index(request):
     zxj_children = []
     # 查询分局局对象
     fenju_list = Organization.objects.filter(parent_org=zxj.id)
-    #生成各级组织名称
+    # 生成各级组织名称
     for fenju in fenju_list:
         guanlichu_list = Organization.objects.filter(parent_org=fenju.id)
         fenju_name = fenju.org_name
@@ -163,21 +157,20 @@ def index(request):
             for xindizhan in xiandizhan_list:
                 xdz_context = {"name": xindizhan.org_name}
                 xdz_list.append(xdz_context)
-            glc_context = {"name": xiandizhan_name,"children":xdz_list}
+            glc_context = {"name": xiandizhan_name, "children": xdz_list}
             list_tmp.append(glc_context)
-        fenju_children = {"name":fenju_name,"children":list_tmp}
+        fenju_children = {"name": fenju_name, "children": list_tmp}
         zxj_children.append(fenju_children)
-    org_dic = {"name":zxj.org_name,"children": zxj_children}
+    org_dic = {"name": zxj.org_name, "children": zxj_children}
     # /树形图数据计算，排出各单位及其子单位的列表
 
-
-    #--------柱形表数据构造--------------------
+    # --------柱形表数据构造--------------------
     zxj01 = Organization.objects.get(id=1)
     hebei = Organization.objects.get(org_name="河北分局")
     beijing = Organization.objects.get(org_name="北京分局")
     tianjin = Organization.objects.get(org_name="天津分局")
 
-    #查询子单位
+    # 查询子单位
     # def seachchildren(org,orglist):
     #     children_list = []
     #     for child in orglist:
@@ -185,8 +178,8 @@ def index(request):
     #             children_list.append(child)
     #     return children_list
 
-    #查询子单位、孙单位
-    def seachchildren2(org, orglist,Assets):
+    # 查询子单位、孙单位
+    def seachchildren2(org, orglist, Assets):
         children_list = []
         server_count = 0
         network_count = 0
@@ -223,7 +216,7 @@ def index(request):
     hb_server_count, hb_network_count, hb_security_count, hb_storage_count = seachchildren2(hebei, orglist, Assets)
     bj_server_count, bj_network_count, bj_security_count, bj_storage_count = seachchildren2(beijing, orglist, Assets)
 
-    #------统计中线局个类设备数量-------
+    # ------统计中线局个类设备数量-------
     zxj_server_count = 0
     zxj_network_count = 0
     zxj_security_count = 0
@@ -240,7 +233,7 @@ def index(request):
             if obj.asset_type == "4":
                 zxj_storage_count += 1
 
-    #------统计中线局个类设备数量-------
+    # ------统计中线局个类设备数量-------
     server_total = 0
     network_total = 0
     security_total = 0
@@ -255,7 +248,6 @@ def index(request):
             security_total += 1
         if obj.asset_type == "4":
             storage_total += 1
-
 
     context = {
         'org_data': org_dic,
@@ -1422,8 +1414,6 @@ def editSubmit(request):
     return render(request, 'cmdb/ServerManage/index.html', context)
 
 
-
-
 """
 def basicData(request):
     Organizations = Organization.objects.all()
@@ -1453,6 +1443,8 @@ def basicData(request):
 
     return render(request, 'cmdb/basicData/index.html', context)
 """
+
+
 def basicData(request):
     Organizations = Organization.objects.all()
     myOrg = Organization()
