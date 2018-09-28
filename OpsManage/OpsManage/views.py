@@ -51,10 +51,7 @@ def loginSubmit(request):
             'data': org_dic,
         }
         return render(request, 'cmdb/index.html', context)
-<<<<<<< HEAD
-=======
 
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
     else:
         Flag=1
         return render(request,'login.html',{'Flag':Flag})

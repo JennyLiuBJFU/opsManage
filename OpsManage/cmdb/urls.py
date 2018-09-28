@@ -4,19 +4,6 @@ from . import views
 
 
 urlpatterns = [
-<<<<<<< HEAD
-                # url(r'^$', views.index, name='asset'),
-                # url(r'^detail(\d+)', views.detail, name='asset_detail'),
-                # url(r'^filter', views.filter, name="filter"),
-    url(r'^$', views.index, name="index"),
-    url(r'^asset/$',views.asset,name="asset"),
-    url(r'^basicData/$',views.basicData,name="basicData"),
-    url(r'^addARecord$', views.addARecord),
-    url(r'^serverSubmit$',views.serverSubmit),
-    url(r'^networkDeviceSubmit',views.networkDeviceSubmit),
-    url(r'^storageDeviceSubmit',views.storageDeviceSubmit),
-    url(r'^securityDeviceSubmit',views.securityDeviceSubmit),
-=======
     url(r'^$', views.index, name="index"),
     url(r'^asset/$',views.asset,name="asset"),
     url(r'^addARecord$', views.addARecord),
@@ -24,7 +11,6 @@ urlpatterns = [
     url(r'^networkDeviceSubmit', views.networkDeviceSubmit),
     url(r'^storageDeviceSubmit', views.storageDeviceSubmit),
     url(r'^securityDeviceSubmit', views.securityDeviceSubmit),
->>>>>>> 342a308b5056210cb6149090e3a26a8e3c3fa9b7
     url(r'^addSubmit$', views.addSubmit),
     url(r'^editModel$', views.editModel),
     url(r'^editVendor$', views.editVendor),
