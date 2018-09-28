@@ -1,9 +1,13 @@
-{{ object.asset_name }}
-{{ object.asset_type }}
-{{ object.organization }}
-{{ object.network_location }}
-{{ object.model.models }}
-{{ object.model.vendor }}
-{{ object.manage_ip }}
-{{ object.idc }}
-{{ object.asset_no}}
+{{object.asset_name}}
+{{object.get_asset_type_display}}
+{{object.asset_no}}
+{{object.model.vendor}}
+{{object.model.models}}
+{{object.sn}}
+{{object.manage_ip}}
+{{object.get_network_location_display}}
+{{object.organization.org_name}}
+{{object.idc.idc_name}}
+{{object.cabinet.cabinet_name}}
+
+

@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block css_block %}
+<link href="/static/css/form2.css" type="text/css" rel="stylesheet">
+{% endblock css_block %}
+
 {% block main_content %}
 
 <section id="getintouch" class="fadeInRightBig animated">
@@ -223,6 +227,9 @@
                 <div class="lbl">
                     <label>
                         合同</label>
+                    <a class="btn buttons" onclick="$('#contract').load('http://127.0.0.1:8000/cmdb/addARecord'+ ' #contract')" >
+                        <i class="fa fa-fw fa-refresh"></i>
+                    </a>
                 </div>
                 <div class="ctrl" id="contract">
                     <select  name="contract" >
@@ -231,6 +238,9 @@
                             <option value={{ Contract.id}}>{{ Contract.contract_name }}</option>
                         {% endfor %}
                     </select>
+                    <a class="btn buttons" target="_blank" href="http://127.0.0.1:8000/cmdb/editContract">
+                        <i class="fa fa-edit"></i> add
+                    </a>
                 </div>
              </div>
              <div class="row clearfix">
@@ -314,7 +324,7 @@
             <div class="row  clearfix">
                 <div class="span10 offset2" style="width: 95%">
                     <input style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: right;" type="submit" name="submit" id="submit" class="submit btn btn-block btn-primary" value="下一步">
-                    <button type="button" style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: left;" class="btn btn-block btn-success" onclick="window.location.href='http://127.0.0.1:8000/cmdb'">取消</button>
+                    <button type="button" style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: left;" class="btn btn-block btn-success" onclick="window.location.href='http://127.0.0.1:8000/cmdb/asset'">取消</button>
                 </div>
             </div>
             </form>
@@ -323,7 +333,7 @@
 {% endblock main_content %}
 
 {% block foot_js %}
-    <script src="/static/plugins/layer/layer.js"></script>
+    <script type="text/javascript" src="/static/dist/layer/layer.js"></script>
     <script>
         $(function(){
             $("#o").change(function (){

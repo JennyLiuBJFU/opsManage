@@ -1,0 +1,331 @@
+{% extends "base.html" %}
+
+
+{% block main_content %}
+
+<!-- 顶部图表区域 -->
+<!--  .row  -->
+<!--<div class="row">-->
+
+    <!--&lt;!&ndash; /.col (LEFT) &ndash;&gt;-->
+    <!--<div class="col-xs-6">-->
+
+        <!--<div class="box box-danger" id="div01">-->
+            <!--<div class="box-header with-border">-->
+                <!--<h3 class="box-title">资产分布</h3>-->
+
+                <!--<div class="box-tools pull-right">-->
+                    <!--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i-->
+                            <!--class="fa fa-minus"></i>-->
+                    <!--</button>-->
+                    <!--<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>-->
+                    <!--</button>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="box-body" id="Chart1">-->
+            <!--</div>-->
+            <!--&lt;!&ndash; /.box-body &ndash;&gt;-->
+        <!--</div>-->
+        <!--&lt;!&ndash; /.box &ndash;&gt;-->
+    <!--</div>-->
+
+
+    <!--&lt;!&ndash; /.col (RIGHT) &ndash;&gt;-->
+    <!--<div class="col-md-6">-->
+        <!--&lt;!&ndash; LINE CHART &ndash;&gt;-->
+        <!--<div class="box box-info" id="div02">-->
+            <!--<div class="box-header with-border">-->
+                <!--<h3 class="box-title">资产分布</h3>-->
+
+                <!--<div class="box-tools pull-right">-->
+                    <!--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i-->
+                            <!--class="fa fa-minus"></i>-->
+                    <!--</button>-->
+                    <!--<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>-->
+                    <!--</button>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="box-body" class="chart" id="Chart2">-->
+            <!--</div>-->
+            <!--&lt;!&ndash; /.box-body &ndash;&gt;-->
+        <!--</div>-->
+        <!--&lt;!&ndash; /.box &ndash;&gt;-->
+    <!--</div>-->
+
+<!--</div>-->
+<!--&lt;!&ndash;  /.row  &ndash;&gt;-->
+
+
+<!-- 组织机构图表 -->
+<div class="row">
+    <!-- /.col (RIGHT) -->
+    <div class="col-md-8">
+        <!-- LINE CHART -->
+        <div class="box box-info" id="orgdiv">
+            <div class="box-header with-border">
+                <h3 class="box-title">京津冀段组织机构</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                            class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body" class="chart" id="orgChart">
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+
+    <div class="col-xs-4">
+
+        <div class="box box-danger" id="div01">
+            <div class="box-header with-border">
+                <h3 class="box-title">资产分布</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                            class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body" id="Chart1">
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+
+
+    <!-- /.col (RIGHT) -->
+    <div class="col-md-4">
+        <!-- LINE CHART -->
+        <div class="box box-info" id="div02">
+            <div class="box-header with-border">
+                <h3 class="box-title">资产分布</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                            class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body" class="chart" id="Chart2">
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+
+</div>
+<!--  /.row  -->
+<!-- /顶部图表区域 -->
+
+{% endblock main_content %}
+
+{% block foot_js %}
+<script src="/static/dist/js/echarts.min.js"></script>
+<script src="/static/dist/js/customed_echart.js"></script>
+
+<!-- ----柱状图------ -->
+<script>
+    $(function () {
+        // 设置表格大小
+        var container1 = document.getElementById("Chart1");
+        var width1 = $("#div01").width();
+        $("#Chart1").css({"width": width1, "height": "250px"});
+        // 绘制表格
+        var myChart = echarts.init(container1, 'customed');
+        // 基于准备好的dom，初始化echarts实例
+        // 指定图表的配置项和数据
+
+        var option = {
+            tooltip: {
+                show: true,
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: ['食品', '衣着', '居住',]
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value'
+                }
+            ],
+            series: [
+                {
+                    name: '2011',
+                    type: 'bar',
+                    // itemStyle: itemStyle,
+                    data: [5506.3, 1674.7, 1405]
+                },
+
+                {
+                    name: '2011',
+                    type: 'bar',
+                    // itemStyle: itemStyle,
+                    data: [5506.3, 1674.7, 1405]
+                },
+                {
+                    name: '2012',
+                    type: 'bar',
+                    // itemStyle: itemStyle,
+                    data: [6040.9, 1823.4, 1484.3]
+                },
+                {
+                    name: '2013',
+                    type: 'bar',
+                    // itemStyle: itemStyle,
+                    data: [6311.9, 1902, 1745.1]
+                }
+            ]
+        };
+        // 调用表格
+        myChart.setOption(option);
+    });
+</script>
+
+
+<!-- ----饼状图------ -->
+<script>
+    $(function () {
+        // 设置表格大小
+        var container2 = document.getElementById("Chart2");
+        var width2 = $("#div02").width();
+        $("#Chart2").css({"width": width2, "height": "250px"});
+
+        // 绘制表格
+        var myChart = echarts.init(container2, 'customed');
+        var option = {
+            tooltip: {},
+            series: [
+                {
+                    // name:'访问来源',
+                    type: 'pie',
+                    // radius : '55%',
+                    // center: ['50%', '60%'],
+                    data: [
+                        {value: 335, name: '直接访问'},
+                        {value: 310, name: '邮件营销'},
+                        {value: 234, name: '联盟广告'},
+                        {value: 135, name: '视频广告'},
+                        {value: 1548, name: '搜索引擎'}
+                    ]
+                }
+            ]
+        };
+        // 调用表格
+        myChart.setOption(option);
+    });
+</script>
+
+
+<!-- ----组织机构图------ -->
+<script>
+    $(function () {
+        // 设置表格大小
+        var container3 = document.getElementById("orgChart");
+        var width3 = $("#orgdiv").width();
+        $("#orgChart").css({"width": width3, "height": "850px"});
+
+        // 绘制表格
+        var myChart = echarts.init(container3, 'customed');
+        var option = {
+            title: {},
+            tooltip: {
+                trigger: 'item',
+                triggerOn: 'mousemove',
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: {show: true},
+                    dataView: {show: true, readOnly: false},
+                    restore: {show: true},
+                    saveAsImage: {show: true}
+                }
+            },
+
+
+
+            series: [
+                {
+                    name: '树图',
+                    type: 'tree',
+                    layout: 'radial',
+                    orient: 'vertical',  // vertical horizontal
+                    initialTreeDepth:4,
+                    rootLocation: {x: 100, y: 230}, // 根节点位置  {x: 100, y: 'center'}
+                    nodePadding: 8,
+                    layerPadding: 200,
+                    hoverable: true,
+                    roam: true,
+                    symbolSize: 15,
+                    symbol: 'emptyCircle',
+                    itemStyle: {
+                        normal: {
+                            color: '#4883b4',
+                            label: {
+                                show: true,
+                                position: 'right',
+                                formatter: "{b}",
+                                textStyle: {
+                                    color: '#000',
+                                    fontSize: 14
+                                },
+                            },
+                            lineStyle: {
+                                color: '#ccc',
+                                type: 'curve', // 'curve'|'broken'|'solid'|'dotted'|'dashed'
+                                // shadowColor: 'rgba(0, 0, 0, 0.5)',
+                                // shadowBlur: 1
+                                curveness: 0.6,
+                            }
+                        },
+                        emphasis: {
+                            color: '#4883b4',
+                            label: {
+                                show: false
+                            }
+                        },
+                        borderWidth: 0
+                    },
+                    // leaves: {
+                    //     label: {
+                    //         normal: {
+                    //             show: true,
+                    //             position: 'bottom',
+                    //             rotate: 90,
+                    //             verticalAlign: 'middle',
+                    //             align: 'left',
+                    //         },
+                    //         textStyle: {
+                    //                 color: '#000',
+                    //                 fontSize: 10
+                    //             },
+                    //     },
+                    // },
+                    data: [
+                        {% autoescape off %}
+                            {{data}}
+                        {% endautoescape %}
+    ]
+    }
+    ]
+    }
+        ;
+        // 调用表格
+        myChart.setOption(option)
+    });
+</script>
+
+{% endblock %}

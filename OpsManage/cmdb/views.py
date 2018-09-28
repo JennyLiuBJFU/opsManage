@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+
+from  django.core.paginator import *
 import json
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -8,27 +10,134 @@ from django.contrib.auth.decorators import login_required
 import numpy
 import qrcode
 from django.utils.six import BytesIO
-import utils
+from django.http import JsonResponse
+from  django.db.models import Q
 
 
 
-@login_required()
-def index(request):
-    print('******************************')
-    print(request.user)
+def page_list_return(total, current=1):
+    """
+    page
+    分页，返回本次分页的最小页数到最大页数列表
+    """
+    min_page = current - 4 if current - 6 > 0 else 1
+    max_page = min_page + 6 if min_page + 6 < total else total
+    return range(min_page, max_page + 1)
+
+
+def pages(post_objects, request):
+    """
+    page public function , return page's object tuple
+    分页公用函数，返回分页的对象元组
+    """
+    page_len = request.GET.get('page_len', '')
+    if not page_len:
+        page_len = 10
+    paginator = Paginator(post_objects, page_len)
+    try:
+        current_page = int(request.GET.get('page', '1'))
+    except ValueError:
+        current_page = 1
+
+    page_range = page_list_return(len(paginator.page_range), current_page)
+    end_page = len(paginator.page_range)
+
+    try:
+        page_objects = paginator.page(current_page)
+    except (EmptyPage, InvalidPage):
+        page_objects = paginator.page(paginator.num_pages)
+
+    if current_page >= 5:
+        show_first = 1
+    else:
+        show_first = 0
+
+    if current_page <= (len(paginator.page_range) - 3):
+        show_end = 1
+    else:
+        show_end = 0
+
+    offset_index = (current_page - 1)*int(page_len)
+
+    # 所有对象， 分页器， 本页对象， 所有页码， 本页页码，是否显示第一页，是否显示最后一页,每页对象序号偏移值
+    return post_objects, paginator, page_objects, page_range, current_page, show_first, show_end, end_page, offset_index
+
+
+def asset(request):
+    USERNAME = str(request.user)
     if request.user.is_superuser:
         Perm = 1
     else:
         Perm = 0
-    Assets = Asset.objects.all()
-    Organizations=Organization.objects.all()
+    asset_find=[]
+
+    page_len = request.GET.get('page_len', '')
+    Organizations = Organization.objects.all()
+
+    #查询关键字列表
+    myType = int(request.GET.get('myType', "0"))
+    myOrg = int(request.GET.get('myOrg', "0"))
+    myNet = int(request.GET.get('myNet', "0"))
+
+    search_dict = dict()  # 如果有这个值 就写入到字典中去
+    if myType != 0:
+       search_dict['asset_type'] = myType
+    if myOrg != 0:
+       search_dict['organization'] = myOrg
+    if myNet != 0:
+       search_dict['network_location'] = myNet
+
+    if len(asset_find) >= 0:
+        asset_find = Asset.objects.filter(**search_dict)
+    else:
+        asset_find = Asset.objects.all()
+
+    # 所有对象， 分页器， 本页对象， 所有页码， 本页页码，是否显示第一页，是否显示最后一页
+    assets_list, p, assets, page_range, current_page, show_first, show_end, end_page, offset_index = pages(asset_find, request)
+    print("-------------------")
+    print(offset_index)
+    return render(request, 'cmdb/ServerManage/asset.html', locals())
+
+
+
+
+def index(request):
+    # 查询中线局对象
+    zxj = Organization.objects.get(org_name="中线局")
+    zxj_children = []
+
+    # 查询分局局对象
+    fenju_list = Organization.objects.filter(parent_org=zxj.id)
+
+    #生成各级组织名称
+    for fenju in fenju_list:
+        guanlichu_list = Organization.objects.filter(parent_org=fenju.id)
+        # print(guanlichu_list)
+        fenju_name = fenju.org_name
+        list_tmp = []
+        for guanlichu in guanlichu_list:
+            xiandizhan_list = Organization.objects.filter(parent_org=guanlichu.id)
+            xiandizhan_name = guanlichu.org_name
+            xdz_list = []
+            for xindizhan in xiandizhan_list:
+                xdz_context = {"name": xindizhan.org_name}
+                xdz_list.append(xdz_context)
+            glc_context = {"name": xiandizhan_name,"children":xdz_list}
+            list_tmp.append(glc_context)
+        fenju_children = {"name":fenju_name,"children":list_tmp}
+        zxj_children.append(fenju_children)
+    org_dic = {"name":zxj.org_name,"children": zxj_children}
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
-        'Assets': Assets,
-        'Organizations':Organizations
+        'data': org_dic,
     }
-    return render(request, 'cmdb/ServerManage/index.html', context)
+    return render(request, 'cmdb/index.html', context)
+
 
 @login_required()
 def addARecord(request):
@@ -233,7 +342,7 @@ def addSubmit(request):
     elif ASSET.asset_type=='4':
         return render(request, 'cmdb/ServerManage/add/addOneToOne/addStorageDevice.html', context)
     else:
-        return render(request, 'cmdb/ServerManage/index.html', context)
+        return render(request, 'cmdb/ServerManage/asset.html', context)
 
 def editMore(request):
     ID=request.GET['assetId']
@@ -697,15 +806,6 @@ def securityDeviceSubmit(request):
     return render(request, 'cmdb/ServerManage/add/addMore.html', context)
 
 
-
-
-
-
-
-
-
-
-
 def detail(request, v):
     print(request)
     ASSET = Asset.objects.get(id=v)
@@ -789,47 +889,6 @@ def addModelSubmit(request):
     }
     return render(request, 'cmdb/ServerManage/add/editForeignKey/editModel.html', context)
 
-@login_required()
-def editOrganization(request):
-    # 判断是否有删除请求，有则删除厂商
-    dorg = request.POST.getlist('delete_org')
-    print(dorg)
-    if len(dorg):
-        for i in dorg:
-           Organization.objects.get(pk=i).delete()
-
-    # 查询现有所有厂商对象并传给前段页面
-    org = Organization.objects.all()
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'org': org
-    }
-    return render(request, 'cmdb/ServerManage/add/editForeignKey/editOrganization.html',context)
-
-@login_required()
-def addOrgSubmit(request):
-    o = Organization()
-    o.org_name=request.POST['name']
-    o.org_address = request.POST['address']
-    o.org_memo=request.POST['memo']
-    o.save()
-    org = Organization.objects.all()
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'org': org
-    }
-
-    return render(request, 'cmdb/ServerManage/add/editForeignKey/editOrganization.html', context)
 
 def editVendor(request):
     # 判断是否有删除请求，有则删除厂商
@@ -928,7 +987,7 @@ def deleteARecord(request):
         'Perm': Perm,
         'Assets':Assets,
     }
-    return render(request, 'cmdb/ServerManage/index.html', context)
+    return render(request, 'cmdb/ServerManage/asset.html', context)
 
 @login_required()
 def editARecord(request):
@@ -1155,60 +1214,54 @@ def editSubmit(request):
         'Assets': Assets,
         'Organizations': Organizations
     }
-    return render(request, 'cmdb/ServerManage/index.html', context)
+    return render(request, 'cmdb/ServerManage/asset.html', context)
 
+@login_required()
+def orgManage(request):
+    # 查询中线局对象
+    zxj = Organization.objects.get(org_name="中线局")
+    zxj_children = []
 
-def filter(request):
+    # 查询分局局对象
+    fenju_list = Organization.objects.filter(parent_org=zxj.id)
 
-    typeID=request.GET['myType']
-    orgID=request.GET['myOrg']
-
-    if (typeID == "0" and orgID == "0"):
-        ASSET = Asset.objects.all()
-    elif (typeID != "0" and orgID == "0"):
-        ASSET = Asset.objects.filter(asset_type=request.GET['myType'])
-
-    elif (typeID == "0" and orgID != "0"):
-        ASSET = Asset.objects.filter(organization=request.GET['myOrg'])
-
-    else:
-        ASSET = Asset.objects.filter(organization=request.GET['myOrg'],asset_type=request.GET['myType'])
-    Organizations = Organization.objects.all()
+    # 生成各级组织名称
+    for fenju in fenju_list:
+        guanlichu_list = Organization.objects.filter(parent_org=fenju.id)
+        # print(guanlichu_list)
+        fenju_name = fenju.org_name
+        list_tmp = []
+        for guanlichu in guanlichu_list:
+            xiandizhan_list = Organization.objects.filter(parent_org=guanlichu.id)
+            xiandizhan_name = guanlichu.org_name
+            xdz_list = []
+            for xindizhan in xiandizhan_list:
+                xdz_context = {"name": xindizhan.org_name}
+                xdz_list.append(xdz_context)
+            glc_context = {"name": xiandizhan_name, "children": xdz_list}
+            list_tmp.append(glc_context)
+        fenju_children = {"name": fenju_name, "children": list_tmp}
+        zxj_children.append(fenju_children)
+    org_dic = {"name": zxj.org_name, "children": zxj_children}
     if request.user.is_superuser:
         Perm = 1
     else:
         Perm = 0
     context = {
+        'data': org_dic,
         'USERNAME': str(request.user),
         'Perm': Perm,
-        'Assets': ASSET,
-        'Organizations':Organizations,
-        'TYPE':typeID,
-        'ORG':orgID,
     }
-    return render(request, 'cmdb/ServerManage/index.html', context)
 
+    return render(request, 'cmdb/basicData/orgManage.html', context)
 
 @login_required()
-def basicData(request):
+def idcManage(request):
     Organizations = Organization.objects.all()
-
-    myOrg=Organization()
-    myIdc=Idc.objects.all()
-    myCabinet=Cabinet.objects.all()
-    cabFlag=0
-    manageFlag=0
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    try:
-        myOrg=Organization.objects.get(id = request.GET['aaa'])
-        myIdc = Idc.objects.filter(organization=myOrg)
-        print(myOrg)
-        print(myIdc)
-    except:
-        print("没有aaa参数!")
+    myOrg = Organization()
+    myIdc = Idc.objects.all()
+    myCabinet = Cabinet()
+    cabFlag = 0
 
     try:
         IDC = request.GET['IDC']
@@ -1218,76 +1271,21 @@ def basicData(request):
     except:
         print("没有IDC参数!")
 
-    try:
-        if request.GET['bbb']:
-            if request.GET['bbb'] == "2":
-                manageFlag=1
-                try:
-                    if request.GET['ccc'] == "1":
-                        dcontract = request.POST.getlist('delete_contract')
-                        if len(dcontract):
-                            for i in dcontract:
-                                Contract.objects.get(pk=i).delete()
-
-                        # 查询现有所有厂商对象并传给前段页面
-                        contract = Contract.objects.all()
-                except:
-                    print("不是删除合同！")
-
-                try:
-                    if request.GET['ccc'] == "2":
-                        o = Contract()
-                        o.contract_number = request.POST['number']
-                        o.contract_name = request.POST['name']
-                        o.contract_content = request.POST['content']
-                        o.contract_memo = request.POST['memo']
-                        o.save()
-                        contract = Contract.objects.all()
-                except:
-                    print("不是添加合同！")
-            elif request.GET['bbb'] == "3":
-                manageFlag=2
-                try:
-                    if request.GET['ccc'] == "3":
-                        dadmin = request.POST.getlist('delete_admin')
-                        if len(dadmin):
-                            for i in dadmin:
-                                User.objects.get(pk=i).delete()
-
-                        admin = User.objects.all()
-                except:
-                    print("不是删除用户！")
-
-                try:
-                    if request.GET['ccc'] == "4":
-                        user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
-                        if str(request.POST['perm']) != '0':
-                            user.is_superuser = True
-                        user.save()
-                        admin = User.objects.all()
-                except:
-                    print("不是添加用户！")
-
-            else: manageFlag=0
-    except:
-        print("没有bbb参数!")
-
-    context={
-        'admin': User.objects.all(),
-        'contract': Contract.objects.all(),
-        'manageFlag':manageFlag,
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+    context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
-        'ORGS':Organizations,
-        'myOrg':myOrg,
-        'myIdcs':myIdc,
-        'myCabs':myCabinet,
+        'ORGS': Organizations,
+        'myOrg': myOrg,
+        'myIdcs': myIdc,
+        'myCabs': myCabinet,
         'cabFlag':cabFlag,
-
     }
-    return render(request,'cmdb/basicData/index.html',context)
 
-
+    return render(request, 'cmdb/basicData/idcManage.html', context)
 
 @login_required()
 def editCab(request):
@@ -1303,7 +1301,7 @@ def editCab(request):
         'Cabinets':Cabinets,
     }
     return render (request, 'cmdb/basicData/editCab.html',context)
-
+@login_required()
 def addCabSubmit(request):
     IDC = Idc.objects.get(id=request.POST['idcId'])
     CAB=Cabinet()
@@ -1324,7 +1322,7 @@ def addCabSubmit(request):
         'Cabinets': Cabinets,
     }
     return render(request, 'cmdb/basicData/editCab.html', context)
-
+@login_required()
 def addIdc(request):
     Organizations=Organization.objects.all()
     successFlag=0
@@ -1333,7 +1331,7 @@ def addIdc(request):
         'Organizations':Organizations,
     }
     return render (request,'cmdb/basicData/addIdc.html',context)
-
+@login_required()
 def idcSubmit(request):
     print(request.POST)
     IDC=Idc()
@@ -1350,7 +1348,7 @@ def idcSubmit(request):
         'Organizations': Organizations,
     }
     return render(request, 'cmdb/basicData/addIdc.html', context)
-
+@login_required()
 def editIdc (request):
     IDC = Idc.objects.get(id=request.GET['idcId'])
     Organizations = Organization.objects.all()
@@ -1361,7 +1359,7 @@ def editIdc (request):
         'Organizations': Organizations,
     }
     return render(request, 'cmdb/basicData/editIdc.html', context)
-
+@login_required()
 def submitIdcEdit(request):
     print(request.POST)
     IDC = Idc.objects.get(id=request.GET['idcId'])
@@ -1378,7 +1376,7 @@ def submitIdcEdit(request):
         'Organizations': Organizations,
     }
     return render(request, 'cmdb/basicData/editIdc.html', context)
-
+@login_required()
 def deleteAIdc (request):
     IDC = Idc.objects.get(id=request.GET['idcId'])
     IDC.delete()
@@ -1390,7 +1388,7 @@ def deleteAIdc (request):
     }
     return render(request, 'cmdb/basicData/editIdc.html', context)
 
-
+@login_required()
 def cabDetail(request):
     IDC=Idc.objects.get(id=request.GET['idcId'])
     CABS=Cabinet.objects.filter(idc=IDC)
@@ -1406,3 +1404,207 @@ def cabDetail(request):
         'ASSETS':ASSETS,
     }
     return render (request,'cmdb/basicData/cabDetail.html',context)
+
+
+@login_required()
+def userManage(request):
+    dadmin = request.POST.getlist('delete_admin')
+    if len(dadmin):
+        for i in dadmin:
+            User.objects.get(pk=i).delete()
+    admin=User.objects.all()
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+    context = {
+        'admin': admin,
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+    }
+    return render(request,'cmdb/basicData/userManage.html',context)
+
+@login_required()
+def addUserSubmit(request):
+    user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
+    if str(request.POST['perm']) != '0':
+        user.is_superuser = True
+    user.save()
+    admin = User.objects.all()
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+    context = {
+        'admin': admin,
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+    }
+    return render(request,'cmdb/basicData/userManage.html',context)
+
+@login_required()
+def contractManage(request):
+    dcontract = request.POST.getlist('delete_contract')
+    if len(dcontract):
+        for i in dcontract:
+            Contract.objects.get(pk=i).delete()
+
+    # 查询现有所有厂商对象并传给前段页面
+    contract = Contract.objects.all()
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+    context = {
+        'contract': contract,
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+    }
+    return render(request,'cmdb/basicData/contractManage.html',context)
+
+@login_required()
+def addContractSubmit(request):
+    o = Contract()
+    o.contract_number = request.POST['number']
+    o.contract_name = request.POST['name']
+    o.contract_content = request.POST['content']
+    o.contract_memo = request.POST['memo']
+    o.save()
+    contract = Contract.objects.all()
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+    context = {
+        'contract': contract,
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+    }
+    return render(request,'cmdb/basicData/contractManage.html',context)
+
+
+@login_required()
+def editOrg(request):
+    # 判断是否有删除请求，有则删除厂商
+    dorg = request.POST.getlist('delete_org')
+    print(dorg)
+    if len(dorg):
+        for i in dorg:
+           Organization.objects.get(pk=i).delete()
+
+    # 查询现有所有厂商对象并传给前段页面
+    org = Organization.objects.all()
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+    context = {
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+        'org': org
+    }
+    return render(request, 'cmdb/basicData/editOrg.html',context)
+
+@login_required()
+def addOrgSubmit(request):
+    o = Organization()
+    o.org_name=request.POST['name']
+    o.org_address = request.POST['address']
+    o.org_memo=request.POST['memo']
+    parent_org=Organization.objects.get(id=request.POST['parent_org'])
+    o.parent_org=parent_org
+    o.save()
+    org = Organization.objects.all()
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+    context = {
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+        'org': org
+    }
+
+    return render(request, 'cmdb/basicData/editOrg.html', context)
+
+def supplierManage(request):
+ # 判断是否有删除请求，有则删除厂商
+    dsupplier = request.POST.getlist('delete_supplier')
+    if len(dsupplier):
+        for i in dsupplier:
+            Supplier.objects.get(pk=i).delete()
+
+    # 查询现有所有厂商对象并传给前段页面
+    supplier = Supplier.objects.all()
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+    context = {
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+        'supplier': supplier
+    }
+    return render(request, 'cmdb/basicData/supplierManage.html',context)
+
+@login_required()
+def addSupplierSubmitM(request):
+    o = Supplier()
+    o.supplier_name = request.POST['name']
+    o.supplier_contacts = request.POST['contact']
+    o.supplier_phone = request.POST['phone']
+    o.supplier_memo = request.POST['memo']
+    o.save()
+    supplier = Supplier.objects.all()
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+    context = {
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+        'supplier': supplier
+    }
+
+    return render(request, 'cmdb/basicData/supplierManage.html', context)
+
+def vendorManage(request):
+    # 判断是否有删除请求，有则删除厂商
+    dvendor = request.POST.getlist('delete_vendor')
+    print(dvendor)
+    if len(dvendor):
+        for i in dvendor:
+           Vendor.objects.get(pk=i).delete()
+
+    # 查询现有所有厂商对象并传给前段页面
+    vendor = Vendor.objects.all()
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+    context = {
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+        'vendor': vendor,
+    }
+    return render(request, 'cmdb/basicData/vendorManage.html',context)
+
+@login_required()
+def addVendorSubmitM(request):
+    o = Vendor()
+    o.vendor_name=request.POST['name']
+    o.vendor_phone=request.POST['phone']
+    o.vendor_memo=request.POST['memo']
+    o.save()
+    vendor = Vendor.objects.all()
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+    context = {
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+        'vendor': vendor
+    }
+
+    return render(request, 'cmdb/basicData/vendorManage.html', context)

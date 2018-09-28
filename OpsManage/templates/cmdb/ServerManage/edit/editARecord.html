@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block css_block %}
+<link href="/static/css/form2.css" type="text/css" rel="stylesheet">
+{% endblock css_block %}
+
 {% block main_content %}
 
 <section id="getintouch" class="fadeInRightBig animated">
@@ -84,10 +88,9 @@
                 </div>
                 <div class="ctrl">
                     <select  name="network_location" >
-                        {% if ASSET.network_location %}
+                        {% if ASSET.networkk_location %}
                             <option value="{{ ASSET.network_location }}" selected="selected">{{ ASSET.get_network_location_display }}</option>
-                            <option value="0">无</option>
-                        {% else %}
+                            {% else %}
                             <option value="0">请选择所属网络</option>
                         {% endif %}
                         <option value="1">控制专网</option>
@@ -116,11 +119,9 @@
                     <select  id="o" name="organization">
                         {% if ASSET.organization %}
                             <option value="{{ ASSET.organization.id }}" selected="selected">{{ ASSET.organization.org_name }}</option>
-                            <option value="0">无</option>
-                        {% else %}
+                            {% else %}
                             <option value="0">请选择单位</option>
                         {% endif %}
-
                         {% for Organization in Organizations %}
                             <option value={{ Organization.id }}>{{ Organization.org_name }}</option>
                         {% endfor %}
@@ -132,8 +133,7 @@
                     <select   id="i" name="idc" onchange="var args = $('#i').serialize();var x1 = '{%url 'cmdb:showCabs'%}?' + args;$('#cab').load(x1 + ' #cab')">
                         {% if ASSET.idc %}
                             <option value="{{ ASSET.idc.id }}" selected="selected">{{ ASSET.idc.idc_name }}</option>
-                            <option value=""0>无</option>
-                        {% else %}
+                            {% else %}
                             <option value=""0>请选择机房</option>
                         {% endif %}
                         {% for Idc in Idcs %}
@@ -147,8 +147,7 @@
                     <select id="c" name="cab">
                         {% if ASSET.cabinet %}
                             <option value="{{ ASSET.cabinet.id }}" selected="selected">{{ ASSET.cabinet.cabinet_name }}</option>
-                            <option value="0">无</option>
-                        {% else %}
+                            {% else %}
                             <option value="0">请选择机柜</option>
                         {% endif %}
                         {% for Cab in Cabs %}
@@ -164,6 +163,13 @@
                 </div>
                 <div class="ctrl" id="cabSpace" style="float:left;height:120px;">
                     <select name="cabSpace" multiple style="height:120px;width: 11em;">
+{#                        {% for CabSpace in CabSpaces %}#}
+{#                            {% if CabSpace in CSSelected %}#}
+{#                                <option selected value={{ CabSpace.id}}>{{CabSpace.get_cabinet_location_display}}</option>#}
+{#                                {% else %}#}
+{#                                    <option value={{ CabSpace.id}}>{{CabSpace.get_cabinet_location_display}}</option>#}
+{#                            {% endif %}#}
+{#                        {% endfor %}#}
                         {% if CSSelected %}
                             {% for cs in CSSelected %}
                             <option selected value={{ cs.id}}>{{cs.get_cabinet_location_display}}</option>}
@@ -186,11 +192,9 @@
                     <select  name="status" >
                         {% if ASSET.status %}
                             <option value="{{ ASSET.status }}" selected="selected">{{ ASSET.get_status_display }}</option>
-                            <option value="0">无</option>
-                        {% else %}
+                            {% else %}
                             <option value="0">请选择设备状态</option>
                         {% endif %}
-
                         <option value="1">使用中</option>
                         <option value="2">未使用</option>
                         <option value="3">故障</option>
@@ -202,20 +206,24 @@
                 <div class="lbl">
                     <label>
                         合同</label>
+                    <a class="btn buttons" onclick="$('#contract').load('http://127.0.0.1:8000/cmdb/addARecord'+ ' #contract')" >
+                        <i class="fa fa-fw fa-refresh"></i>
+                    </a>
                 </div>
                 <div class="ctrl" id="contract">
                     <select  name="contract" >
                         {% if ASSET.contract %}
                             <option value="{{ ASSET.contract.id }}" selected="selected">{{ ASSET.contract}}</option>
-                            <option value="0">无</option>
-                        {% else %}
+                            {% else %}
                             <option value="0">请选择合同</option>
                         {% endif %}
-
                         {% for Contract in Contracts %}
                             <option value={{ Contract.id}}>{{ Contract.contract_name }}</option>
                         {% endfor %}
                     </select>
+                    <a class="btn buttons" target="_blank" href="http://127.0.0.1:8000/cmdb/editContract">
+                        <i class="fa fa-edit"></i> add
+                    </a>
                 </div>
              </div>
              <div class="row clearfix">
@@ -227,9 +235,8 @@
                     <select  name="admin">
                         {% if ASSET.admin %}
                             <option value="{{ ASSET.admin.id }}" selected="selected">{{ ASSET.admin}}</option>
-                            <option value="0">无</option>
-                        {% else %}
-                            <option value="0">请选择管理员</option>
+                            {% else %}
+                                <option value="0">请选择管理员</option>
                         {% endif %}
                         {% for User in Users %}
                             <option value={{ User.id}}>{{ User.username }}</option>
@@ -251,8 +258,7 @@
                     <select  name="supplier" >
                         {% if ASSET.supplier %}
                             <option value="{{ ASSET.supplier.id }}" selected="selected">{{ ASSET.supplier}}</option>
-                            <option value="0">无</option>
-                        {% else %}
+                            {% else %}
                             <option value="0">请选择供应商</option>
                         {% endif %}
                         {% for Supplier in Suppliers %}
@@ -291,11 +297,9 @@
                     <select  name="approved_by" >
                         {% if ASSET.approved_by %}
                             <option value="{{ ASSET.approved_by.id }}" selected="selected">{{ ASSET.approved_by}}</option>
-                            <option value="0">无</option>
-                        {% else %}
-                            <option value="0">请选择审批人</option>
+                            {% else %}
+                                <option value="0">请选择审批人</option>
                         {% endif %}
-
                         {% for User in Users %}
                             <option value={{ User.id}}>{{ User.username }}</option>
                         {% endfor %}
@@ -322,8 +326,7 @@
                         <select  name="sub_asset_type" >
                             {% if ASSET.server.sub_asset_type %}
                                 <option value="{{ ASSET.server.sub_asset_type }}">{{ ASSET.server.get_sub_asset_type_display }}</option>
-                                <option value="0">无</option>
-                            {% else %}
+                                {% else %}
                                 <option value="0">请选择服务器类型</option>
                             {% endif %}
                             <option value="1">PC服务器</option>
@@ -369,11 +372,9 @@
                         <select  required name="os_type" style="float: left;">
                             {% if ASSET.server.os_type %}
                                 <option  value="{{ ASSET.server.os_type }}">{{ ASSET.server.get_os_type_display }}</option>
-                                <option value="0">无</option>
-                            {% else %}
+                                {% else %}
                                 <option value="0">请选择操作系统</option>
                             {% endif %}
-
                             <option value="1">Windows</option>
                             <option value="2">Unix</option>
                             <option value="3">Linux</option>
@@ -412,8 +413,7 @@
                          <select name="sub_asset_type">
                              {% if ASSET.networkdevice.sub_asset_type %}
                                  <option value="{{ ASSET.networkdevice.sub_asset_type }}">{{ ASSET.networkdevice.get_sub_asset_type_display }}</option>
-                                 <option value="0">无</option>
-                             {% else %}
+                                 {% else %}
                                  <option value="0">请选择网络设备类型</option>
                              {% endif %}
                              <option value="1">路由器</option>
@@ -436,8 +436,7 @@
                          <select name="sub_asset_type">
                              {% if ASSET.securitydevice %}
                                  <option value="{{ ASSET.securitydevice.sub_asset_type }}">{{ ASSET.securitydevice.get_sub_asset_type_display }}</option>
-                                <option value="0">无</option>
-                             {% else %}
+                                 {% else %}
                                     <option value="0">请选择安全设备类型</option>
                              {% endif %}
                              <option value="1">防火墙</option>
@@ -476,8 +475,7 @@
                          <select name="sub_asset_type">
                              {% if ASSET.storagedevice.sub_asset_type %}
                                  <option value="{{ ASSET.storagedevice.sub_asset_type }}">{{ ASSET.storagedevice.get_sub_asset_type_display }}</option>
-                                <option value="0">无</option>
-                             {% else %}
+                                 {% else %}
                                     <option value="0">请选择存储设备类型</option>
                              {% endif %}
                              <option value="1">磁盘阵列</option>
@@ -493,7 +491,7 @@
             <div class="row  clearfix">
                 <div class="span10 offset2" style="width: 95%">
                     <input style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: right;" type="submit" name="submit" id="submit" class="submit btn btn-block btn-primary" value="保存">
-                    <button type="button" style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: left;" class="btn btn-block btn-success" onclick="window.location.href='http://127.0.0.1:8000/cmdb'">取消</button>
+                    <button type="button" style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: left;" class="btn btn-block btn-success" onclick="window.location.href='http://127.0.0.1:8000/cmdb/asset'">取消</button>
                     <button type="button" style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: right;margin-right: 2em;" class="btn btn-block btn-warning" onclick="window.location.href='http://127.0.0.1:8000/cmdb/editMore?assetId={{ ASSET.id }}'">编辑部件</button>
 
                 </div>
@@ -504,7 +502,7 @@
 {% endblock main_content %}
 
 {% block foot_js %}
-    <script src="/static/plugins/layer/layer.js"></script>
+    <script type="text/javascript" src="/static/dist/layer/layer.js"></script>
     <script>
         $(function(){
             $("#o").change(function (){

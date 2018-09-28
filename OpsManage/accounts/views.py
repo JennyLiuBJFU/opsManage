@@ -20,6 +20,26 @@ def editAdmin(request):
     return render(request, 'accounts/userEdit.html', context)
 
 @login_required()
+def setPassword(request):
+    dadmin = request.POST.getlist('delete_admin')
+    print(dadmin)
+    if len(dadmin):
+        for i in dadmin:
+            User.objects.get(pk=i).delete()
+    if  request.user.is_superuser:
+        Perm=1
+    else:
+        Perm=0
+    admin = User.objects.all()
+    context = {
+        'admin': admin,
+        'USERNAME': str(request.user),
+        'Flag':1,
+        'Perm':Perm,
+    }
+    return render(request, 'cmdb/ServerManage/index.html', context)
+
+@login_required()
 def newPasswordSubmit(request):
     Perm = 0
     if request.user.is_superuser:
@@ -75,5 +95,20 @@ def addAdminSubmit(request):
 
     return render(request, 'accounts/manageUser.html', context)
 
+@login_required()
+def addAdminBack(request):
+    Assets = cmdb.models.Asset.objects.all()
+    Organizations = cmdb.models.Organization.objects.all()
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+    context = {
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+        'Assets': Assets,
+        'Organizations': Organizations
+    }
+    return render(request, 'cmdb/ServerManage/index.html', context)
 
 

@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block css_block %}
+<link href="/static/css/form2.css" type="text/css" rel="stylesheet">
+{% endblock css_block %}
+
 {% block main_content %}
 
 <section id="getintouch" >
@@ -514,7 +518,7 @@
 
             <div class="row  clearfix" style="clear: left">
                 <div class="span10 offset2" style="width: 95%">
-                    <button type="button" style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: right;" class="btn btn-block btn-primary" onclick="window.location.href='http://127.0.0.1:8000/cmdb'">完成</button>
+                    <button type="button" style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: right;" class="btn btn-block btn-primary" onclick="window.location.href='http://127.0.0.1:8000/cmdb/asset'">完成</button>
                 </div>
             </div>
         </div>
