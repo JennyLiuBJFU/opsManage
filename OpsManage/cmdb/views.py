@@ -6,10 +6,7 @@ import json
 from django.shortcuts import render
 from django.http import HttpResponse
 from cmdb.models import *
-<<<<<<< HEAD
 
-=======
->>>>>>> 884a4258dd28cc378159685a8da10a3cc2a83738
 from django.contrib.auth.decorators import login_required
 import numpy
 import qrcode
@@ -131,7 +128,7 @@ def index(request):
         fenju_children = {"name":fenju_name,"children":list_tmp}
         zxj_children.append(fenju_children)
     org_dic = {"name":zxj.org_name,"children": zxj_children}
-<<<<<<< HEAD
+
     
     context = {
         'org_data': org_dic,
@@ -1353,7 +1350,7 @@ def orgManage(request):
 <<<<<<< HEAD
 """
 def basicData(request):
-=======
+
     # 查询分局局对象
     fenju_list = Organization.objects.filter(parent_org=zxj.id)
 
@@ -1389,7 +1386,7 @@ def basicData(request):
 
 @login_required()
 def idcManage(request):
->>>>>>> 884a4258dd28cc378159685a8da10a3cc2a83738
+
     Organizations = Organization.objects.all()
     myOrg = Organization()
     myIdc = Idc.objects.all()
@@ -1418,7 +1415,7 @@ def idcManage(request):
         'cabFlag':cabFlag,
     }
 
-<<<<<<< HEAD
+
     return render(request, 'cmdb/basicData/index.html', context)
 """
 
