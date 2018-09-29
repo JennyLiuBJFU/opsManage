@@ -2,69 +2,112 @@
 
 
 {% block main_content %}
-
-<!-- 顶部图表区域 -->
-<!--  .row  -->
-<!--<div class="row">-->
-
-    <!--&lt;!&ndash; /.col (LEFT) &ndash;&gt;-->
-    <!--<div class="col-xs-6">-->
-
-        <!--<div class="box box-danger" id="div01">-->
-            <!--<div class="box-header with-border">-->
-                <!--<h3 class="box-title">资产分布</h3>-->
-
-                <!--<div class="box-tools pull-right">-->
-                    <!--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i-->
-                            <!--class="fa fa-minus"></i>-->
-                    <!--</button>-->
-                    <!--<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>-->
-                    <!--</button>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="box-body" id="Chart1">-->
-            <!--</div>-->
-            <!--&lt;!&ndash; /.box-body &ndash;&gt;-->
-        <!--</div>-->
-        <!--&lt;!&ndash; /.box &ndash;&gt;-->
-    <!--</div>-->
-
-
-    <!--&lt;!&ndash; /.col (RIGHT) &ndash;&gt;-->
-    <!--<div class="col-md-6">-->
-        <!--&lt;!&ndash; LINE CHART &ndash;&gt;-->
-        <!--<div class="box box-info" id="div02">-->
-            <!--<div class="box-header with-border">-->
-                <!--<h3 class="box-title">资产分布</h3>-->
-
-                <!--<div class="box-tools pull-right">-->
-                    <!--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i-->
-                            <!--class="fa fa-minus"></i>-->
-                    <!--</button>-->
-                    <!--<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>-->
-                    <!--</button>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="box-body" class="chart" id="Chart2">-->
-            <!--</div>-->
-            <!--&lt;!&ndash; /.box-body &ndash;&gt;-->
-        <!--</div>-->
-        <!--&lt;!&ndash; /.box &ndash;&gt;-->
-    <!--</div>-->
-
-<!--</div>-->
-<!--&lt;!&ndash;  /.row  &ndash;&gt;-->
-
-
-<!-- 组织机构图表 -->
 <div class="row">
-    <!-- /.col (RIGHT) -->
+    <div >
+          <div class="col-md-4">
+          <div class="info-box bg-red">
+            <span class="info-box-icon"><i class="fa fa-cubes"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">资产总数</span>
+              <span class="info-box-number"> {{asset_total}}</span>
+
+              <div class="progress">
+                <div class="progress-bar" style="width: 100%"></div>
+              </div>
+                  <span class="progress-description">
+                    中线局(京津冀)IT资产总数量
+                  </span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+    </div >
+
+    <!--<div>-->
+        <!--<div class="col-md-1">-->
+            <!--<img src="/static/resources/common/server001.jpg"  width="100%"  height="100%" alt="asset">-->
+        <!--</div>-->
+    <!--</div>-->
+
+
+    <div>
+        <div class="col-md-2">
+          <div class="info-box">
+            <span class="info-box-icon bg-red"><i class="fa fa-server"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Server</span>
+              <span class="info-box-number">{{server_total}}</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+    </div >
+
+
+
+    <div >
+         <div class="col-md-2">
+          <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="fa fa-sitemap"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Network</span>
+              <span class="info-box-number">{{network_total}}</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+    </div >
+
+
+    <div >
+        <div class="col-md-2">
+          <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="fa fa-shield"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Security</span>
+              <span class="info-box-number">{{security_total}}</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+    </div >
+
+
+
+    <div >
+        <div class="col-md-2">
+          <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="fa fa-database"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Storage</span>
+              <span class="info-box-number">{{storage_total}}</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+    </div >
+
+
+</div>
+
+
+<div class="row">
+    <!-- 组织机构树图 -->
     <div class="col-md-8">
         <!-- LINE CHART -->
         <div class="box box-info" id="orgdiv">
             <div class="box-header with-border">
-                <h3 class="box-title">京津冀段组织机构</h3>
-
+                <h3 class="box-title">组织机构图（京津冀）</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
                             class="fa fa-minus"></i>
@@ -80,12 +123,11 @@
         <!-- /.box -->
     </div>
 
+    <!-- ----- 京津冀资产分布柱形图----- -->
     <div class="col-xs-4">
-
         <div class="box box-danger" id="div01">
             <div class="box-header with-border">
-                <h3 class="box-title">资产分布</h3>
-
+                <h3 class="box-title">分局资产分布</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
                             class="fa fa-minus"></i>
@@ -102,12 +144,12 @@
     </div>
 
 
-    <!-- /.col (RIGHT) -->
+    <!-- 资产类型饼图 -->
     <div class="col-md-4">
         <!-- LINE CHART -->
         <div class="box box-info" id="div02">
             <div class="box-header with-border">
-                <h3 class="box-title">资产分布</h3>
+                <h3 class="box-title">资产类型分布</h3>
 
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
@@ -130,69 +172,116 @@
 
 {% endblock main_content %}
 
+
+
 {% block foot_js %}
 <script src="/static/dist/js/echarts.min.js"></script>
 <script src="/static/dist/js/customed_echart.js"></script>
 
 <!-- ----柱状图------ -->
 <script>
-    $(function () {
-        // 设置表格大小
-        var container1 = document.getElementById("Chart1");
-        var width1 = $("#div01").width();
-        $("#Chart1").css({"width": width1, "height": "250px"});
-        // 绘制表格
-        var myChart = echarts.init(container1, 'customed');
-        // 基于准备好的dom，初始化echarts实例
-        // 指定图表的配置项和数据
+    var posList = [
+    'left', 'right', 'top', 'bottom',
+    'inside',
+    'insideTop', 'insideLeft', 'insideRight', 'insideBottom',
+    'insideTopLeft', 'insideTopRight', 'insideBottomLeft', 'insideBottomRight'
+    ];
 
-        var option = {
-            tooltip: {
-                show: true,
+    var labelOption = {
+        normal: {
+            show: true,
+            position: 'insideBottom',
+            distance: 15,
+            align: 'left',
+            verticalAlign: 'middle',
+            rotate: 90,
+            formatter: '{c}  {name|{a}}',
+            fontSize: 16,
+            rich: {
+                name: {
+                    textBorderColor: '#fff'
+                }
+            }
+        }
+    };
+
+    var container1 = document.getElementById("Chart1");
+    var width1 = $("#div01").width();
+    $("#Chart1").css({"width": width1, "height": "300px"});
+    // 绘制表格
+    var myChart = echarts.init(container1, 'customed');
+    var option = {
+        color: ['#003366', '#006699', '#4cabce', '#e5323e'],
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        legend: {
+            data: ['主机', '网络', '安全', '存储']
+        },
+        toolbox: {
+            show: true,
+            orient: 'vertical',
+            left: 'right',
+            top: 'center',
+            feature: {
+                mark: {show: true},
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        calculable: true,
+        xAxis: [
+            {
+                type: 'category',
+                axisTick: {show: false},
+                data: ['中线局', '北京分局', '河北分局', '天津分局']
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        series: [
+            {
+                name: '主机',
+                type: 'bar',
+                barGap: 0,
+                label: labelOption,
+                data: [{{zxj_server_count}}, {{bj_server_count}}, {{hb_server_count}}, {{tj_server_count}}]
             },
-            xAxis: [
-                {
-                    type: 'category',
-                    data: ['食品', '衣着', '居住',]
-                }
-            ],
-            yAxis: [
-                {
-                    type: 'value'
-                }
-            ],
-            series: [
-                {
-                    name: '2011',
-                    type: 'bar',
-                    // itemStyle: itemStyle,
-                    data: [5506.3, 1674.7, 1405]
-                },
+            {
+                name: '网络',
+                type: 'bar',
+                label: labelOption,
+                data: [{{zxj_network_count}}, {{bj_network_count}}, {{hb_network_count}}, {{tj_network_count}}]
+            },
+            {
+                name: '安全',
+                type: 'bar',
+                label: labelOption,
+                data: [{{zxj_security_count}}, {{bj_security_count}}, {{hb_security_count}}, {{tj_security_count}}]
+            },
+            {
+                name: '存储',
+                type: 'bar',
+                label: labelOption,
+                data: [{{zxj_storage_count}}, {{bj_storage_count}}, {{hb_storage_count}}, {{tj_storage_count}}]
+            }
+        ]
+    };
 
-                {
-                    name: '2011',
-                    type: 'bar',
-                    // itemStyle: itemStyle,
-                    data: [5506.3, 1674.7, 1405]
-                },
-                {
-                    name: '2012',
-                    type: 'bar',
-                    // itemStyle: itemStyle,
-                    data: [6040.9, 1823.4, 1484.3]
-                },
-                {
-                    name: '2013',
-                    type: 'bar',
-                    // itemStyle: itemStyle,
-                    data: [6311.9, 1902, 1745.1]
-                }
-            ]
-        };
-        // 调用表格
-        myChart.setOption(option);
-    });
+
+    //调用图表
+    myChart.setOption(option);
 </script>
+
+
 
 
 <!-- ----饼状图------ -->
@@ -201,24 +290,25 @@
         // 设置表格大小
         var container2 = document.getElementById("Chart2");
         var width2 = $("#div02").width();
-        $("#Chart2").css({"width": width2, "height": "250px"});
+        $("#Chart2").css({"width": width2, "height": "300px"});
 
         // 绘制表格
         var myChart = echarts.init(container2, 'customed');
         var option = {
             tooltip: {},
+            legend: {
+                orient: 'vertical',
+                x: 'left',
+                data:['主机','网络','安全','存储']
+            },
             series: [
                 {
-                    // name:'访问来源',
                     type: 'pie',
-                    // radius : '55%',
-                    // center: ['50%', '60%'],
                     data: [
-                        {value: 335, name: '直接访问'},
-                        {value: 310, name: '邮件营销'},
-                        {value: 234, name: '联盟广告'},
-                        {value: 135, name: '视频广告'},
-                        {value: 1548, name: '搜索引擎'}
+                        {value: {{server_total}}, name: '主机'},
+                        {value: {{network_total}}, name: '网络'},
+                        {value: {{security_total}}, name: '安全'},
+                        {value: {{storage_total}}, name: '存储'},
                     ]
                 }
             ]
@@ -229,13 +319,14 @@
 </script>
 
 
+
 <!-- ----组织机构图------ -->
 <script>
     $(function () {
         // 设置表格大小
         var container3 = document.getElementById("orgChart");
         var width3 = $("#orgdiv").width();
-        $("#orgChart").css({"width": width3, "height": "850px"});
+        $("#orgChart").css({"width": width3, "height": "665px"});
 
         // 绘制表格
         var myChart = echarts.init(container3, 'customed');
@@ -254,9 +345,6 @@
                     saveAsImage: {show: true}
                 }
             },
-
-
-
             series: [
                 {
                     name: '树图',
@@ -264,7 +352,7 @@
                     layout: 'radial',
                     orient: 'vertical',  // vertical horizontal
                     initialTreeDepth:4,
-                    rootLocation: {x: 100, y: 230}, // 根节点位置  {x: 100, y: 'center'}
+                    rootLocation: {x: 100, y: 'center'}, // 根节点位置  {x: 100, y: 'center'}
                     nodePadding: 8,
                     layerPadding: 200,
                     hoverable: true,
@@ -299,6 +387,7 @@
                         },
                         borderWidth: 0
                     },
+                    //改为横向时需要取消注释
                     // leaves: {
                     //     label: {
                     //         normal: {
@@ -316,7 +405,7 @@
                     // },
                     data: [
                         {% autoescape off %}
-                            {{data}}
+                            {{org_data}}
                         {% endautoescape %}
     ]
     }
