@@ -149,7 +149,7 @@ def loginSubmit(request):
             'zxj_storage_count': zxj_storage_count,
         }
         return render(request, 'cmdb/index.html', context)
-    
+
     else:
         Flag=1
         return render(request,'login.html',{'Flag':Flag})
