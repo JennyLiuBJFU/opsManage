@@ -37,7 +37,6 @@ urlpatterns = [
     url(r'^PortDelete', views.PortDelete),
     url(r'^PartDelete', views.PartDelete),
     url(r'^basicData', views.orgManage),
-
     url(r'^editCab', views.editCab),
     url(r'^addCabSubmit', views.addCabSubmit),
     url(r'^addIdc', views.addIdc),
@@ -58,6 +57,5 @@ urlpatterns = [
     url(r'^addSupplierSubmitM',views.addSupplierSubmitM),
     url(r'^vendorManage',views.vendorManage),
     url(r'^addVendorSubmitM',views.addVendorSubmitM),
-
     url(r'^assetMap',views.assetMap),
 ]

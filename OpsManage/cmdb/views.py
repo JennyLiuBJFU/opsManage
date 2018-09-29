@@ -14,7 +14,7 @@ from django.http import JsonResponse
 from  django.db.models import Q
 
 
-
+# 分页函数
 def page_list_return(total, current=1):
     """
     page
@@ -24,7 +24,7 @@ def page_list_return(total, current=1):
     max_page = min_page + 6 if min_page + 6 < total else total
     return range(min_page, max_page + 1)
 
-
+# 分页函数
 def pages(post_objects, request):
     """
     page public function , return page's object tuple
@@ -32,7 +32,7 @@ def pages(post_objects, request):
     """
     page_len = request.GET.get('page_len', '')
     if not page_len:
-        page_len = 10
+        page_len = 20
     paginator = Paginator(post_objects, page_len)
     try:
         current_page = int(request.GET.get('page', '1'))
