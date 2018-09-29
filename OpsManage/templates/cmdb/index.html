@@ -10,7 +10,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">资产总数</span>
-              <span class="info-box-number"> {{asset_total}}</span>
+              <span class="info-box-number" style="font-size: 20px;"> {{asset_total}}</span>
 
               <div class="progress">
                 <div class="progress-bar" style="width: 100%"></div>
@@ -36,10 +36,9 @@
         <div class="col-md-2">
           <div class="info-box">
             <span class="info-box-icon bg-red"><i class="fa fa-server"></i></span>
-
             <div class="info-box-content">
-              <span class="info-box-text">Server</span>
-              <span class="info-box-number">{{server_total}}</span>
+              <span class="info-box-text">服务器</span>
+              <span class="info-box-number" style="font-size: 24px;">{{server_total}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -55,8 +54,8 @@
             <span class="info-box-icon bg-yellow"><i class="fa fa-sitemap"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">Network</span>
-              <span class="info-box-number">{{network_total}}</span>
+              <span class="info-box-text">网络设备</span>
+              <span class="info-box-number" style="font-size: 24px;">{{network_total}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -71,8 +70,8 @@
             <span class="info-box-icon bg-aqua"><i class="fa fa-shield"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">Security</span>
-              <span class="info-box-number">{{security_total}}</span>
+              <span class="info-box-text">安全设备</span>
+              <span class="info-box-number" style="font-size: 24px;">{{security_total}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -88,8 +87,8 @@
             <span class="info-box-icon bg-green"><i class="fa fa-database"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">Storage</span>
-              <span class="info-box-number">{{storage_total}}</span>
+              <span class="info-box-text">存储设备</span>
+              <span class="info-box-number" style="font-size: 24px;">{{storage_total}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -177,6 +176,9 @@
 {% block foot_js %}
 <script src="/static/dist/js/echarts.min.js"></script>
 <script src="/static/dist/js/customed_echart.js"></script>
+
+
+
 
 <!-- ----柱状图------ -->
 <script>
@@ -320,7 +322,7 @@
 
 
 
-<!-- ----组织机构图------ -->
+<!-- ----组织e机构图------ -->
 <script>
     $(function () {
         // 设置表格大小

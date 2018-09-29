@@ -435,6 +435,7 @@ def addSubmit(request):
         'Assets': Assets,
         'ID':ASSET.id,
         'Servers':Servers,
+        'ASSET.qrcode': ASSET.qrcode,
     }
     if ASSET.asset_type=='1':
         return render(request,'cmdb/ServerManage/add/addOneToOne/addServer.html',context)
@@ -1354,6 +1355,7 @@ def orgManage(request):
         'data': org_dic,
         'USERNAME': str(request.user),
         'Perm': Perm,
+        'tab_number': "org",
     }
 
     return render(request, 'cmdb/basicData/orgManage.html', context)
@@ -1386,6 +1388,7 @@ def idcManage(request):
         'myIdcs': myIdc,
         'myCabs': myCabinet,
         'cabFlag':cabFlag,
+        'tab_number': "idc",
     }
 
     return render(request, 'cmdb/basicData/idcManage.html', context)
@@ -1524,6 +1527,7 @@ def userManage(request):
         'admin': admin,
         'USERNAME': str(request.user),
         'Perm': Perm,
+        'tab_number': "user",
     }
     return render(request,'cmdb/basicData/userManage.html',context)
 
@@ -1562,6 +1566,7 @@ def contractManage(request):
         'contract': contract,
         'USERNAME': str(request.user),
         'Perm': Perm,
+        'tab_number': "contract",
     }
     return render(request,'cmdb/basicData/contractManage.html',context)
 
@@ -1625,7 +1630,7 @@ def addOrgSubmit(request):
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
-        'org': org
+        'org': org,
     }
 
     return render(request, 'cmdb/basicData/editOrg.html', context)
@@ -1646,7 +1651,8 @@ def supplierManage(request):
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
-        'supplier': supplier
+        'supplier': supplier,
+        'tab_number': "supplier",
     }
     return render(request, 'cmdb/basicData/supplierManage.html',context)
 
@@ -1689,6 +1695,7 @@ def vendorManage(request):
         'USERNAME': str(request.user),
         'Perm': Perm,
         'vendor': vendor,
+        'tab_number': "vendor",
     }
     return render(request, 'cmdb/basicData/vendorManage.html',context)
 

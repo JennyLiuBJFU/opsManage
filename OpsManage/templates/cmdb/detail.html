@@ -94,6 +94,10 @@
                         <td class="text">{{ ASSET.organization }}</td>
                     </tr>
                     <tr>
+                        <td class="text-right">资产状态:</td>
+                        <td class="text">{{ ASSET.get_status_display }}</td>
+                    </tr>
+                    <tr>
                         <td class="text-right">来源合同:</td>
                         <td class="text">{{ ASSET.contract }}</td>
                     </tr>
@@ -104,16 +108,12 @@
 
                     <tr>
                         <td class="text-right">购买日期:</td>
-                        <td class="align"><i>{{ ASSET.purchase_day.isoformat }}</i></td>
+                        <td class="align">{{ ASSET.purchase_day.isoformat }}</td>
                     </tr>
 
                     <tr>
                         <td class="text-right">过保日期:</td>
-                        <td><i>{{ ASSET.expire_day.isoformat }}</i></td>
-                    </tr>
-                    <tr>
-                        <td class="text-right">资产状态:</td>
-                        <td class="text">{{ ASSET.get_status_display }}</td>
+                        <td>{{ ASSET.expire_day.isoformat }}</td>
                     </tr>
                     <tr>
                         <td class="text-right">管理人员:</td>
@@ -123,8 +123,7 @@
                 </table>
             </div>
 
-
-            <div class="col-xs-5" id="i2">
+            <div class="col-xs-5 border-left" id="i2">
                 <img class="img-responsive center-block" src="{{ ASSET.model.img.url }}" id="i3">
             </div>
         </div>
@@ -142,7 +141,7 @@
 
                 <table class="table table-condensed table-bordered table-hover" id="device_info_table">
                     <tr>
-                        <td class="text text-center text-primary">设备序列号</td>
+                        <td class="text text-center text-primary">设备串号</td>
                         <td class="text" colspan="3">{{ ASSET.sn }}</td>
                     </tr>
                     <tr>
@@ -151,8 +150,6 @@
                         <td class="text text-center text-primary">设备品牌</td>
                         <td class="text">{{ ASSET.model.vendor }}</td>
                     </tr>
-
-
                     <tr>
                         <td class="text text-center text-primary">设备型号</td>
                         <td class="text">{{ ASSET.model }}</td>
@@ -172,11 +169,7 @@
                         <td class="text text-center text-primary">机柜位置</td>
                         <td class="text">{{ CabinetSpace }}</td>
                     </tr>
-
-
                 </table>
-
-
             </div>
         </div>
     </div>
@@ -213,7 +206,6 @@
                                 <td class="text ">{{ cpu.cpu_core_count }}</td>
                                 <td class="text ">{{ cpu.cpu_speed }}</td>
                             </tr>
-
                         {% endfor %}
 
                     </table>
@@ -240,7 +232,6 @@
                                 <td class="text ">{{ ram.ram_volume }}</td>
                                 <td class="text ">{{ ram.ram_status }}</td>
                             </tr>
-
                         {% endfor %}
 
                     </table>
@@ -269,7 +260,6 @@
                                 <td class="text ">{{ disk.disk_volume }}</td>
                                 <td class="text ">{{ disk.disk_status }}</td>
                             </tr>
-
                         {% endfor %}
 
                     </table>
@@ -299,7 +289,6 @@
                                 <td class="text ">{{ part.parts_slot }}</td>
                                 <td class="text ">{{ part.part.status }}</td>
                             </tr>
-
                         {% endfor %}
 
                     </table>
@@ -345,7 +334,6 @@
                             <td class="text ">{{ port.bandwidth }}</td>
                             <td class="text ">{{ port.status }}</td>
                         </tr>
-
                     {% endfor %}
 
                 </table>
@@ -367,8 +355,6 @@
                     <div class="panel-body">
                         <p>{{ ASSET.memo }}</p>
                     </div>
-
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" id="print">打印</button>
@@ -433,9 +419,7 @@
                     //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
                     var imgWidth = 595.28;
                     var imgHeight = 592.28 / contentWidth * contentHeight;
-
                     var pageData = canvas.toDataURL('image/jpeg', 1.0);
-
                     var pdf = new jsPDF('', 'pt', 'a4');
 
                     //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)

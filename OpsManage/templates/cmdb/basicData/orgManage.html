@@ -18,15 +18,13 @@
 
 {% block main_content %}
 
-
 <ul  id="tabs">
-    <li id="selectedTab"><a href="http://127.0.0.1:8000/cmdb/orgManage" >组织机构</a></li>
-
-    <li><a href="http://127.0.0.1:8000/cmdb/idcManage" >机房管理</a></li>
-    <li><a href="http://127.0.0.1:8000/cmdb/userManage" >用户管理</a></li>
-    <li><a href="http://127.0.0.1:8000/cmdb/contractManage" >合同管理</a></li>
-    <li><a href="http://127.0.0.1:8000/cmdb/supplierManage" >供应商管理</a></li>
-    <li><a href="http://127.0.0.1:8000/cmdb/vendorManage" >厂商管理</a></li>
+    <li id="org"><a href="http://127.0.0.1:8000/cmdb/orgManage" >组织机构</a></li>
+    <li id="idc"> <a href="http://127.0.0.1:8000/cmdb/idcManage" >机房管理</a></li>
+    <li id="user"><a href="http://127.0.0.1:8000/cmdb/userManage" >用户管理</a></li>
+    <li id="contract"><a href="http://127.0.0.1:8000/cmdb/contractManage" >合同管理</a></li>
+    <li id="supplier"><a href="http://127.0.0.1:8000/cmdb/supplierManage" >供应商管理</a></li>
+    <li id="vendor"><a href="http://127.0.0.1:8000/cmdb/vendorManage" >厂商管理</a></li>
 </ul>
 
 <!-- content -->
@@ -72,6 +70,15 @@
 {% block foot_js %}
 <script src="/static/dist/js/echarts.min.js"></script>
 <script src="/static/dist/js/customed_echart.js"></script>
+
+  <!-- ----tab效果---- -->
+<script>
+    $(document).ready(function () {
+        $("#org").attr("id", "current"); // Activate first tab
+    });
+</script>
+
+
 <!-- ----组织机构图------ -->
 <script>
     $(function () {
@@ -97,8 +104,6 @@
                     saveAsImage: {show: true}
                 }
             },
-
-
 
             series: [
                 {

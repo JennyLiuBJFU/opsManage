@@ -112,7 +112,6 @@
                         {% for Asset in assets %}
                         <tr>
                             <td class="text-center">{{ offset_index | add:forloop.counter }}</td>
-
                             <td><a href="#">
                                 <li id="asset_detail" style="list-style-type:none"
                                     onclick="return detail(this.value)"
@@ -269,7 +268,7 @@
                 title: '资产信息',
                 closeBtn: 1,
                 area: ['960px', '700px'],
-                shade: 0.8,
+                shade: 0.5,
                 shadeClose: true, //点击遮罩关闭
                 content: ['/cmdb/detail' + n],
             });
