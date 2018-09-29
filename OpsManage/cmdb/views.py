@@ -1718,3 +1718,16 @@ def addVendorSubmitM(request):
     }
 
     return render(request, 'cmdb/basicData/vendorManage.html', context)
+
+@login_required()
+def assetMap(request):
+    if request.user.is_superuser:
+        Perm=1
+    else:
+        Perm=0
+    context={
+        'idcs':Idc.objects.all(),
+        'USERNAME':str(request.user),
+        'Perm':Perm,
+    }
+    return render (request, 'cmdb/assetMap.html', context)
