@@ -31,7 +31,7 @@
     <div class="row" style="margin-top: 10px">
 
         <div class="col-sm-8">
-            <div class="box " style="min-height: 550px">
+            <div class="box">
 
                 <div class="box-header with-border">
                     <h3 class="box-title">
@@ -59,7 +59,7 @@
                                 <td>{{ i.pk }}</td>
                                 <td>{{ i.contract_number }}</td>
                                 <td>{{ i.contract_name }}</td>
-                                <td>{{ i.contract_content }}</td>
+                                <td style="max-width: 250px">{{ i.contract_content }}</td>
                                 <td>{{ i.contract_memo }}</td>
                             </tr>
                             {% endfor %}
@@ -69,8 +69,7 @@
 
 
                     <div class="box-footer " >
-                        <button type="submit" class="btn btn-default bottom">取消</button>
-                        <button type="submit" class="btn btn-info pull-right">删除</button>
+                        <button type="submit" class="btn btn-danger pull-right">Delete</button>
                     </div>
                 </form>
 
@@ -123,8 +122,7 @@
 
                     <!-- box-footer -->
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-default">取消</button>
-                        <button type="submit" class="btn btn-info pull-right">添加</button>
+                        <button type="submit" class="btn btn-info pull-right">Submit</button>
                     </div>
                     <!-- /.box-footer -->
                 </form>
