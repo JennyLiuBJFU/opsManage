@@ -9,14 +9,14 @@
             <span class="info-box-icon"><i class="fa fa-cubes"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">资产总数</span>
-              <span class="info-box-number" style="font-size: 20px;"> {{asset_total}}</span>
+              <span class="info-box-text">中线局(京津冀)IT资产总数</span>
+              <span class="info-box-number text-center" style="font-size: 20px;"> {{asset_total}}</span>
 
               <div class="progress">
                 <div class="progress-bar" style="width: 100%"></div>
               </div>
-                  <span class="progress-description">
-                    中线局(京津冀)IT资产总数量
+                  <span class="progress-description" style="font-size: 14px">
+                    服务器设备、存储设备、网络设备、安全设备
                   </span>
             </div>
             <!-- /.info-box-content -->
@@ -35,10 +35,10 @@
     <div>
         <div class="col-md-2">
           <div class="info-box">
-            <span class="info-box-icon bg-red"><i class="fa fa-server"></i></span>
+            <span class="info-box-icon bg-purple"><i class="fa fa-server"></i></span>
             <div class="info-box-content">
               <span class="info-box-text">服务器</span>
-              <span class="info-box-number" style="font-size: 24px;">{{server_total}}</span>
+              <span class="info-box-number text-center" style="font-size: 24px;line-height: 45px"">{{server_total}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -55,7 +55,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">网络设备</span>
-              <span class="info-box-number" style="font-size: 24px;">{{network_total}}</span>
+              <span class="info-box-number text-center" style="font-size: 24px;line-height: 45px"">{{network_total}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -71,7 +71,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">安全设备</span>
-              <span class="info-box-number" style="font-size: 24px;">{{security_total}}</span>
+              <span class="info-box-number text-center" style="font-size: 24px;line-height: 45px">{{security_total}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -88,7 +88,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">存储设备</span>
-              <span class="info-box-number" style="font-size: 24px;">{{storage_total}}</span>
+              <span class="info-box-number text-center" style="font-size: 24px;line-height: 45px">{{storage_total}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -106,6 +106,7 @@
         <!-- LINE CHART -->
         <div class="box box-info" id="orgdiv">
             <div class="box-header with-border">
+                <span class="fa fa-crosshairs"></span>
                 <h3 class="box-title">组织机构图（京津冀）</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
@@ -126,6 +127,7 @@
     <div class="col-xs-4">
         <div class="box box-danger" id="div01">
             <div class="box-header with-border">
+                <span class="fa fa-bar-chart"></span>
                 <h3 class="box-title">分局资产分布</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
@@ -148,6 +150,7 @@
         <!-- LINE CHART -->
         <div class="box box-info" id="div02">
             <div class="box-header with-border">
+                <span class="fa fa-pie-chart"></span>
                 <h3 class="box-title">资产类型分布</h3>
 
                 <div class="box-tools pull-right">

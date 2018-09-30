@@ -1363,6 +1363,43 @@ def orgManage(request):
 @login_required()
 def idcManage(request):
     Organizations = Organization.objects.all()
+    myIdc = Idc.objects.all()
+    myOrg = Organization()
+    myCabinet = Cabinet()
+    cabFlag = 0
+    print("^^^^^^^^^^^^^^^^^^^")
+    print(type(myOrg))
+    print(type(myCabinet))
+
+    try:
+        IDC = request.GET['IDC']
+        myCabinet=Cabinet.objects.filter(idc=Idc.objects.get(id=IDC))
+        cabFlag=1
+    except:
+        print("没有IDC参数!")
+
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+
+    context = {
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+        'ORGS': Organizations,
+        'myOrg': myOrg,
+        'myIdcs': myIdc,
+        'myCabs': myCabinet,
+        'cabFlag':cabFlag,
+        'tab_number': "idc",
+    }
+    return render(request, 'cmdb/basicData/idcManage.html', context)
+
+
+'''
+@login_required()
+def idcManage(request):
+    Organizations = Organization.objects.all()
     myOrg = Organization()
     myIdc = Idc.objects.all()
     myCabinet = Cabinet()
@@ -1390,8 +1427,9 @@ def idcManage(request):
         'cabFlag':cabFlag,
         'tab_number': "idc",
     }
-
     return render(request, 'cmdb/basicData/idcManage.html', context)
+'''
+
 
 @login_required()
 def editCab(request):
@@ -1718,7 +1756,7 @@ def addVendorSubmitM(request):
     }
 
     return render(request, 'cmdb/basicData/vendorManage.html', context)
-
+"""
 @login_required()
 def assetMap(request):
     if request.user.is_superuser:
@@ -1731,3 +1769,39 @@ def assetMap(request):
         'Perm':Perm,
     }
     return render (request, 'cmdb/assetMap.html', context)
+"""
+
+@login_required()
+def assetMap(request):
+    Organizations = Organization.objects.all()
+    myIdc = Idc.objects.all()
+    myOrg = Organization()
+    myCabinet = Cabinet()
+    cabFlag = 0
+    print("^^^^^^^^^^^^^^^^^^^")
+    print(type(myOrg))
+    print(type(myCabinet))
+
+    try:
+        IDC = request.GET['IDC']
+        myCabinet=Cabinet.objects.filter(idc=Idc.objects.get(id=IDC))
+        cabFlag=1
+    except:
+        print("没有IDC参数!")
+
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+
+    context = {
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+        'ORGS': Organizations,
+        'myOrg': myOrg,
+        'myIdcs': myIdc,
+        'myCabs': myCabinet,
+        'cabFlag':cabFlag,
+        'tab_number': "idc",
+    }
+    return render(request, 'cmdb/assetMap.html', context)
