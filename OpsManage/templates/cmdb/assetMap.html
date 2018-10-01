@@ -10,7 +10,7 @@
 {% block main_content %}
 
 
-<div class="box box-group bg-gray-light " style="min-height: 800px;padding-left: 10px;padding-right: 10px">
+<div class="container-fluid no-padding" >
     <div class="row" style="margin-top: 10px">
 
         {% for idc in myIdcs %}
@@ -29,13 +29,11 @@
                 <!-- .box-body -->
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-sm-4 border-right" style="min-height: 150px">
-                            <span style="line-height: 30px">机房名称 :</span>
-                            <span style="line-height: 30px">{{ idc.idc_name}}</span><br>
-                            <span style="line-height: 30px">机房地址 :</span>
-                            <span style="line-height: 30px">{{ idc.idc_address}}</span><br>
-                            <span style="line-height: 30px">备注信息 :</span>
-                            <span style="line-height: 30px">{{ idc.idc_memo}}</span><br>
+                        <div class="text text-justify col-sm-4 border-right no-margin" style="min-height: 160px">
+                            <span style="line-height: 20px">名称 :{{ idc.idc_name}}</span><br>
+                            <span style="line-height: 20px">地址 :{{ idc.idc_address}}</span><br>
+                            <span style="line-height: 20px">备注 :{{ idc.idc_memo}}</span><br>
+
                         </div>
 
                         <div class="col-sm-8" >

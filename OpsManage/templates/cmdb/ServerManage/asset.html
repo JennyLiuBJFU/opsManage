@@ -9,10 +9,6 @@
 
 {% block main_content %}
 <div class="box box-info" id="box1" style="min-height: 500px">
-{#    <!-- 标题行 -->#}
-{#    <div class="box-header">#}
-{#        <h3 class="box-title">资产列表</h3>#}
-{#    </div>#}
 
     <!-- .content  -->
     <div class="box-body" id="box2">
@@ -22,14 +18,14 @@
             <div class="row " style="margin: 20px 0">
                 <!-- 按钮 -->
                     <!-- 查询所有 -->
-                    <div class="col-sm-1">
+                    <div class="col-sm-1 no-padding center-block">
                         <a href="/cmdb/addARecord">
-                            <button class="btn btn-default btn-sm">添加资产</button>
+                            <button class="btn btn-default btn-sm ">添加资产</button>
                         </a>
                     </div>
                 <form id="filterForm">
                     <!-- 查询所属单位 -->
-                    <div class="col-sm-1 ">
+                    <div class="col-sm-1 no-padding margin-r-5">
                         <select class="form-control m-b input-sm "  name="myOrg" id="selectedOrg">
                             <option value="0" selected="selected">所属单位</option>
                             {% for Organization in Organizations %}
@@ -39,8 +35,9 @@
                     </div>
 
                     <!-- 查询设备类型 -->
-                    <div class="col-sm-1">
-                        <select class="form-control m-b input-sm" name="myType" id="selectedType">
+                    <div class="col-sm-1 no-padding margin-r-5">
+                        <select class="form-control  m-b input-sm select2 no-margin" name="myType" id="selectedType" style="width: 100
+">
                             <option value="0" selected="selected">资产类型</option>
                             <option value="1">服务器</option>
                             <option value="2">网络设备</option>
@@ -51,7 +48,7 @@
                     </div>
 
                     <!-- 查询所属网络 -->
-                    <div class="col-sm-1">
+                    <div class="col-sm-1 no-padding margin-r-5">
                        <select class="form-control m-b input-sm" name="myNet" id="selectedNet">
                             <option value="0" selected="selected">所属网络</option>
                             <option value="1">控制专网</option>
@@ -59,7 +56,7 @@
                             <option value="3">业务外网</option>
                         </select>
                     </div>
-                    <div class="col-sm-1">
+                    <div class="col-sm-1 no-margin center-block">
                         <a href="/cmdb/asset/">
                             <button class="btn  btn-sm btn-default">显示所有</button>
                         </a>
@@ -70,7 +67,7 @@
                 </form >
 
                 <!-- search form  -->
-                <div class="col-sm-2">
+                <div class="col-sm-2 pull-right">
                     <form   class="input-group" method='get' action="/search/" target="_blank" id="searchForm">
                         <input class="form-control inline" type="search"  name="q"  placeholder="Search..." >
                         <input style="display:none" >
