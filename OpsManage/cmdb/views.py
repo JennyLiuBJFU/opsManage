@@ -1836,9 +1836,7 @@ def assetMap(request):
         Perm = 1
     else:
         Perm = 0
-
     Idc_list = Idc.objects.all()
-
     peridc_asset_count = []
     for idc in Idc_list:
         servercount= len(idc.asset_set.filter(asset_type=1))
@@ -1855,9 +1853,6 @@ def assetMap(request):
                             }
                       }
         peridc_asset_count.append(asset_count)
-
-    print(peridc_asset_count)
-
 
     context = {
         'USERNAME': str(request.user),
