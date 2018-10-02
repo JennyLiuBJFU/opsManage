@@ -1770,7 +1770,7 @@ def assetMap(request):
     }
     return render (request, 'cmdb/assetMap.html', context)
 """
-
+"""
 @login_required()
 def assetMap(request):
     Organizations = Organization.objects.all()
@@ -1803,5 +1803,66 @@ def assetMap(request):
         'myCabs': myCabinet,
         'cabFlag':cabFlag,
         'tab_number': "idc",
+    }
+    return render(request, 'cmdb/assetMap.html', context)
+
+"""
+
+"""
+机柜信息的数据格式：
+需要的数据： 机房对象、机柜对象、位置空间对象、机柜内四种设备的数量
+
+1.所有机房对象列表
+{
+"idc":{"idc_name": idc_name,
+        "idc_org": idc_org,
+        "idc_loc": idc_loc,
+        "idc_memo: idc_memo,
+         "cabinet":cabinet_name,
+         "servercount":servercount,
+         "netcount":netcount,
+         "securitycount":securitycount,
+         "storgecount":storgecount,
+         }
+}
+
+
+"""
+
+
+@login_required()
+def assetMap(request):
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+
+    Idc_list = Idc.objects.all()
+
+    peridc_asset_count = []
+    for idc in Idc_list:
+        servercount= len(idc.asset_set.filter(asset_type=1))
+        netcount= len(idc.asset_set.filter(asset_type=2))
+        securitycount= len(idc.asset_set.filter(asset_type=3))
+        storgecount= len(idc.asset_set.filter(asset_type=4))
+
+        asset_count={"idc_name":idc.idc_name,
+                     "data": {
+                            "servercount": servercount,
+                            "netcount": netcount,
+                            "securitycount": securitycount,
+                            "storgecount": storgecount,
+                            }
+                      }
+        peridc_asset_count.append(asset_count)
+
+    print(peridc_asset_count)
+
+
+    context = {
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+        'IDC': Idc_list,
+        'peridc_asset_count':peridc_asset_count,
     }
     return render(request, 'cmdb/assetMap.html', context)

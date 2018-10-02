@@ -17,16 +17,25 @@
             <!-- -------------------查询区-----------------------  -->
             <div class="row " style="margin: 20px 0">
                 <!-- 按钮 -->
-                    <!-- 查询所有 -->
+                <!-- 显示所有 -->
+                <div class="col-sm-1 no-margin center-block">
+                    <a href="/cmdb/asset/">
+                        <button class="btn  btn-sm btn-default">显示所有</button>
+                    </a>
+                </div>
+
+                <!-- 增加资产 -->
                     <div class="col-sm-1 no-padding center-block">
                         <a href="/cmdb/addARecord">
-                            <button class="btn btn-default btn-sm ">添加资产</button>
+                        <button class="btn btn-default btn-sm ">添加资产</button>
                         </a>
                     </div>
+
+
                 <form id="filterForm">
                     <!-- 查询所属单位 -->
                     <div class="col-sm-1 no-padding margin-r-5">
-                        <select class="form-control m-b input-sm "  name="myOrg" id="selectedOrg">
+                        <select class="form-control m-b input-sm " name="myOrg" id="selectedOrg">
                             <option value="0" selected="selected">所属单位</option>
                             {% for Organization in Organizations %}
                             <option value={{ Organization.id }}>{{ Organization.org_name }}</option>
@@ -36,7 +45,8 @@
 
                     <!-- 查询设备类型 -->
                     <div class="col-sm-1 no-padding margin-r-5">
-                        <select class="form-control  m-b input-sm select2 no-margin" name="myType" id="selectedType" style="width: 100
+                        <select class="form-control  m-b input-sm select2 no-margin" name="myType" id="selectedType"
+                                style="width: 100
 ">
                             <option value="0" selected="selected">资产类型</option>
                             <option value="1">服务器</option>
@@ -49,37 +59,36 @@
 
                     <!-- 查询所属网络 -->
                     <div class="col-sm-1 no-padding margin-r-5">
-                       <select class="form-control m-b input-sm" name="myNet" id="selectedNet">
+                        <select class="form-control m-b input-sm" name="myNet" id="selectedNet">
                             <option value="0" selected="selected">所属网络</option>
                             <option value="1">控制专网</option>
                             <option value="2">业务内网</option>
                             <option value="3">业务外网</option>
                         </select>
                     </div>
-                    <div class="col-sm-1 no-margin center-block">
-                        <a href="/cmdb/asset/">
-                            <button class="btn  btn-sm btn-default">显示所有</button>
-                        </a>
-                    </div>
 
-                <!-- blank space  -->
+
+
+
+
+                    <!-- blank space  -->
                     <div class="col-sm-5"></div>
-                </form >
+                </form>
 
                 <!-- search form  -->
                 <div class="col-sm-2 pull-right">
-                    <form   class="input-group" method='get' action="/search/" target="_blank" id="searchForm">
-                        <input class="form-control inline" type="search"  name="q"  placeholder="Search..." >
-                        <input style="display:none" >
-                        <span class="input-group-btn" >
-                            <button class="btn " type="button" value="Search" id="searchBtn" >
+                    <form class="input-group" method='get' action="/search/" target="_blank" id="searchForm">
+                        <input class="form-control inline" type="search" name="q" placeholder="Search...">
+                        <input style="display:none">
+                        <span class="input-group-btn">
+                            <button class="btn " type="button" value="Search" id="searchBtn">
                                 <i class="fa fa-search"></i>
                             </button>
                         </span>
                     </form>
                 </div>
                 <!-- /.search form -->
-             </div>
+            </div>
             <!-- -------------------/查询区------------------------  -->
 
 
@@ -104,7 +113,6 @@
                             <th class="text-center">操作</th>
                         </tr>
                         </thead>
-
 
                         <tbody>
                         {% for Asset in assets %}
@@ -148,30 +156,30 @@
             <!-- -------------------分页------------------------- -->
             <div class="row" id="pageInfo">
                 <!-- --------------每页显示数量------------------- -->
-                <div class="col-md-2" >
+                <div class="col-md-2">
                     <form id="pagelenForm">
                         <span class="text text-right">每页显示</span>
                         <label for="page_len">
-                            <select name="page_len" id="page_len" class="form-control m-b input-sm" >
+                            <select name="page_len" id="page_len" class="form-control m-b input-sm">
                                 <!--{% ifequal page_len '10' %}-->
-                                   <!--<option value="10" selected>10</option>-->
+                                <!--<option value="10" selected>10</option>-->
                                 <!--{% else %}-->
-                                    <!--<option value="10">10</option>-->
+                                <!--<option value="10">10</option>-->
                                 <!--{% endifequal %}-->
                                 {% ifequal page_len '20' %}
-                                    <option value="20" selected>20</option>
+                                <option value="20" selected>20</option>
                                 {% else %}
-                                   <option value="20">20</option>
+                                <option value="20">20</option>
                                 {% endifequal %}
                                 {% ifequal page_len '50' %}
-                                    <option value="50" selected>50</option>
+                                <option value="50" selected>50</option>
                                 {% else %}
-                                    <option value="50">50</option>
+                                <option value="50">50</option>
                                 {% endifequal %}
                                 {% ifequal page_len '100' %}
-                                    <option value="100" selected>100</option>
+                                <option value="100" selected>100</option>
                                 {% else %}
-                                    <option value="100">100</option>
+                                <option value="100">100</option>
                                 {% endifequal %}
                             </select>
                         </label>
@@ -179,192 +187,198 @@
                 </div>
 
 
-             <!-- ----------------页面分页----------------- -->
-                <div class="col-sm-10" >
+                <!-- ----------------页面分页----------------- -->
+                <div class="col-sm-10">
                     <div class="dataTables_paginate paging_simple_numbers" id="editable_paginate">
                         <ul class="pagination" style="margin-top: 0; float: right">
 
                             <!--向前、start按钮-->
                             {% if assets.has_previous %}
-                                <li class="paginate_button previous " aria-controls="editable" tabindex="0" id="editable_previous">
-                                    <a class="page"  href="?page={{ assets.previous_page_number }}&page_len={{ page_len }}">
-                                        Previous
-                                    </a>
-                                </li>
+                            <li class="paginate_button previous " aria-controls="editable" tabindex="0"
+                                id="editable_previous">
+                                <a class="page" href="?page={{ assets.previous_page_number }}&page_len={{ page_len }}">
+                                    Previous
+                                </a>
+                            </li>
                             {% else %}
-                                <li class="paginate_button disabled">
-                                     <a  href="#">Start</a>
-                                </li>
+                            <li class="paginate_button disabled">
+                                <a href="#">Start</a>
+                            </li>
                             {% endif %}
 
                             <!--是否显示第一页-->
                             {% ifequal show_first 1 %}
-                                <li class="paginate_button" aria-controls="editable" tabindex="0">
-                                    <a class="page" href="?page=1&page_len={{ page_len }}"  title="第1页">1...</a>
-                                </li>
+                            <li class="paginate_button" aria-controls="editable" tabindex="0">
+                                <a class="page" href="?page=1&page_len={{ page_len }}" title="第1页">1...</a>
+                            </li>
                             {% endifequal %}
 
                             <!--正常显示页面-->
                             {% for page in page_range %}
-                                {% ifequal current_page page %}
-                                    <li class="paginate_button active"  aria-controls="editable" tabindex="0">
-                                        <a class="page" href="?page={{ page }}&page_len={{ page_len }}"  title="第{{ page }}页">
-                                            {{ page }}
-                                        </a>
-                                    </li>
-                                {% else %}
-                                    <li class="paginate_button" aria-controls="editable" tabindex="0">
-                                        <a class="page" href="?page={{ page }}&page_len={{ page_len }}"  title="第{{ page }}页">
-                                            {{ page }}
-                                        </a>
-                                    </li>
-                                {% endifequal %}
+                            {% ifequal current_page page %}
+                            <li class="paginate_button active" aria-controls="editable" tabindex="0">
+                                <a class="page" href="?page={{ page }}&page_len={{ page_len }}" title="第{{ page }}页">
+                                    {{ page }}
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="paginate_button" aria-controls="editable" tabindex="0">
+                                <a class="page" href="?page={{ page }}&page_len={{ page_len }}" title="第{{ page }}页">
+                                    {{ page }}
+                                </a>
+                            </li>
+                            {% endifequal %}
                             {% endfor %}
 
                             <!--是否显示最后一页-->
                             {% ifequal show_end 1 %}
-                                <li class="paginate_button" aria-controls="editable" tabindex="0">
-                                    <a class="page" href="?page={{ p.num_pages }}&page_len={{ page_len }}"  title="第{{ page }}页">
-                                        ...{{ p.num_pages }}
-                                    </a>
-                                </li>
+                            <li class="paginate_button" aria-controls="editable" tabindex="0">
+                                <a class="page" href="?page={{ p.num_pages }}&page_len={{ page_len }}"
+                                   title="第{{ page }}页">
+                                    ...{{ p.num_pages }}
+                                </a>
+                            </li>
                             {% endifequal %}
 
                             <!--向前、end页-->
                             {% if assets.has_next %}
-                                <li class="paginate_button next" aria-controls="editable" tabindex="0" id="editable_next">
-                                    <a class="page" href="?page={{ assets.next_page_number }}&page_len={{ page_len }}">Next</a>
-                                </li>
+                            <li class="paginate_button next" aria-controls="editable" tabindex="0" id="editable_next">
+                                <a class="page"
+                                   href="?page={{ assets.next_page_number }}&page_len={{ page_len }}">Next</a>
+                            </li>
                             {% else %}
-                                <li class="paginate_button disabled">
-                                    <a  href="#">End</a>
-                                </li>
+                            <li class="paginate_button disabled">
+                                <a href="#">End</a>
+                            </li>
                             {% endif %}
                         </ul>
                     </div>
                 </div>
             </div>
-             <!-- -------------------/分页-------------------------  -->
+            <!-- -------------------/分页-------------------------  -->
         </div>
         <!-- /container -->
 
     </div>
     <!-- /box -->
- </div>
-    {% endblock main_content %}
+</div>
+{% endblock main_content %}
 
 
-    {% block foot_js %}
+{% block foot_js %}
 
-    <script type="text/javascript" src="/static/dist/layer/layer.js"></script>
-    <script type="text/javascript" src="/static/dist/paginationjs/pagination.min.js"></script>
-    <!--设备详细页面弹窗-->
-    <script type="text/javascript">
-        function detail(n) {
-            layer.open({
-                type: 2,
-                title: '资产信息',
-                closeBtn: 1,
-                area: ['960px', '700px'],
-                shade: 0.5,
-                shadeClose: true, //点击遮罩关闭
-                content: ['/cmdb/detail' + n],
-            });
-        };
-    </script>
-
-
-    <!-- -----数据查询----- -->
-    <script>
-        $(function () {
-            $("#selectedType").change(function () {
-                var args1 = $("#filterForm").serialize();
-                var args2 = $("#pagelenForm").serialize();
-                var args = args1 + "&" + "page=1" + "&" + args2;
-                window.location = "{% url 'cmdb:asset' %}?" + args;
-            });
-            $("#selectedType").find('option[value="{{myType}}"]').prop('selected','selected')
+<script type="text/javascript" src="/static/dist/layer/layer.js"></script>
+<script type="text/javascript" src="/static/dist/paginationjs/pagination.min.js"></script>
+<!--设备详细页面弹窗-->
+<script type="text/javascript">
+    function detail(n) {
+        layer.open({
+            type: 2,
+            title: '资产信息',
+            closeBtn: 1,
+            area: ['960px', '700px'],
+            shade: 0.5,
+            shadeClose: true, //点击遮罩关闭
+            content: ['/cmdb/detail' + n],
         });
+    };
+</script>
 
-        $(function () {
-            $("#selectedOrg").change(function () {
-                var args1 = $("#filterForm").serialize();
-                var args2 = $("#pagelenForm").serialize();
-                var args = args1 + "&" + "page=1" + "&"+ args2;
-                window.location = "{% url 'cmdb:asset' %}?" + args;
-            });
-            $("#selectedOrg").find('option[value="{{myOrg}}"]').prop('selected','selected')
+
+<!-- -----数据查询----- -->
+<script>
+    $(function () {
+        $("#selectedType").change(function () {
+            var args1 = $("#filterForm").serialize();
+            var args2 = $("#pagelenForm").serialize();
+            var args = args1 + "&" + "page=1" + "&" + args2;
+            window.location = "{% url 'cmdb:asset' %}?" + args;
         });
+        $("#selectedType").find('option[value="{{myType}}"]').prop('selected', 'selected')
+    });
 
-        $(function () {
-            $("#selectedNet").change(function () {
-                var args1 = $("#filterForm").serialize();
-                var args2 = $("#pagelenForm").serialize();
-                var args = args1 + "&" + "page=1" + "&" + args2;
-                window.location = "{% url 'cmdb:asset' %}?" + args;
-            });
-            $("#selectedNet").find('option[value="{{myNet}}"]').prop('selected','selected')
+    $(function () {
+        $("#selectedOrg").change(function () {
+            var args1 = $("#filterForm").serialize();
+            var args2 = $("#pagelenForm").serialize();
+            var args = args1 + "&" + "page=1" + "&" + args2;
+            window.location = "{% url 'cmdb:asset' %}?" + args;
         });
-    </script>
+        $("#selectedOrg").find('option[value="{{myOrg}}"]').prop('selected', 'selected')
+    });
 
-    <!-- -----search 数据查询----- -->
-    <script>
-        $(function () {
-            $("#searchBtn").click(function () {
-                var args = $("#searchForm").serialize();
-                $.get("/search/", args, function (data) {
-                     $("#div01").html(data);
-                     $("#pageInfo").remove();
-                });
+    $(function () {
+        $("#selectedNet").change(function () {
+            var args1 = $("#filterForm").serialize();
+            var args2 = $("#pagelenForm").serialize();
+            var args = args1 + "&" + "page=1" + "&" + args2;
+            window.location = "{% url 'cmdb:asset' %}?" + args;
+        });
+        $("#selectedNet").find('option[value="{{myNet}}"]').prop('selected', 'selected')
+    });
+</script>
+
+<!-- -----search数据查询----- -->
+<script>
+    $(function () {
+        $("#searchBtn").click(function () {
+            var args = $("#searchForm").serialize();
+            $.get("/search/", args, function (data) {
+                $("#div01").html(data);
+                $("#pageInfo").remove();
             });
         });
-    </script>
+    });
+</script>
 
-    <!-- 分页按钮 -->
-    <script>
-        $(document).ready(function(){
-            $(".page").click(function(){
-                var searchStr = location.search;
-                var old_href = $(this).attr('href').replace('?', '');
-                var searchArray = searchStr.split('&');
-                alert(searchStr.split("page").length);
+<!-- 分页按钮 -->
+<script>
+    $(document).ready(function () {
+        $(".page").click(function () {
+            var searchStr = location.search;
+            var old_href = $(this).attr('href').replace('?', '');
+            var searchArray = searchStr.split('&');
+            alert(searchStr.split("page").length);
 
-                if (searchStr == ''){
-                    alert("11111");
-                    var arg1 = $("#page_len option:selected").val();
-                    var newhref  = '?page=1&page_len='+ arg1;
-                    $(this).attr('href', newhref);
+            if (searchStr == '') {
+                alert("11111");
+                var arg1 = $("#page_len option:selected").val();
+                var newhref = '?page=1&page_len=' + arg1;
+                $(this).attr('href', newhref);
+            }
+            if (searchStr != '') {
+                if (searchStr.split("page=").length = 3) {
+                    searchArray.pop();
+                    searchArray.pop();
                 }
-                if (searchStr != '') {
-                    if (searchStr.split("page=").length = 3) {
-                        searchArray.pop();
-                        searchArray.pop();
-                    };
-                    if (searchArray.length > 1) {
-                       var arg2 = searchArray.join('&');
-                       var newhref2 = arg2 +'&' + old_href;
-                       $(this).attr('href', newhref2);
-                    };
-                };
-            });
+                ;
+                if (searchArray.length > 1) {
+                    var arg2 = searchArray.join('&');
+                    var newhref2 = arg2 + '&' + old_href;
+                    $(this).attr('href', newhref2);
+                }
+                ;
+            }
+            ;
         });
-    </script>
+    });
+</script>
 
 
-    <!-- -----每页显示多少条目----- -->
-    <script>
+<!-- -----每页显示多少条目----- -->
+<script>
 
-        $(function () {
-            $("#page_len").change(function () {
-                var args1 = $("#filterForm").serialize();
-                var args2 = $("#pagelenForm").serialize();
+    $(function () {
+        $("#page_len").change(function () {
+            var args1 = $("#filterForm").serialize();
+            var args2 = $("#pagelenForm").serialize();
 
-                var args = args1 + "&" + "page=1" + "&" + args2
-                window.location = "{% url 'cmdb:asset' %}?" + args;
+            var args = args1 + "&" + "page=1" + "&" + args2
+            window.location = "{% url 'cmdb:asset' %}?" + args;
 
 
-            });
         });
-    </script>
+    });
+</script>
 
-    {% endblock foot_js %}
+{% endblock foot_js %}

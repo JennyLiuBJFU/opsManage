@@ -24,6 +24,9 @@
         margin: 0px;
         padding: 0px;
     }
+    /*label[for]{*/
+        /*width: 100%;*/
+    /*}*/
 
 </style>
 {% endblock %}
@@ -32,6 +35,7 @@
 {% block main_content %}
     <div class="container-fluid box box-default">
         <div class="box-header with-border">
+            <span class="fa fa-cube"></span>
             <h3 class="box-title">资产信息</h3>
             <small>添加资产基本信息</small>
         </div>
@@ -46,33 +50,33 @@
                     <div class="col-md-6">
                         <!-- 资产名称 -->
                         <div class="form-group">
-                            <label for="asset_name">资产名称</label>
+                            <label for="asset_name">资产名称</label><br>
                             <input required class="form-control inline" type="text" name="asset_name" id="asset_name"
-                                   placeholder="请输入资产名称" asset_name">
+                                   placeholder="请输入资产名称">
                             <label class="btn fa fa-check-square-o "></label>
                         </div>
                         <!-- /.资产名称 -->
 
                         <!-- 所属单位 -->
                         <div class="form-group">
-                            <label for="o">所属单位</label>
-                            <select class="form-control select2" id="o" name="organization">
+                            <label for="o">所属单位</label><br>
+                            <select required class="form-control select2 inline" id="o" name="organization">
                                 <option value="0">请选择所属单位</option>
                                 {% for Organization in Organizations %}
                                 <option value={{ Organization.id }}>{{ Organization.org_name }}</option>
                                 {% endfor %}
                             </select>
+                            <label class="btn fa fa-check-square-o "></label>
                         </div>
                         <!-- /.所属单位 -->
 
                         <!-- 来源合同 -->
-                        <div class="form-group">
-                            <label for="contrac">来源合同</label>
-                            <a class="btn no-padding no-margin"
-                               onclick="$('#contract').load('http://127.0.0.1:8000/cmdb/addARecord'+ ' #contract')">
+                        <div class="form-group" >
+                            <label for="contract">来源合同</label>
+                            <a class="btn no-padding no-margin" onclick="$('#contract').load('http://127.0.0.1:8000/cmdb/addARecord'+ ' #contract')">
                                 <i class="fa fa-refresh"></i>
-                            </a>
-                            <select class="form-control select2 inline" id="contrac" name="contract">
+                            </a><br>
+                            <select class="form-control select2 inline"  id="contract" name="contract">
                                 <option value="0">请选择来源合同</option>
                                 {% for Contract in Contracts %}
                                 <option value={{ Contract.id}}>{{ Contract.contract_name }}</option>
@@ -86,7 +90,7 @@
 
                         <!-- 购买日期 -->
                         <div class="form-group">
-                            <label for="purchase_day">购买日期</label>
+                            <label for="purchase_day">购买日期</label><br>
                             <input required class="form-control" type="date" name="purchase_day" id="purchase_day"
                                    placeholder="请选择购买日期">
                             </select>
@@ -95,7 +99,7 @@
 
                         <!-- 审批人 -->
                         <div class="form-group">
-                            <label for="approved_by">审批人</label>
+                            <label for="approved_by">审批人</label><br>
                             <select class="form-control select2" id="approved_by" name="approved_by">
                                 <option value="0">审批人</option>
                                 {% for User in Users %}
@@ -111,7 +115,7 @@
                     <div class="col-md-6">
                         <!-- 资产编号 -->
                         <div class="form-group">
-                            <label for="asset_no">资产编号</label>
+                            <label for="asset_no">资产编号</label><br>
                             <input required class="form-control inline" type="text" name="asset_no" id="asset_no"
                                    placeholder="请输入资产名称" asset_name">
                             <label class="btn fa fa-check-square-o "></label>
@@ -120,7 +124,7 @@
 
                         <!-- 设备状态 -->
                         <div class="form-group">
-                            <label for="status">设备状态</label>
+                            <label for="status">设备状态</label><br>
                             <select class="form-control select2 " id="status" name="status">
                                 <option value="0">请选择设备状态</option>
                                 <option value="1">使用中</option>
@@ -137,7 +141,7 @@
                             <a class="btn no-padding no-margin"
                                onclick="$('#supplier').load('/cmdb/addARecord'+ ' #supplier')">
                                 <i class="fa fa-refresh"></i>
-                            </a>
+                            </a><br>
                             <select class="form-control select2 inline" id="supplier" name="supplier">
                                 <option value="0">请选择供应商</option>
                                 {% for Supplier in Suppliers %}
@@ -149,9 +153,10 @@
                             </a>
                         </div>
                         <!-- /.供应商 -->
+
                         <!-- 过保日期 -->
                         <div class="form-group">
-                            <label for="expire_day">过保日期</label>
+                            <label for="expire_day">过保日期</label><br>
                             <input required class="form-control" type="date" name="expire_day" id="expire_day"
                                    placeholder="请选择过保日期">
                             </select>
@@ -160,7 +165,7 @@
 
                         <!-- /管理员 -->
                         <div class="form-group">
-                            <label for="admin">管理员</label>
+                            <label for="admin">管理员</label><br>
                             <select class="form-control select2" id="admin" name="admin">
                                 <option value="0">请选择管理员</option>
                                 {% for User in Users %}
@@ -185,7 +190,7 @@
                     <div class="col-md-6">
                         <!-- 设备类型 -->
                         <div class="form-group">
-                            <label for="asset_type">设备类型</label>
+                            <label for="asset_type">设备类型</label><br>
                             <select class="form-control inline select2" required id="asset_type" name="asset_type">
                                 <option value="0">请选择设备类型</option>
                                 <option value="1">服务器</option>
@@ -200,7 +205,7 @@
 
                         <!-- /.设备串号 -->
                         <div class="form-group">
-                            <label for="sn">设备串号</label>
+                            <label for="sn">设备串号</label><br>
                             <input required class="form-control inline" type="text" name="sn" placeholder="请输入设备序列号"
                                    id="sn">
                             <label class="btn fa fa-check-square-o "></label>
@@ -209,7 +214,7 @@
 
                         <!-- 所属网络 -->
                         <div class="form-group">
-                            <label for="network_location">所属网络</label>
+                            <label for="network_location">所属网络</label><br>
                             <select class="form-control select2 inline" id="network_location" name="network_location">
                                 <option value="0">请选择所属网络</option>
                                 <option value="1">控制专网</option>
@@ -222,7 +227,7 @@
 
                         <!-- /.管理IP -->
                         <div class="form-group">
-                            <label for="manage_ip">管理IP</label>
+                            <label for="manage_ip">管理IP</label><br>
                             <input class="form-control" type="text" id="manage_ip" name="manage_ip"
                                    placeholder="请输入管理IP">
                         </div>
@@ -238,7 +243,7 @@
                             <a class="btn no-padding no-margin"
                                onclick="$('#model').load('/cmdb/addARecord'+ ' #model')">
                                 <i class="fa fa-refresh"></i>
-                            </a>
+                            </a><br>
                             <select required class="form-control select2 inline" id="model" name="model">
                                 <option value="0">请选择设备型号</option>
                                 {% for Model in Models%}
@@ -251,9 +256,10 @@
                             </a>
                         </div>
                         <!-- /.设备型号 -->
+
                         <!-- 所在机房 -->
                         <div class="form-group" id="IDC">
-                            <label for="i">所在机房</label>
+                            <label for="i">所在机房</label><br>
                             <select class="form-control select2" id="i" name="idc"
                                     onchange="var args = $('#i').serialize();var x1 = '{%url 'cmdb:showCabs'%}?' + args;$('#cab').load(x1 + ' #cab')">
                                 <option value="0">请选择机房</option>
@@ -267,7 +273,7 @@
                         <!-- 所在机柜 -->
                         <div class="form-group" id="cab"
                              onchange="var args = $('#c').serialize();var x1 = '{%url 'cmdb:showCabSpaces'%}?' + args;$('#cabSpace').load(x1 + ' #cabSpace');">
-                            <label for="c">所在机柜</label>
+                            <label for="c">所在机柜</label><br>
                             <select class="form-control select2" id="c" name="cab">
                                 <option value="0">请选择机柜</option>
                                 {% for Cab in Cabs %}
@@ -279,7 +285,7 @@
 
                         <!-- 机柜位置 -->
                         <div class="form-group" id="cabSpace">
-                            <label for="cabS">机柜位置</label>
+                            <label for="cabS">机柜位置</label><br>
                             <select class="form-control select2" id="cabS" name="cabSpace" multiple="multiple">
                                 <option value="0">请选择机柜位置</option>
                                 {% for CabSpace in CabSpaces %}
@@ -306,7 +312,7 @@
                     <div class="col-md-6">
 
                         <div class="form-group">
-                            <label for="memo">备注</label>
+                            <label for="memo">备注</label><br>
                             <textarea class="form-control" id="memo" name="memo" rows="8" style="width: 90%"
                                       placeholder="Enter..."></textarea>
                             </select>
