@@ -69,8 +69,6 @@
 
 
 
-
-
                     <!-- blank space  -->
                     <div class="col-sm-5"></div>
                 </form>
@@ -338,10 +336,7 @@
             var searchStr = location.search;
             var old_href = $(this).attr('href').replace('?', '');
             var searchArray = searchStr.split('&');
-            alert(searchStr.split("page").length);
-
             if (searchStr == '') {
-                alert("11111");
                 var arg1 = $("#page_len option:selected").val();
                 var newhref = '?page=1&page_len=' + arg1;
                 $(this).attr('href', newhref);
@@ -372,11 +367,8 @@
         $("#page_len").change(function () {
             var args1 = $("#filterForm").serialize();
             var args2 = $("#pagelenForm").serialize();
-
             var args = args1 + "&" + "page=1" + "&" + args2
             window.location = "{% url 'cmdb:asset' %}?" + args;
-
-
         });
     });
 </script>

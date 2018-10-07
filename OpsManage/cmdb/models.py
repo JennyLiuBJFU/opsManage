@@ -568,6 +568,7 @@ class Device_model(models.Model):
     models = models.CharField(max_length=64, verbose_name='设备型号')
 
 
+
     def __str__(self):
         return self.models
 

@@ -12,6 +12,7 @@ import qrcode
 from django.utils.six import BytesIO
 from django.http import JsonResponse
 from  django.db.models import Q
+from django.shortcuts import HttpResponse, render, redirect
 
 
 # 分页函数
@@ -246,14 +247,9 @@ def index(request):
 def addARecord(request):
     Vendors = Vendor.objects.all()
     Organizations = Organization.objects.all()
-    # Tags=Tag.objects.all()
     Users=User.objects.all()
-    # IDCs=Idc.objects.all()
     Contracts=Contract.objects.all()
     Suppliers=Supplier.objects.all()
-    Models=Device_model.objects.all()
-    # Cabs=Cabinet.objects.all()
-    # CabSpaces=CabinetSpace.objects.all()
     if request.user.is_superuser:
         Perm = 1
     else:
@@ -264,79 +260,51 @@ def addARecord(request):
         'Perm': Perm,
         'Vendors': Vendors,
         'Organizations': Organizations,
-        # 'Tags':Tags,
         'Users':Users,
-        # 'IDCs':IDCs,
         'Contracts':Contracts,
         'Suppliers':Suppliers,
-        'Models':Models,
-        # 'Cabs':Cabs,
-        # 'CabSpaces':CabSpaces,
     }
     return render(request, 'cmdb/ServerManage/add/add.html', context)
 
-def showIdcs(request):
-    if request.GET['organization']!='0':
-        ORG=Organization.objects.get(id=request.GET['organization'])
-        Idcs=Idc.objects.filter(organization=ORG)
-        print(Idcs)
-    else:
-        Idcs=None
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context={
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'Idcs':Idcs,
-    }
-    return render(request, 'cmdb/ServerManage/add/add.html',context)
+@login_required()
+def showidcs(request, id):
+    org = id
+    Idcs=Idc.objects.filter(organization_id=org)
+    list = []
+    for idc in Idcs:
+        list.append({"id":idc.id, "idc":idc.idc_name})
+    return JsonResponse({"data": list})
 
-def showCabs(request):
-    if request.GET['idc']!='0':
-        IDC=Idc.objects.get(id=request.GET['idc'])
-        Cabs=Cabinet.objects.filter(idc=IDC)
-        print(Cabs)
-    else:
-        Cabs=None
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context={
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'Cabs':Cabs,
-    }
-    return render(request, 'cmdb/ServerManage/add/add.html',context)
+@login_required()
+def showcabs(request, id):
+    IDC=id
+    cabs=Cabinet.objects.filter(idc=IDC)
+    list=[]
+    for cab in cabs:
+       list.append({"id": cab.id, "cab": cab.cabinet_name})
+    print(list)
+    return JsonResponse({"data": list})
 
-def showCabSpaces(request):
-    if request.GET['cab']!='0':
-        CAB=Cabinet.objects.get(id=request.GET['cab'])
-        CabSpaces=CabinetSpace.objects.filter(cabinet=CAB)
-        CabSpacesRemain=CabSpaces.filter(asset=None)
-        listc = []
-        for cs in CabSpacesRemain:
-            listc.append(cs)
+@login_required()
+def showcabspace(request, id):
+    cab_id = id
+    CabSpaces=CabinetSpace.objects.filter(cabinet_id=cab_id)
+    list = []
+    t = "disabled"
+    f = ""
+    # 数据格式{"id": 1, "space": space, "used": True}
+    for cs in CabSpaces:
+        temp = cs.get_cabinet_location_display()
+        if cs.asset == None:
+            list.append({"id": cs.id, "space": temp, "useinfo": f,})
+        else:
+            list.append({"id": cs.id, "space": temp, "useinfo": t,})
 
-        for i in range(len(listc) - 1):
-            for j in range(len(listc) - i - 1):
-                if int(listc[j].cabinet_location) < int(listc[j + 1].cabinet_location):
-                    listc[j], listc[j + 1] = listc[j + 1], listc[j]
-    else:
-        listc=None
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context={
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'CabSpaces':listc,
-    }
-    return render(request, 'cmdb/ServerManage/add/add.html',context)
 
+    return JsonResponse({"data":list})
+
+
+"""
 @login_required()
 def addSubmit(request):
 
@@ -414,8 +382,6 @@ def addSubmit(request):
             CABSPACE=CabinetSpace.objects.get(id=cId)
             if int(CABSPACE.cabinet_location) > hPlace:
                 hPlace=int(CABSPACE.cabinet_location)
-                print(("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"))
-                print(hPlace)
             CABSPACE.asset=ASSET
             CABSPACE.save()
         ASSET.height=num*22-2
@@ -424,11 +390,13 @@ def addSubmit(request):
 
     Assets = Asset.objects.all()
     Servers=Server.objects.all()
+
     print(Servers)
     if request.user.is_superuser:
         Perm = 1
     else:
         Perm = 0
+
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
@@ -448,7 +416,177 @@ def addSubmit(request):
     else:
         return render(request, 'cmdb/ServerManage/asset.html', context)
 
+"""
+
+
+@login_required()
+def addSubmit(request):
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+    #创建资产对象
+    ASSET=Asset()
+
+    # 把text类型的7个值保存到资产对象
+    ASSET.asset_name = request.POST['asset_name']
+    ASSET.manage_ip = request.POST['manage_ip']
+    ASSET.memo = request.POST['memo']
+    ASSET.asset_no = request.POST['asset_no']
+    ASSET.sn = request.POST['sn']
+    ASSET.expire_day = request.POST['expire_day']
+    ASSET.purchase_day = request.POST['purchase_day']
+
+    # 把直接select标签的3个值保存到资产对象
+    if request.POST['status'] != "0":
+        ASSET.status = request.POST['status']
+    if request.POST['network_location'] != "0":
+        ASSET.network_location = request.POST['network_location']
+    if request.POST['asset_type'] != "0":
+        ASSET.asset_type = request.POST['asset_type']
+
+    # 把外键的7个值保存到资产对象
+    if request.POST['admin'] != "0":
+        ASSET.admin = User.objects.get(id=request.POST['admin'])
+    if request.POST['model'] != "0":
+        ASSET.model = Device_model.objects.get(id=request.POST['model'])
+    if request.POST['contract'] != "0":
+        ASSET.contract = Contract.objects.get(id=request.POST['contract'])
+    if request.POST['supplier'] != "0":
+        ASSET.supplier = Supplier.objects.get(id=request.POST['supplier'])
+    if request.POST['organization'] != "0":
+        ASSET.organization = Organization.objects.get(id=request.POST['organization'])
+    if request.POST['approved_by'] != "0":
+        ASSET.approved_by = User.objects.get(id=request.POST['approved_by'])
+    if request.POST['idc'] != "0":
+        ASSET.idc = Idc.objects.get(id=request.POST['idc'])
+    if request.POST['cabinet'] != "0":
+        ASSET.cabinet = Cabinet.objects.get(id=request.POST['cabinet'])
+    ASSET.save()
+
+
+    #生成机柜空间
+    CapSpasId = request.POST.getlist('cabSpace')
+    num = 0
+    hPlace = 0
+    if CapSpasId:
+        for cId in CapSpasId:
+            num = num + 1
+            CABSPACE = CabinetSpace.objects.get(id=cId)
+            if int(CABSPACE.cabinet_location) > hPlace:
+                hPlace = int(CABSPACE.cabinet_location)
+            CABSPACE.asset = ASSET
+            CABSPACE.save()
+        ASSET.height = num * 22 - 2
+        ASSET.cab_location = ASSET.cabinet.cabinet_height - hPlace
+    ASSET.save()
+
+
+    #生成设备的二维码
+    obj_url = "http://127.0.0.1/cmdb/detail" + str(ASSET.id)
+    qr = qrcode.QRCode(version=1,
+                       error_correction=qrcode.constants.ERROR_CORRECT_L,
+                       box_size=8,
+                       border=2,
+                       )
+    qr.add_data(obj_url)
+    qr.make(fit=True)
+    img = qr.make_image()
+    img_name = 'media/QRcode_imgs/' + ASSET.asset_name + '.png'
+    img.save(img_name)
+    ASSET.qrcode = img_name
+    ASSET.save()
+    # 生成二维码完毕
+
+    #生成给下一个页面的信息
+    vendor = Vendor.objects.get(id=request.POST['vendor']).vendor_name
+    asset_type = request.POST['asset_type']
+    asset_subtype = request.POST['asset_subtype']
+    asset_type_display = ASSET.get_asset_type_display
+    if ASSET.asset_type=='1':
+        asset_subtype_display = Server.sub_asset_type_choice[int(asset_type)-1][1]
+    if ASSET.asset_type == '2':
+        asset_subtype_display = NetworkDevice.sub_asset_type_choice[int(asset_type)-1][1]
+    if ASSET.asset_type == '3':
+        asset_subtype_display = SecurityDevice.sub_asset_type_choice[int(asset_type)-1][1]
+    if ASSET.asset_type == '4':
+        asset_subtype_display = StorageDevice.sub_asset_type_choice[int(asset_type)-1][1]
+
+    context = {
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+        'ID':ASSET.id,
+        'asset_type':asset_type,
+        'asset_type_display':asset_type_display,
+        'asset_subtype':asset_subtype,
+        'asset_subtype_display':asset_subtype_display,
+        'vendor':vendor,
+        "sn":request.POST['sn'],
+        'model':Device_model.objects.get(id=request.POST['model']).models
+    }
+    if ASSET.asset_type=='1':
+        return render(request,'cmdb/ServerManage/add/addOneToOne/addServer.html',context)
+    elif ASSET.asset_type=='2':
+        return render(request, 'cmdb/ServerManage/add/addOneToOne/addNetworkDevice.html', context)
+    elif ASSET.asset_type=='3':
+        return render(request, 'cmdb/ServerManage/add/addOneToOne/addSecurityDevice.html', context)
+    elif ASSET.asset_type=='4':
+        return render(request, 'cmdb/ServerManage/add/addOneToOne/addStorageDevice.html', context)
+    else:
+        return render(request, 'cmdb/ServerManage/asset.html', context)
+
+"""
 def editMore(request):
+    ID=request.GET['assetId']
+    ASSET=Asset.objects.get(id=ID)
+    rams=RAM.objects.filter(asset=ASSET)
+    cpus=CPU.objects.filter(asset=ASSET)
+    disks=Disk.objects.filter(asset=ASSET)
+    ports=Port.objects.filter(asset=ASSET)
+    parts=Parts.objects.filter(asset=ASSET)
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+    context={
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+        'ID':ID,
+        'rams':rams,
+        'cpus':cpus,
+        'disks':disks,
+        'ports':ports,
+        'parts':parts,
+    }
+    return render(request,'cmdb/ServerManage/add/addMore.html',context)
+
+"""
+
+
+def editMore(request):
+    """
+    'ID': ASSET.id,
+    'asset_type': request.POST['asset_type'],
+    'asset_subtype': request.POST['asset_subtype'],
+    """
+    ID = request.POST['assetId']
+    asset_type = request.POST['asset_type']
+    sub_asset_type = request.POST['asset_subtype']
+    if asset_type == 1:
+        device = Server()
+    if asset_type == 2:
+        device = NetworkDevice()
+    if asset_type == 3:
+        device = SecurityDevice()
+    if asset_type == 1:
+        device = StorageDevice()
+    device.sub_asset_type = sub_asset_type
+    device.asset = Asset.objects.get(id=ID)
+
+
+
+
+
     ID=request.GET['assetId']
     ASSET=Asset.objects.get(id=ID)
     rams=RAM.objects.filter(asset=ASSET)
@@ -827,6 +965,34 @@ def serverSubmit(request):
     }
     return render(request, 'cmdb/ServerManage/add/addMore.html', context)
 
+"""
+@login_required()
+def networkDeviceSubmit (request):
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+
+    ASSET = Asset.objects.get(id=request.POST['asset_id'])
+    NETWORKDEVICE = NetworkDevice()
+    if request.POST['asset_subtype'] != '0':
+        NETWORKDEVICE.sub_asset_type=request.POST['asset_subtype']
+    else:
+        NETWORKDEVICE.sub_asset_type = None
+    NETWORKDEVICE.asset=ASSET
+    NETWORKDEVICE.save()
+
+    # Organizations = Organization.objects.all()
+    # ID=request.POST['asset_id']
+
+    context = {
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+        'ID':request.POST['asset_id'],
+    }
+    return render(request, 'cmdb/ServerManage/add/addMore.html', context)
+"""
+
 @login_required()
 def networkDeviceSubmit (request):
     print(request.POST)
@@ -853,6 +1019,7 @@ def networkDeviceSubmit (request):
         'Organizations':Organizations,
     }
     return render(request, 'cmdb/ServerManage/add/addMore.html', context)
+
 
 @login_required()
 def storageDeviceSubmit(request):
@@ -1861,3 +2028,70 @@ def assetMap(request):
         'peridc_asset_count':peridc_asset_count,
     }
     return render(request, 'cmdb/assetMap.html', context)
+
+
+#根据设备类型返回设备子类型
+def subtype(request, id):
+     asset_type = int(id)
+     subtype_list = []
+     if asset_type == 1:
+         subtype_list = [
+             {"id": 1, "type": "PC服务器"},
+             {"id": 2, "type": "小型机"},
+             {"id": 3, "type": "刀片机"},
+             {"id": 4, "type": "虚拟机"},
+             {"id": 5, "type": "容器"},
+         ]
+
+     if asset_type == 2:
+         subtype_list = [
+             {"id": 1, "type": "路由器"},
+             {"id": 2, "type": "交换机"},
+             {"id": 3, "type": "工业交换机"},
+             {"id": 4, "type": "无线控制器"},
+             {"id": 5, "type": "无线AP"},
+         ]
+
+     if asset_type == 3:
+         subtype_list = [
+             {"id": 1, "type": "防火墙"},
+             {"id": 2, "type": "入侵检测设备"},
+             {"id": 3, "type": "入侵防御设备"},
+             {"id": 4, "type": "综合安全网关"},
+             {"id": 5, "type": "数据库审计系统"},
+             {"id": 6, "type": "运维审计系统"},
+             {"id": 7, "type": "防病毒网关"},
+             {"id": 8, "type": "WAF防火墙"},
+             {"id": 9, "type": "安全配置核查"},
+             {"id": 10, "type": "网络准入系统"},
+             {"id": 11, "type": "网闸设备"},
+             {"id": 12, "type": "VPN设备"},
+         ]
+     if asset_type == 4:
+         subtype_list = [
+             {"id": 1, "type": "磁盘阵列"},
+             {"id": 2, "type": "网络存储器"},
+             {"id": 3, "type": "光纤交换机"},
+             {"id": 4, "type": "磁带库"},
+             {"id": 5, "type": "磁带机"},
+         ]
+
+     return  JsonResponse({"data":subtype_list})
+
+
+#根据厂商返回设备型号
+def devicemodel(request, vendor):
+    vendor_id = vendor
+    model_list = []
+    models = Device_model.objects.filter(vendor_id=vendor_id)
+    for m in models:
+        temp = {"id":m.id,"model":m.models}
+        model_list.append(temp)
+
+    return JsonResponse({"data": model_list})
+
+
+
+
+
+
