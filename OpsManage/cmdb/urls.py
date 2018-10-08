@@ -22,9 +22,9 @@ urlpatterns = [
     url(r'^addModelSubmit$', views.addModelSubmit),
     url(r'^addVendorSubmit$', views.addVendorSubmit),
     url(r'^addSupplierSubmit$', views.addSupplierSubmit),
-    url(r'^showCabs', views.showCabs, name="showCabs"),
-    url(r'^showIdcs', views.showIdcs, name="showIdcs"),
-    url(r'^showCabSpaces', views.showCabSpaces, name="showCabSpaces"),
+    url(r'^showCabs', views.showcabs, name="showCabs"),
+    url(r'^showIdcs', views.showidcs, name="showIdcs"),
+    # url(r'^showCabSpaces', views.showCabSpaces, name="showCabSpaces"),
     url(r'^editMore', views.editMore),
     url(r'^RAMSubmit', views.RAMSubmit),
     url(r'^CPUSubmit', views.CPUSubmit),
@@ -58,6 +58,14 @@ urlpatterns = [
     url(r'^vendorManage',views.vendorManage),
     url(r'^addVendorSubmitM',views.addVendorSubmitM),
     url(r'^assetMap',views.assetMap),
+<<<<<<< HEAD
     url(r'^showGLC', views.showGLC, name="showGLC"),
     url(r'^showXDZ', views.showXDZ, name="showXDZ"),
+=======
+    url(r'^asset_subtype(\d+)/$', views.subtype),
+    url(r'^device_model(\d+)/$', views.devicemodel),
+    url(r'^showidcs(\d+)/$', views.showidcs),
+    url(r'^showcabs(\d+)/$', views.showcabs),
+    url(r'^showcabspace(\d+)/$', views.showcabspace),
+>>>>>>> a2f8f981f3e3ca71e438e74170d3954ef9d3d67a
 ]

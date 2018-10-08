@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+
+{% block css_block %}
+    <link href="/static/dist/css/tab_css.css" type="text/css" rel="stylesheet">
+    <link href="/static/css/form2.css" type="text/css" rel="stylesheet">
+    <style>
+        #selectedTab a{
+            background: white;
+        }
+        #selectedTab a::after{
+            background: white;
+        }
+    </style>
+
+{% endblock css_block %}
+
+
+{% block main_content %}
+
+
+<ul  id="tabs">
+    <li id="org"><a href="http://127.0.0.1:8000/cmdb/orgManage" >组织机构</a></li>
+    <li id="idc"> <a href="http://127.0.0.1:8000/cmdb/idcManage" >机房管理</a></li>
+    <li id="user"><a href="http://127.0.0.1:8000/cmdb/userManage" >用户管理</a></li>
+    <li id="contract"><a href="http://127.0.0.1:8000/cmdb/contractManage" >合同管理</a></li>
+    <li id="supplier"><a href="http://127.0.0.1:8000/cmdb/supplierManage" >供应商管理</a></li>
+    <li id="vendor"><a href="http://127.0.0.1:8000/cmdb/vendorManage" >厂商管理</a></li>
+</ul>
+
+<!-- content -->
+<div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+
+                    {% for idc in myIdcs %}
+                        <div class="mybox mybox-teal" style="margin:2em;float:left;width: 40%;height: 240px;">
+                            <div class="mybox-header">
+                                <label for="CPU">{{ idc.idc_name }}</label>
+                            </div>
+                            <div class="mybox-body" style="height: 240px;">
+                                <div style="float: left;width: 100%;line-height: 2em;">
+                                    <label>机房名称 :</label>
+                                    <span style="margin-left: 1em">{{ idc.idc_name}}</span><br>
+                                    <label>机房地址 :</label>
+                                    <span style="margin-left: 1em">{{ idc.idc_address}}</span><br>
+                                    <label>备注信息 :</label>
+                                    <span style="margin-left: 1em">{{ idc.idc_memo}}</span><br>
+                                    <div id="{{ idc.id }}">
+
+                                        <label>机柜信息 :</label>
+                                        {% if cabFlag %}
+                                            {% for c in myCabs %}
+                                                <span style="margin-left: 1em">{{ c.cabinet_name }}</span>
+                                            {% endfor %}
+                                            <a onclick="window.open('http://127.0.0.1:8000/cmdb/cabDetail?idcId={{ idc.id }}')" style="margin-left: 1em">机柜图</a>
+                                            <a target="_blank" href="http://127.0.0.1:8000/cmdb/editCab?idcId={{ idc.id }}"  style="margin-left: 1em"><i class="fa fa-edit">编辑</i></a>
+                                            <a style="margin-left: 0.5em" onclick="$('#{{ idc.id }}').load(window.location.href+ ' #{{ idc.id }}')"><i class="fa fa-fw fa-refresh"></i></a>
+                                        {% else %}
+                                            <a onclick="var test = window.location.href;if(test.split('?')[1]) url=test+'&IDC={{ idc.id }}'; else url=test+'?IDC={{ idc.id }}';$('#{{ idc.id }}').load(url+ ' #{{ idc.id }}');" style="margin-left: 1em;line-height: 20px;" class="text-center">展示或编辑机柜信息</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <button onclick="window.open('http://127.0.0.1:8000/cmdb/editIdc?idcId={{ idc.id }}')" style="position: absolute;left:85%;width: 10%;">编 辑</button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div style="clear: left"></div>
+                    <button onclick="window.open('http://127.0.0.1:8000/cmdb/addIdc')" style="margin-top:2em; margin-left:3em;width:100px;margin-bottom: 30px" class="btn btn-block btn-success">添加机房</button>
+                </div>
+            </div>
+    </div>
+</div>
+
+<!-- /content -->
+{% endblock main_content %}
+
+
+{% block foot_js %}
+  <!-- ----tab效果---- -->
+<script>
+    $(document).ready(function () {
+        $("#idc").attr("id", "current"); // Activate first tab
+    });
+</script>
+{% endblock foot_js %}

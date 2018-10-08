@@ -2,15 +2,21 @@
 
 
 {% block css_block %}
-    <link href="/static/dist/css/tab_css.css" type="text/css" rel="stylesheet">
-    <link href="/static/css/form2.css" type="text/css" rel="stylesheet">
+<link href="/static/dist/css/tab_css.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+    .idcicon{
+        color: #9e0505;
+    }
 
-    <style>
-        h{
-            font-size: 1.2em;
-            font-weight:500;
-        }
-    </style>
+    .idcinfo {
+        min-height: 180px;
+    }
+
+    span.cabinfo {
+        font-size: 12px;
+    }
+
+</style>
 
 {% endblock css_block %}
 
@@ -18,78 +24,79 @@
 {% block main_content %}
 
 
-<!-- content -->
-<div class="row">
-        <div class="col-xs-12">
-            <div class="box">
-                <div class="box-body" style="padding: 30px 60px 60px">
-                    <h1 style="font-size: 1.5em;margin-bottom: 30px;">资产地图</h1>
-                    <div style="margin: 20px 0;width: 100%;">
-                        <h>中线局</h>
-                        <div style="margin: 10px 0;">
-                            {% for i in idcs %}
-                                {% if i.organization.org_name == '中线局'  %}
-                                    <a  target="_blank" href="http://127.0.0.1:8000/cmdb/cabDetail?idcId={{ i.id }}">{{ i.idc_name }}</a>
-                                    <span style="margin-right: 1em;">({{ i.organization.org_name }})</span>
-                                {% endif %}
+<div class="container-fluid no-padding">
+    <div class="row" style="margin-top: 10px">
+
+        {% for idc in IDC %}
+        <div class="col-sm-6">
+            <div class="box  box-warning">
+                <!-- .box-header -->
+                <div class="box-header with-border" >
+                    <span class="idcicon fa fa-home"></span>
+                    <h3 class="box-title">{{ idc.idc_name }}</h3>
+                    <span class="fa fa-edit btn pull-right no-margin no-padding"
+                          onclick="window.open('/cmdb/editIdc?idcId={{ idc.id }}')">
+                    </span>
+                </div>
+                <!-- /.box-header -->
+
+                <!-- .box-body -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="idcinfo text col-sm-4 border-right no-margin" >
+                            <span class="cabinfo">名称 : {{ idc.idc_name}}</span><br>
+                            <span class="cabinfo">单位 : {{ idc.organization}}</span><br>
+                            <span class="cabinfo">地址 : {{ idc.idc_address}}</span><br>
+                            <span class="cabinfo">备注 : {{ idc.idc_memo}}</span><br>
+                            {% for count in peridc_asset_count %}
+                            {% if count.idc_name == idc.idc_name %}
+                            <span class="cabinfo ">主机：【 {{ count.data.servercount }} 】台</span><br>
+                            <span class="cabinfo ">网络：【 {{ count.data.netcount }} 】台</span><br>
+                            <span class="cabinfo ">存储：【 {{ count.data.securitycount }} 】台</span><br>
+                            <span class="cabinfo ">安全：【 {{ count.data.storgecount }} 】台</span><br>
+                            {% endif %}
                             {% endfor %}
                         </div>
-                    </div>
-                    <div style="margin: 20px 0">
-                        <h>北京分局</h>
-                        <div style="margin: 10px 0;">
-                            {% for i in idcs %}
-                                {% if i.organization.org_name == '北京分局'%}
-                                    <a  target="_blank" href="http://127.0.0.1:8000/cmdb/cabDetail?idcId={{ i.id }}">{{ i.idc_name }}</a>
-                                    <span style="margin-right: 1em;">({{ i.organization.org_name }})</span>
-                                {% elif  i.organization.parent_org.org_name == '北京分局'%}
-                                    <a  target="_blank" href="http://127.0.0.1:8000/cmdb/cabDetail?idcId={{ i.id }}">{{ i.idc_name }}</a>
-                                    <span style="margin-right: 1em;">({{ i.organization.org_name }})</span>
-                                {% elif  i.organization.parent_org.parent_org.org_name == '北京分局'%}
-                                    <a  target="_blank" href="http://127.0.0.1:8000/cmdb/cabDetail?idcId={{ i.id }}">{{ i.idc_name }}</a>
-                                    <span style="margin-right: 1em;">({{ i.organization.org_name }})</span>
-                                {% endif %}
-                            {% endfor %}
+
+                        <div class="col-sm-8">
+                            <div id="{{ idc.id }}">
+                                <span>机柜信息 :</span><br>
+
+                                {% for cabinet in idc.cabinet_set.all %}
+                                <label class="label label-default" style="font-size: 13px;width: 65px;display: inline-block">
+                                    {{ cabinet.cabinet_name}}
+                                </label>
+                                {% endfor %}
+
+
+
+                                <!-- ------弹出机柜图------ -->
+                                <br>
+                                <button class="btn btn-xs btn-primary margin-r-5 pull-right"
+                                        onclick="window.open('http://127.0.0.1:8000/cmdb/cabDetail?idcId={{ idc.id }}')">
+                                    机柜图
+                                </button>
+
+                            </div>
                         </div>
+
                     </div>
-                    <div style="margin: 20px 0">
-                        <h>天津分局</h>
-                        <div style="margin: 10px 0;">
-                            {% for i in idcs %}
-                                {% if i.organization.org_name == '天津分局'%}
-                                    <a  target="_blank" href="http://127.0.0.1:8000/cmdb/cabDetail?idcId={{ i.id }}">{{ i.idc_name }}</a>
-                                    <span style="margin-right: 1em;">({{ i.organization.org_name }})</span>
-                                {% elif  i.organization.parent_org.org_name == '天津分局'%}
-                                    <a  target="_blank" href="http://127.0.0.1:8000/cmdb/cabDetail?idcId={{ i.id }}">{{ i.idc_name }}</a>
-                                    <span style="margin-right: 1em;">({{ i.organization.org_name }})</span>
-                                {% elif  i.organization.parent_org.parent_org.org_name == '天津分局'%}
-                                    <a  target="_blank" href="http://127.0.0.1:8000/cmdb/cabDetail?idcId={{ i.id }}">{{ i.idc_name }}</a>
-                                    <span style="margin-right: 1em;">({{ i.organization.org_name }})</span>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div style="margin: 20px 0">
-                        <h>河北分局</h>
-                        <div style="margin: 10px 0;">
-                            {% for i in idcs %}
-                                {% if i.organization.org_name == '河北分局'%}
-                                    <a  target="_blank" href="http://127.0.0.1:8000/cmdb/cabDetail?idcId={{ i.id }}">{{ i.idc_name }}</a>
-                                    <span style="margin-right: 1em;">({{ i.organization.org_name }})</span>
-                                {% elif  i.organization.parent_org.org_name == '河北分局'%}
-                                    <a  target="_blank" href="http://127.0.0.1:8000/cmdb/cabDetail?idcId={{ i.id }}">{{ i.idc_name }}</a>
-                                    <span style="margin-right: 1em;">({{ i.organization.org_name }})</span>
-                                {% elif  i.organization.parent_org.parent_org.org_name == '河北分局'%}
-                                    <a  target="_blank" href="http://127.0.0.1:8000/cmdb/cabDetail?idcId={{ i.id }}">{{ i.idc_name }}</a>
-                                    <span style="margin-right: 1em;">({{ i.organization.org_name }})</span>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                 </div>
+                    <!-- /.row  -->
+                </div>
             </div>
         </div>
-</div>
+        {% endfor %}
 
-<!-- /content -->
+    </div>
+</div>
 {% endblock main_content %}
+
+
+{% block foot_js %}
+<!-- ----tab效果---- -->
+<script>
+    $(document).ready(function () {
+        $("#idc").attr("id", "current"); // Activate first tab
+    });
+</script>
+{% endblock foot_js %}

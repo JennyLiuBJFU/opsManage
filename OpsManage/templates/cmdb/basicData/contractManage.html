@@ -31,11 +31,11 @@
     <div class="row" style="margin-top: 10px">
 
         <div class="col-sm-8">
-            <div class="box " style="min-height: 550px">
+            <div class="box box-warning">
 
                 <div class="box-header with-border">
                     <h3 class="box-title">
-                        <i class="glyphicon  glyphicon-bookmark"></i>
+                        <i class="glyphicon  glyphicon-file"></i>
                         合同列表
                     </h3>
                 </div>
@@ -59,7 +59,7 @@
                                 <td>{{ i.pk }}</td>
                                 <td>{{ i.contract_number }}</td>
                                 <td>{{ i.contract_name }}</td>
-                                <td>{{ i.contract_content }}</td>
+                                <td style="max-width: 250px">{{ i.contract_content }}</td>
                                 <td>{{ i.contract_memo }}</td>
                             </tr>
                             {% endfor %}
@@ -69,8 +69,7 @@
 
 
                     <div class="box-footer " >
-                        <button type="submit" class="btn btn-default bottom">取消</button>
-                        <button type="submit" class="btn btn-info pull-right">删除</button>
+                        <button type="submit" class="btn btn-danger pull-right">Delete</button>
                     </div>
                 </form>
 
@@ -80,7 +79,7 @@
 
         <!-- ---添加合同-- -->
         <div class="col-sm-4">
-            <div class="box box-info">
+            <div class="box box-primary">
                 <!-- box-header -->
                 <div class="box-header with-border">
                     <i class="glyphicon glyphicon-plus"></i>
@@ -89,42 +88,33 @@
                 <!-- /.box-header -->
 
                 <!-- form start -->
-                <form class="form-horizontal" action="addContractSubmit" method="post" id="form">
+                <form class="contactl" action="addContractSubmit" method="post" id="form">
                     <div class="box-body">
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">合同名称</label>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" name="name" placeholder="Contract number">
-                            </div>
+                            <label class=" control-label">合同名称</label>
+                            <input class="form-control" type="text" name="name" placeholder="Contract number">
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">合同编号</label>
-
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" name="number" placeholder="Contract name">
-                            </div>
+                            <label class="control-label">合同编号</label>
+                            <input class="form-control" type="text" name="number" placeholder="Contract name">
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">合同内容</label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" name="content" rows="12"
+                            <label class=" control-label">合同内容</label>
+                            <textarea class="form-control" name="content" rows="12"
                                           placeholder="Enter ..."></textarea>
-                            </div>
                         </div>
+
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">备注</label>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" name="memo" placeholder="Memo">
-                            </div>
+                            <label class=" control-label">备注</label>
+                            <input class="form-control" type="text" name="memo" placeholder="Memo">
                         </div>
                     </div>
 
                     <!-- box-footer -->
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-default">取消</button>
-                        <button type="submit" class="btn btn-info pull-right">添加</button>
+                        <button type="submit" class="btn btn-primary pull-right">Submit</button>
                     </div>
                     <!-- /.box-footer -->
                 </form>
