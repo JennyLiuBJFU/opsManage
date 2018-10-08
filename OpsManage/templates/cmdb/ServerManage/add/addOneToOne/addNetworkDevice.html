@@ -1,42 +1,71 @@
 {% extends "base.html" %}
 
-{% block css_block %}
-<link href="/static/css/form2.css" type="text/css" rel="stylesheet">
-{% endblock css_block %}
+
 {% block main_content %}
 
-<section id="getintouch" class="bounceIn animated">
-        <div class="container2" style="border-bottom: 0;">
-            <h1>
-                <span>请填写网络设备信息</span>
-            </h1>
-        </div>
-        <div class="container">
-            <form class="contact" action="networkDeviceSubmit" method="post" id="form">
-            <div class="row clearfix">
-                <div class="lbl">
-                    <label>
-                        网络设备类型</label>
+<div class="box box-default">
+    <div class="container container-fluid">
+        <!--  第一行 -->
+        <div class="row" style="margin-top: 20px">
+            <div class="col-md-12 ">
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <i class="fa fa-text-width"></i>
+                        <h3 class="box-title">设备信息</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <dl class="dl-horizontal">
+                            <dt>设备品牌</dt>
+                            <dd>{{vendor}}</dd>
+                            <dt>设备类型</dt>
+                            <dd>{{asset_type_display}}</dd>
+                            <dt>设备子类型</dt>
+                            <dd>{{asset_subtype_display}}</dd>
+                            <dt>设备型号</dt>
+                            <dd>{{model}}</dd>
+                            <dt>设备序列号</dt>
+                            <dd>{{sn}}</dd>
+
+                        </dl>
+                    </div>
+                    <!-- /.box-body -->
                 </div>
-                <div class="ctrl">
-                     <select name="sub_asset_type">
-                         <option value="0">请选择网络设备类型</option>
-                         <option value="1">路由器</option>
-                         <option value="2">交换机</option>
-                         <option value="3">工业交换机</option>
-                         <option value="4">无线控制器</option>
-                         <option value="5">无线ＡＰ</option>
-                    </select><br>
-                </div>
+                <!-- /.box -->
             </div>
-            <div class="row  clearfix">
-                <div class="span10 offset2" style="width: 95%">
-                    <input type="hidden" name="assetId" value="{{ ID }}">
-                    <input style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: right;" type="submit" name="submit" id="submit" class="submit btn btn-block btn-primary" value="下一步">
-                    <button type="button" style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: left;" class="btn btn-block btn-success" onclick="window.location.href='http://127.0.0.1:8000/cmdb/asset'">返回</button>
-                </div>
-            </div>
-            </form>
         </div>
-    </section>
+        <!--  /第一行 -->
+
+        <!--  第二行 -->
+        <div class="row">
+            <div class="col-md-12" style="height: 50px">
+                <button class="btn btn-primary pull-right" id="submit">下一步</button>
+            </div>
+        </div>
+        <!--  第二行 -->
+
+
+    </div>
+</div>
+</div>
 {% endblock main_content %}
+
+{% block foot_js %}
+<script>
+    $(function () {
+        $('#submit').click(function () {
+            $.post("/cmdb/networkDeviceSubmit/",
+                {
+                 asset_id:{{ID}},
+                 asset_type:{{asset_type}},
+                 asset_subtype:{{asset_subtype}},
+                },
+            function (data) {
+                window.location.href =("/cmdb/networkDeviceSubmit/")
+            }
+            )
+        });
+    })
+</script>
+{% endblock foot_js %}
+

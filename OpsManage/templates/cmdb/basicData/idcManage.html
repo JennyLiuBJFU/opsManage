@@ -3,6 +3,20 @@
 
 {% block css_block %}
 <link href="/static/dist/css/tab_css.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+    .idcicon{
+        color: #9e0505;
+    }
+
+    .idcinfo {
+        min-height: 180px;
+    }
+
+    span.cabinfo {
+        font-size: 12px;
+    }
+
+</style>
 
 {% endblock css_block %}
 
@@ -18,18 +32,18 @@
     <li id="vendor"><a href="http://127.0.0.1:8000/cmdb/vendorManage">厂商管理</a></li>
 </ul>
 
-<div class="box box-group bg-gray-light " style="min-height: 800px;padding-left: 10px;padding-right: 10px">
+<div class="box box-group bg-gray-light">
     <div class="row" style="margin-top: 10px">
 
-        {% for idc in myIdcs %}
+        {% for idc in IDC %}
         <div class="col-sm-6">
-            <div class="box box-warning">
+            <div class="box  box-warning">
                 <!-- .box-header -->
-                <div class="box-header with-border ">
-                    <span class="glyphicon glyphicon-home"></span>
+                <div class="box-header with-border" >
+                    <span class="idcicon fa fa-home"></span>
                     <h3 class="box-title">{{ idc.idc_name }}</h3>
-                    <span class="fa fa-edit btn pull-right no-margin no-padding" style="font-size: 18px"
-                            onclick="window.open('http://127.0.0.1:8000/cmdb/editIdc?idcId={{ idc.id }}')">
+                    <span class="fa fa-gear btn pull-right no-margin no-padding"
+                          onclick="window.open('/cmdb/editIdc?idcId={{ idc.id }}')">
                     </span>
                 </div>
                 <!-- /.box-header -->
@@ -37,46 +51,53 @@
                 <!-- .box-body -->
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-sm-4 border-right" style="min-height: 150px">
-                            <span style="line-height: 30px">机房名称 :</span>
-                            <span style="line-height: 30px">{{ idc.idc_name}}</span><br>
-                            <span style="line-height: 30px">机房地址 :</span>
-                            <span style="line-height: 30px">{{ idc.idc_address}}</span><br>
-                            <span style="line-height: 30px">备注信息 :</span>
-                            <span style="line-height: 30px">{{ idc.idc_memo}}</span><br>
+                        <div class="idcinfo text col-sm-4 border-right no-margin" >
+                            <span class="cabinfo">名称 : {{ idc.idc_name}}</span><br>
+                            <span class="cabinfo">单位 : {{ idc.organization}}</span><br>
+                            <span class="cabinfo">地址 : {{ idc.idc_address}}</span><br>
+                            <span class="cabinfo">备注 : {{ idc.idc_memo}}</span><br>
+                            {% for count in peridc_asset_count %}
+                            {% if count.idc_name == idc.idc_name %}
+                            <span class="cabinfo ">主机：【 {{ count.data.servercount }} 】台</span><br>
+                            <span class="cabinfo ">网络：【 {{ count.data.netcount }} 】台</span><br>
+                            <span class="cabinfo ">存储：【 {{ count.data.securitycount }} 】台</span><br>
+                            <span class="cabinfo ">安全：【 {{ count.data.storgecount }} 】台</span><br>
+                            {% endif %}
+                            {% endfor %}
                         </div>
 
-                        <div class="col-sm-8" >
-                            <div id="{{ idc.id }}">
-                            <span>机柜信息 :</span><br>
+                        <div class="col-sm-8">
+                            <div class="inline" id="{{ idc.id }}">
+                                <span>机柜信息 :</span><br>
 
-
-
-                            {% if cabFlag %}
-                                {% for c in myCabs %}
-                                    <label class="label label-default" style="font-size: 13px;width: 65px;display: inline-block">{{ c.cabinet_name }}</label>
+                                {% for cabinet in idc.cabinet_set.all %}
+                                <label class="label label-default" style="font-size: 13px;width: 65px;display: inline-block">
+                                    {{ cabinet.cabinet_name}}
+                                </label>
                                 {% endfor %}
 
-                                <br><button class="btn btn-xs btn-primary margin-r-5 pull-right" onclick="window.open('http://127.0.0.1:8000/cmdb/cabDetail?idcId={{ idc.id }}')">机柜图</button>
 
+                                <!-- ------弹出机柜图------ -->
+                            </div>
+                            <div class="inline ">
                                 <a target="blank" href="http://127.0.0.1:8000/cmdb/editCab?idcId={{ idc.id }}">
-                                    <button class="btn btn-xs btn-warning margin-r-5 pull-right" >编辑</button>
+                                    <span class="fa fa-edit text-yellow media-middle" style="font-size: 18px"></span>
                                 </a>
-
-
-                                <a class="btn btn-xs pull-right" onclick="$('#{{ idc.id }}').load(window.location.href+ ' #{{ idc.id }}')">
-                                    <i class="fa fa-fw fa-refresh"></i>
-                                </a>
-                            {% else %}
-                                <a onclick="var test = window.location.href;if(test.split('?')[1]) url=test+'&IDC={{ idc.id }}'; else url=test+'?IDC={{ idc.id }}';$('#{{ idc.id }}').load(url+ ' #{{ idc.id }}');"
-                                    class="text-center">展示或编辑机柜信息</a>
-
-                            {% endif %}
-                        </div>
+                            </div>
                         </div>
 
                     </div>
                     <!-- /.row  -->
+                </div>
+
+                <div class="box-footer">
+                    <div class="inline pull-right">
+                        <button class="btn btn-xs btn-primary"
+                            onclick="window.open('http://127.0.0.1:8000/cmdb/cabDetail?idcId={{ idc.id }}')">
+                            机柜图
+                        </button>
+                    </div>
+
                 </div>
             </div>
         </div>
