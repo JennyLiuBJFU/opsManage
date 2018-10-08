@@ -58,4 +58,6 @@ urlpatterns = [
     url(r'^vendorManage',views.vendorManage),
     url(r'^addVendorSubmitM',views.addVendorSubmitM),
     url(r'^assetMap',views.assetMap),
+    url(r'^showGLC', views.showGLC, name="showGLC"),
+    url(r'^showXDZ', views.showXDZ, name="showXDZ"),
 ]

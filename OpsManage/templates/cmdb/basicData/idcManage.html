@@ -34,6 +34,48 @@
             <div class="box">
                 <div class="box-body">
 
+                     <div class="container" style="border: none;margin: 0;padding: 20px 60px 0;">
+                        <form class="contact" action="idcManage" method="post">
+                            <div class="row clearfix" style="float: left;">
+                                <div class="ctrl" id="fenju" style="float: left;width:12em;margin-right: 2em;">
+                                    <select  id="f" name="FenJu">
+                                        <option value="0">请选择分局</option>
+                                            <option value={{ zhongxianju.id }}>{{ zhongxianju.org_name }}</option>
+                                        {% for Fenju in Fenjus %}
+                                            <option value={{ Fenju.id }}>{{ Fenju.org_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row clearfix" style="float: left;width:12em;margin-right: 2em;">
+                                <div class="ctrl" id="guanlichu">
+                                    <select   id="g" name="GuanLiChu" onchange="var args = $('#g').serialize();var x1 = '{%url 'cmdb:showXDZ'%}?' + args;$('#xiandizhan').load(x1 + ' #xiandizhan')">
+                                        <option value="0">请选择管理处</option>
+                                        {% for Guanlichu in Guanlichus %}
+                                            <option value={{ Guanlichu.id}}>{{ Guanlichu.org_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row clearfix" style="float: left;width:12em;">
+                                <div class="ctrl" id="xiandizhan">
+                                    <select id="x" name="XianDiZhan">
+                                        <option value="0">请选择现地站</option>
+                                        {% for Xiandizhan in Xiandizhans %}
+                                            <option value={{ Xiandizhan.id}}>{{ Xiandizhan.org_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row  clearfix" style="float: left;width: 4em;margin-left: 2em;height: 40px;">
+                                <div class="ctrl">
+                                    <input style="width: 4em;height: 40px;line-height: 26px; color: #FFFFFF;border-radius: 5px;" type="submit" class="btn btn-block btn-primary" value="筛选">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
                     {% for idc in myIdcs %}
                         <div class="mybox mybox-teal" style="margin:2em;float:left;width: 40%;height: 240px;">
                             <div class="mybox-header">
@@ -78,9 +120,20 @@
 
 {% block foot_js %}
   <!-- ----tab效果---- -->
-<script>
-    $(document).ready(function () {
-        $("#idc").attr("id", "current"); // Activate first tab
-    });
-</script>
+    <script>
+        $(document).ready(function () {
+            $("#idc").attr("id", "current"); // Activate first tab
+        });
+    </script>
+    <script type="text/javascript" src="/static/dist/layer/layer.js"></script>
+    <script>
+        $(function(){
+            $("#f").change(function (){
+                var args = $("#f").serialize();
+                var x1 = "{%url 'cmdb:showGLC'%}?" + args;
+                $("#guanlichu").load(x1 + " #guanlichu")
+            });
+        });
+
+    </script>
 {% endblock foot_js %}

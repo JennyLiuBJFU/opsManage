@@ -1367,6 +1367,8 @@ def idcManage(request):
     myIdc = Idc.objects.all()
     myCabinet = Cabinet()
     cabFlag = 0
+    zhongxianju=Organization.objects.get(org_name="中线局")
+    Fenjus=Organization.objects.filter(parent_org=zhongxianju)
 
     try:
         IDC = request.GET['IDC']
@@ -1381,6 +1383,10 @@ def idcManage(request):
     else:
         Perm = 0
     context = {
+        'zhongxianju':zhongxianju,
+        'Fenjus':Fenjus,
+        'Guanlichus':None,
+        'Xiandizhans':None,
         'USERNAME': str(request.user),
         'Perm': Perm,
         'ORGS': Organizations,
@@ -1731,3 +1737,22 @@ def assetMap(request):
         'Perm':Perm,
     }
     return render (request, 'cmdb/assetMap.html', context)
+
+@login_required()
+def showGLC(request):
+    FENJU=request.GET['FenJu']
+    Guanlichus=Organization.objects.filter(parent_org=FENJU)
+    context = {
+        'Guanlichus': Guanlichus,
+    }
+
+    return render(request, 'cmdb/basicData/idcManage.html', context)
+
+@login_required()
+def showXDZ(request):
+    GUANLICHU=request.GET['GuanLiChu']
+    Xiandizhans=Organization.objects.filter(parent_org=GUANLICHU)
+    context={
+        'Xiandizhans':Xiandizhans,
+    }
+    return render(request,'cmdb/basicData/idcManage.html',context)
