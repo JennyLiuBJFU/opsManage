@@ -58,14 +58,12 @@ urlpatterns = [
     url(r'^vendorManage',views.vendorManage),
     url(r'^addVendorSubmitM',views.addVendorSubmitM),
     url(r'^assetMap',views.assetMap),
-<<<<<<< HEAD
-    url(r'^showGLC', views.showGLC, name="showGLC"),
-    url(r'^showXDZ', views.showXDZ, name="showXDZ"),
-=======
+    # url(r'^showGLC', views.showGLC, name="showGLC"),
+    # url(r'^showXDZ', views.showXDZ, name="showXDZ"),
     url(r'^asset_subtype(\d+)/$', views.subtype),
     url(r'^device_model(\d+)/$', views.devicemodel),
     url(r'^showidcs(\d+)/$', views.showidcs),
     url(r'^showcabs(\d+)/$', views.showcabs),
     url(r'^showcabspace(\d+)/$', views.showcabspace),
->>>>>>> a2f8f981f3e3ca71e438e74170d3954ef9d3d67a
+
 ]
