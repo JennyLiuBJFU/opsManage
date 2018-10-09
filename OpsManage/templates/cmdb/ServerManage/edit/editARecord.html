@@ -585,8 +585,10 @@
         <!-- /.box-body -->
 
         <div class="box-footer">
-            <input class="submit btn  btn-primary pull-right" type="submit"  id="submit" value="下一步">
+            <input class="submit btn  btn-primary pull-right" type="submit"  id="submit" value="保存">
             <button type="button" class="btn  btn-success" onclick="window.location.href='/cmdb/asset'">取消</button>
+            <button type="button" class="btn btn-warning pull-right margin-r-5" onclick="window.location.href='http://127.0.0.1:8000/cmdb/editMore?assetId={{ ASSET.id }}'">编辑部件</button>
+
         </div>
 
     </form>
