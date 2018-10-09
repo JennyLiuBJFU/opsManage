@@ -1094,12 +1094,41 @@ def deleteARecord(request):
         Perm = 1
     else:
         Perm = 0
-    context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'Assets':Assets,
-    }
-    return render(request, 'cmdb/ServerManage/asset.html', context)
+    # context = {
+    #     'USERNAME': str(request.user),
+    #     'Perm': Perm,
+    #     'Assets':Assets,
+    # }
+    # return render(request, 'cmdb/ServerManage/asset.html', context)
+    asset_find = []
+
+    page_len = request.GET.get('page_len', '')
+    Organizations = Organization.objects.all()
+
+    # 查询关键字列表
+    myType = int(request.GET.get('myType', "0"))
+    myOrg = int(request.GET.get('myOrg', "0"))
+    myNet = int(request.GET.get('myNet', "0"))
+
+    search_dict = dict()  # 如果有这个值 就写入到字典中去
+    if myType != 0:
+        search_dict['asset_type'] = myType
+    if myOrg != 0:
+        search_dict['organization'] = myOrg
+    if myNet != 0:
+        search_dict['network_location'] = myNet
+
+    if len(asset_find) >= 0:
+        asset_find = Asset.objects.filter(**search_dict)
+    else:
+        asset_find = Asset.objects.all()
+
+    # 所有对象， 分页器， 本页对象， 所有页码， 本页页码，是否显示第一页，是否显示最后一页
+    assets_list, p, assets, page_range, current_page, show_first, show_end, end_page, offset_index = pages(asset_find,
+                                                                                                           request)
+    print("-------------------")
+    print(offset_index)
+    return render(request, 'cmdb/ServerManage/asset.html', locals())
 
 @login_required()
 def editARecord(request):
@@ -1314,18 +1343,48 @@ def editSubmit(request):
         STORAGEDEVICE.save()
 
     Assets = Asset.objects.all()
+    print(Assets)
     Organizations=Organization.objects.all()
     if request.user.is_superuser:
         Perm = 1
     else:
         Perm = 0
-    context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'Assets': Assets,
-        'Organizations': Organizations
-    }
-    return render(request, 'cmdb/ServerManage/asset.html', context)
+    # context = {
+    #     'USERNAME': str(request.user),
+    #     'Perm': Perm,
+    #     'Assets': Assets,
+    #     'Organizations': Organizations
+    # }
+    # return render(request, 'cmdb/ServerManage/asset.html', context)
+    asset_find = []
+
+    page_len = request.GET.get('page_len', '')
+    Organizations = Organization.objects.all()
+
+    # 查询关键字列表
+    myType = int(request.GET.get('myType', "0"))
+    myOrg = int(request.GET.get('myOrg', "0"))
+    myNet = int(request.GET.get('myNet', "0"))
+
+    search_dict = dict()  # 如果有这个值 就写入到字典中去
+    if myType != 0:
+        search_dict['asset_type'] = myType
+    if myOrg != 0:
+        search_dict['organization'] = myOrg
+    if myNet != 0:
+        search_dict['network_location'] = myNet
+
+    if len(asset_find) >= 0:
+        asset_find = Asset.objects.filter(**search_dict)
+    else:
+        asset_find = Asset.objects.all()
+
+    # 所有对象， 分页器， 本页对象， 所有页码， 本页页码，是否显示第一页，是否显示最后一页
+    assets_list, p, assets, page_range, current_page, show_first, show_end, end_page, offset_index = pages(asset_find,
+                                                                                                           request)
+    print("-------------------")
+    print(offset_index)
+    return render(request, 'cmdb/ServerManage/asset.html', locals())
 
 @login_required()
 def orgManage(request):
