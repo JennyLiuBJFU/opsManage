@@ -57,7 +57,6 @@
                                     <label class="label label-default" style="font-size: 13px;width: 65px;display: inline-block">{{ c.cabinet_name }}</label>
                                 {% endfor %}
 
-<<<<<<< HEAD
                      <div class="container" style="border: none;margin: 0;padding: 20px 60px 0;">
                         <form class="contact" action="idcManage" method="post">
                             <div class="row clearfix" style="float: left;">
@@ -129,7 +128,7 @@
                                 </div>
                                 <button onclick="window.open('http://127.0.0.1:8000/cmdb/editIdc?idcId={{ idc.id }}')" style="position: absolute;left:85%;width: 10%;">编 辑</button>
                             </div>
-=======
+
                                 <br><button class="btn btn-xs btn-primary margin-r-5 pull-right" onclick="window.open('http://127.0.0.1:8000/cmdb/cabDetail?idcId={{ idc.id }}')">机柜图</button>
 
                                 <a target="blank" href="http://127.0.0.1:8000/cmdb/editCab?idcId={{ idc.id }}">
@@ -145,7 +144,7 @@
                                     class="text-center">展示或编辑机柜信息</a>
 
                             {% endif %}
->>>>>>> a2f8f981f3e3ca71e438e74170d3954ef9d3d67a
+
                         </div>
                         </div>
 
@@ -162,7 +161,7 @@
 
 
 {% block foot_js %}
-<<<<<<< HEAD
+
   <!-- ----tab效果---- -->
     <script>
         $(document).ready(function () {
@@ -181,12 +180,12 @@
 
     </script>
 {% endblock foot_js %}
-=======
+
 <!-- ----tab效果---- -->
 <script>
     $(document).ready(function () {
         $("#idc").attr("id", "current"); // Activate first tab
     });
 </script>
+
 {% endblock foot_js %}
->>>>>>> a2f8f981f3e3ca71e438e74170d3954ef9d3d67a

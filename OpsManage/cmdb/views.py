@@ -304,121 +304,6 @@ def showcabspace(request, id):
     return JsonResponse({"data":list})
 
 
-"""
-@login_required()
-def addSubmit(request):
-
-    print(request.POST)
-    print(len(request.POST))
-
-    ASSET=Asset()
-
-    # text类型的8个
-    ASSET.asset_name=request.POST['asset_name']
-    ASSET.manage_ip=request.POST['manage_ip']
-    ASSET.memo=request.POST['memo']
-    ASSET.asset_no=request.POST['asset_no']
-    ASSET.expire_day=request.POST['expire_day']
-    ASSET.sn=request.POST['sn']
-    # ASSET.model=request.POST['model']
-    ASSET.purchase_day=request.POST['purchase_day']
-
-    #直接select标签的3个
-    if request.POST['status'] != "0":
-        ASSET.status=request.POST['status']
-    if request.POST['network_location'] !="0":
-        ASSET.network_location = request.POST['network_location']
-    if request.POST['asset_type']!="0":
-        ASSET.asset_type = request.POST['asset_type']
-
-    #外键的7个
-    if request.POST['admin']!="0":
-        ASSET.admin=User.objects.get(id=request.POST['admin'])
-    if request.POST['model']!="0":
-        ASSET.model = Device_model.objects.get(id=request.POST['model'])
-    if request.POST['idc']!="0":
-        ASSET.idc=Idc.objects.get(id=request.POST['idc'])
-    if request.POST['contract']!="0":
-        ASSET.contract=Contract.objects.get(id=request.POST['contract'])
-    if request.POST['supplier']!="0":
-        ASSET.supplier=Supplier.objects.get(id=request.POST['supplier'])
-    if request.POST['organization']!="0":
-        ASSET.organization=Organization.objects.get(id=request.POST['organization'])
-    if request.POST['approved_by']!="0":
-        ASSET.approved_by=User.objects.get(id=request.POST['approved_by'])
-    if request.POST['cab']!="0":
-        ASSET.cabinet=Cabinet.objects.get(id=request.POST['cab'])
-
-
-    # #多对多1个
-    ASSET.save()
-    # tag_list=request.POST.getlist('tag','')
-    # for t in tag_list:
-    #     ASSET.tags.add(Tag.objects.get(id=t))
-    # ASSET.save()
-
-
-    #生成设备的二维码
-    obj_url = "http://127.0.0.1/cmdb/detail" + str(ASSET.id)
-    qr = qrcode.QRCode(version=1,
-                       error_correction=qrcode.constants.ERROR_CORRECT_L,
-                       box_size=8,
-                       border=2,
-                       )
-    qr.add_data(obj_url)
-    qr.make(fit=True)
-    img = qr.make_image()
-    img_name = 'media/QRcode_imgs/' + ASSET.asset_name + '.png'
-    img.save(img_name)
-    ASSET.qrcode = img_name
-    ASSET.save()
-
-    CapSpasId=request.POST.getlist('cabSpace')
-    num=0
-    hPlace=0
-    if CapSpasId:
-        for cId in CapSpasId:
-            num=num+1
-            CABSPACE=CabinetSpace.objects.get(id=cId)
-            if int(CABSPACE.cabinet_location) > hPlace:
-                hPlace=int(CABSPACE.cabinet_location)
-            CABSPACE.asset=ASSET
-            CABSPACE.save()
-        ASSET.height=num*22-2
-        ASSET.cab_location = ASSET.cabinet.cabinet_height - hPlace
-    ASSET.save()
-
-    Assets = Asset.objects.all()
-    Servers=Server.objects.all()
-
-    print(Servers)
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-
-    context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'Assets': Assets,
-        'ID':ASSET.id,
-        'Servers':Servers,
-        'ASSET.qrcode': ASSET.qrcode,
-    }
-    if ASSET.asset_type=='1':
-        return render(request,'cmdb/ServerManage/add/addOneToOne/addServer.html',context)
-    elif ASSET.asset_type=='2':
-        return render(request, 'cmdb/ServerManage/add/addOneToOne/addNetworkDevice.html', context)
-    elif ASSET.asset_type=='3':
-        return render(request, 'cmdb/ServerManage/add/addOneToOne/addSecurityDevice.html', context)
-    elif ASSET.asset_type=='4':
-        return render(request, 'cmdb/ServerManage/add/addOneToOne/addStorageDevice.html', context)
-    else:
-        return render(request, 'cmdb/ServerManage/asset.html', context)
-
-"""
-
-
 @login_required()
 def addSubmit(request):
     if request.user.is_superuser:
@@ -503,14 +388,10 @@ def addSubmit(request):
     asset_type = request.POST['asset_type']
     asset_subtype = request.POST['asset_subtype']
     asset_type_display = ASSET.get_asset_type_display
-    if ASSET.asset_type=='1':
-        asset_subtype_display = Server.sub_asset_type_choice[int(asset_type)-1][1]
-    if ASSET.asset_type == '2':
-        asset_subtype_display = NetworkDevice.sub_asset_type_choice[int(asset_type)-1][1]
-    if ASSET.asset_type == '3':
-        asset_subtype_display = SecurityDevice.sub_asset_type_choice[int(asset_type)-1][1]
-    if ASSET.asset_type == '4':
-        asset_subtype_display = StorageDevice.sub_asset_type_choice[int(asset_type)-1][1]
+    if ASSET.asset_type =='1':
+        asset_subtype_display = Server.sub_asset_type_choice[int(asset_subtype)-1][1]
+    else:
+        asset_subtype_display=None
 
     context = {
         'USERNAME': str(request.user),
@@ -522,71 +403,31 @@ def addSubmit(request):
         'asset_subtype_display':asset_subtype_display,
         'vendor':vendor,
         "sn":request.POST['sn'],
-        'model':Device_model.objects.get(id=request.POST['model']).models
+        'model':Device_model.objects.get(id=request.POST['model']).models,
     }
     if ASSET.asset_type=='1':
         return render(request,'cmdb/ServerManage/add/addOneToOne/addServer.html',context)
     elif ASSET.asset_type=='2':
-        return render(request, 'cmdb/ServerManage/add/addOneToOne/addNetworkDevice.html', context)
+        NETWORKDEVICE=NetworkDevice()
+        NETWORKDEVICE.asset=ASSET
+        NETWORKDEVICE.sub_asset_type=asset_subtype
+        NETWORKDEVICE.save()
+        return render(request, 'cmdb/ServerManage/add/addMore.html', context)
     elif ASSET.asset_type=='3':
-        return render(request, 'cmdb/ServerManage/add/addOneToOne/addSecurityDevice.html', context)
+        SECURITYDEVICE=SecurityDevice()
+        SECURITYDEVICE.asset=ASSET
+        SECURITYDEVICE.sub_asset_type=asset_subtype
+        return render(request, 'cmdb/ServerManage/add/addMore.html', context)
     elif ASSET.asset_type=='4':
-        return render(request, 'cmdb/ServerManage/add/addOneToOne/addStorageDevice.html', context)
+        STORAGEDEVICE=StorageDevice()
+        STORAGEDEVICE.asset=ASSET
+        STORAGEDEVICE.sub_asset_type=asset_subtype
+        return render(request, 'cmdb/ServerManage/add/addMore.html', context)
     else:
-        return render(request, 'cmdb/ServerManage/asset.html', context)
-
-"""
-def editMore(request):
-    ID=request.GET['assetId']
-    ASSET=Asset.objects.get(id=ID)
-    rams=RAM.objects.filter(asset=ASSET)
-    cpus=CPU.objects.filter(asset=ASSET)
-    disks=Disk.objects.filter(asset=ASSET)
-    ports=Port.objects.filter(asset=ASSET)
-    parts=Parts.objects.filter(asset=ASSET)
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context={
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'ID':ID,
-        'rams':rams,
-        'cpus':cpus,
-        'disks':disks,
-        'ports':ports,
-        'parts':parts,
-    }
-    return render(request,'cmdb/ServerManage/add/addMore.html',context)
-
-"""
+        return render(request, 'cmdb/ServerManage/add/addMore.html', context)
 
 
 def editMore(request):
-    """
-    'ID': ASSET.id,
-    'asset_type': request.POST['asset_type'],
-    'asset_subtype': request.POST['asset_subtype'],
-    """
-    ID = request.POST['assetId']
-    asset_type = request.POST['asset_type']
-    sub_asset_type = request.POST['asset_subtype']
-    if asset_type == 1:
-        device = Server()
-    if asset_type == 2:
-        device = NetworkDevice()
-    if asset_type == 3:
-        device = SecurityDevice()
-    if asset_type == 1:
-        device = StorageDevice()
-    device.sub_asset_type = sub_asset_type
-    device.asset = Asset.objects.get(id=ID)
-
-
-
-
-
     ID=request.GET['assetId']
     ASSET=Asset.objects.get(id=ID)
     rams=RAM.objects.filter(asset=ASSET)
@@ -965,7 +806,7 @@ def serverSubmit(request):
     }
     return render(request, 'cmdb/ServerManage/add/addMore.html', context)
 
-"""
+
 @login_required()
 def networkDeviceSubmit (request):
     if request.user.is_superuser:
@@ -991,34 +832,34 @@ def networkDeviceSubmit (request):
         'ID':request.POST['asset_id'],
     }
     return render(request, 'cmdb/ServerManage/add/addMore.html', context)
-"""
 
-@login_required()
-def networkDeviceSubmit (request):
-    print(request.POST)
-    ASSET = Asset.objects.get(id=request.POST['assetId'])
-    NETWORKDEVICE=NetworkDevice()
-    NETWORKDEVICE.asset=ASSET
-    if request.POST['sub_asset_type'] != '0':
-        NETWORKDEVICE.sub_asset_type=request.POST['sub_asset_type']
-    else:
-        NETWORKDEVICE.sub_asset_type=None
-    NETWORKDEVICE.save()
-    Assets = Asset.objects.all()
-    Organizations = Organization.objects.all()
-    ID=request.POST['assetId']
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'ID':ID,
-        'Assets': Assets,
-        'Organizations':Organizations,
-    }
-    return render(request, 'cmdb/ServerManage/add/addMore.html', context)
+#
+# @login_required()
+# def networkDeviceSubmit (request):
+#     print(request.POST)
+#     ASSET = Asset.objects.get(id=request.POST['assetId'])
+#     NETWORKDEVICE=NetworkDevice()
+#     NETWORKDEVICE.asset=ASSET
+#     if request.POST['sub_asset_type'] != '0':
+#         NETWORKDEVICE.sub_asset_type=request.POST['sub_asset_type']
+#     else:
+#         NETWORKDEVICE.sub_asset_type=None
+#     NETWORKDEVICE.save()
+#     Assets = Asset.objects.all()
+#     Organizations = Organization.objects.all()
+#     ID=request.POST['assetId']
+#     if request.user.is_superuser:
+#         Perm = 1
+#     else:
+#         Perm = 0
+#     context = {
+#         'USERNAME': str(request.user),
+#         'Perm': Perm,
+#         'ID':ID,
+#         'Assets': Assets,
+#         'Organizations':Organizations,
+#     }
+#     return render(request, 'cmdb/ServerManage/add/addMore.html', context)
 
 
 @login_required()
@@ -1365,8 +1206,8 @@ def editSubmit(request):
         ASSET.idc = Idc.objects.get(id=request.POST['idc'])
     else:
         ASSET.idc = None
-    if request.POST['cab'] !="0":
-        ASSET.cabinet = Cabinet.objects.get(id=request.POST['cab'])
+    if request.POST['cabinet'] !="0":
+        ASSET.cabinet = Cabinet.objects.get(id=request.POST['cabinet'])
     else:
         ASSET.cabinet=None
     if request.POST['contract']!="0":
@@ -1422,8 +1263,8 @@ def editSubmit(request):
         else:
             SERVER=Server()
             SERVER.asset=ASSET
-        if SERVER.sub_asset_type!='0':
-            SERVER.sub_asset_type=request.POST['sub_asset_type']
+        if request.POST['asset_subtype'] !='0':
+            SERVER.sub_asset_type=request.POST['asset_subtype']
         else:
             SERVER.sub_asset_type=None
         if request.POST['hosted_on'] != '0':
@@ -1444,8 +1285,8 @@ def editSubmit(request):
         else:
             NETWORKDEVICE=NetworkDevice()
             NETWORKDEVICE.asset=ASSET
-        if request.POST['sub_asset_type']!='0':
-            NETWORKDEVICE.sub_asset_type = request.POST['sub_asset_type']
+        if request.POST['asset_subtype']!='0':
+            NETWORKDEVICE.sub_asset_type = request.POST['asset_subtype']
         else:
             NETWORKDEVICE.sub_asset_type=None
         NETWORKDEVICE.save()
@@ -1455,11 +1296,10 @@ def editSubmit(request):
         else:
             SECURITYDEVICE=SecurityDevice()
             SECURITYDEVICE.asset=ASSET
-        if request.POST['sub_asset_type']!='0':
-            SECURITYDEVICE.sub_asset_type = request.POST['sub_asset_type']
+        if request.POST['asset_subtype']!='0':
+            SECURITYDEVICE.sub_asset_type = request.POST['asset_subtype']
         else:
             SECURITYDEVICE.sub_asset_type=None
-        SECURITYDEVICE.memo=request.POST['SeDMemo']
         SECURITYDEVICE.save()
     elif ASSET.asset_type=="4":
         if StorageDevice.objects.filter(asset=ASSET):
@@ -1467,8 +1307,8 @@ def editSubmit(request):
         else:
             STORAGEDEVICE=StorageDevice()
             STORAGEDEVICE.asset=ASSET
-        if request.POST['sub_asset_type']!='0':
-            STORAGEDEVICE.sub_asset_type = request.POST['sub_asset_type']
+        if request.POST['asset_subtype']!='0':
+            STORAGEDEVICE.sub_asset_type = request.POST['asset_subtype']
         else:
             STORAGEDEVICE.sub_asset_type=None
         STORAGEDEVICE.save()
@@ -1929,99 +1769,6 @@ def addVendorSubmitM(request):
     }
 
     return render(request, 'cmdb/basicData/vendorManage.html', context)
-"""
-@login_required()
-def assetMap(request):
-    if request.user.is_superuser:
-        Perm=1
-    else:
-        Perm=0
-    context={
-        'idcs':Idc.objects.all(),
-        'USERNAME':str(request.user),
-        'Perm':Perm,
-    }
-    return render (request, 'cmdb/assetMap.html', context)
-<<<<<<< HEAD
-
-@login_required()
-def showGLC(request):
-    FENJU=request.GET['FenJu']
-    Guanlichus=Organization.objects.filter(parent_org=FENJU)
-    context = {
-        'Guanlichus': Guanlichus,
-    }
-
-    return render(request, 'cmdb/basicData/idcManage.html', context)
-
-@login_required()
-def showXDZ(request):
-    GUANLICHU=request.GET['GuanLiChu']
-    Xiandizhans=Organization.objects.filter(parent_org=GUANLICHU)
-    context={
-        'Xiandizhans':Xiandizhans,
-    }
-    return render(request,'cmdb/basicData/idcManage.html',context)
-=======
-"""
-"""
-@login_required()
-def assetMap(request):
-    Organizations = Organization.objects.all()
-    myIdc = Idc.objects.all()
-    myOrg = Organization()
-    myCabinet = Cabinet()
-    cabFlag = 0
-    print("^^^^^^^^^^^^^^^^^^^")
-    print(type(myOrg))
-    print(type(myCabinet))
-
-    try:
-        IDC = request.GET['IDC']
-        myCabinet=Cabinet.objects.filter(idc=Idc.objects.get(id=IDC))
-        cabFlag=1
-    except:
-        print("没有IDC参数!")
-
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-
-    context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'ORGS': Organizations,
-        'myOrg': myOrg,
-        'myIdcs': myIdc,
-        'myCabs': myCabinet,
-        'cabFlag':cabFlag,
-        'tab_number': "idc",
-    }
-    return render(request, 'cmdb/assetMap.html', context)
-
-"""
-
-"""
-机柜信息的数据格式：
-需要的数据： 机房对象、机柜对象、位置空间对象、机柜内四种设备的数量
-
-1.所有机房对象列表
-{
-"idc":{"idc_name": idc_name,
-        "idc_org": idc_org,
-        "idc_loc": idc_loc,
-        "idc_memo: idc_memo,
-         "cabinet":cabinet_name,
-         "servercount":servercount,
-         "netcount":netcount,
-         "securitycount":securitycount,
-         "storgecount":storgecount,
-         }
-}
-
-
-"""
 
 
 @login_required()
@@ -2122,4 +1869,4 @@ def devicemodel(request, vendor):
 
 
 
->>>>>>> a2f8f981f3e3ca71e438e74170d3954ef9d3d67a
+

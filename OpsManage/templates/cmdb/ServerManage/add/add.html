@@ -79,20 +79,13 @@
 
                     <!-- 来源合同 -->
                     <div class="form-group">
-                        <label for="contract">来源合同</label>
-                        <a class="btn no-padding no-margin"
-                           onclick="$('#contract').load('http://127.0.0.1:8000/cmdb/addARecord'+ ' #contract')">
-                            <i class="fa fa-refresh"></i>
-                        </a><br>
+                        <label for="contract">来源合同</label><br>
                         <select class="form-control select2 inline" id="contract" name="contract">
                             <option value="0">请选择来源合同</option>
                             {% for Contract in Contracts %}
                             <option value={{ Contract.id}}>{{ Contract.contract_name }}</option>
                             {% endfor %}
                         </select>
-                        <a class="btn no-padding no-margin" target="_blank" href="/cmdb/editContract">
-                            <i class="fa  fa-cog"></i>
-                        </a>
                     </div>
                     <!-- /.来源合同 -->
 
@@ -125,7 +118,7 @@
                     <div class="form-group">
                         <label for="asset_no">资产编号</label><br>
                         <input required class="form-control inline" type="text" name="asset_no" id="asset_no"
-                               placeholder="请输入资产名称" asset_name">
+                               placeholder="请输入资产编号">
                         <label class="btn fa fa-check-square-o "></label>
                     </div>
                     <!-- /.资产编号 -->
@@ -144,13 +137,13 @@
                     <!-- /.设备状态 -->
 
                     <!-- 供应商 -->
-                    <div class="form-group">
+                    <div class="form-group"  id="supplier">
                         <label for="supplier">供应商</label>
                         <a class="btn no-padding no-margin"
                            onclick="$('#supplier').load('/cmdb/addARecord'+ ' #supplier')">
                             <i class="fa fa-refresh"></i>
                         </a><br>
-                        <select class="form-control select2 inline" id="supplier" name="supplier">
+                        <select class="form-control select2 inline" name="supplier">
                             <option value="0">请选择供应商</option>
                             {% for Supplier in Suppliers %}
                             <option value={{ Supplier.id}}>{{ Supplier.supplier_name }}</option>
@@ -286,10 +279,10 @@
                 <!-- 第二行，第四列 -->
                 <div class="col-md-3">
                     <!-- /设备型号 -->
-                    <div class="form-group">
+                    <div class="form-group" id="M">
                         <label for="model">设备型号</label>
                         <a class="btn no-padding no-margin"
-                           onclick="$('#model').load('/cmdb/addARecord'+ ' #model')">
+                           onclick="$('#M').load('/cmdb/addARecord'+ ' #M')">
                             <i class="fa fa-refresh"></i>
                         </a><br>
                         <select required class="form-control select2 inline" id="model" name="model">

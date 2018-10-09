@@ -1,218 +1,90 @@
 {% extends "base.html" %}
 
 {% block css_block %}
-<link href="/static/css/form2.css" type="text/css" rel="stylesheet">
-{% endblock css_block %}
+<link href="/static/dist/css/bootstrap-multiselect.css" rel="stylesheet">
+<script type="text/javascript" src="/static/dist/js/xcConfirm.js"></script>
+<style type="text/css">
+    select.select2 {
+        width: 85%;
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+
+    .form-group > input {
+        width: 85%;
+    }
+
+    label.btn.fa-check-square-o {
+        font-size: 14px;
+        color: darkred;
+        padding: 0px;
+        margin: 0px;
+    }
+
+    a > i.fa-cog {
+        font-size: 16px;
+        color: grey;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .split_row {
+        width: 100%;
+        height: 30px;
+        border-bottom: #DCDCDC solid 1px;
+        margin-bottom: 25px;
+    }
+
+</style>
+{% endblock %}
+
 
 {% block main_content %}
+<div class="container-fluid box box-default">
+    <div class="box-header with-border">
+        <span class="fa fa-cube"></span>
+        <h3 class="box-title">资产信息</h3>
+        <small>添加资产基本信息</small>
+    </div>
 
-<section id="getintouch" class="fadeInRightBig animated">
-        <div class="container2" style="border-bottom: 0;">
-            <h1>
-                <span>请修改设备信息</span>
-            </h1>
-        </div>
-        <div class="container">
-            <form class="contact" action="editSubmit?myid={{ ID }}" method="post" id="form">
-            <div class="row clearfix">
-                <div class="lbl">
-                    <label>
-                        设备类型</label>
-                </div>
-                <div class="ctrl">
-                    <select  name="asset_type" style="float: left;">
-                        <option value="{{ ASSET.asset_type }}" selected="selected">{{ ASSET.get_asset_type_display}}</option>
-                    </select><br />
-                    <span style="color:red;float:left;position: relative;left: 3px;top: -12px;">*</span>
-                </div>
-            </div>
+    <!-- /.box-header -->
+    <form class="contact" action="editSubmit?myid={{ ID }}" method="post" id="form">
+        <div class="box-body">
 
-            <div class="row clearfix">
-                <div class="lbl">
-                    <label>
-                        设备型号</label>
-                    <a class="btn buttons" onclick="$('#model').load('http://127.0.0.1:8000/cmdb/addARecord'+ ' #model')" >
-                        <i class="fa fa-fw fa-refresh"></i>
-                    </a>
-                </div>
-                <div class="ctrl" id="model">
-                    <select required  name="model" >
-                        <option value="{{ ASSET.model.id }}" selected="selected">{{ ASSET.model.models}}</option>
-                        {% for Model in Models%}
-                            <option value={{ Model.id }}>{{ Model.models }}</option>
-                        {% endfor %}
-                    </select>
-                    <span style="color:red">*</span>
-                    <a class="btn buttons" target="_blank" href="http://127.0.0.1:8000/cmdb/editModel">
-                        <i class="fa fa-edit"></i> add
-                    </a>
-                </div>
-            </div>
+            <div class="row" style="margin-top: 25px">
+                <!-- ----------第一行，资产信息---------- -->
+                <!-- 一行一列 -->
+                <div class="col-md-6">
+                    <!-- 资产名称 -->
+                    <div class="form-group">
+                        <label for="asset_name">资产名称</label><br>
+                        <input required class="form-control inline" type="text" name="asset_name" id="asset_name" value="{{ ASSET.asset_name }}">
+                        <label class="btn fa fa-check-square-o "></label>
+                    </div>
+                    <!-- /.资产名称 -->
 
-            <div class="row clearfix">
-                <div class="lbl">
-                    <label>
-                        设备序列号</label>
-                </div>
-                <div class="ctrl">
-                    <input required type="text" name="sn" value="{{ ASSET.sn }}">
-                    <span style="color:red">*</span>
-                </div>
-            </div>
-
-            <div class="row clearfix">
-                <div class="lbl">
-                    <label>
-                        资产名称</label>
-                </div>
-                <div class="ctrl">
-                    <input required type="text" name="asset_name"  value="{{ ASSET.asset_name }}">
-                    <span style="color:red">*</span>
-                </div>
-            </div>
-            <div class="row clearfix">
-                <div class="lbl">
-                    <label>
-                        资产编号</label>
-                </div>
-                <div class="ctrl">
-                    <input required type="text" name="asset_no" value="{{ ASSET.asset_no }}">
-                    <span style="color:red">*</span>
-                </div>
-            </div>
-
-             <div class="row clearfix">
-                <div class="lbl">
-                    <label >
-                        所属网络</label>
-                </div>
-                <div class="ctrl">
-                    <select  name="network_location" >
-                        {% if ASSET.networkk_location %}
-                            <option value="{{ ASSET.network_location }}" selected="selected">{{ ASSET.get_network_location_display }}</option>
-                            {% else %}
-                            <option value="0">请选择所属网络</option>
-                        {% endif %}
-                        <option value="1">控制专网</option>
-                        <option value="2">业务内网</option>
-                        <option value="3">业务外网</option>
-                    </select><br />
-                </div>
-            </div>
-
-            <div class="row clearfix">
-                <div class="lbl">
-                    <label>
-                        管理IP</label>
-                </div>
-                <div class="ctrl">
-                    <input type="text" name="manage_ip" value="{{ ASSET.manage_ip }}">
-                </div>
-            </div>
-
-            <div class="row clearfix" style="float: left;">
-                <div class="lbl" style="float: left;width: auto;margin-right: 4em;">
-                    <label>
-                        机柜</label>
-                </div>
-                <div class="ctrl" id="org" style="float: left;width:12em;margin-right: 2em;">
-                    <select  id="o" name="organization">
-                        {% if ASSET.organization %}
+                    <!-- 所属单位 -->
+                    <div class="form-group">
+                        <label for="organization">所属单位</label><br>
+                        <select required class="form-control select2 inline" id="organization" name="organization">
+                            {% if ASSET.organization %}
                             <option value="{{ ASSET.organization.id }}" selected="selected">{{ ASSET.organization.org_name }}</option>
                             {% else %}
                             <option value="0">请选择单位</option>
-                        {% endif %}
-                        {% for Organization in Organizations %}
-                            <option value={{ Organization.id }}>{{ Organization.org_name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div class="row clearfix" style="float: left;width:12em;margin-right: 2em;">
-                <div class="ctrl" id="IDC">
-                    <select   id="i" name="idc" onchange="var args = $('#i').serialize();var x1 = '{%url 'cmdb:showCabs'%}?' + args;$('#cab').load(x1 + ' #cab')">
-                        {% if ASSET.idc %}
-                            <option value="{{ ASSET.idc.id }}" selected="selected">{{ ASSET.idc.idc_name }}</option>
-                            {% else %}
-                            <option value=""0>请选择机房</option>
-                        {% endif %}
-                        {% for Idc in Idcs %}
-                            <option value={{ Idc.id}}>{{ Idc.idc_name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div class="row clearfix" style="float: left;width:9em;">
-                <div class="ctrl" id="cab" onchange="var args = $('#c').serialize();var x1 = '{%url 'cmdb:showCabSpaces'%}?' + args;$('#cabSpace').load(x1 + ' #cabSpace');">
-                    <select id="c" name="cab">
-                        {% if ASSET.cabinet %}
-                            <option value="{{ ASSET.cabinet.id }}" selected="selected">{{ ASSET.cabinet.cabinet_name }}</option>
-                            {% else %}
-                            <option value="0">请选择机柜</option>
-                        {% endif %}
-                        {% for Cab in Cabs %}
-                            <option value={{ Cab.id}}>{{ Cab.cabinet_name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div class="row clearfix" style="height:120px;clear: left;">
-                <div class="lbl" style="float: left;width: auto;margin-right: 4em;">
-                    <label>
-                        位置</label>
-                </div>
-                <div class="ctrl" id="cabSpace" style="float:left;height:120px;">
-                    <select name="cabSpace" multiple style="height:120px;width: 11em;">
-{#                        {% for CabSpace in CabSpaces %}#}
-{#                            {% if CabSpace in CSSelected %}#}
-{#                                <option selected value={{ CabSpace.id}}>{{CabSpace.get_cabinet_location_display}}</option>#}
-{#                                {% else %}#}
-{#                                    <option value={{ CabSpace.id}}>{{CabSpace.get_cabinet_location_display}}</option>#}
-{#                            {% endif %}#}
-{#                        {% endfor %}#}
-                        {% if CSSelected %}
-                            {% for cs in CSSelected %}
-                            <option selected value={{ cs.id}}>{{cs.get_cabinet_location_display}}</option>}
+                            {% endif %}
+                            {% for Organization in Organizations %}
+                                <option value={{ Organization.id }}>{{ Organization.org_name }}</option>
                             {% endfor %}
-                        {% endif %}
+                        </select>
+                        <label class="btn fa fa-check-square-o "></label>
+                    </div>
+                    <!-- /.所属单位 -->
 
-                        {% for CabSpace in CabSpaces %}
-                            <option value={{ CabSpace.id}}>{{CabSpace.get_cabinet_location_display}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-
-            <div class="row clearfix">
-                <div class="lbl">
-                    <label>
-                        设备状态</label>
-                </div>
-                <div class="ctrl">
-                    <select  name="status" >
-                        {% if ASSET.status %}
-                            <option value="{{ ASSET.status }}" selected="selected">{{ ASSET.get_status_display }}</option>
-                            {% else %}
-                            <option value="0">请选择设备状态</option>
-                        {% endif %}
-                        <option value="1">使用中</option>
-                        <option value="2">未使用</option>
-                        <option value="3">故障</option>
-                        <option value="4">其它</option>
-                    </select><br />
-                </div>
-            </div>
-             <div class="row clearfix">
-                <div class="lbl">
-                    <label>
-                        合同</label>
-                    <a class="btn buttons" onclick="$('#contract').load('http://127.0.0.1:8000/cmdb/addARecord'+ ' #contract')" >
-                        <i class="fa fa-fw fa-refresh"></i>
-                    </a>
-                </div>
-                <div class="ctrl" id="contract">
-                    <select  name="contract" >
-                        {% if ASSET.contract %}
+                    <!-- 来源合同 -->
+                    <div class="form-group">
+                        <label for="contract">来源合同</label><br>
+                        <select class="form-control select2 inline" id="contract" name="contract">
+                            {% if ASSET.contract %}
                             <option value="{{ ASSET.contract.id }}" selected="selected">{{ ASSET.contract}}</option>
                             {% else %}
                             <option value="0">请选择合同</option>
@@ -220,298 +92,579 @@
                         {% for Contract in Contracts %}
                             <option value={{ Contract.id}}>{{ Contract.contract_name }}</option>
                         {% endfor %}
-                    </select>
-                    <a class="btn buttons" target="_blank" href="http://127.0.0.1:8000/cmdb/editContract">
-                        <i class="fa fa-edit"></i> add
-                    </a>
-                </div>
-             </div>
-             <div class="row clearfix">
-                <div class="lbl">
-                    <label>
-                        管理员</label>
-                </div>
-                <div class="ctrl">
-                    <select  name="admin">
-                        {% if ASSET.admin %}
-                            <option value="{{ ASSET.admin.id }}" selected="selected">{{ ASSET.admin}}</option>
-                            {% else %}
-                                <option value="0">请选择管理员</option>
-                        {% endif %}
-                        {% for User in Users %}
-                            <option value={{ User.id}}>{{ User.username }}</option>
-                        {% endfor %}
-                    </select>
-                 </div>
-            </div>
-
-
-            <div class="row clearfix">
-                <div class="lbl">
-                    <label>
-                        供应商</label>
-                    <a class="btn buttons" onclick="$('#supplier').load('http://127.0.0.1:8000/cmdb/addARecord'+ ' #supplier')" >
-                        <i class="fa fa-fw fa-refresh"></i>
-                    </a>
-                </div>
-                <div class="ctrl" id="supplier">
-                    <select  name="supplier" >
-                        {% if ASSET.supplier %}
-                            <option value="{{ ASSET.supplier.id }}" selected="selected">{{ ASSET.supplier}}</option>
-                            {% else %}
-                            <option value="0">请选择供应商</option>
-                        {% endif %}
-                        {% for Supplier in Suppliers %}
-                            <option value={{ Supplier.id}}>{{ Supplier.supplier_name}}</option>
-                        {% endfor %}
-                    </select>
-                    <a class="btn buttons buttons" target="_blank" href="http://127.0.0.1:8000/cmdb/editSupplier">
-                        <i class="fa fa-edit"></i> add
-                    </a>
-                </div>
-            </div>
-            <div class="row clearfix">
-                <div class="lbl">
-                    <label>
-                        购买日期</label>
-                </div>
-                <div class="ctrl">
-                    <input type="date" value="{{ PURCHASE_DAY }}" name="purchase_day" placeholder="请选择购买日期">
-                </div>
-            </div>
-            <div class="row clearfix">
-                <div class="lbl">
-                    <label>
-                        过保日期</label>
-                </div>
-                <div class="ctrl">
-                    <input type="date" value="{{ EXPIRE_DAY }}" name="expire_day" placeholder="请选择过保日期">
-                </div>
-            </div>
-            <div class="row clearfix">
-                <div class="lbl">
-                    <label>
-                        审批人</label>
-                </div>
-                <div class="ctrl">
-                    <select  name="approved_by" >
-                        {% if ASSET.approved_by %}
-                            <option value="{{ ASSET.approved_by.id }}" selected="selected">{{ ASSET.approved_by}}</option>
-                            {% else %}
-                                <option value="0">请选择审批人</option>
-                        {% endif %}
-                        {% for User in Users %}
-                            <option value={{ User.id}}>{{ User.username }}</option>
-                        {% endfor %}
-                    </select>
-                 </div>
-            </div>
-            <div class="row clearfix">
-                <div class="lbl">
-                    <label>
-                        备注</label>
-                </div>
-                <div class="ctrl">
-                    <textarea  id="memo" name="memo" rows="6" cols="6">{{ ASSET.memo }}</textarea>
-                 </div>
-            </div>
-
-            {% if ASSET.asset_type == "1" %}
-                <div class="row clearfix">
-                    <div class="lbl">
-                        <label>
-                            服务器类型</label>
+                        </select>
                     </div>
-                    <div class="ctrl">
-                        <select  name="sub_asset_type" >
-                            {% if ASSET.server.sub_asset_type %}
-                                <option value="{{ ASSET.server.sub_asset_type }}">{{ ASSET.server.get_sub_asset_type_display }}</option>
+                    <!-- /.来源合同 -->
+
+                    <!-- 购买日期 -->
+                    <div class="form-group">
+                        <label for="purchase_day">购买日期</label><br>
+                        <input required class="form-control" type="date" name="purchase_day" id="purchase_day" value="{{ PURCHASE_DAY }}">
+                        </select>
+                    </div>
+                    <!-- /.购买日期 -->
+
+                    <!-- 审批人 -->
+                    <div class="form-group">
+                        <label for="approved_by">审批人</label><br>
+                        <select class="form-control select2" id="approved_by" name="approved_by">
+                           {% if ASSET.approved_by %}
+                                <option value="{{ ASSET.approved_by.id }}" selected="selected">{{ ASSET.approved_by}}</option>
                                 {% else %}
-                                <option value="0">请选择服务器类型</option>
+                                    <option value="0">请选择审批人</option>
                             {% endif %}
-                            <option value="1">PC服务器</option>
-                            <option value="2">小型机</option>
-                            <option value="3">刀片机</option>
-                            <option value="4">虚拟机</option>
-                            <option value="5">容器</option>
-                        </select><br />
-                    </div>
-                </div>
-                <div class="row clearfix">
-                    <div class="lbl">
-                        <label>
-                            宿主机</label>
-                    </div>
-                    <div class="ctrl">
-                        <select  name="hosted_on" >
-                            {% if ASSET.server.hosted_on %}
-                                <option value="{{ ASSET.server.hosted_on.id }}">{{ ASSET.server.hosted_on.asset.asset_name }}</option>
-                            {% endif %}
-                            <option value="0">无</option>
-                            {% for Server in Servers %}
-                                <option value={{ Server.id}}>{{ Server.asset.asset_name }}</option>
+                            {% for User in Users %}
+                                <option value={{ User.id}}>{{ User.username }}</option>
                             {% endfor %}
                         </select>
                     </div>
+                    <!-- /.审批人 -->
+
                 </div>
-                <div class="row clearfix">
-                    <div class="lbl">
-                        <label>
-                            微码版本</label>
+                <!-- /一行一列 -->
+                <!-- 一行二列 -->
+                <div class="col-md-6">
+                    <!-- 资产编号 -->
+                    <div class="form-group">
+                        <label for="asset_no">资产编号</label><br>
+                        <input required class="form-control inline" type="text" name="asset_no" id="asset_no" value="{{ ASSET.asset_no }}">
+                        <label class="btn fa fa-check-square-o "></label>
                     </div>
-                    <div class="ctrl">
-                        <input type="text" name="microcode" value="{{ ASSET.server.microcode }}" >
-                    </div>
-                </div>
-                <div class="row clearfix">
-                    <div class="lbl">
-                        <label>
-                            操作系统</label>
-                    </div>
-                    <div class="ctrl">
-                        <select  required name="os_type" style="float: left;">
-                            {% if ASSET.server.os_type %}
-                                <option  value="{{ ASSET.server.os_type }}">{{ ASSET.server.get_os_type_display }}</option>
+                    <!-- /.资产编号 -->
+
+                    <!-- 设备状态 -->
+                    <div class="form-group">
+                        <label for="status">设备状态</label><br>
+                        <select class="form-control select2 " id="status" name="status">
+                            {% if ASSET.status %}
+                                <option value="{{ ASSET.status }}" selected="selected">{{ ASSET.get_status_display }}</option>
                                 {% else %}
-                                <option value="0">请选择操作系统</option>
+                                <option value="0">请选择设备状态</option>
                             {% endif %}
-                            <option value="1">Windows</option>
-                            <option value="2">Unix</option>
-                            <option value="3">Linux</option>
-                            <option value="4">Other</option>
-                        </select><br />
+                            <option value="1">使用中</option>
+                            <option value="2">未使用</option>
+                            <option value="3">故障</option>
+                            <option value="4">其它</option>
+                        </select>
                     </div>
-                </div>
+                    <!-- /.设备状态 -->
 
-                <div class="row clearfix">
-                    <div class="lbl">
-                        <label>
-                            发行版本</label>
+                    <!-- 供应商 -->
+                    <div class="form-group"  id="supplier">
+                        <label for="supplier">供应商</label>
+                        <a class="btn no-padding no-margin"
+                           onclick="$('#supplier').load('/cmdb/addARecord'+ ' #supplier')">
+                            <i class="fa fa-refresh"></i>
+                        </a><br>
+                        <select class="form-control select2 inline" name="supplier">
+                            {% if ASSET.supplier %}
+                                <option value="{{ ASSET.supplier.id }}" selected="selected">{{ ASSET.supplier}}</option>
+                                {% else %}
+                                <option value="0">请选择供应商</option>
+                            {% endif %}
+                            {% for Supplier in Suppliers %}
+                                <option value={{ Supplier.id}}>{{ Supplier.supplier_name}}</option>
+                            {% endfor %}
+                        </select>
+                        <a class="btn no-padding no-margin" target="_blank" href="/cmdb/editSupplier">
+                            <i class="fa  fa-cog"></i>
+                        </a>
                     </div>
-                    <div class="ctrl">
-                        <input type="text" name="os_distribution" value="{{ ASSET.server.os_distribution }}">
-                    </div>
-                </div>
-                <div class="row clearfix">
-                    <div class="lbl">
-                        <label>
-                            操作系统版本</label>
-                    </div>
-                    <div class="ctrl">
-                        <input type="text" name="os_release" value="{{ ASSET.server.os_release }}">
-                    </div>
-                </div>
-            {% endif %}
+                    <!-- /.供应商 -->
 
-            {% if ASSET.asset_type == "2" %}
-                <div class="row clearfix">
-                    <div class="lbl">
-                        <label>
-                            网络设备类型</label>
+                    <!-- 过保日期 -->
+                    <div class="form-group">
+                        <label for="expire_day">过保日期</label><br>
+                        <input required class="form-control" type="date" name="expire_day" id="expire_day" value="{{ EXPIRE_DAY }}">
+                        </select>
                     </div>
-                    <div class="ctrl">
-                         <select name="sub_asset_type">
-                             {% if ASSET.networkdevice.sub_asset_type %}
-                                 <option value="{{ ASSET.networkdevice.sub_asset_type }}">{{ ASSET.networkdevice.get_sub_asset_type_display }}</option>
-                                 {% else %}
-                                 <option value="0">请选择网络设备类型</option>
-                             {% endif %}
-                             <option value="1">路由器</option>
-                             <option value="2">交换机</option>
-                             <option value="3">工业交换机</option>
-                             <option value="4">无线控制器</option>
-                             <option value="5">无线ＡＰ</option>
-                        </select><br>
-                    </div>
-                </div>
-            {% endif %}
+                    <!-- /.过保日期 -->
 
-            {% if ASSET.asset_type == "3" %}
-                <div class="row clearfix">
-                    <div class="lbl">
-                        <label>
-                            安全设备类型</label>
+                    <!-- /管理员 -->
+                    <div class="form-group">
+                        <label for="admin">管理员</label><br>
+                        <select class="form-control select2" id="admin" name="admin">
+                            {% if ASSET.admin %}
+                                <option value="{{ ASSET.admin.id }}" selected="selected">{{ ASSET.admin}}</option>
+                                {% else %}
+                                    <option value="0">请选择管理员</option>
+                            {% endif %}
+                            {% for User in Users %}
+                                <option value={{ User.id}}>{{ User.username }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
-                    <div class="ctrl">
-                         <select name="sub_asset_type">
-                             {% if ASSET.securitydevice %}
-                                 <option value="{{ ASSET.securitydevice.sub_asset_type }}">{{ ASSET.securitydevice.get_sub_asset_type_display }}</option>
-                                 {% else %}
-                                    <option value="0">请选择安全设备类型</option>
-                             {% endif %}
-                             <option value="1">防火墙</option>
-                             <option value="2">入侵检测设备</option>
-                             <option value="3">入侵防御设备</option>
-                             <option value="4">综合安全网关</option>
-                             <option value="5">数据库审计系统</option>
-                             <option value="6">运维审计系统</option>
-                             <option value="7">防病毒网关</option>
-                             <option value="8">ＷＡＦ防火墙</option>
-                             <option value="9">安全配置核查</option>
-                             <option value="10">网络准入系统</option>
-                             <option value="11">网闸设备</option>
-                             <option value="12">ＶＰＮ设备</option>
-                         </select><br>
-                    </div>
-                </div>
-                    <div class="row clearfix">
-                    <div class="lbl">
-                        <label>
-                            备注</label>
-                    </div>
-                    <div class="ctrl">
-                        <input type="text" name="SeDMemo" value="{{ ASSET.securitydevice.memo }}">
-                    </div>
-                </div>
-            {% endif %}
-
-            {% if ASSET.asset_type == "4" %}
-                <div class="row clearfix">
-                    <div class="lbl">
-                        <label>
-                            存储设备类型</label>
-                    </div>
-                    <div class="ctrl">
-                         <select name="sub_asset_type">
-                             {% if ASSET.storagedevice.sub_asset_type %}
-                                 <option value="{{ ASSET.storagedevice.sub_asset_type }}">{{ ASSET.storagedevice.get_sub_asset_type_display }}</option>
-                                 {% else %}
-                                    <option value="0">请选择存储设备类型</option>
-                             {% endif %}
-                             <option value="1">磁盘阵列</option>
-                             <option value="2">网络存储器</option>
-                             <option value="3">光纤交换机</option>
-                             <option value="4">磁带库</option>
-                             <option value="5">磁带机</option>
-                         </select><br>
-                    </div>
-                </div>
-            {% endif %}
-
-            <div class="row  clearfix">
-                <div class="span10 offset2" style="width: 95%">
-                    <input style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: right;" type="submit" name="submit" id="submit" class="submit btn btn-block btn-primary" value="保存">
-                    <button type="button" style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: left;" class="btn btn-block btn-success" onclick="window.location.href='http://127.0.0.1:8000/cmdb/asset'">取消</button>
-                    <button type="button" style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: right;margin-right: 2em;" class="btn btn-block btn-warning" onclick="window.location.href='http://127.0.0.1:8000/cmdb/editMore?assetId={{ ASSET.id }}'">编辑部件</button>
+                    <!-- /.管理员 -->
 
                 </div>
+                <!-- /一行二列 -->
             </div>
-            </form>
+            <!------------/第一行，资产信息----------- -->
+
+
+            <!-- 分割行 -->
+            <div class="row">
+                <div class="split_row"></div>
+            </div>
+            <!-- /分割行 -->
+
+
+            <!-- ----------第二行，设备信息----------- -->
+            <div class="row">
+
+                <!-- 第二行，第一列 -->
+                <div class="col-md-3">
+                    <!-- 设备品牌 -->
+                    <div class="form-group">
+                        <label for="vendor">设备品牌</label><br>
+                        <select class="form-control inline select2" required id="vendor" name="vendor">
+                            {% if ASSET.model.vendor %}
+                                <option value="{{ ASSET.model.vendor }}" selected="selected">{{ ASSET.model.vendor.vendor_name }}</option>
+                            {% else %}
+                                <option value="0">请选择所属网络</option>
+                            {% endif %}
+                            {% for vendor in Vendors%}
+                                <option value="{{vendor.id}}">{{ vendor.vendor_name}}</option>
+                            {% endfor%}
+                        </select>
+                        <label class="btn fa fa-check-square-o"></label>
+                    </div>
+                    <!-- /.设备类型 -->
+
+                    <!-- /.设备串号 -->
+                    <div class="form-group">
+                        <label for="sn">设备串号</label><br>
+                        <input required class="form-control inline" type="text" id="sn" name="sn" value="{{ ASSET.sn }}">
+                        <label class="btn fa fa-check-square-o "></label>
+                    </div>
+                    <!-- /.设备串号 -->
+                </div>
+                <!-- /第二行，第一列 -->
+
+
+                <!--  第二行，第二列 -->
+                <div class="col-md-3">
+                    <!-- 设备类型 -->
+                    <div class="form-group">
+                        <label for="asset_type">设备类型</label><br>
+                        <select class="form-control inline select2" required id="asset_type" name="asset_type">
+                            <option value="{{ ASSET.asset_type }}" selected="selected">{{ ASSET.get_asset_type_display}}</option>
+                        </select>
+                        <label class="btn fa fa-check-square-o"></label>
+                    </div>
+                    <!-- /.设备类型 -->
+
+                    <!-- 所属网络 -->
+                    <div class="form-group">
+                        <label for="network_location">所属网络</label><br>
+                        <select class="form-control select2 inline" id="network_location" name="network_location">
+                            {% if ASSET.network_location %}
+                                <option value="{{ ASSET.network_location }}" selected="selected">{{ ASSET.get_network_location_display }}</option>
+                                {% else %}
+                                <option value="0">请选择所属网络</option>
+                            {% endif %}
+                            <option value="1">控制专网</option>
+                            <option value="2">业务内网</option>
+                            <option value="3">业务外网</option>
+                        </select>
+                        <label class="btn fa fa-check-square-o"></label>
+                    </div>
+                    <!-- /.所属网络 -->
+                </div>
+                <!-- /第二行，第二列 -->
+                {% if ASSET.asset_type == "1" %}
+                    <!-- 第二行，第三列 -->
+                    <div class="col-md-3">
+                        <!-- 设备类型 -->
+                        <div class="form-group">
+                            <label for="asset_subtype">设备子类型</label><br>
+                            <select class="form-control inline select2" required id="asset_subtype" name="asset_subtype">
+                                {% if ASSET.server.sub_asset_type %}
+                                    <option value="{{ ASSET.server.sub_asset_type }}">{{ ASSET.server.get_sub_asset_type_display }}</option>
+                                {% endif %}
+                                <option value="1">PC服务器</option>
+                                <option value="2">小型机</option>
+                                <option value="3">刀片机</option>
+                                <option value="4">虚拟机</option>
+                                <option value="5">容器</option>
+                            </select>
+                            <label class="btn fa fa-check-square-o"></label>
+                        </div>
+                {% endif %}
+
+                {% if ASSET.asset_type == "2" %}
+                    <!-- 第二行，第三列 -->
+                    <div class="col-md-3">
+                        <!-- 设备类型 -->
+                        <div class="form-group">
+                            <label for="asset_subtype">设备子类型</label><br>
+                            <select class="form-control inline select2" required id="asset_subtype" name="asset_subtype">
+                                {% if ASSET.networkdevice.sub_asset_type %}
+                                     <option value="{{ ASSET.networkdevice.sub_asset_type }}">{{ ASSET.networkdevice.get_sub_asset_type_display }}</option>
+                                 {% endif %}
+                                 <option value="1">路由器</option>
+                                 <option value="2">交换机</option>
+                                 <option value="3">工业交换机</option>
+                                 <option value="4">无线控制器</option>
+                                 <option value="5">无线ＡＰ</option>
+                            </select>
+                            <label class="btn fa fa-check-square-o"></label>
+                        </div>
+                {% endif %}
+
+                {% if ASSET.asset_type == "3" %}
+                    <!-- 第二行，第三列 -->
+                    <div class="col-md-3">
+                        <!-- 设备类型 -->
+                        <div class="form-group">
+                            <label for="asset_subtype">设备子类型</label><br>
+                            <select class="form-control inline select2" required id="asset_subtype" name="asset_subtype">
+                                 {% if ASSET.securitydevice %}
+                                     <option value="{{ ASSET.securitydevice.sub_asset_type }}">{{ ASSET.securitydevice.get_sub_asset_type_display }}</option>
+                                 {% endif %}
+                                 <option value="1">防火墙</option>
+                                 <option value="2">入侵检测设备</option>
+                                 <option value="3">入侵防御设备</option>
+                                 <option value="4">综合安全网关</option>
+                                 <option value="5">数据库审计系统</option>
+                                 <option value="6">运维审计系统</option>
+                                 <option value="7">防病毒网关</option>
+                                 <option value="8">ＷＡＦ防火墙</option>
+                                 <option value="9">安全配置核查</option>
+                                 <option value="10">网络准入系统</option>
+                                 <option value="11">网闸设备</option>
+                                 <option value="12">ＶＰＮ设备</option>
+                            </select>
+                            <label class="btn fa fa-check-square-o"></label>
+                        </div>
+                {% endif %}
+
+                {% if ASSET.asset_type == "4" %}
+                    <!-- 第二行，第三列 -->
+                    <div class="col-md-3">
+                        <!-- 设备类型 -->
+                        <div class="form-group">
+                            <label for="asset_subtype">设备子类型</label><br>
+                            <select class="form-control inline select2" required id="asset_subtype" name="asset_subtype">
+                                 {% if ASSET.storagedevice.sub_asset_type %}
+                                     <option value="{{ ASSET.storagedevice.sub_asset_type }}">{{ ASSET.storagedevice.get_sub_asset_type_display }}</option>
+                                 {% endif %}
+                                 <option value="1">磁盘阵列</option>
+                                 <option value="2">网络存储器</option>
+                                 <option value="3">光纤交换机</option>
+                                 <option value="4">磁带库</option>
+                                 <option value="5">磁带机</option>
+                            </select>
+                            <label class="btn fa fa-check-square-o"></label>
+                        </div>
+                {% endif %}
+                    <!-- /设备类型 -->
+
+                    <!-- /.管理IP -->
+                    <div class="form-group">
+                        <label for="manage_ip">管理IP</label><br>
+                        <input class="form-control" type="text" id="manage_ip" name="manage_ip" value="{{ASSET.manage_ip}}">
+                    </div>
+                    <!-- /.管理IP -->
+                </div>
+                <!-- /第二行，第三列 -->
+
+
+                <!-- 第二行，第四列 -->
+                <div class="col-md-3">
+                    <!-- /设备型号 -->
+                    <div class="form-group" id="M">
+                        <label for="model">设备型号</label>
+                        <a class="btn no-padding no-margin"
+                           onclick="$('#M').load('/cmdb/addARecord'+ ' #M')">
+                            <i class="fa fa-refresh"></i>
+                        </a><br>
+                        <select required class="form-control select2 inline" id="model" name="model">
+                            {% if ASSET.model %}
+                                <option value="{{ ASSET.model.id }}" selected="selected">{{ ASSET.model.models}}</option>
+                            {% else %}
+                                <option value="0">请选择设备型号</option>
+                            {% endif %}
+                            {% for Model in Models%}
+                            <option value={{ Model.id }}>{{ Model.models }}</option>
+                            {% endfor %}
+                        </select>
+                        <label class="btn fa fa-check-square-o "></label>
+                        <a class="btn no-padding no-margin" target="_blank" href="/cmdb/editModel">
+                            <i class="fa  fa-cog"></i>
+                        </a>
+                    </div>
+                    <!-- /.设备型号 -->
+                </div>
+                <!-- /第二行，第四列 -->
+
+            </div>
+            <!-- ----------/第二行，设备信息----------- -->
+
+
+            <!-- 分割行 -->
+            <div class="row">
+                <div class="split_row"></div>
+            </div>
+            <!-- /分割行 -->
+
+
+            <!-- ----------第三行，机房机柜信息----------- -->
+            <div class="row">
+                <!-- 第三行，第一列 -->
+                <div class="col-md-3">
+                    <!-- 所在机房 -->
+                    <div class="form-group">
+                        <label for="idc">所在机房</label><br>
+                        <select class="form-control select2" id="idc" name="idc">
+                            {% if ASSET.idc %}
+                                <option value="{{ ASSET.idc.id }}" selected="selected">{{ ASSET.idc.idc_name }}</option>
+                                {% else %}
+                                <option value=""0>请选择机房</option>
+                            {% endif %}
+                            {% for Idc in Idcs %}
+                                <option value={{ Idc.id}}>{{ Idc.idc_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <span style="font-size: 12px; color: grey">*请先选择设备所属单位</span>
+                    </div>
+                    <!-- /.所在机房 -->
+                </div>
+                <!-- 第三行，第一列 -->
+
+                <!-- 第三行，第二列 -->
+                <div class="col-md-3">
+                    <!-- 所在机柜 -->
+                    <div class="form-group">
+                        <label for="cabinet">所在机柜</label><br>
+                        <select class="form-control select2" id="cabinet" name="cabinet">
+                            {% if ASSET.cabinet %}
+                                <option value="{{ ASSET.cabinet.id }}" selected="selected">{{ ASSET.cabinet.cabinet_name }}</option>
+                                {% else %}
+                                <option value="0">请选择机柜</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                    <!-- /.所在机柜 -->
+                </div>
+                <!-- 第三行，第二列 -->
+
+                <!-- 第三行，第三列 -->
+                <div class="col-md-3">
+                    <!-- 机柜位置 -->
+                    <div class="form-group">
+                        <label for="cabSpace">机柜位置</label><br>
+                        <select class="form-control select2" multiple="multiple" id="cabSpace" name="cabSpace">
+                            {% if CSSelected %}
+                                {% for cs in CSSelected %}
+                                <option selected value={{ cs.id}}>{{cs.get_cabinet_location_display}}</option>}
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </div>
+                    <!-- /.所在机柜 -->
+                </div>
+                <!-- /第三行，第三列 -->
+
+
+                <!-- 第三行，第四列 -->
+                <div class="col-md-3">
+
+                </div>
+                <!-- /第三行，第四列 -->
+
+            </div>
+            <!-- ----------/第三行，机房机柜信息----------- -->
+
+
+            <!-- 分割行 -->
+            <div class="row">
+                <div class="split_row"></div>
+            </div>
+            <!-- /分割行 -->
+
+
+            <!-- ----------如果是服务器----------- -->
+            {% if ASSET.asset_type == "1" %}
+                <div class="row">
+                    <!-- 第四行，第一列 -->
+                    <div class="col-md-3">
+                        <!-- 宿主机 -->
+                        <div class="form-group">
+                            <label for="hosted_on">宿主机</label><br>
+                            <select class="form-control select2" id="hosted_on" name="hosted_on">
+                                {% if ASSET.server.hosted_on %}
+                                    <option value="{{ ASSET.server.hosted_on.id }}">{{ ASSET.server.hosted_on.asset.asset_name }}</option>
+                                {% endif %}
+                                <option value="0">无</option>
+                                {% for Server in Servers %}
+                                    <option value={{ Server.id}}>{{ Server.asset.asset_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <!-- /.宿主机 -->
+                        <div class="form-group">
+                            <label for="os_release">操作系统版本</label><br>
+                            <input class="form-control" type="text" id="os_release" name="os_release" value="{{ ASSET.server.os_release }}">
+                        </div>
+                    </div>
+                    <!-- 第四行，第一列 -->
+
+                    <!-- 第四行，第二列 -->
+                    <div class="col-md-3">
+                        <!-- 所在微码版本 -->
+                        <div class="form-group">
+                            <label for="microcode">微码版本</label><br>
+                            <input class="form-control" type="text" id="microcode" name="microcode" value="{{ ASSET.server.microcode }}">
+                        </div>
+                        <!-- /.微码版本 -->
+                    </div>
+                    <!-- 第四行，第二列 -->
+
+                    <!-- 第四行，第三列 -->
+                    <div class="col-md-3">
+                        <!-- 操作系统 -->
+                        <div class="form-group">
+                            <label for="os_type">操作系统</label><br>
+                            <select class="form-control select2" name="os_type" id="os_type">
+                                {% if ASSET.server.os_type %}
+                                    <option  value="{{ ASSET.server.os_type }}">{{ ASSET.server.get_os_type_display }}</option>
+                                    {% else %}
+                                    <option value="0">请选择操作系统</option>
+                                {% endif %}
+                                <option value="1">Windows</option>
+                                <option value="2">Unix</option>
+                                <option value="3">Linux</option>
+                                <option value="4">Other</option>
+                            </select>
+                        </div>
+                        <!-- /.操作系统 -->
+                    </div>
+                    <!-- /第四行，第三列 -->
+
+
+                    <!-- 第四行，第四列 -->
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="os_distribution">发行版本</label><br>
+                        <input class="form-control" type="text" id="os_distribution" name="os_distribution" value="{{ ASSET.server.os_distribution }}">
+                        </div>
+                    </div>
+                    <!-- /第三行，第四列 -->
+
+                </div>
+                <!-- ----------/第三行，机房机柜信息----------- -->
+
+
+                <!-- 分割行 -->
+                <div class="row">
+                    <div class="split_row"></div>
+                </div>
+                <!-- /分割行 -->
+                {% endif %}
+
+            <!-- ----------第四行，备注----------- -->
+            <div class="row">
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label for="memo">备注</label><br>
+                        <textarea class="form-control" id="memo" name="memo" rows="8" style="width: 90%" >{{ ASSET.memo }}</textarea>
+                        </select>
+                    </div>
+                    <!-- /.备注 -->
+
+                </div>
+                <!-- /.col -->
+
+            </div>
+            <!-- /.row -->
+            <!-- ----------/第四行，备注----------- -->
+
         </div>
-    </section>
+        <!-- /.box-body -->
+
+        <div class="box-footer">
+            <input class="submit btn  btn-primary pull-right" type="submit"  id="submit" value="下一步">
+            <button type="button" class="btn  btn-success" onclick="window.location.href='/cmdb/asset'">取消</button>
+        </div>
+
+    </form>
+</div>
+
+
 {% endblock main_content %}
 
 {% block foot_js %}
-    <script type="text/javascript" src="/static/dist/layer/layer.js"></script>
-    <script>
-        $(function(){
-            $("#o").change(function (){
-                var args = $("#o").serialize();
-                var x1 = "{%url 'cmdb:showIdcs'%}?" + args;
-                $("#IDC").load(x1 + " #IDC")
+<script type="text/javascript" src="/static/dist/layer/layer.js"></script>
+<script>
+    //根据设备类型显示设备子类型
+    $(function () {
+        $("#asset_type").change(function () {
+            $.get("/cmdb/asset_subtype" + $(this).val() + "/", function (asset_subtype) {
+                var subtype = $('#asset_subtype');
+                subtype.empty().append('<option value="0">请选择设备子类型</option>');
+                $.each(asset_subtype.data, function (index, item) {
+                    subtype.append('<option value="' + item.id + '">' + item.type + '</option>');
+                });
             });
         });
+    });
 
-    </script>
+    //根据厂商显示设备型号
+    $(function () {
+        $("#vendor").change(function () {
+            $.get("/cmdb/device_model" + $(this).val() + "/", function (models) {
+                var model = $('#model');
+                model.empty().append('<option value="0">请选择设备型号</option>');
+                $.each(models.data, function (index, item) {
+                    model.append('<option value="' + item.id + '">' + item.model + '</option>');
+                });
+            });
+        });
+    });
+
+
+    //根据所属单位显示IDC
+    $(function () {
+        $("#organization").change(function () {
+            $.get("/cmdb/showidcs" + $(this).val() + "/", function (idcinfo) {
+                var idc = $("#idc");
+                idc.empty().append('<option value="0">请选择机房</option>');
+                $.each(idcinfo.data, function (index, item) {
+                    idc.append('<option value="' + item.id + '">' + item.idc + '</option>')
+                });
+            });
+        });
+    });
+
+
+    //根据所选IDC显示机柜
+    $(function () {
+        $("#idc").change(function () {
+            $.get("/cmdb/showcabs" + $(this).val() + "/", function (cabinetinfo) {
+                var cabinet = $("#cabinet");
+                cabinet.empty().append('<option value="0">请选择机柜</option>');
+                $.each(cabinetinfo.data, function (index, item) {
+                    cabinet.append('<option value="' + item.id + '">' + item.cab + '</option>')
+                });
+            });
+        });
+    });
+
+    //根据所选机柜显示机柜空间
+    $(function () {
+        $("#cabinet").change(function () {
+            $.get("/cmdb/showcabspace" + $(this).val() + "/", function (spaceinfo) {
+                var cabSpace = $("#cabSpace");
+                cabSpace.empty().append('<option value="0">请选择机柜位置</option>');
+                $.each(spaceinfo.data, function (index, item) {
+                    cabSpace.append('<option ' + item.useinfo +' value="' + item.id + '">' + item.space + '</option>')
+                });
+            });
+        });
+    });
+
+</script>
 {% endblock foot_js %}
 
