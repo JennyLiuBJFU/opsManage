@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^addSupplierSubmit$', views.addSupplierSubmit),
     url(r'^showCabs', views.showcabs, name="showCabs"),
     url(r'^showIdcs', views.showidcs, name="showIdcs"),
-    # url(r'^showCabSpaces', views.showCabSpaces, name="showCabSpaces"),
+    url(r'^showCabSpaces', views.showcabspace, name="showcabspace"),
     url(r'^editMore', views.editMore),
     url(r'^RAMSubmit', views.RAMSubmit),
     url(r'^CPUSubmit', views.CPUSubmit),
@@ -63,4 +63,5 @@ urlpatterns = [
     url(r'^showidcs(\d+)/$', views.showidcs),
     url(r'^showcabs(\d+)/$', views.showcabs),
     url(r'^showcabspace(\d+)/$', views.showcabspace),
+
 ]

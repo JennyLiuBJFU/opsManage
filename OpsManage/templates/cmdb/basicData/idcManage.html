@@ -76,6 +76,82 @@
                                 </label>
                                 {% endfor %}
 
+<<<<<<< HEAD
+=======
+                     <div class="container" style="border: none;margin: 0;padding: 20px 60px 0;">
+                        <form class="contact" action="idcManage" method="post">
+                            <div class="row clearfix" style="float: left;">
+                                <div class="ctrl" id="fenju" style="float: left;width:12em;margin-right: 2em;">
+                                    <select  id="f" name="FenJu">
+                                        <option value="0">请选择分局</option>
+                                            <option value={{ zhongxianju.id }}>{{ zhongxianju.org_name }}</option>
+                                        {% for Fenju in Fenjus %}
+                                            <option value={{ Fenju.id }}>{{ Fenju.org_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row clearfix" style="float: left;width:12em;margin-right: 2em;">
+                                <div class="ctrl" id="guanlichu">
+                                    <select   id="g" name="GuanLiChu" onchange="var args = $('#g').serialize();var x1 = '{%url 'cmdb:showXDZ'%}?' + args;$('#xiandizhan').load(x1 + ' #xiandizhan')">
+                                        <option value="0">请选择管理处</option>
+                                        {% for Guanlichu in Guanlichus %}
+                                            <option value={{ Guanlichu.id}}>{{ Guanlichu.org_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row clearfix" style="float: left;width:12em;">
+                                <div class="ctrl" id="xiandizhan">
+                                    <select id="x" name="XianDiZhan">
+                                        <option value="0">请选择现地站</option>
+                                        {% for Xiandizhan in Xiandizhans %}
+                                            <option value={{ Xiandizhan.id}}>{{ Xiandizhan.org_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row  clearfix" style="float: left;width: 4em;margin-left: 2em;height: 40px;">
+                                <div class="ctrl">
+                                    <input style="width: 4em;height: 40px;line-height: 26px; color: #FFFFFF;border-radius: 5px;" type="submit" class="btn btn-block btn-primary" value="筛选">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    {% for idc in myIdcs %}
+                        <div class="mybox mybox-teal" style="margin:2em;float:left;width: 40%;height: 240px;">
+                            <div class="mybox-header">
+                                <label for="CPU">{{ idc.idc_name }}</label>
+                            </div>
+                            <div class="mybox-body" style="height: 240px;">
+                                <div style="float: left;width: 100%;line-height: 2em;">
+                                    <label>机房名称 :</label>
+                                    <span style="margin-left: 1em">{{ idc.idc_name}}</span><br>
+                                    <label>机房地址 :</label>
+                                    <span style="margin-left: 1em">{{ idc.idc_address}}</span><br>
+                                    <label>备注信息 :</label>
+                                    <span style="margin-left: 1em">{{ idc.idc_memo}}</span><br>
+                                    <div id="{{ idc.id }}">
+                                        <label>机柜信息 :</label>
+                                        {% if cabFlag %}
+                                            {% for c in myCabs %}
+                                                <span style="margin-left: 1em">{{ c.cabinet_name }}</span>
+                                            {% endfor %}
+                                            <a onclick="window.open('http://127.0.0.1:8000/cmdb/cabDetail?idcId={{ idc.id }}')" style="margin-left: 1em">机柜图</a>
+                                            <a target="_blank" href="http://127.0.0.1:8000/cmdb/editCab?idcId={{ idc.id }}"  style="margin-left: 1em"><i class="fa fa-edit">编辑</i></a>
+                                            <a style="margin-left: 0.5em" onclick="$('#{{ idc.id }}').load(window.location.href+ ' #{{ idc.id }}')"><i class="fa fa-fw fa-refresh"></i></a>
+                                        {% else %}
+                                            <a onclick="var test = window.location.href;if(test.split('?')[1]) url=test+'&IDC={{ idc.id }}'; else url=test+'?IDC={{ idc.id }}';$('#{{ idc.id }}').load(url+ ' #{{ idc.id }}');" style="margin-left: 1em;line-height: 20px;" class="text-center">展示或编辑机柜信息</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <button onclick="window.open('http://127.0.0.1:8000/cmdb/editIdc?idcId={{ idc.id }}')" style="position: absolute;left:85%;width: 10%;">编 辑</button>
+                            </div>
+
+                                <br><button class="btn btn-xs btn-primary margin-r-5 pull-right" onclick="window.open('http://127.0.0.1:8000/cmdb/cabDetail?idcId={{ idc.id }}')">机柜图</button>
+>>>>>>> c05fe8bb68b7efd0498b5d17d87486202f6cdfbc
 
                                 <!-- ------弹出机柜图------ -->
                             </div>
@@ -83,7 +159,17 @@
                                 <a target="blank" href="http://127.0.0.1:8000/cmdb/editCab?idcId={{ idc.id }}">
                                     <span class="fa fa-edit text-yellow media-middle" style="font-size: 18px"></span>
                                 </a>
+<<<<<<< HEAD
                             </div>
+=======
+                            {% else %}
+                                <a onclick="var test = window.location.href;if(test.split('?')[1]) url=test+'&IDC={{ idc.id }}'; else url=test+'?IDC={{ idc.id }}';$('#{{ idc.id }}').load(url+ ' #{{ idc.id }}');"
+                                    class="text-center">展示或编辑机柜信息</a>
+
+                            {% endif %}
+
+                        </div>
+>>>>>>> c05fe8bb68b7efd0498b5d17d87486202f6cdfbc
                         </div>
 
                     </div>
@@ -109,10 +195,31 @@
 
 
 {% block foot_js %}
+
+  <!-- ----tab效果---- -->
+    <script>
+        $(document).ready(function () {
+            $("#idc").attr("id", "current"); // Activate first tab
+        });
+    </script>
+    <script type="text/javascript" src="/static/dist/layer/layer.js"></script>
+    <script>
+        $(function(){
+            $("#f").change(function (){
+                var args = $("#f").serialize();
+                var x1 = "{%url 'cmdb:showGLC'%}?" + args;
+                $("#guanlichu").load(x1 + " #guanlichu")
+            });
+        });
+
+    </script>
+{% endblock foot_js %}
+
 <!-- ----tab效果---- -->
 <script>
     $(document).ready(function () {
         $("#idc").attr("id", "current"); // Activate first tab
     });
 </script>
+
 {% endblock foot_js %}
