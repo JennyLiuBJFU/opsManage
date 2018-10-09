@@ -1428,6 +1428,7 @@ def orgManage(request):
 
 @login_required()
 def idcManage(request):
+    """
     Organizations = Organization.objects.all()
     myIdc = Idc.objects.all()
     myOrg = Organization()
@@ -1458,6 +1459,36 @@ def idcManage(request):
         'myCabs': myCabinet,
         'cabFlag':cabFlag,
         'tab_number': "idc",
+    }
+    return render(request, 'cmdb/basicData/idcManage.html', context)
+"""
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+    Idc_list = Idc.objects.all()
+    peridc_asset_count = []
+    for idc in Idc_list:
+        servercount = len(idc.asset_set.filter(asset_type=1))
+        netcount = len(idc.asset_set.filter(asset_type=2))
+        securitycount = len(idc.asset_set.filter(asset_type=3))
+        storgecount = len(idc.asset_set.filter(asset_type=4))
+
+        asset_count = {"idc_name": idc.idc_name,
+                       "data": {
+                           "servercount": servercount,
+                           "netcount": netcount,
+                           "securitycount": securitycount,
+                           "storgecount": storgecount,
+                       }
+                       }
+        peridc_asset_count.append(asset_count)
+
+    context = {
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+        'IDC': Idc_list,
+        'peridc_asset_count': peridc_asset_count,
     }
     return render(request, 'cmdb/basicData/idcManage.html', context)
 

@@ -28,28 +28,29 @@
 </ul>
 
 <!-- content -->
-<div class="row">
-        <div class="col-xs-12">
-            <div class="box" >
-                <div class="box-body">
+<!--<div class="container-fluid">-->
+        <!--<div class="col-xs-12">-->
+            <div class="box box-default" >
+                <div class="box-header with-border">
+                        <span class="fa fa-sitemap"></span>
+                        <h3 class="box-title">组织结构(京津冀)</h3>
+                        <a href="http://127.0.0.1:8000/cmdb/editOrg" target="_blank" style="margin-left: 1em;">
+                            <span class="fa fa-gear text-primary pull-right" style="font-size: 18px"></span>
+                        </a>
 
-                    <div class="row">
+
+
+                </div>
+
+                <div class="box-body">
+                    <div class="row" >
                         <!-- /.col (RIGHT) -->
                         <div class="col-md-12">
                             <!-- LINE CHART -->
                             <div  id="orgdiv">
-                                <div class="box-header with-brder" style="margin-top: 10px;">
-                                    <h3 class="box-title">京津冀段组织机构</h3>
-                                    <a href="http://127.0.0.1:8000/cmdb/editOrg" target="_blank" style="margin-left: 1em;">编辑</a>
-
-                                    <div class="box-tools pull-right">
-                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                                                class="fa fa-minus"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                                <!--<div class="box-header with-brder" style="margin-top: 10px;">-->
+                               <!---->
+                                <!--</div>-->
                                 <div class="chart box-body" id="orgChart">
                                 </div>
                                 <!-- /.box-body -->
@@ -60,8 +61,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-</div>
+        <!--</div>-->
+<!--</div>-->
 
 <!-- /content -->
 {% endblock main_content %}
@@ -85,7 +86,7 @@
         // 设置表格大小
         var container3 = document.getElementById("orgChart");
         var width3 = $("#orgdiv").width();
-        $("#orgChart").css({"width": width3, "height": "850px"});
+        $("#orgChart").css({"width": width3, "height": "500px"});
 
         // 绘制表格
         var myChart = echarts.init(container3, 'customed');
@@ -109,7 +110,7 @@
                 {
                     name: '树图',
                     type: 'tree',
-                    layout: 'radial',
+                    // layout: 'radial',
                     orient: 'vertical',  // vertical horizontal
                     initialTreeDepth:4,
                     rootLocation: {x: 100, y: 230}, // 根节点位置  {x: 100, y: 'center'}
@@ -146,6 +147,22 @@
                             }
                         },
                         borderWidth: 0
+                    },
+
+                    leaves: {
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'bottom',
+                                rotate: -90,
+                                verticalAlign: 'middle',
+                                align: 'left',
+                            },
+                            textStyle: {
+                                    color: '#000',
+                                    fontSize: 10
+                                },
+                        },
                     },
 
                     data: [
