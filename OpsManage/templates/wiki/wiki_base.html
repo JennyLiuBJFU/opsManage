@@ -15,7 +15,7 @@
             <div class="row">
                 <!--  标题栏   -->
                 <div class="col-lg-12">
-                    <h1 class="page-header"><i class="fa  fa-book  "></i> <code>Wiki</code>文档列表</h1>
+                    <h1 class="page-header"><i class="fa  fa-book "></i>文档列表</h1>
                 </div>
 
                 <!-- 文章内容  -->
@@ -60,6 +60,12 @@
                 <div class="col-md-2">
                     {% block toc %}
                     {% endblock toc %}
+
+
+                    <!-- 发布文章  -->
+                    <div class="widget widget-recent-posts">
+                        <a href="/wiki/add"><h3 class="widget-title">发布文章</h3></a>
+                    </div>
 
                     <!-- 最新文章  -->
                     <div class="widget widget-recent-posts">

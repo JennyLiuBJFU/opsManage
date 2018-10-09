@@ -288,7 +288,7 @@ def showcabs(request, id):
 @login_required()
 def showcabspace(request, id):
     cab_id = id
-    CabSpaces=CabinetSpace.objects.filter(cabinet_id=cab_id)
+    CabSpaces=CabinetSpace.objects.filter(cabinet_id=cab_id).order_by('id')
     list = []
     t = "disabled"
     f = ""
@@ -299,6 +299,8 @@ def showcabspace(request, id):
             list.append({"id": cs.id, "space": temp, "useinfo": f,})
         else:
             list.append({"id": cs.id, "space": temp, "useinfo": t,})
+
+
 
 
     return JsonResponse({"data":list})
@@ -383,7 +385,7 @@ def addSubmit(request):
     ASSET.save()
     # 生成二维码完毕
 
-    #生成给下一个页面的信息
+    #生成添加Server页面的信息
     vendor = Vendor.objects.get(id=request.POST['vendor']).vendor_name
     asset_type = request.POST['asset_type']
     asset_subtype = request.POST['asset_subtype']
@@ -392,6 +394,14 @@ def addSubmit(request):
         asset_subtype_display = Server.sub_asset_type_choice[int(asset_subtype)-1][1]
     else:
         asset_subtype_display=None
+    servers = Asset.objects.filter(asset_type='1',
+                                   server__sub_asset_type='1',
+                                   organization=Organization.objects.get(id=request.POST['organization'])
+                                   )
+
+    print("++++++++++++++++++++++++++")
+    print(servers)
+
 
     context = {
         'USERNAME': str(request.user),
@@ -404,6 +414,7 @@ def addSubmit(request):
         'vendor':vendor,
         "sn":request.POST['sn'],
         'model':Device_model.objects.get(id=request.POST['model']).models,
+        'servers':servers,
     }
     if ASSET.asset_type=='1':
         return render(request,'cmdb/ServerManage/add/addOneToOne/addServer.html',context)
@@ -412,19 +423,19 @@ def addSubmit(request):
         NETWORKDEVICE.asset=ASSET
         NETWORKDEVICE.sub_asset_type=asset_subtype
         NETWORKDEVICE.save()
-        return render(request, 'cmdb/ServerManage/add/addMore.html', context)
+        return render(request, 'cmdb/ServerManage/add/addMore.html', {"ID":ASSET.id})
     elif ASSET.asset_type=='3':
         SECURITYDEVICE=SecurityDevice()
         SECURITYDEVICE.asset=ASSET
         SECURITYDEVICE.sub_asset_type=asset_subtype
-        return render(request, 'cmdb/ServerManage/add/addMore.html', context)
+        return render(request, 'cmdb/ServerManage/add/addMore.html', {"ID":ASSET.id})
     elif ASSET.asset_type=='4':
         STORAGEDEVICE=StorageDevice()
         STORAGEDEVICE.asset=ASSET
         STORAGEDEVICE.sub_asset_type=asset_subtype
-        return render(request, 'cmdb/ServerManage/add/addMore.html', context)
+        return render(request, 'cmdb/ServerManage/add/addMore.html', {"ID":ASSET.id})
     else:
-        return render(request, 'cmdb/ServerManage/add/addMore.html', context)
+        return render(request, 'cmdb/ServerManage/add/addMore.html', {"ID":ASSET.id})
 
 
 def editMore(request):
@@ -769,13 +780,13 @@ def PartDelete(request):
 
 @login_required()
 def serverSubmit(request):
-    print(request.POST)
-    ASSET=Asset.objects.get(id=request.POST['assetId'])
-    SERVER=Server()
-    SERVER.asset=ASSET
-    SERVER.created_by="2"
+    SERVER = Server()
+    ASSET = Asset.objects.get(id=request.POST['assetid'])
+    SERVER.asset = ASSET
+    SERVER.created_by = "2"
     if request.POST['hosted_on'] != '0':
-        SERVER.hosted_on=Server.objects.get(id=request.POST['hosted_on'])
+        # SERVER.hosted_on=Server.objects.get(id=request.POST['hosted_on'])
+        SERVER.hosted_on=Asset.objects.get(id=request.POST['hosted_on']).server
     else:
         SERVER.hosted_on=None
     if request.POST['sub_asset_type'] != '0':
@@ -790,9 +801,10 @@ def serverSubmit(request):
     SERVER.os_distribution=request.POST['os_distribution']
     SERVER.os_release=request.POST['os_release']
     SERVER.save()
-    Assets = Asset.objects.all()
-    Organizations = Organization.objects.all()
-    ID=request.POST['assetId']
+
+    # Assets = Asset.objects.all()
+    # Organizations = Organization.objects.all()
+    ID = request.POST['assetid']
     if request.user.is_superuser:
         Perm = 1
     else:
@@ -801,8 +813,8 @@ def serverSubmit(request):
         'USERNAME': str(request.user),
         'Perm': Perm,
         'ID':ID,
-        'Assets': Assets,
-        'Organizations':Organizations,
+        # 'Assets': Assets,
+        # 'Organizations':Organizations,
     }
     return render(request, 'cmdb/ServerManage/add/addMore.html', context)
 
