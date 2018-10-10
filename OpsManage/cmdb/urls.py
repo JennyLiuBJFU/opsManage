@@ -64,4 +64,8 @@ urlpatterns = [
     url(r'^showcabs(\d+)/$', views.showcabs),
     url(r'^showcabspace(\d+)/$', views.showcabspace),
 
+    url(r'editAdminSubmit',views.editAdminSubmit),
+    url(r'editSupplierSubmit$',views.editASupplierSubmit),
+    url(r'editSupplierSubmitM',views.editASupplierSubmitM),
+
 ]

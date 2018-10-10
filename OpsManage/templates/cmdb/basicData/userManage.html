@@ -29,95 +29,151 @@
 
 <div class="box box-group bg-gray-light " style="min-height: 800px;padding-left: 10px;padding-right: 10px">
     <div class="row" style="margin-top: 10px">
+<div class="col-sm-8">
+                        <div class="box box-warning">
 
-        <div class="col-sm-8">
-            <div class="box box-warning" >
+                            <div class="box-header with-border">
+                                <h3 class="box-title">
+                                    <i class="glyphicon  glyphicon-user"></i>
+                                    用户列表
+                                </h3>
+                            </div>
 
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        <i class="fa fa-users"></i>
-                        用户列表
-                    </h3>
-                </div>
-                <!-- 供应商清单 -->
-                <form method="post" action="userManage">
-                    <div class="box-body table-responsive ">
-                        <table class="table table-hover">
-                            <tr>
-                                <th>选择</th>
-                                <th>序号</th>
-                                <th>用户名</th>
-                                <th>电话</th>
-                                <th>邮箱</th>
-                                <th>管理员</th>
-                            </tr>
-                            {% for i in admin %}
-                            <tr>
-                                <td><input type="checkbox" name="delete_admin" value="{{ i.pk }}"></td>
-                                <td>{{ i.pk }}</td>
-                                <td>{{ i.username }}</td>
-                                <td>{{ i.phone }}</td>
-                                <td>{{ i.email}}</td>
-                                <td>{{ i.is_superuser }}</td>
-                            </tr>
-                            {% endfor %}
+                            <!-- 用户清单 -->
+                            <form method="post" action="http://127.0.0.1:8000/cmdb/userManage">
+                                <div class="box-body table-responsive ">
+                                    <table class="table table-hover">
+                                        <tr>
+                                            <th class="text-center">选择</th>
+                                            <th class="text-center">用户名</th>
+                                            <th class="text-center">邮箱</th>
+                                            <th class="text-center">管理员</th>
+                                            <th class="text-center">编辑</th>
+                                        </tr>
 
-                        </table>
+                                        {% for i in admin %}
+                                        <tr>
+                                            <td class="text-center"><input type="checkbox" name="delete_admin" value="{{ i.pk }}"></td>
+                                            <td class="text-center">{{ i.username }}</td>
+                                            <td class="text-center">{{ i.email}}</td>
+                                            <td class="text-center">{{ i.is_superuser }}</td>
+                                            <td class="text-center">
+                                                <a href="http://127.0.0.1:8000/cmdb/userManage?userId={{ i.id }}">
+                                                    <i class="glyphicon glyphicon-edit text-info"
+                                                       style="margin-right: 5px"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+
+                                    </table>
+                                </div>
+
+
+                                <div class="box-footer " >
+                                    <button type="submit" class="btn btn-danger pull-right">Delete</button>
+                                </div>
+                            </form>
+
+                        </div>
+                        <!-- /.box -->
                     </div>
-                    <div class="box-footer " >
-                        <button type="submit" class="btn btn-danger pull-right">Delete</button>
+
+                    <!-- ---添加用户-- -->
+                    <div class="col-sm-4">
+                        <div class="box box-primary">
+                            <!-- box-header -->
+                            <div class="box-header with-border">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                <h3 class="box-title">添加用户</h3>
+                            </div>
+                            <!-- /.box-header -->
+
+                            <!-- form start -->
+                            <form class="contactl" action="addUserSubmit" method="post" id="form">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label class=" control-label">用户名</label>
+                                        <input class="form-control" type="text" name="username" placeholder="username">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">邮箱地址</label>
+                                        <input class="form-control" type="text" name="email" placeholder="email">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class=" control-label">账户密码</label>
+                                        <input class="form-control" type="text" name="password" placeholder="password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class=" control-label">用户权限</label>
+                                        <select class="form-control" name="perm" >
+                                            <option value="0">普通用户</option>
+                                            <option value="1">管理员</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- box-footer -->
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                                </div>
+                                <!-- /.box-footer -->
+                            </form>
+                            <!-- /.form start -->
+                        </div>
+
+                        <div class="box box-success">
+                            <!-- box-header -->
+                            <div class="box-header with-border">
+                                <i class="glyphicon glyphicon-edit"></i>
+                                <h3 class="box-title">编辑用户</h3>
+                            </div>
+                            <!-- /.box-header -->
+
+                            <!-- form start -->
+                            <form class="contactl" action="editAdminSubmit?userId={{ ADMIN.id }}" method="post" id="form">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label class=" control-label">用户名</label>
+                                        <input class="form-control" type="text" name="username" value="{{ ADMIN.username }}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">邮箱地址</label>
+                                        <input class="form-control" type="text" name="email" value="{{ ADMIN.email }}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class=" control-label">账户密码</label>
+                                        <input class="form-control" type="text" name="password" value="{{ ADMIN.password }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class=" control-label">用户权限</label>
+                                        <select class="form-control" name="perm" >
+                                            {% if ADMIN.is_superuser%}
+                                                <option value="1">管理员</option>
+                                                <option value="0">普通用户</option>
+                                            {% else %}
+                                                <option value="0">普通用户</option>
+                                                <option value="1">管理员</option>
+
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- box-footer -->
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-success pull-right">Submit</button>
+                                </div>
+                                <!-- /.box-footer -->
+                            </form>
+                            <!-- /.form start -->
+                        </div>
+
                     </div>
-                </form>
-
-            </div>
-            <!-- /.box -->
-        </div>
-
-        <!-- ---添加用户-- -->
-        <div class="col-sm-4">
-         <div class="box box-primary fixed ">
-            <div class="box-header with-border">
-              <i class="glyphicon glyphicon-plus"></i>
-              <h3 class="box-title">添加用户</h3>
-            </div>
-            <!-- /.box-header -->
-            <!-- form start -->
-            <form class="contact" action="addUserSubmit" method="post" method="post" id="form">
-              <div class="box-body">
-                <div class="form-group">
-                  <label for="username">用户名</label>
-                  <input type="text" class="form-control required" id="username" name="username" placeholder="Username">
-                </div>
-                <div class="form-group">
-                  <label for="phone">电话</label>
-                  <input type="tel" class="form-control required" id="phone" name="phone" placeholder="Phone">
-                </div>
-                <div class="form-group">
-                  <label for="email">邮箱</label>
-                  <input type="email" class="form-control required" id="email" name="email" placeholder="Email">
-                </div>
-                <div class="form-group">
-                  <label for="password">账号密码</label>
-                  <input type="password" class="form-control required" id="password" name="password" placeholder="Password">
-                </div>
-                <div class="form-group">
-                  <label>用户权限</label>
-                    <select class="form-control select2-"  name="perm" >
-                        <option selected>User type</option>
-                        <option value="0">普通用户</option>
-                        <option value="1">管理员</option>
-                    </select>
-                </div>
-              </div>
-              <!-- /.box-body -->
-
-              <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Submit</button>
-              </div>
-            </form>
-          </div>
-        </div>
-
     </div>
 </div>
 {% endblock main_content %}

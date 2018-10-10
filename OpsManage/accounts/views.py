@@ -66,16 +66,23 @@ def newPasswordSubmit(request):
 @login_required()
 def manageUser(request):
     dadmin = request.POST.getlist('delete_admin')
-    print(dadmin)
-    print(Permission.objects.all())
     if len(dadmin):
         for i in dadmin:
             User.objects.get(pk=i).delete()
 
     admin = User.objects.all()
+    ADMIN = User()
+    try:
+        editID = request.GET['userId']
+        if editID:
+            ADMIN=User.objects.get(id=editID)
+    except:
+        print("没有userId参数")
     context = {
         'admin': admin,
-        'USERNAME': str(request.user)
+        'USERNAME': str(request.user),
+        "ADMIN": ADMIN
+
     }
     return render(request, 'accounts/manageUser.html', context)
 
@@ -83,8 +90,6 @@ def manageUser(request):
 @login_required()
 def addAdminSubmit(request):
     user=User.objects.create_user(request.POST['username'],request.POST['email'],request.POST['password'])
-    print(request.POST['perm'])
-    print(type(request.POST['perm']))
     if str(request.POST['perm'])!='0':
         user.is_superuser=True
     user.save()
@@ -96,19 +101,19 @@ def addAdminSubmit(request):
     return render(request, 'accounts/manageUser.html', context)
 
 @login_required()
-def addAdminBack(request):
-    Assets = cmdb.models.Asset.objects.all()
-    Organizations = cmdb.models.Organization.objects.all()
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
+def editAdminSubmit(request):
+    user=User.objects.get(id=request.GET['userId'])
+    user.username=request.POST['username']
+    user.email=request.POST['email']
+    user.set_password(request.POST['password'])
+    if str(request.POST['perm']) != '0':
+        user.is_superuser = True
+    user.save()
+    admin = User.objects.all()
     context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'Assets': Assets,
-        'Organizations': Organizations
+        'admin': admin
     }
-    return render(request, 'cmdb/ServerManage/index.html', context)
+    return render(request, 'accounts/manageUser.html', context)
+
 
 

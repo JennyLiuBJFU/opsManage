@@ -3,153 +3,164 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <!-- Tell the browser to be responsive to screen width -->
+    <title>用户列表</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-
-    <!-- Theme style -->
     <link rel="stylesheet" href="/static/dist/css/AdminLTE.min.css">
-
-    <!-- Bootstrap 3.3.1 -->
     <link rel="stylesheet" href="/static/dist/bootstrap-3.3.7-dist/css/bootstrap.min.css">
-    <!-- Font Awesome 4.7.0-->
-    <link rel="stylesheet" href="/static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="/static/dist/ionicons/css/ionicons.min.css">
-    <!-- Theme style -->
     <link rel="stylesheet" href="/static/dist/css/AdminLTE.css">
-    <!-- AdminLTE Skins -->
-    <link rel="stylesheet" href="/static/dist/css/skins/skin-blue-light.min.css">
-    <!-- Date Picker -->
-        <link rel="stylesheet" href="/static/dist/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
-    <!-- Daterange picker -->
-    <link rel="stylesheet" href="/static/dist/bootstrap-daterangepicker/daterangepicker.css">
-    <!-- bootstrap wysihtml5 - text editor -->
-    <link rel="stylesheet" href="/static/dist/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
-    <!-- Google Font -->
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-{#    <link rel="stylesheet" href="{% static 'css/cmdb/ServerManage/form.css'%}">#}
-        <link href="/static/css/form2.css" rel="stylesheet" type="text/css">
-        <style>
-        body{font-family:'Open Sans',sans-serif;padding:20px;margin:0;background:url(/static/img/bg.png);}
-        .container{padding:60px;margin:30px auto;background:#fff;border:1px solid #ccc;width:70%;}
-        .container2{padding:30px;margin:30px auto;background:#fff;border:1px solid #ccc;width:70%;}
+    <style>
+        body{padding:20px 40px;margin:0;background:url(/static/img/bg.png);}
     </style>
-    <script src="/static/js/jquery-1.10.2.min.js" type="text/javascript"></script>
-    <!--Framework-->
-    <script src="/static/js/jquery-1.10.2.min.js" type="text/javascript"></script>
-    <script src="/static/js/jquery-ui.js" type="text/javascript"></script>
-    <!--End Framework-->
-     <script src="/static/js/jquery.ffform.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#form').ffform({ animation: 'flip', submitButton: '#submit', validationIndicator: '#validation', errorIndicator: '#error', successIndicator: '#success', 'fields': [{ 'id': 'name', required: true, requiredMsg: 'Name is required', type: 'alpha', validate: true, msg: 'Invalid Name' }, { 'id': 'email', required: true, requiredMsg: 'E-Mail is required', type: 'email', validate: true, msg: 'Invalid E-Mail Address' }, { 'id': 'phone', required: false, type: 'custom', validate: false, msg: 'Invalid Phone #' }, { 'id': 'message', required: false, type: 'text', validate: false, msg: ''}] });
-        });
-    </script>
-    <script>
-    //定义函数myClose关闭当前窗口
-    function myClose(){
-        //将id为time的元素的内容转为整数，保存在变量n中
-        var n=parseInt(time.innerHTML);
-        n--;//将n-1
-        //如果n==0,关闭页面
-        //否则, 将n+秒钟后自动关闭，再保存回time的内容中
-        if(n>0){
-            time.innerHTML=n+"秒钟后自动关闭";
-            timer=setTimeout(myClose,1000);
-        }else{
-            close();
-        }
-    }
-    var timer=null;
-    //当页面加载后，启动周期性定时器，每个1秒执行myClose
-    window.onload=function(){
-        timer=setTimeout(myClose,1000);
-    }
-    </script>
-
 </head>
 <body>
+                <div class="row" style="margin-top: 10px">
 
-<section id="getintouch" class="rotateInUpLeft animated">
-        <div class="container2" style="border-bottom: 0;">
-            <h1>
-                <span>用户管理</span>
-            </h1>
-        </div>
+                    <div class="col-sm-8">
+                        <div class="box box-warning">
 
-        <div class="container">
-            <form method="post" action="http://127.0.0.1:8000/accounts/manageUser">
-                <table class="table table-bordered table-hover" style="font-size: 0.9em;">
-                    <thead>
-                    <tr>
-                        <th class="text-center">选择</th>
-                        <th class="text-center">序号</th>
-                        <th class="text-center">用户名</th>
-                        <th class="text-center">邮箱</th>
-                        <th class="text-center">管理员</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for i in admin %}
-                        <tr>
-                            <td class="text-center"><input type="checkbox" name="delete_admin" value="{{ i.pk }}"></td>
-                            <td class="text-center">{{ i.pk }}</td>
-                            <td class="text-center">{{ i.username }}</td>
-                            <td class="text-center">{{ i.email}}</td>
-                            <td class="text-left">{{ i.is_superuser }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-                <div class="row  clearfix">
-                    <div class="span10 offset2" style="width: 100%">
-                        <input style="width: 80px;height: 40px;margin:0 auto;margin-top:20px;" type="submit"  class=" btn btn-block btn-danger " value="删除">
-                    </div>
-                </div>
-            </form>
-            <hr>
-            <form class="contact" action="addAdminSubmit" method="post" id="form" style="padding: 30px;margin:0 auto;">
-                <div class="row clearfix">
-                    <div class="ctrl" style="width: 60%;margin:0 auto;">
-                        <label>用户名</label>
-                        <input style="width: 66%;margin-left: 3em" type="text" name="username" placeholder="请输入用户名">
-                    </div>
-                </div>
-                <div class="row clearfix">
-                    <div class="ctrl"  style="width: 60%;margin:0 auto;">
-                        <label>邮箱地址</label>
-                        <input style="width: 66%;margin-left: 2em" type="text" name="email" placeholder="请输入邮箱地址">
-                    </div>
-                </div>
-                <div class="row clearfix">
-                    <div class="ctrl"  style="width: 60%;margin:0 auto;">
-                        <label>账户密码</label>
-                        <input style="width: 66%;margin-left: 2em" type="password" name="password" placeholder="请设置密码">
-                    </div>
-                </div>
-                <div class="row clearfix">
-                    <div class="ctrl"  style="width: 60%;margin:0 auto;" >
-                        <label>用户权限</label>
-                        <select style="width: 66%;margin-left: 2em" name="perm" >
-                            <option value="0">普通用户</option>
-                            <option value="1">管理员</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row  clearfix">
-                    <div class="span10 offset2" style="width: 100%">
-                        <input style="width: 80px;height: 40px;margin:0 auto;margin-top:20px;" type="submit"  class="submit btn btn-block btn-success " value="添加">
-                    </div>
-                </div>
-                <div style="width:200px;margin:80px auto;text-align: center;font-size: 1.2em;">
-                    <a style="color:#666666;" href="javascript:window.opener=null;window.open('','_self');window.close();">完成编辑，点此退出</a>
-                    <i class="fa fa-fw fa-hand-o-left"></i>
-                </div>
-            </form>
-        </div>
-    </section>
+                            <div class="box-header with-border">
+                                <h3 class="box-title">
+                                    <i class="glyphicon  glyphicon-user"></i>
+                                    用户列表
+                                </h3>
+                            </div>
 
+                            <!-- 用户清单 -->
+                            <form method="post" action="http://127.0.0.1:8000/accounts/manageUser">
+                                <div class="box-body table-responsive ">
+                                    <table class="table table-hover">
+                                        <tr>
+                                            <th class="text-center">选择</th>
+                                            <th class="text-center">用户名</th>
+                                            <th class="text-center">邮箱</th>
+                                            <th class="text-center">管理员</th>
+                                            <th class="text-center">编辑</th>
+                                        </tr>
+
+                                        {% for i in admin %}
+                                        <tr>
+                                            <td class="text-center"><input type="checkbox" name="delete_admin" value="{{ i.pk }}"></td>
+                                            <td class="text-center">{{ i.username }}</td>
+                                            <td class="text-center">{{ i.email}}</td>
+                                            <td class="text-center">{{ i.is_superuser }}</td>
+                                            <td class="text-center">
+                                                <a href="http://127.0.0.1:8000/accounts/manageUser?userId={{ i.id }}">
+                                                    <i class="glyphicon glyphicon-edit text-info"
+                                                       style="margin-right: 5px"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+
+                                    </table>
+                                </div>
+
+
+                                <div class="box-footer " >
+                                    <button type="submit" class="btn btn-danger pull-right">Delete</button>
+                                </div>
+                            </form>
+
+                        </div>
+                        <!-- /.box -->
+                    </div>
+
+                    <!-- ---添加用户-- -->
+                    <div class="col-sm-4">
+                        <div class="box box-primary">
+                            <!-- box-header -->
+                            <div class="box-header with-border">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                <h3 class="box-title">添加用户</h3>
+                            </div>
+                            <!-- /.box-header -->
+
+                            <!-- form start -->
+                            <form class="contactl" action="addAdminSubmit" method="post" id="form">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label class=" control-label">用户名</label>
+                                        <input class="form-control" type="text" name="username" placeholder="username">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">邮箱地址</label>
+                                        <input class="form-control" type="text" name="email" placeholder="email">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class=" control-label">账户密码</label>
+                                        <input class="form-control" type="text" name="password" placeholder="password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class=" control-label">用户权限</label>
+                                        <select class="form-control" name="perm" >
+                                            <option value="0">普通用户</option>
+                                            <option value="1">管理员</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- box-footer -->
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                                </div>
+                                <!-- /.box-footer -->
+                            </form>
+                            <!-- /.form start -->
+                        </div>
+
+                        <div class="box box-success">
+                            <!-- box-header -->
+                            <div class="box-header with-border">
+                                <i class="glyphicon glyphicon-edit"></i>
+                                <h3 class="box-title">编辑用户</h3>
+                            </div>
+                            <!-- /.box-header -->
+
+                            <!-- form start -->
+                            <form class="contactl" action="editAdminSubmit?userId={{ ADMIN.id }}" method="post" id="form">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label class=" control-label">用户名</label>
+                                        <input class="form-control" type="text" name="username" value="{{ ADMIN.username }}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">邮箱地址</label>
+                                        <input class="form-control" type="text" name="email" value="{{ ADMIN.email }}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class=" control-label">账户密码</label>
+                                        <input class="form-control" type="text" name="password" value="{{ ADMIN.password }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class=" control-label">用户权限</label>
+                                        <select class="form-control" name="perm" >
+                                            {% if ADMIN.is_superuser%}
+                                                <option value="1">管理员</option>
+                                                <option value="0">普通用户</option>
+                                            {% else %}
+                                                <option value="0">普通用户</option>
+                                                <option value="1">管理员</option>
+
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- box-footer -->
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-success pull-right">Submit</button>
+                                </div>
+                                <!-- /.box-footer -->
+                            </form>
+                            <!-- /.form start -->
+                        </div>
+
+                    </div>
+
+
+                </div>
 </body>
-</html>
