@@ -954,9 +954,6 @@ def detail(request, v):
     else:
         Perm = 0
 
-
-
-
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
@@ -1069,12 +1066,21 @@ def editSupplier(request):
         Perm = 1
     else:
         Perm = 0
+    SUPPLIER=Supplier()
+    try:
+        editID = request.GET['supplierId']
+        if editID:
+            SUPPLIER = Supplier.objects.get(id=editID)
+            print(SUPPLIER)
+    except:
+        print("没有supplierId参数")
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
-        'supplier': supplier
+        'supplier': supplier,
+        'SUPPLIER':SUPPLIER,
     }
-    return render(request, 'cmdb/ServerManage/add/editForeignKey/editSupplier.html',context)
+    return render(request, 'cmdb/ServerManage/add/editForeignKey/editSupplier.html', context)
 
 @login_required()
 def addSupplierSubmit(request):
@@ -1096,6 +1102,22 @@ def addSupplierSubmit(request):
     }
 
     return render(request, 'cmdb/ServerManage/add/editForeignKey/editSupplier.html', context)
+
+
+@login_required()
+def editASupplierSubmit(request):
+    SUPPLIER=Supplier.objects.get(id=request.GET['supplierId'])
+    SUPPLIER.supplier_name=request.POST['name']
+    SUPPLIER.supplier_contacts=request.POST['contact']
+    SUPPLIER.supplier_phone=request.POST['phone']
+    SUPPLIER.supplier_memo=request.POST['memo']
+    SUPPLIER.save()
+    supplier=Supplier.objects.all()
+    context = {
+        'supplier':supplier,
+    }
+    return render(request, 'cmdb/ServerManage/add/editForeignKey/editSupplier.html', context)
+
 
 @login_required()
 def deleteARecord(request):
@@ -1672,6 +1694,13 @@ def userManage(request):
         for i in dadmin:
             User.objects.get(pk=i).delete()
     admin=User.objects.all()
+    ADMIN = User()
+    try:
+        editID = request.GET['userId']
+        if editID:
+            ADMIN=User.objects.get(id=editID)
+    except:
+        print("没有userId参数")
     if request.user.is_superuser:
         Perm = 1
     else:
@@ -1681,6 +1710,8 @@ def userManage(request):
         'USERNAME': str(request.user),
         'Perm': Perm,
         'tab_number': "user",
+        "ADMIN":ADMIN
+
     }
     return render(request,'cmdb/basicData/userManage.html',context)
 
@@ -1702,6 +1733,22 @@ def addUserSubmit(request):
     }
     return render(request,'cmdb/basicData/userManage.html',context)
 
+
+@login_required()
+def editAdminSubmit(request):
+    user=User.objects.get(id=request.GET['userId'])
+    user.username=request.POST['username']
+    user.email=request.POST['email']
+    user.set_password(request.POST['password'])
+    if str(request.POST['perm']) != '0':
+        user.is_superuser = True
+    user.save()
+    admin = User.objects.all()
+    context = {
+        'admin': admin
+    }
+    return render(request, 'cmdb/basicData/userManage.html', context)
+
 @login_required()
 def contractManage(request):
     dcontract = request.POST.getlist('delete_contract')
@@ -1715,13 +1762,21 @@ def contractManage(request):
         Perm = 1
     else:
         Perm = 0
+    CONTRACT=Contract()
+    try:
+        editID = request.GET['contractId']
+        if editID:
+            CONTRACT = Contract.objects.get(id=editID)
+    except:
+        print("没有contractId参数")
     context = {
         'contract': contract,
         'USERNAME': str(request.user),
         'Perm': Perm,
         'tab_number': "contract",
+        'CONTRACT':CONTRACT,
     }
-    return render(request,'cmdb/basicData/contractManage.html',context)
+    return render(request, 'cmdb/basicData/contractManage.html', context)
 
 @login_required()
 def addContractSubmit(request):
@@ -1741,8 +1796,21 @@ def addContractSubmit(request):
         'USERNAME': str(request.user),
         'Perm': Perm,
     }
-    return render(request,'cmdb/basicData/contractManage.html',context)
+    return render(request, 'cmdb/basicData/contractManage.html', context)
 
+@login_required()
+def editContractSubmit(request):
+    CONTRACT=Contract.objects.get(id=request.GET['contractId'])
+    CONTRACT.contract_name=request.POST['name']
+    CONTRACT.contract_number=request.POST['number']
+    CONTRACT.contract_content=request.POST['content']
+    CONTRACT.contract_memo=request.POST['memo']
+    CONTRACT.save()
+    contract=Contract.objects.all()
+    context = {
+        'contract':contract,
+    }
+    return render(request, 'cmdb/basicData/contractManage.html', context)
 
 @login_required()
 def editOrg(request):
@@ -1801,13 +1869,22 @@ def supplierManage(request):
         Perm = 1
     else:
         Perm = 0
+    SUPPLIER = Supplier()
+    try:
+        editID = request.GET['supplierId']
+        if editID:
+            SUPPLIER = Supplier.objects.get(id=editID)
+            print(SUPPLIER)
+    except:
+        print("没有supplierId参数")
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
         'supplier': supplier,
-        'tab_number': "supplier",
+        'SUPPLIER':SUPPLIER,
+
     }
-    return render(request, 'cmdb/basicData/supplierManage.html',context)
+    return render(request, 'cmdb/basicData/supplierManage.html', context)
 
 @login_required()
 def addSupplierSubmitM(request):
@@ -1829,6 +1906,23 @@ def addSupplierSubmitM(request):
     }
 
     return render(request, 'cmdb/basicData/supplierManage.html', context)
+
+
+@login_required()
+def editASupplierSubmitM(request):
+    SUPPLIER=Supplier.objects.get(id=request.GET['supplierId'])
+    SUPPLIER.supplier_name=request.POST['name']
+    SUPPLIER.supplier_contacts=request.POST['contact']
+    SUPPLIER.supplier_phone=request.POST['phone']
+    SUPPLIER.supplier_memo=request.POST['memo']
+    SUPPLIER.save()
+    supplier=Supplier.objects.all()
+    context = {
+        'supplier':supplier,
+    }
+    return render(request, 'cmdb/basicData/supplierManage.html', context)
+
+
 
 def vendorManage(request):
     # 判断是否有删除请求，有则删除厂商
