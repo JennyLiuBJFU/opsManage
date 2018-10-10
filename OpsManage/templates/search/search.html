@@ -1,4 +1,95 @@
+{% extends "base.html" %}
 
+
+
+{% block main_content %}
+<div class="box box-info" id="box1" style="min-height: 500px">
+
+    <!-- .content  -->
+    <div class="box-body" id="box2">
+        <div class="container-fluid">
+
+            <!-- -------------------查询区-----------------------  -->
+
+
+            <div class="row " style="margin: 20px 0">
+                <div class="col-md-12">
+                    <!-- 按钮 -->
+                    <!-- 显示所有 -->
+                    <div class="form-group inline">
+                        <a href="/cmdb/asset/">
+                            <button class="btn  btn-sm btn-default ">显示所有</button>
+                        </a>
+                    </div>
+
+                    <!-- 增加资产 -->
+                    <div class="form-group inline ">
+                        <a href="/cmdb/addARecord">
+                            <button class="btn btn-default btn-sm ">添加资产</button>
+                        </a>
+                    </div>
+
+                    <div class="form-group inline">
+                        <form class="form-inline inline" id="filterForm">
+                            <!-- 查询所属单位 -->
+                            <div class="form-group">
+                                <select class="form-control select2" name="myOrg" id="selectedOrg"
+                                        style="width: 130px;font-size: 12px">
+                                    <option value="0" selected="selected">所属单位</option>
+                                    {% for Organization in Organizations %}
+                                    <option value={{ Organization.id }}>{{ Organization.org_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <!-- 查询设备类型 -->
+                            <div class="form-group">
+                                <select class="form-control  select2 " name="myType" id="selectedType"
+                                        style="width: 130px;font-size: 12px">
+                                    <option value="0" selected="selected">资产类型</option>
+                                    <option value="1">服务器</option>
+                                    <option value="2">网络设备</option>
+                                    <option value="3">安全设备</option>
+                                    <option value="4">存储设备</option>
+                                    <option value="5">其他</option>
+                                </select>
+                            </div>
+
+                            <!-- 查询所属网络 -->
+                            <div class="form-group">
+                                <select class="form-control select2" name="myNet" id="selectedNet"
+                                        style="width: 130px;font-size: 12px">
+                                    <option value="0" selected="selected">所属网络</option>
+                                    <option value="1">控制专网</option>
+                                    <option value="2">业务内网</option>
+                                    <option value="3">业务外网</option>
+                                </select>
+                            </div>
+
+                            <!-- blank space  -->
+                            <!--<div class="col-sm-5"></div>-->
+                        </form>
+                    </div>
+
+
+                    <!-- search form  -->
+                    <div class="form-inline  pull-right">
+                        <form class="form-group" method='get' action="/search/" target="_blank" id="searchForm">
+                            <input style="display:none">
+                            <input class="form-control" type="search" name="q" placeholder="Search..."
+                                   style="width: 130px">
+                            <span class="input-group-btn inline">
+                            <button class="btn" type="submit" value="Search" id="searchBtn">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+
+                        </form>
+                    </div>
+                    <!-- /.search form -->
+                </div>
+            </div>
+            <!-- -------------------/查询区------------------------  -->
 
 
             <!-- -------------------表格-------------------------  -->
@@ -19,6 +110,7 @@
                             <th class="text-center">所属单位</th>
                             <th class="text-center">设备状态</th>
                             <th class="text-center">操作</th>
+                            <th class="text-center">ID</th>
                         </tr>
                         </thead>
 
@@ -29,12 +121,13 @@
                             <td class="text-center">{{ forloop.counter }}</td>
 
                             <td><a href="#">
-                                <li id="asset_detail" style="list-style-type:none"
+                                <li  style="list-style-type:none"
                                     onclick="return detail(this.value)"
                                     value="{{ Asset.id }}"> {{ Asset.object.asset_name }}
                                 </li>
                             </a>
                             </td>
+
                             <td>{{ Asset.object.get_asset_type_display }}</td>
                             <td>{{ Asset.object.asset_no }}</td>
                             <td>{{ Asset.object.model.vendor }}</td>
@@ -53,6 +146,7 @@
                                     <i class="glyphicon glyphicon-trash text-danger"></i>
                                 </a>
                             </td>
+                            <td>{{ Asset.object.id }}</td>
                         </tr>
                         {% endfor %}
                         </tbody>
@@ -60,6 +154,9 @@
                 </div>
                 <!-- /row  -->
 
+
+
+            <!-- -------------------seach自己的分页-------------------------  -->
             {% if page.has_previous or page.has_next %}
             <div>
                 {% if page.has_previous %}<a href="/search/?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo;
@@ -69,6 +166,81 @@
                 &raquo;{% if page.has_next %}</a>{% endif %}
             </div>
             {% endif %}
+            <!-- -------------------/seach自己的JS-------------------------  -->
+
+            <!-- -------------------表格-------------------------  -->
+
+
+{% endblock main_content %}
+
+
+{% block foot_js %}
+
+<script type="text/javascript" src="/static/dist/layer/layer.js"></script>
+<script type="text/javascript" src="/static/dist/paginationjs/pagination.min.js"></script>
+<!--设备详细页面弹窗-->
+<script type="text/javascript">
+    function detail(n) {
+        alert(n);
+        layer.open({
+            type: 2,
+            title: '资产信息',
+            closeBtn: 1,
+            area: ['960px', '700px'],
+            shade: 0.5,
+            shadeClose: true, //点击遮罩关闭
+            content: ['/cmdb/detail' + n],
+        });
+    };
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $("#asset_detail").click(function () {
+            alert(this.val())
+        })
+
+    })
+</script>
+
+
+<!-- -----数据查询----- -->
+<script>
+    $(function () {
+        $("#selectedType").change(function () {
+            var args1 = $("#filterForm").serialize();
+            var args2 = $("#pagelenForm").serialize();
+            var args = args1 + "&" + "page=1" + "&" + args2;
+            window.location = "{% url 'cmdb:asset' %}?" + args;
+        });
+        $("#selectedType").find('option[value="{{myType}}"]').prop('selected', 'selected')
+    });
+
+    $(function () {
+        $("#selectedOrg").change(function () {
+            var args1 = $("#filterForm").serialize();
+            var args2 = $("#pagelenForm").serialize();
+            var args = args1 + "&" + "page=1" + "&" + args2;
+            window.location = "{% url 'cmdb:asset' %}?" + args;
+        });
+        $("#selectedOrg").find('option[value="{{myOrg}}"]').prop('selected', 'selected')
+    });
+
+    $(function () {
+        $("#selectedNet").change(function () {
+            var args1 = $("#filterForm").serialize();
+            var args2 = $("#pagelenForm").serialize();
+            var args = args1 + "&" + "page=1" + "&" + args2;
+            window.location = "{% url 'cmdb:asset' %}?" + args;
+        });
+        $("#selectedNet").find('option[value="{{myNet}}"]').prop('selected', 'selected')
+    });
+</script>
 
 
 
+
+
+
+
+{% endblock foot_js %}
