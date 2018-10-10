@@ -6,108 +6,137 @@
 
 {% block main_content %}
 
-<section id="getintouch" class="bounceIn animated">
-        <div class="container2" style="border-bottom: 0;">
-            <h1>
-                <span>请填写设备信息</span>
-            </h1>
-        </div>
-        <div class="container2" style="border-bottom: 0;">
-            设备厂商：{{ vendor }} <br>
-            设备型号：{{ model }}<br>
-            设备序列号：{{ sn }}<br>
-            设备类型：{{ asset_type }}<br>
-        </div>
-        <div class="container">
-            <form class="contact" action="serverSubmit" method="post" id="form">
-            <div class="row clearfix">
-                <div class="lbl">
-                    <label>
-                        服务器类型</label>
-                </div>
-                <div class="ctrl">
-                    <select  name="sub_asset_type" >
-                        {% if asset_subtype != "0" %}
-                            <option value="{{ asset_subtype }}">{{ asset_subtype_display }}</option>
-                        {% else %}
-                            <option value="0">请选择服务器类型</option>
-                        {% endif %}
-                        <option value="1">PC服务器</option>
-                        <option value="2">小型机</option>
-                        <option value="3">刀片机</option>
-                        <option value="4">虚拟机</option>
-                        <option value="5">容器</option>
-                    </select><br />
-                </div>
-            </div>
-            <div class="row clearfix">
-                <div class="lbl">
-                    <label>
-                        宿主机</label>
-                </div>
-                <div class="ctrl">
-                    <select  name="hosted_on" >
-                        <option value="0">无</option>
-                        {% for Server in Servers %}
-                            <option value={{ Server.id}}>{{ Server.asset.asset_name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div class="row clearfix">
-                <div class="lbl">
-                    <label>
-                        微码版本</label>
-                </div>
-                <div class="ctrl">
-                    <input type="text" name="microcode" placeholder="请输入微码版本">
-                </div>
-            </div>
-            <div class="row clearfix">
-                <div class="lbl">
-                    <label>
-                        操作系统</label>
-                </div>
-                <div class="ctrl">
-                    <select  required name="os_type" style="float: left;">
-                        <option  value="0">请选择操作系统</option>
-                        <option value="1">Windows</option>
-                        <option value="2">Unix</option>
-                        <option value="3">Linux</option>
-                        <option value="4">Other</option>
-                    </select><br />
-                </div>
-            </div>
+<div class="container-fluid no-padding">
+    <div class="row" style="margin-top: 10px">
+        <!-- 第一列 -->
+            <div class="col-md-8">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">完善设备信息</h3>
+                    </div>
 
-            <div class="row clearfix">
-                <div class="lbl">
-                    <label>
-                        发行版本</label>
-                </div>
-                <div class="ctrl">
-                    <input type="text" name="os_distribution" placeholder="请输入发行版本">
+                    <div class="box-body">
+                        <form class="contact" action="serverSubmit" method="post" id="form">
+
+                            <!-- 选择设备子类型 -->
+                            <div class="form-group">
+                                <input type="hidden" name="assetid" value= "{{ ID }}">
+                                <input type="hidden" name="sub_asset_type" value= "{{ asset_subtype }}">
+                            </div>
+                            <!-- /选择服务器子类型 -->
+
+
+                            <!-- /选择宿主机 -->
+                            <div class="form-group" id="hosted_on_1" style="display: none;">
+                                <label for="hosted_on">宿主机</label><br>
+                                <select required class="form-control select2 inline" id="hosted_on" name="hosted_on">
+                                    <option value="0">请宿主机</option>
+                                    {% for server in servers %}
+                                    <option value={{ server.id}}>{{ server.asset_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <!-- /.选择宿主机 -->
+
+
+                            <!-- 选择设备微码版本 -->
+                            <div class="form-group">
+                                <label for="microcode">微码版本</label><br>
+                                <input class="form-control" type="text" id="microcode" name="microcode"
+                                       placeholder="请输入微码版本">
+                            </div>
+                            <!-- /选择服务器微码版本 -->
+
+
+                            <!-- /选择操作系统 -->
+                            <div class="form-group">
+                                <label for="os_type">操作系统类型</label><br>
+                                <select required class="form-control select2 inline" id="os_type" name="os_type">
+                                    <option value="0">请选择操作系统</option>
+                                    <option value="1">Windows</option>
+                                    <option value="2">Unix</option>
+                                    <option value="3">Linux</option>
+                                    <option value="4">Other</option>
+                                </select>
+                            </div>
+                            <!-- /.选择操作系统 -->
+
+
+                            <!-- 选择设备发行版本 -->
+                            <div class="form-group">
+                                <label for="os_distribution">发行版本</label><br>
+                                <input class="form-control" type="text" id="os_distribution" name="os_distribution"
+                                       placeholder="请输入发行版本">
+                            </div>
+                            <!-- /选择设备发行版本 -->
+
+                            <!-- 选择设备操作系统版本 -->
+                            <div class="form-group">
+                                <label for="os_release">操作系统版本</label><br>
+                                <input class="form-control" type="text" id="os_release" name="os_release"
+                                       placeholder="请输入操作系统版本">
+                            </div>
+                            <!-- /选择设备操作系统版本 -->
+
+
+                            <div class="box-footer">
+                                <button class="btn btn-primary pull-right" type="submit"  id="submit" >下一步</button>
+                                <button class="btn btn-success"  onclick="window.location.href='http://127.0.0.1:8000/cmdb/asset'">
+                                    返回
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                    <!--  /.box body  -->
+
                 </div>
             </div>
-            <div class="row clearfix">
-                <div class="lbl">
-                    <label>
-                        操作系统版本</label>
+        <!-- /第一列 -->
+
+
+        <!-- 第二列 -->
+        <div class="col-md-4">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">添加的设备信息</h3>
                 </div>
-                <div class="ctrl">
-                    <input type="text" name="os_release" placeholder="请输入操作系统版本">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <dl class="dl-horizontal">
+                        <dt>品牌</dt>
+                        <dd>{{ vendor }}</dd>
+                        <dt>类型</dt>
+                        <dd>{{ asset_type_display}}</dd>
+                        <dt>子类型</dt>
+                        <dd>{{ asset_subtype_display }}</dd>
+                        <dt>型号</dt>
+                        <dd>{{ model }}</dd>
+                        <dt>序列号</dt>
+                        <dd>{{ sn }}</dd>
+                    </dl>
                 </div>
+                <!-- /.box-body -->
             </div>
-            <div class="row  clearfix">
-                <div class="span10 offset2" style="width: 95%">
-                    <input type="hidden" name="assetId" value="{{ ID }}">
-                    <input style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: right;" type="submit" name="submit" id="submit" class="submit btn btn-block btn-primary" value="下一步">
-                    <button type="button" style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: left;" class="btn btn-block btn-success" onclick="window.location.href='http://127.0.0.1:8000/cmdb/asset'">返回</button>
-                </div>
-            </div>
-            </form>
         </div>
-    </section>
+        <!-- /第er列 -->
+    </div>
+
+</div>
+
 {% endblock main_content %}
 
 
+{% block foot_js %}
+<script>
+    //只有子类型为虚拟机的时候才会显示添加hosted_on
+    $(function () {
+        var temp ={{asset_subtype}};
+        if(temp=='4'){
+            alert("rwerwrwrwr")
+          $("#hosted_on_1").css('display', '')
+        }
+    });
 
+</script>
+{% endblock foot_js %}

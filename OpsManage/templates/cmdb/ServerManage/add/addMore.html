@@ -2,527 +2,598 @@
 
 {% block css_block %}
 <link href="/static/css/form2.css" type="text/css" rel="stylesheet">
+<style>
+    .tab-pane {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    #list_box {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    table  tr th{
+        background: #6699cc;
+        color: white;
+        border: white;
+    }
+</style>
 {% endblock css_block %}
 
 {% block main_content %}
 
-<section id="getintouch" >
-        <div class="container2" style="border-bottom: 0;">
-            <h1>
-                <span>完善设备信息</span>
-            </h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>完善设备信息
+                <small>添加部件</small>
+            </h3>
         </div>
-        <div class="container">
 
-            <div class="row  clearfix" style="margin-left: 1em">
-                <div class="lbl">
-                    <label>
-                        添加部件</label>
-                </div>
-                <div id="whichPart" class="span10 offset2" style="width: 95%;">
-                    <a onclick="document.getElementById('addRAM').style.display='block';">内存RAM</a>
-                    <a onclick="document.getElementById('addCPU').style.display='block';">中央处理器CPU</a>
-                    <a onclick="document.getElementById('addDisk').style.display='block';">硬盘DISK</a>
-                    <a onclick="document.getElementById('addPort').style.display='block';">接口PORT</a>
-                    <a onclick="document.getElementById('addPart').style.display='block';">部件PART</a>
-                </div>
-            </div>
+    </div>
 
-            <div class="row  clearfix" id="addRAM" style="display: none;">
-                <form action="RAMSubmit" method="post" style="padding: 30px;margin:0 auto;">
-                    <div class="row clearfix">
-                        <div class="ctrl" style="width: 40%;margin:0 auto;">
-                            <label>内存型号</label>
-                            <input style="width: 66%;margin-left: 2em" type="text" name="model" placeholder="请输入内存型号">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>内存品牌</label>
-                            <input style="width: 66%;margin-left: 2em" type="text" name="brand" placeholder="请输入内存品牌">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>内存容量</label>
-                            <input style="width: 66%;margin-left: 2em" type="text" name="volume" placeholder="请输入内存容量">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>内存插槽</label>
-                            <input style="width: 66%;margin-left: 2em" type="number" name="slot" placeholder="请输入内存插槽">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>内存状态</label>
-                            <select style="width: 66%;margin-left: 2em" name="status" >
-                                <option value="0">请选择内存状态</option>
-                                <option value="1">正常</option>
-                                <option value="2">故障</option>
-                                <option value="3">下线</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <input type="hidden" name="assetId" value="{{ ID }}"><br>
-                            <div style="float: left;width: 85%">
-                                <input style="margin-left:0;float: left" type="button" value="取消" onclick="document.getElementById('addRAM').style.display='none';">
-                                <input style="margin-right:0;float: right" type="submit" value="提交" onclick="document.getElementById('addRAM').style.display='none';">
+    <div class="row">
+        <!--  第一行/LEFT -->
+        <div class="col-md-4">
+            <!-- Custom Tabs -->
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#RAM" data-toggle="tab">RAM</a></li>
+                    <li><a href="#CPU" data-toggle="tab">CPU</a></li>
+                    <li><a href="#DISK" data-toggle="tab">DISK</a></li>
+                    <li><a href="#PORT" data-toggle="tab">PORT</a></li>
+                    <li><a href="#Other" data-toggle="tab">Other</a></li>
+                    <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear"></i></a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="RAM">
+                        <form class="tab-pane active" action="RAMSubmit" method="post">
+                            <!-- 上传资产ID -->
+                            <input type="hidden" name="assetId" value="{{ ID }}">
+                            <!-- /上传资产ID -->
+                            <!-- 内存品牌 -->
+                            <div class="form-group">
+                                <label for="RAM_brand">内存品牌</label><br>
+                                <input class="form-control" type="text" id="RAM_brand" name="brand"
+                                       placeholder="请输入内存品牌">
                             </div>
-{#                            <input style="margin-left:0px;float: left" type="button" value="取消" onclick="document.getElementById('addRAM').style.display='none';">#}
-{#                            <input style="margin-right:50px;float: right" type="submit" value="提交" onclick="document.getElementById('addRAM').style.display='none';">#}
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <div class="row  clearfix" id="addCPU" style="display: none;">
-                <form action="CPUSubmit" method="post" style="padding: 30px;margin:0 auto;">
-                    <div class="row clearfix">
-                        <div class="ctrl" style="width: 40%;margin:0 auto;">
-                            <label>CPU型号</label>
-                            <input style="width: 66%;margin-left: 2em" type="text" name="model" placeholder="请输入CPU型号">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>CPU生产商</label>
-                            <input style="width: 66%;margin-left: 1em" type="text" name="brand" placeholder="请输入CPU生产商">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>CPU容量</label>
-                            <input style="width: 66%;margin-left: 2em" type="text" name="speed" placeholder="请输入CPU容量">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>CPU核数</label>
-                            <input style="width: 66%;margin-left: 2em" type="number" name="core_count" placeholder="请输入CPU核数">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>CPU插槽</label>
-                            <input style="width: 66%;margin-left: 2em" type="number" name="slot" placeholder="请输入CPU插槽">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>CPU状态</label>
-                            <select style="width: 66%;margin-left: 2em" name="status" >
-                                <option value="0">请选择CPU状态</option>
-                                <option value="1">正常</option>
-                                <option value="2">故障</option>
-                                <option value="3">下线</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <input type="hidden" name="assetId" value="{{ ID }}"><br>
-{#                            <input style="margin-right:50px;float: right" type="submit" onclick="document.getElementById('addCPU').style.display='none';">#}
-                             <div style="float: left;width: 85%">
-                                <input style="margin-left:0;float: left" type="button" value="取消" onclick="document.getElementById('addCPU').style.display='none';">
-                                <input style="margin-right:0;float: right" type="submit" value="提交" onclick="document.getElementById('addCPU').style.display='none';">
+                            <!-- /内存品牌 -->
+                            <!-- 内存型号 -->
+                            <div class="form-group">
+                                <label for="RAM_model">内存型号</label><br>
+                                <input class="form-control" type="text" id="RAM_model" name="model"
+                                       placeholder="请输入内存型号">
                             </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <div class="row  clearfix" id="addDisk" style="display: none;">
-                <form action="DiskSubmit" method="post" style="padding: 30px;margin:0 auto;">
-                    <div class="row clearfix">
-                        <div class="ctrl" style="width: 40%;margin:0 auto;">
-                            <label>硬盘名称</label>
-                            <input style="width: 66%;margin-left: 2em" type="text" name="name" placeholder="请输入硬盘名称">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>硬盘容量</label>
-                            <input style="width: 66%;margin-left: 2em" type="text" name="volume" placeholder="请输入硬盘容量">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>硬盘型号</label>
-                            <input style="width: 66%;margin-left: 2em" type="text" name="model" placeholder="请输入硬盘型号">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>硬盘生产商</label>
-                            <input style="width: 66%;margin-left: 1em" type="text" name="brand" placeholder="请输入硬盘生产商">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>硬盘序列号</label>
-                            <input style="width: 66%;margin-left: 1em" type="text" name="serial" placeholder="请输入硬盘序列号">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>硬盘插槽</label>
-                            <input style="width: 66%;margin-left: 2em" type="text" name="slot" placeholder="请输入硬盘插槽">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>硬盘状态</label>
-                            <select style="width: 66%;margin-left: 2em" name="status" >
-                                <option value="0">请选择硬盘状态</option>
-                                <option value="1">正常</option>
-                                <option value="2">故障</option>
-                                <option value="3">下线</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>硬盘属性</label>
-                            <input style="width: 66%;margin-left: 2em" type="text" name="attr" placeholder="请输入硬盘属性">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <input type="hidden" name="assetId" value="{{ ID }}"><br>
-{#                            <input style="margin-right:50px;float: right" type="submit" onclick="document.getElementById('addDisk').style.display='none';">#}
-                             <div style="float: left;width: 85%">
-                                <input style="margin-left:0;float: left" type="button" value="取消" onclick="document.getElementById('addDisk').style.display='none';">
-                                <input style="margin-right:0;float: right" type="submit" value="提交" onclick="document.getElementById('addDisk').style.display='none';">
+                            <!-- /内存型号 -->
+                            <!-- 内存容量 -->
+                            <div class="form-group">
+                                <label for="RAM_volume">内存容量(G)</label><br>
+                                <input class="form-control" type="number" id="RAM_volume" name="volume"
+                                       placeholder="请输入内存容量">
                             </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <div class="row  clearfix" id="addPort" style="display: none;">
-                <form action="PortSubmit" method="post" style="padding: 30px;margin:0 auto;">
-
-                    <div class="row clearfix">
-                        <div class="ctrl" style="width: 40%;margin:0 auto;">
-                            <label>接口类型</label>
-                            <select style="width: 66%;margin-left: 2em" name="type" >
-                                <option value="0">请选择借口类型</option>
-                                <option value="1">Ethernet</option>
-                                <option value="2">GigabitEthernet</option>
-                                <option value="3">TenGigabitEthernet</option>
-                                <option value="4">Pos</option>
-                                <option value="5">Serial</option>
-                                <option value="6">vlan</option>
-                                <option value="7">Tunnel</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>接口名称</label>
-                            <input style="width: 66%;margin-left: 2em" type="text" name="name" placeholder="请输入接口名称">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>网卡槽位</label>
-                            <input style="width: 66%;margin-left: 2em" type="text" name="slot" placeholder="请输入网卡槽位">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>借口vlan</label>
-                            <input style="width: 66%;margin-left: 2em" type="text" name="vlan" placeholder="请输入接口vlan">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>接口地址</label>
-                            <input style="width: 66%;margin-left: 2em" type="text" name="ip" placeholder="请输入接口地址">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>接口副地址</label>
-                            <input style="width: 66%;margin-left: 1em" type="text" name="sub_ip" placeholder="请输入接口副地址">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>子网掩码</label>
-                            <input style="width: 66%;margin-left: 2em" type="number" name="mask" placeholder="请输入子网掩码">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>接口带宽</label>
-                            <input style="width: 66%;margin-left: 2em" type="text" name="bandwidth" placeholder="请输入接口带宽">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>接口状态</label>
-                            <select style="width: 66%;margin-left: 2em" name="status" >
-                                <option value="0">请选择接口状态</option>
-                                <option value="1">UP</option>
-                                <option value="2">DOWN</option>
-                                <option value="3">AdminDown</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <input type="hidden" name="assetId" value="{{ ID }}"><br>
-{#                            <input style="margin-right:50px;float: right" type="submit" onclick="document.getElementById('addDisk').style.display='none';">#}
-                             <div style="float: left;width: 85%">
-                                <input style="margin-left:0;float: left" type="button" value="取消" onclick="document.getElementById('addPort').style.display='none';">
-                                <input style="margin-right:0;float: right" type="submit" value="提交" onclick="document.getElementById('addPort').style.display='none';">
+                            <!-- /内存容量 -->
+                            <!-- 内存插槽 -->
+                            <div class="form-group">
+                                <label for="RAM_slot">内存插槽</label><br>
+                                <input class="form-control" type="text" id="RAM_slot" name="slot"
+                                       placeholder="请输入内存插槽">
                             </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <div class="row  clearfix" id="addPart" style="display: none;">
-                <form action="PartSubmit" method="post" style="padding: 30px;margin:0 auto;">
-
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>部件类型</label>
-                            <input style="width: 66%;margin-left: 2em" type="text" name="type" placeholder="请输入部件类型">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>部件名称</label>
-                            <input style="width: 66%;margin-left: 2em" type="text" name="name" placeholder="请输入部件名称">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>部件型号</label>
-                            <input style="width: 66%;margin-left: 2em" type="text" name="model" placeholder="请输入部件型号">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>部件序列号</label>
-                            <input style="width: 66%;margin-left: 1em" type="text" name="sn" placeholder="请输入部件序列号">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>硬盘插槽</label>
-                            <input style="width: 66%;margin-left: 2em" type="text" name="slot" placeholder="请输入硬盘插槽">
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <label>部件状态</label>
-                            <select style="width: 66%;margin-left: 2em" name="status" >
-                                <option value="0">请选择接口状态</option>
-                                <option value="1">正常</option>
-                                <option value="2">故障</option>
-                                <option value="3">下线</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                    <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                        <label style="position: relative;top: -100px;">部件描述</label>
-                        <textarea style="width: 66%;margin-left: 2em;" id="partDesc" name="partDesc" rows="6" cols="6"></textarea>
-                    </div>
-                </div>
-                    <div class="row clearfix">
-                        <div class="ctrl"  style="width: 40%;margin:0 auto;">
-                            <input type="hidden" name="assetId" value="{{ ID }}"><br>
-{#                            <input style="margin-right:50px;float: right" type="submit" onclick="document.getElementById('addDisk').style.display='none';">#}
-                            <div style="float: left;width: 85%">
-                                <input style="margin-left:0;float: left" type="button" value="取消" onclick="document.getElementById('addPart').style.display='none';">
-                                <input style="margin-right:0;float: right" type="submit" value="提交" onclick="document.getElementById('addPart').style.display='none';">
+                            <!-- /内存插槽 -->
+                            <!-- 内存状态 -->
+                            <div class="form-group">
+                                <label for="RAM_status">内存状态</label><br>
+                                <select class="form-control inline select2" required id="RAM_status" name="status">
+                                    <option value="0">请选择内存状态</option>
+                                    <option value="1">正常</option>
+                                    <option value="2">故障</option>
+                                    <option value="3">下线</option>
+                                </select>
                             </div>
-                        </div>
+                            <!-- /内存状态 -->
+                            <!-- 提交按钮 -->
+                            <div>
+                                <button class="btn btn-success" type="button">取消</button>
+                                <button class="btn btn-primary pull-right" type="button submit">添加</button>
+                            </div>
+                            <!-- /内存状态 -->
+                        </form>
                     </div>
-                </form>
+                    <!-- /内存添加 -->
+
+
+                    <div class="tab-pane" id="CPU">
+                        <form class="tab-pane active" action="CPUSubmit" method="post">
+                            <!-- 上传资产ID -->
+                            <input type="hidden" name="assetId" value="{{ ID }}">
+                            <!-- /上传资产ID -->
+                            <!-- CPU品牌 -->
+                            <div class="form-group">
+                                <label for="CPU_brand">CPU品牌</label><br>
+                                <input class="form-control" type="text" id="CPU_brand" name="brand"
+                                       placeholder="请输入CPU生产商">
+                            </div>
+                            <!-- /CPU品牌 -->
+                            <!-- CPU型号 -->
+                            <div class="form-group">
+                                <label for="CPU_model">CPU型号</label><br>
+                                <input class="form-control" type="text" id="CPU_model" name="model"
+                                       placeholder="请输入CPU型号">
+                            </div>
+                            <!-- /CPU型号 -->
+                            <!-- CPU处理速度 -->
+                            <div class="form-group">
+                                <label for="CPU_speed">CPU处理速度(G)</label><br>
+                                <input class="form-control" type="number" id="CPU_speed" name="speed"
+                                       placeholder="请输入CPU处理速度">
+                            </div>
+                            <!-- /CPU处理速度 -->
+                            <!-- CPU核心数量 -->
+                            <div class="form-group">
+                                <label for="CPU_core_count">核心数量</label><br>
+                                <input class="form-control" type="number" id="CPU_core_count" name="core_count"
+                                       placeholder="请输入CPU核数">
+                            </div>
+                            <!-- /CPU核心数量 -->
+                            <!-- CPU插槽 -->
+                            <div class="form-group">
+                                <label for="CPU_slot">插槽</label><br>
+                                <input class="form-control" type="text" id="CPU_slot" name="slot"
+                                       placeholder="请输入CPU插槽">
+                            </div>
+                            <!-- /CPU插槽 -->
+                            <!-- CPU状态 -->
+                            <div class="form-group">
+                                <label for="CPU_status">内存状态</label><br>
+                                <select class="form-control inline select2" required id="CPU_status" name="status">
+                                    <option value="0">请选择CPU状态</option>
+                                    <option value="1">正常</option>
+                                    <option value="2">故障</option>
+                                    <option value="3">下线</option>
+                                </select>
+                            </div>
+                            <!-- /CPU状态 -->
+                            <!-- CPU提交按钮 -->
+                            <div>
+                                <button class="btn btn-success" type="button">取消</button>
+                                <button class="btn btn-primary pull-right" type="button submit">添加</button>
+                            </div>
+                            <!-- /CPU提交按钮 -->
+                        </form>
+                    </div>
+                    <!-- /CPU添加 -->
+
+
+                    <!-- 添加硬盘 -->
+                    <div class="tab-pane" id="DISK">
+                        <form class="tab-pane active" action="DiskSubmit" method="post">
+                            <!-- 上传资产ID -->
+                            <input type="hidden" name="assetId" value="{{ ID }}">
+                            <!-- /上传资产ID -->
+                            <!-- 硬盘名称 -->
+                            <div class="form-group">
+                                <label for="DISK_name">硬盘名称</label><br>
+                                <input class="form-control" type="text" id="DISK_name" name="name"
+                                       placeholder="请输入硬盘名称">
+                            </div>
+                            <!-- /硬盘名称 -->
+                            <!-- 硬盘品牌 -->
+                            <div class="form-group">
+                                <label for="DISK_brand">硬盘品牌</label><br>
+                                <input class="form-control" type="text" id="DISK_brand" name="brand"
+                                       placeholder="请输入硬盘品牌">
+                            </div>
+                            <!-- /硬盘品牌 -->
+                            <!-- 硬盘型号 -->
+                            <div class="form-group">
+                                <label for="DISK_model">硬盘型号</label><br>
+                                <input class="form-control" type="text" id="DISK_model" name="model"
+                                       placeholder="请输入硬盘型号">
+                            </div>
+                            <!-- /硬盘型号 -->
+                            <!-- 硬盘序列号 -->
+                            <div class="form-group">
+                                <label for="DISK_sn">序列号</label><br>
+                                <input class="form-control" type="text" id="DISK_sn" name="serial"
+                                       placeholder="请输入硬盘序列号">
+                            </div>
+                            <!-- /硬盘序列号 -->
+                            <!-- 硬盘容量 -->
+                            <div class="form-group">
+                                <label for="DISK_volume">硬盘容量(G)</label><br>
+                                <input class="form-control" type="number" id="DISK_volume" name="volume"
+                                       placeholder="请输入硬盘容量">
+                            </div>
+                            <!-- /硬盘容量 -->
+                            <!-- 硬盘插槽 -->
+                            <div class="form-group">
+                                <label for="DISK_slot">硬盘插槽</label><br>
+                                <input class="form-control" type="text" id="DISK_slot" name="slot"
+                                       placeholder="请输入硬盘插槽">
+                            </div>
+                            <!-- /硬盘插槽 -->
+                            <!-- 硬盘状态 -->
+                            <div class="form-group">
+                                <label for="DISK_status">硬盘状态</label><br>
+                                <select class="form-control inline select2" required id="DISK_status" name="status">
+                                    <option value="0">请选择硬盘状态</option>
+                                    <option value="1">正常</option>
+                                    <option value="2">故障</option>
+                                    <option value="3">下线</option>
+                                </select>
+                            </div>
+                            <!-- /硬盘状态 -->
+                            <!-- 硬盘属性 -->
+                            <div class="form-group">
+                                <label for="DISK_attr">硬盘属性</label><br>
+                                <textarea class="form-control" id="DISK_attr" name="attr" placeholder="请输入硬盘属性"
+                                          rows="4"></textarea>
+                            </div>
+                            <!-- /硬盘属性 -->
+                            <!-- DISK提交按钮 -->
+                            <div>
+                                <button class="btn btn-success" type="button">取消</button>
+                                <button class="btn btn-primary pull-right" type="button submit">添加</button>
+                            </div>
+                            <!-- /DISK提交按钮 -->
+                        </form>
+                    </div>
+                    <!-- /DISK添加 -->
+
+
+                    <!-- 添加接口 -->
+                    <div class="tab-pane" id="PORT">
+                        <form class="tab-pane active" action="PortSubmit" method="post">
+                            <!-- 上传资产ID -->
+                            <input type="hidden" name="assetId" value="{{ ID }}">
+                            <!-- /上传资产ID -->
+                            <!-- 接口名称 -->
+                            <div class="form-group">
+                                <label for="PORT_name">接口名称</label><br>
+                                <input class="form-control" type="text" id="PORT_name" name="name"
+                                       placeholder="请输入接口名称">
+                            </div>
+                            <!-- /接口名称 -->
+                            <!-- 接口类型 -->
+                            <div class="form-group">
+                                <label for="PORT_type">接口类型</label><br>
+                                <select class="form-control inline select2" required id="PORT_type" name="type">
+                                    <option value="0">请选择借口类型</option>
+                                    <option value="1">Ethernet</option>
+                                    <option value="2">GigabitEthernet</option>
+                                    <option value="3">TenGigabitEthernet</option>
+                                    <option value="4">Pos</option>
+                                    <option value="5">Serial</option>
+                                    <option value="6">vlan</option>
+                                    <option value="7">Tunnel</option>
+                                </select>
+                            </div>
+                            <!-- /接口类型 -->
+                            <!-- 接口带宽 -->
+                            <div class="form-group">
+                                <label for="PORT_bandwidth">接口带宽(M)</label><br>
+                                <input class="form-control" type="number" id="PORT_bandwidth" name="bandwidth"
+                                       placeholder="请输入接口带宽">
+                            </div>
+                            <!-- /接口带宽 -->
+                            <!-- 接口vlan -->
+                            <div class="form-group">
+                                <label for="PORT_vlan">接口vlan</label><br>
+                                <input class="form-control" type="number" id="PORT_vlan" name="vlan"
+                                       placeholder="请输入接口vlan">
+                            </div>
+                            <!-- /接口vlan -->
+                            <!-- 接口地址 -->
+                            <div class="form-group">
+                                <label for="PORT_ip">接口地址</label><br>
+                                <input class="form-control" type="text" id="PORT_ip" name="ip" placeholder="请输入接口地址">
+                            </div>
+                            <!-- /接口地址 -->
+                            <!-- 子网掩码 -->
+                            <div class="form-group">
+                                <label for="PORT_mask">子网掩码</label><br>
+                                <input class="form-control" type="number" id="PORT_mask" name="mask"
+                                       placeholder="请输入子网掩码">
+                            </div>
+                            <!-- /子网掩码 -->
+                            <!-- 副地址 -->
+                            <div class="form-group">
+                                <label for="PORT_sub_ip">接口副地址</label><br>
+                                <input class="form-control" type="text" id="PORT_sub_ip" name="sub_ip"
+                                       placeholder="请输入接口副地址">
+                            </div>
+                            <!-- /副地址 -->
+                            <!-- 网卡插槽 -->
+                            <div class="form-group">
+                                <label for="PORT_slot">网卡插槽</label><br>
+                                <input class="form-control" type="text" id="PORT_slot" name="slot"
+                                       placeholder="请输入网卡槽位">
+                            </div>
+                            <!-- /网卡插槽 -->
+                            <!-- 接口状态 -->
+                            <div class="form-group">
+                                <label for="PORT_status">接口状态</label><br>
+                                <select class="form-control inline select2" required id="PORT_status" name="status">
+                                    <option value="0">请选择接口状态</option>
+                                    <option value="1">UP</option>
+                                    <option value="2">DOWN</option>
+                                    <option value="3">AdminDown</option>
+                                </select>
+                            </div>
+                            <!-- /接口状态 -->
+                            <!-- 接口提交按钮 -->
+                            <div>
+                                <button class="btn btn-success" type="button">取消</button>
+                                <button class="btn btn-primary pull-right" type="button submit">添加</button>
+                            </div>
+                            <!-- /接口提交按钮 -->
+                        </form>
+                    </div>
+                    <!-- /接口添加 -->
+
+                    <!-- 添加部件 -->
+                    <div class="tab-pane" id="Other">
+                        <form class="tab-pane active" action="PartSubmit" method="post">
+                            <!-- 上传资产ID -->
+                            <input type="hidden" name="assetId" value="{{ ID }}">
+                            <!-- /上传资产ID -->
+                            <!-- 部件名称 -->
+                            <div class="form-group">
+                                <label for="PART_name">部件名称</label><br>
+                                <input class="form-control" type="text" id="PART_name" name="name"
+                                       placeholder="请输入部件名称">
+                            </div>
+                            <!-- /部件名称 -->
+                            <!-- 部件类型 -->
+                            <div class="form-group">
+                                <label for="PART_type">部件类型</label><br>
+                                <input class="form-control" type="text" id="PART_type" name="type"
+                                       placeholder="请输入部件类型">
+                            </div>
+                            <!-- /部件类型 -->
+                            <!-- 部件型号 -->
+                            <div class="form-group">
+                                <label for="PART_model">部件型号</label><br>
+                                <input class="form-control" type="text" id="PART_model" name="model"
+                                       placeholder="请输入部件型号">
+                            </div>
+                            <!-- /部件型号 -->
+                            <!-- 部件序列号 -->
+                            <div class="form-group">
+                                <label for="PART_sn">序列号</label><br>
+                                <input class="form-control" type="text" id="PART_sn" name="sn" placeholder="请输入部件序列号">
+                            </div>
+                            <!-- /部件序列号 -->
+                            <!-- 部件槽位 -->
+                            <div class="form-group">
+                                <label for="PART_slot">部件插槽</label><br>
+                                <input class="form-control" type="number" id="PART_slot" name="slot"
+                                       placeholder="请输入硬盘插槽">
+                            </div>
+                            <!-- /部件槽位  -->
+                            <!-- 部件状态 -->
+                            <div class="form-group">
+                                <label for="PART_status">部件状态</label><br>
+                                <select class="form-control inline select2" required id="PART_status" name="status">
+                                    <option value="0">请选择接口状态</option>
+                                    <option value="1">正常</option>
+                                    <option value="2">故障</option>
+                                    <option value="3">下线</option>
+                                </select>
+                            </div>
+                            <!-- /部件状态 -->
+                            <!-- 部件描述 -->
+                            <div class="form-group">
+                                <label for="PART_desc">部件描述</label><br>
+                                <textarea class="form-control" id="PART_desc" name="partDesc"
+                                          rows="4"></textarea>
+                            </div>
+                            <!-- /部件描述 -->
+                            <!-- 部件提交按钮 -->
+                            <div>
+                                <button class="btn btn-success" type="button">取消</button>
+                                <button class="btn btn-primary pull-right" type="button submit">添加</button>
+                            </div>
+                            <!-- /部件提交按钮 -->
+                        </form>
+                    </div>
+                    <!-- /添加部件 -->
+
+                </div>
+                <!-- /.tab-content -->
             </div>
+            <!-- nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+        <!--  /第一行/LEFT  -->
 
-            {% for r in rams %}
-                <div class="mybox mybox-orange">
-                    <div class="mybox-header">
-                        <label for="RAM">内存 RAM</label>
-                        <a class="fa fa-remove" href="http://127.0.0.1:8000/cmdb/RAMDelete?ramId={{ r.id }}&assetId={{ ID }}"></a>
-                    </div>
-                    <div class=" mybox-body">
-                        <div style="float: left;width: 45%;">
-                            <label>RAM 型号 :</label>
-                            <span style="margin-left: 1em">{{ r.ram_model}}</span><br>
-                            <label>RAM 容量 :</label>
-                            <span style="margin-left: 1em">{{ r.ram_volume}}</span><br>
-                        </div>
-                        <div style="float: right;width: 45%">
-                            <label>RAM 厂商 :</label>
-                            <span style="margin-left: 1em">{{ r.ram_brand}}</span><br>
-                            <label>RAM 插槽 :</label>
-                            <span style="margin-left: 1em">{{ r.ram_slot}}</span><br>
-                        </div>
-                        <div style="float: right;width: 100%">
-                            <label>创建时间 :</label>
-                            <span style="margin-left: 1em">{{ r.create_date}}</span><br>
-                            <label>更新时间 :</label>
-                            <span style="margin-left: 1em">{{ r.update_date}}</span><br>
-                        </div>
-                        <div class="mystatus">
-                            {{ r.get_ram_status_display }}
-                        </div>
-                    </div>
+
+        <!--  第一行/RIGHT -->
+        <div class="col-md-8">
+            <div class="box box-primary">
+                <!--  boxheader  -->
+                <div class="box-header with-border">
+                    <span>已添加的部件</span>
                 </div>
-            {% endfor %}
+                <!--  /boxheader  -->
 
-            {% for c in cpus %}
-                <div class="mybox mybox-info">
-                    <div class="mybox-header">
-                        <label for="CPU">中央处理单元 CPU</label>
-                        <a class="fa fa-remove" href="http://127.0.0.1:8000/cmdb/CPUDelete?cpuId={{ c.id }}&assetId={{ ID }}"></a>
+                <!--  boxbody -->
+                <div class="box-body" id="list_box">
+
+                    <!-- 显示内存 -->
+                    <div class="box-body table-responsive ">
+                        <span class="text-warning">RAM信息</span><br>
+                        <table class="table table-hover table-condensed">
+                            <tr>
+                                <th>序号</th>
+                                <th>厂商</th>
+                                <th>型号</th>
+                                <th>容量</th>
+                                <th>插槽</th>
+                                <th>状态</th>
+                                <th>更新时间</th>
+                            </tr>
+                            {% for r in rams %}
+                            <tr>
+                                <td>{{ forloop.counter}}</td>
+                                <td>{{ r.ram_brand }}</td>
+                                <td>{{ r.ram_model }}</td>
+                                <td>{{ r.ram_volume }}</td>
+                                <td>{{ r.ram_slot }}</td>
+                                <td><span class="label label-success">{{ r.get_ram_status_display }}</span></td>
+                                <td>{{ r.update_date }}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
                     </div>
-                    <div class="mybox-body">
-                        <div style="float: left;width: 45%;">
-                            <label>CPU 型号 :</label>
-                            <span style="margin-left: 1em">{{ c.cpu_model}}</span><br>
-                            <label>CPU 容量 :</label>
-                            <span style="margin-left: 1em">{{ c.cpu_speed}}</span><br>
-                            <label>CPU 核数 :</label>
-                            <span style="margin-left: 1em">{{ c.cpu_core_count}}</span><br>
-                        </div>
-                        <div style="float: right;width: 45%">
-                            <label>CPU 厂商 :</label>
-                            <span style="margin-left: 1em">{{ c.cpu_brand}}</span><br>
-                            <label>RAM插槽 :</label>
-                            <span style="margin-left: 1em">{{ c.cpu_slot}}</span><br>
-                        </div>
-                        <div style="float: right;width: 100%">
-                            <label>创建时间 :</label>
-                            <span style="margin-left: 1em">{{ c.create_date}}</span><br>
-                            <label>更新时间 :</label>
-                            <span style="margin-left: 1em">{{ c.update_date}}</span><br>
-                        </div>
-                        <div class="mystatus" style="color: #0b93d5">
-                            {{ c.get_cpu_status_display }}
-                        </div>
+                    <!-- /显示内存 -->
+
+                    <!-- 显示CPU-->
+                    <div class="box-body table-responsive ">
+                        <span class="text-warning ">CPU信息</span><br>
+                        <table class="table table-hover table-condensed">
+                            <tr>
+                                <th>序号</th>
+                                <th>厂商</th>
+                                <th>型号</th>
+                                <th>处理速度</th>
+                                <th>内核数量</th>
+                                <th>插槽</th>
+                                <th>状态</th>
+                                <th>更新时间</th>
+                            </tr>
+                            {% for c in cpus%}
+                            <tr>
+                                <td>{{ forloop.counter}}</td>
+                                <td>{{ c.cpu_brand}}</td>
+                                <td>{{ c.cpu_model}}</td>
+                                <td>{{ c.cpu_speed}}</td>
+                                <td>{{ c.cpu_core_count}}</td>
+                                <td>{{ c.cpu_slot}}</td>
+                                <td><span class="label label-success">{{ c.get_cpu_status_display  }}</span></td>
+                                <td>{{ c.update_date}}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
                     </div>
+                    <!-- /显示CPU -->
+
+                    <!-- 显示DISK-->
+                    <div class="box-body table-responsive ">
+                        <span class="text-warning ">硬盘信息</span><br>
+                        <table class="table table-hover table-condensed">
+                            <tr>
+                                <th>序号</th>
+                                <th>名称</th>
+                                <th>厂商</th>
+                                <th>型号</th>
+                                <th>硬盘容量</th>
+                                <th>序列号</th>
+                                <th>插槽</th>
+                                <th>状态</th>
+                                <th>属性</th>
+                            </tr>
+                            {% for d in disks %}
+                            <tr>
+                                <td>{{ forloop.counter}}</td>
+                                <td>{{ d.disk_name }}</td>
+                                <td>{{ d.disk_brand }}</td>
+                                <td>{{ d.disk_model }}</td>
+                                <td>{{ d.disk_volume }}</td>
+                                <td>{{ d.disk_serial }}</td>
+                                <td>{{ d.disk_slot }}</td>
+                                <td><span class="label label-success">{{ d.get_disk_status_display }}</span></td>
+                                <td>{{ d.disk_attr }}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <!-- /显示DISK -->
+
+                    <!-- 显示PORT-->
+                    <div class="box-body table-responsive ">
+                        <span class="text-warning">接口信息</span><br>
+                        <table class="table table-hover table-condensed">
+                            <tr>
+                                <th>序号</th>
+                                <th>名称</th>
+                                <th>类型</th>
+                                <th>带宽</th>
+                                <th>vlan</th>
+                                <th>IP</th>
+                                <th>Mask</th>
+                                <th>SubIP</th>
+                                <th>网卡槽位</th>
+                                <th>状态</th>
+                            </tr>
+                            {% for po in ports %}
+                            <tr>
+                                <td>{{ forloop.counter}}</td>
+                                <td>{{ po.port_name }}</td>
+                                <td>{{po.get_port_type_display }}</td>
+                                <td>{{ po.bandwidth }}</td>
+                                <td>{{ po.vlan }}</td>
+                                <td>{{ po.ip }}</td>
+                                <td>{{ po.mask }}</td>
+                                <td>{{ po.sub_ip }}</td>
+                                <td>{{ po.port_slot }}</td>
+                                <td><span class="label label-success">{{ po.get_status_display}}</span></td>
+
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <!-- /显示PORT -->
+
+                    <!-- 显示部件 -->
+                    <div class="box-body table-responsive ">
+                        <span class="text-warning">部件信息</span><br>
+                        <table class="table table-hover table-condensed">
+                            <tr>
+                                <th>序号</th>
+                                <th>名称</th>
+                                <th>类型</th>
+                                <th>型号</th>
+                                <th>序列号</th>
+                                <th>插槽</th>
+                                <th>状态</th>
+                                <th>描述</th>
+                            </tr>
+                            {% for pa in parts %}
+                            <tr>
+                                <td>{{ forloop.counter}}</td>
+                                <td>{{ pa.parts_name}}</td>
+                                <td>{{ pa.parts_type}}</td>
+                                <td>{{ pa.parts_model}}</td>
+                                <td>{{ pa.parts_sn}}</td>
+                                <td>{{ pa.parts_slot}}</td>
+                                <td><span class="label label-success">{{ pa.get_parts_status_display}}</span></td>
+                                <td>{{ pa.memo}}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <!-- /显示部件 -->
+
+
                 </div>
-            {% endfor %}
+                <!--  /boxbody -->
 
-            {% for d in disks %}
-                <div class="mybox mybox-teal">
-                    <div class="mybox-header">
-                        <label for="DISK">硬盘 DISK</label>
-                        <a class="fa fa-remove" href="http://127.0.0.1:8000/cmdb/DiskDelete?diskId={{ d.id }}&assetId={{ ID }}"></a>
-                    </div>
-                    <div class="mybox-body">
-                        <div style="float: left;width: 45%;">
-                            <label>硬盘名称:</label>
-                            <span style="margin-left: 1em">{{ d.disk_name}}</span><br>
-                            <label>硬盘型号:</label>
-                            <span style="margin-left: 1em">{{ d.disk_model}}</span><br>
-                            <label>序列号:</label>
-                            <span style="margin-left: 2em">{{ d.disk_serial}}</span><br>
-                            <label>硬盘属性:</label>
-                            <span style="margin-left: 1em">{{ d.disk_attr}}</span><br>
-                        </div>
-                        <div style="float: right;width: 45%">
-                            <label>硬盘容量:</label>
-                            <span style="margin-left: 1em">{{d.disk_volume}}</span><br>
-                            <label>硬盘厂商:</label>
-                            <span style="margin-left: 1em">{{ d.disk_brand}}</span><br>
-                            <label>硬盘插槽:</label>
-                            <span style="margin-left: 1em">{{ d.disk_slot}}</span><br>
-                        </div>
-                        <div class="mystatus" style="color:#39cccc">
-                            {{ d.get_disk_status_display }}
-                        </div>
-                    </div>
+                <!--  boxfooter -->
+                <div class="box-body">
+                    <button type="button" class="btn btn-sm btn-primary pull-right"
+                            onclick="window.location.href='http://127.0.0.1:8000/cmdb/asset'">完成部件添加
+                    </button>
                 </div>
-            {% endfor %}
-
-            {% for po in ports %}
-                <div class="mybox mybox-maroon">
-                    <div class="mybox-header">
-                        <label for="PORT">接口 PORT</label>
-                        <a class="fa fa-remove" href="http://127.0.0.1:8000/cmdb/PortDelete?portId={{ po.id }}&assetId={{ ID }}"></a>
-                    </div>
-                    <div class="mybox-body">
-                        <div style="float: left;width: 45%;">
-                            <label>接口名称:</label>
-                            <span style="margin-left: 1em">{{ po.port_name}}</span><br>
-                            <label>网卡槽位:</label>
-                            <span style="margin-left: 1em">{{ po.port_slot}}</span><br>
-                            <label>接口地址:</label>
-                            <span style="margin-left: 2em">{{ po.ip}}</span><br>
-                            <label>子网掩码:</label>
-                            <span style="margin-left: 1em">{{ po.mask}}</span><br>
-                        </div>
-                        <div style="float: right;width: 45%">
-                            <label>接口类型:</label>
-                            <span style="margin-left: 1em">{{po.get_port_type_display}}</span><br>
-                            <label>接口vlan:</label>
-                            <span style="margin-left: 1em">{{ po.vlan}}</span><br>
-                            <label>副地址:</label>
-                            <span style="margin-left: 1em">{{ po.sub_ip}}</span><br>
-                            <label>接口带宽:</label>
-                            <span style="margin-left: 1em">{{ po.bandwidth}}</span><br>
-                        </div>
-                        <div class="mystatus" style="color:#d81b60">
-                            {{ po.get_status_display}}
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-
-            {% for pa in parts %}
-                <div class="mybox mybox-purple">
-                    <div class="mybox-header">
-                        <label for="PART">部件 PART</label>
-                        <a class="fa fa-remove" href="http://127.0.0.1:8000/cmdb/PartDelete?partId={{ pa.id }}&assetId={{ ID }}"></a>
-                    </div>
-                    <div class="mybox-body">
-                        <div style="float: left;width: 45%;">
-                            <label>部件名称:</label>
-                            <span style="margin-left: 1em">{{ pa.parts_name}}</span><br>
-                            <label>部件型号:</label>
-                            <span style="margin-left: 1em">{{ pa.parts_model}}</span><br>
-                            <label>硬盘插槽:</label>
-                            <span style="margin-left: 2em">{{ pa.parts_slot}}</span><br>
-                        </div>
-                        <div style="float: right;width: 45%">
-                            <label>部件类型:</label>
-                            <span style="margin-left: 1em">{{pa.parts_type}}</span><br>
-                            <label>序列号:</label>
-                            <span style="margin-left: 1em">{{ pa.parts_sn}}</span><br>
-                        </div>
-                        <div style="float:left;width: 100%">
-                            <label>部件描述:</label>
-                            <span style="margin-left: 1em">{{ pa.memo}}</span><br>
-                        </div>
-                        <div class="mystatus" style="color:#605ca8">
-                            {{ pa.get_parts_status_display}}
-                        </div>
-                    </div>
-                </div>
-
-            {% endfor %}
+                <!--  /boxfooter -->
 
 
-            <div class="row  clearfix" style="clear: left">
-                <div class="span10 offset2" style="width: 95%">
-                    <button type="button" style="width: 100px;height: 35px; color: #FFFFFF;margin-top:20px;float: right;" class="btn btn-block btn-primary" onclick="window.location.href='http://127.0.0.1:8000/cmdb/asset'">完成</button>
-                </div>
             </div>
         </div>
-    </section>
+        <!--  第一行/RIGHT -->
+
+
+    </div>
+</div>
 {% endblock main_content %}
 
 
