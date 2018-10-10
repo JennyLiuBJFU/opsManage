@@ -67,5 +67,6 @@ urlpatterns = [
     url(r'editAdminSubmit',views.editAdminSubmit),
     url(r'editSupplierSubmit$',views.editASupplierSubmit),
     url(r'editSupplierSubmitM',views.editASupplierSubmitM),
+    url(r'editContractSubmit',views.editContractSubmit),
 
 ]

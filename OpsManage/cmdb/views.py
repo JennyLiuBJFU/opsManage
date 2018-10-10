@@ -1762,13 +1762,21 @@ def contractManage(request):
         Perm = 1
     else:
         Perm = 0
+    CONTRACT=Contract()
+    try:
+        editID = request.GET['contractId']
+        if editID:
+            CONTRACT = Contract.objects.get(id=editID)
+    except:
+        print("没有contractId参数")
     context = {
         'contract': contract,
         'USERNAME': str(request.user),
         'Perm': Perm,
         'tab_number': "contract",
+        'CONTRACT':CONTRACT,
     }
-    return render(request, 'cmdb/basicData/contractManage(copy).html', context)
+    return render(request, 'cmdb/basicData/contractManage.html', context)
 
 @login_required()
 def addContractSubmit(request):
@@ -1788,8 +1796,21 @@ def addContractSubmit(request):
         'USERNAME': str(request.user),
         'Perm': Perm,
     }
-    return render(request, 'cmdb/basicData/contractManage(copy).html', context)
+    return render(request, 'cmdb/basicData/contractManage.html', context)
 
+@login_required()
+def editContractSubmit(request):
+    CONTRACT=Contract.objects.get(id=request.GET['contractId'])
+    CONTRACT.contract_name=request.POST['name']
+    CONTRACT.contract_number=request.POST['number']
+    CONTRACT.contract_content=request.POST['content']
+    CONTRACT.contract_memo=request.POST['memo']
+    CONTRACT.save()
+    contract=Contract.objects.all()
+    context = {
+        'contract':contract,
+    }
+    return render(request, 'cmdb/basicData/contractManage.html', context)
 
 @login_required()
 def editOrg(request):
