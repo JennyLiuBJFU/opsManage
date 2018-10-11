@@ -10,8 +10,6 @@
         <div class="container-fluid">
 
             <!-- -------------------查询区-----------------------  -->
-
-
             <div class="row " style="margin: 20px 0">
                 <div class="col-md-12">
                     <!-- 按钮 -->
@@ -65,7 +63,6 @@
                                     <option value="3">业务外网</option>
                                 </select>
                             </div>
-
                             <!-- blank space  -->
                             <!--<div class="col-sm-5"></div>-->
                         </form>
@@ -74,8 +71,7 @@
 
                     <!-- search form  -->
                     <div class="form-inline  pull-right">
-                        <form class="form-group" method='get' action="/search/" target="_blank" id="searchForm">
-                            <input style="display:none">
+                        <form class="form-group" method='get' action="/search/"  id="searchForm">
                             <input class="form-control" type="search" name="q" placeholder="Search..."
                                    style="width: 130px">
                             <span class="input-group-btn inline">
@@ -110,7 +106,6 @@
                             <th class="text-center">所属单位</th>
                             <th class="text-center">设备状态</th>
                             <th class="text-center">操作</th>
-                            <th class="text-center">ID</th>
                         </tr>
                         </thead>
 
@@ -122,12 +117,10 @@
 
                             <td><a href="#">
                                 <li  style="list-style-type:none"
-                                    onclick="return detail(this.value)"
-                                    value="{{ Asset.id }}"> {{ Asset.object.asset_name }}
+                                    onclick="return detail(this.value)" value="{{ Asset.object.id }}"> {{ Asset.object.asset_name }}
                                 </li>
                             </a>
                             </td>
-
                             <td>{{ Asset.object.get_asset_type_display }}</td>
                             <td>{{ Asset.object.asset_no }}</td>
                             <td>{{ Asset.object.model.vendor }}</td>
@@ -146,7 +139,6 @@
                                     <i class="glyphicon glyphicon-trash text-danger"></i>
                                 </a>
                             </td>
-                            <td>{{ Asset.object.id }}</td>
                         </tr>
                         {% endfor %}
                         </tbody>
@@ -181,7 +173,6 @@
 <!--设备详细页面弹窗-->
 <script type="text/javascript">
     function detail(n) {
-        alert(n);
         layer.open({
             type: 2,
             title: '资产信息',
@@ -192,15 +183,6 @@
             content: ['/cmdb/detail' + n],
         });
     };
-</script>
-
-<script type="text/javascript">
-    $(function () {
-        $("#asset_detail").click(function () {
-            alert(this.val())
-        })
-
-    })
 </script>
 
 
@@ -236,11 +218,6 @@
         $("#selectedNet").find('option[value="{{myNet}}"]').prop('selected', 'selected')
     });
 </script>
-
-
-
-
-
 
 
 {% endblock foot_js %}
