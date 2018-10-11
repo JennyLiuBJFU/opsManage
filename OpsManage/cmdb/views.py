@@ -15,6 +15,7 @@ from  django.db.models import Q
 from django.shortcuts import HttpResponse, render, redirect
 
 
+
 # 分页函数
 def page_list_return(total, current=1):
     """

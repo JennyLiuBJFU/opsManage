@@ -139,3 +139,7 @@ def getFileType(filePath):
     #     file_type = '未知'
     #     logger.error("获取文件类型失败: {ex}".format(ex=ex))
     return file_type
+
+
+
+
