@@ -15,84 +15,74 @@
         <div class="container-fluid">
 
             <!-- -------------------查询区-----------------------  -->
-
-
             <div class="row " style="margin: 20px 0">
-                <div class="col-md-12">
-                    <!-- 按钮 -->
-                    <!-- 显示所有 -->
-                    <div class="form-group inline">
-                        <a href="/cmdb/asset/">
-                            <button class="btn  btn-sm btn-default ">显示所有</button>
-                        </a>
-                    </div>
+                <!-- 按钮 -->
+                <!-- 显示所有 -->
+                <div class="col-sm-1 no-margin center-block">
+                    <a href="/cmdb/asset/">
+                        <button class="btn  btn-sm btn-default">显示所有</button>
+                    </a>
+                </div>
 
-                    <!-- 增加资产 -->
-                    <div class="form-group inline ">
+                <!-- 增加资产 -->
+                    <div class="col-sm-1 no-padding center-block">
                         <a href="/cmdb/addARecord">
-                            <button class="btn btn-default btn-sm ">添加资产</button>
+                        <button class="btn btn-default btn-sm ">添加资产</button>
                         </a>
                     </div>
 
-                    <div class="form-group inline">
-                        <form class="form-inline inline" id="filterForm">
-                            <!-- 查询所属单位 -->
-                            <div class="form-group">
-                                <select class="form-control select2" name="myOrg" id="selectedOrg"
-                                        style="width: 130px;font-size: 12px">
-                                    <option value="0" selected="selected">所属单位</option>
-                                    {% for Organization in Organizations %}
-                                    <option value={{ Organization.id }}>{{ Organization.org_name }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
 
-                            <!-- 查询设备类型 -->
-                            <div class="form-group">
-                                <select class="form-control  select2 " name="myType" id="selectedType"
-                                        style="width: 130px;font-size: 12px">
-                                    <option value="0" selected="selected">资产类型</option>
-                                    <option value="1">服务器</option>
-                                    <option value="2">网络设备</option>
-                                    <option value="3">安全设备</option>
-                                    <option value="4">存储设备</option>
-                                    <option value="5">其他</option>
-                                </select>
-                            </div>
-
-                            <!-- 查询所属网络 -->
-                            <div class="form-group">
-                                <select class="form-control select2" name="myNet" id="selectedNet"
-                                        style="width: 130px;font-size: 12px">
-                                    <option value="0" selected="selected">所属网络</option>
-                                    <option value="1">控制专网</option>
-                                    <option value="2">业务内网</option>
-                                    <option value="3">业务外网</option>
-                                </select>
-                            </div>
-
-                            <!-- blank space  -->
-                            <!--<div class="col-sm-5"></div>-->
-                        </form>
+                <form id="filterForm">
+                    <!-- 查询所属单位 -->
+                    <div class="col-sm-1 no-padding margin-r-5">
+                        <select class="form-control m-b input-sm " name="myOrg" id="selectedOrg">
+                            <option value="0" selected="selected">所属单位</option>
+                            {% for Organization in Organizations %}
+                            <option value={{ Organization.id }}>{{ Organization.org_name }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
 
+                    <!-- 查询设备类型 -->
+                    <div class="col-sm-1 no-padding margin-r-5">
+                        <select class="form-control  m-b input-sm select2 no-margin" name="myType" id="selectedType"
+                                style="width: 100px">
+                            <option value="0" selected="selected">资产类型</option>
+                            <option value="1">服务器</option>
+                            <option value="2">网络设备</option>
+                            <option value="3">安全设备</option>
+                            <option value="4">存储设备</option>
+                            <option value="5">其他</option>
+                        </select>
+                    </div>
 
-                    <!-- search form  -->
-                    <div class="form-inline  pull-right">
-                        <form class="form-group" method='get' action="/search/" target="_blank" id="searchForm">
-                            <input style="display:none">
-                            <input class="form-control" type="search" name="q" placeholder="Search..."
-                                   style="width: 130px">
-                            <span class="input-group-btn inline">
-                            <button class="btn" type="submit" value="Search" id="searchBtn">
+                    <!-- 查询所属网络 -->
+                    <div class="col-sm-1 no-padding margin-r-5">
+                        <select class="form-control m-b input-sm" name="myNet" id="selectedNet">
+                            <option value="0" selected="selected">所属网络</option>
+                            <option value="1">控制专网</option>
+                            <option value="2">业务内网</option>
+                            <option value="3">业务外网</option>
+                        </select>
+                    </div>
+
+                    <!-- blank space  -->
+                    <div class="col-sm-5"></div>
+                </form>
+
+                <!-- search form  -->
+                <div class="col-sm-2 pull-right">
+                    <form class="input-group" method='get' action="/search/" target="_blank" id="searchForm">
+                        <input class="form-control inline" type="search" name="q" placeholder="Search...">
+                        <input style="display:none">
+                        <span class="input-group-btn">
+                            <button class="btn " type="button" value="Search" id="searchBtn">
                                 <i class="fa fa-search"></i>
                             </button>
                         </span>
-
-                        </form>
-                    </div>
-                    <!-- /.search form -->
+                    </form>
                 </div>
+                <!-- /.search form -->
             </div>
             <!-- -------------------/查询区------------------------  -->
 
@@ -130,14 +120,14 @@
                                 </li>
                             </a>
                             </td>
-                            <td class="text-center">{{ Asset.get_asset_type_display }}</td>
+                            <td>{{ Asset.get_asset_type_display }}</td>
                             <td>{{ Asset.asset_no }}</td>
-                            <td class="text-center">{{ Asset.model.vendor }}</td>
+                            <td>{{ Asset.model.vendor }}</td>
                             <td>{{ Asset.model }}</td>
                             <td>{{ Asset.sn }}</td>
                             <td>{{ Asset.manage_ip }}</td>
-                            <td class="text-center">{{ Asset.get_network_location_display }}</td>
-                            <td class="text-center">{{ Asset.organization }}</td>
+                            <td>{{ Asset.get_network_location_display }}</td>
+                            <td>{{ Asset.organization }}</td>
                             <td class="text-center">{{ Asset.get_status_display }}</td>
                             <td class="text-center">
                                 <a href="http://127.0.0.1:8000/cmdb/editARecord?myid={{ Asset.id }}">
@@ -323,12 +313,8 @@
     });
 </script>
 
-
-
 <!-- -----search数据查询----- -->
-
 <script>
-    /*
     $(function () {
         $("#searchBtn").click(function () {
             var args = $("#searchForm").serialize();
@@ -338,10 +324,7 @@
             });
         });
     });
-    */
-
 </script>
-
 
 <!-- 分页按钮 -->
 <script>
@@ -386,6 +369,5 @@
         });
     });
 </script>
-
 
 {% endblock foot_js %}
