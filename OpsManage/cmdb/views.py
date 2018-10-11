@@ -1462,40 +1462,6 @@ def orgManage(request):
 
 @login_required()
 def idcManage(request):
-    """
-    Organizations = Organization.objects.all()
-    myIdc = Idc.objects.all()
-    myOrg = Organization()
-    myCabinet = Cabinet()
-    cabFlag = 0
-    print("^^^^^^^^^^^^^^^^^^^")
-    print(type(myOrg))
-    print(type(myCabinet))
-
-    try:
-        IDC = request.GET['IDC']
-        myCabinet=Cabinet.objects.filter(idc=Idc.objects.get(id=IDC))
-        cabFlag=1
-    except:
-        print("没有IDC参数!")
-
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-
-    context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'ORGS': Organizations,
-        'myOrg': myOrg,
-        'myIdcs': myIdc,
-        'myCabs': myCabinet,
-        'cabFlag':cabFlag,
-        'tab_number': "idc",
-    }
-    return render(request, 'cmdb/basicData/idcManage.html', context)
-"""
     if request.user.is_superuser:
         Perm = 1
     else:
@@ -1526,48 +1492,6 @@ def idcManage(request):
     }
     return render(request, 'cmdb/basicData/idcManage.html', context)
 
-
-'''
-@login_required()
-def idcManage(request):
-    Organizations = Organization.objects.all()
-    myOrg = Organization()
-    myIdc = Idc.objects.all()
-    myCabinet = Cabinet()
-    cabFlag = 0
-    zhongxianju=Organization.objects.get(org_name="中线局")
-    Fenjus=Organization.objects.filter(parent_org=zhongxianju)
-
-    try:
-        IDC = request.GET['IDC']
-        myCabinet=Cabinet.objects.filter(idc=Idc.objects.get(id=IDC))
-        cabFlag=1
-        print(myCabinet)
-    except:
-        print("没有IDC参数!")
-
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context = {
-        'zhongxianju':zhongxianju,
-        'Fenjus':Fenjus,
-        'Guanlichus':None,
-        'Xiandizhans':None,
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'ORGS': Organizations,
-        'myOrg': myOrg,
-        'myIdcs': myIdc,
-        'myCabs': myCabinet,
-        'cabFlag':cabFlag,
-        'tab_number': "idc",
-    }
-    return render(request, 'cmdb/basicData/idcManage.html', context)
-'''
-
-
 @login_required()
 def editCab(request):
     dCabinets = request.POST.getlist('delete_cabinets')
@@ -1576,12 +1500,19 @@ def editCab(request):
             Cabinet.objects.get(pk=i).delete()
     IDC=Idc.objects.get(id=request.GET['idcId'])
     Cabinets=Cabinet.objects.filter(idc=IDC)
-    print(Cabinets)
+    CABINET = Cabinet()
+    try:
+        editID = request.GET['cabId']
+        if editID:
+            CABINET = Cabinet.objects.get(id=editID)
+    except:
+        print("没有cabId参数")
     context={
         'IDC':IDC,
         'Cabinets':Cabinets,
+        'CABINET':CABINET,
     }
-    return render (request, 'cmdb/basicData/editCab.html',context)
+    return render (request, 'cmdb/basicData/editCab.html', context)
 @login_required()
 def addCabSubmit(request):
     IDC = Idc.objects.get(id=request.POST['idcId'])
@@ -1603,6 +1534,23 @@ def addCabSubmit(request):
         'Cabinets': Cabinets,
     }
     return render(request, 'cmdb/basicData/editCab.html', context)
+
+
+@login_required()
+def editACabinetSubmit(request):
+    CABINET=Cabinet.objects.get(id=request.GET['cabId'])
+    CABINET.cabinet_name=request.POST['name']
+    CABINET.cabinet_desc=request.POST['desc']
+    CABINET.cabinet_height=request.POST['height']
+    CABINET.save()
+    IDC=request.POST['idcId']
+    Cabinets=Cabinet.objects.filter(idc=IDC)
+    context = {
+        'IDC': IDC,
+        'Cabinets': Cabinets,
+    }
+    return render(request, 'cmdb/basicData/editCab.html', context)
+
 @login_required()
 def addIdc(request):
     Organizations=Organization.objects.all()
@@ -1827,12 +1775,20 @@ def editOrg(request):
         Perm = 1
     else:
         Perm = 0
+    ORGANIZATION = Organization()
+    try:
+        editID = request.GET['orgId']
+        if editID:
+            ORGANIZATION = Organization.objects.get(id=editID)
+    except:
+        print("没有orgId参数")
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
-        'org': org
+        'org': org,
+        'ORGANIZATION':ORGANIZATION,
     }
-    return render(request, 'cmdb/basicData/editOrg.html',context)
+    return render(request, 'cmdb/basicData/editOrg.html', context)
 
 @login_required()
 def addOrgSubmit(request):
@@ -1856,6 +1812,21 @@ def addOrgSubmit(request):
 
     return render(request, 'cmdb/basicData/editOrg.html', context)
 
+
+@login_required()
+def editAOrganizationSubmit(request):
+    ORGANIZATION=Organization.objects.get(id=request.GET['orgId'])
+    ORGANIZATION.org_name=request.POST['name']
+    ORGANIZATION.org_address=request.POST['address']
+    ORGANIZATION.parent_org=Organization.objects.get(id=request.POST['parent_org'])
+    ORGANIZATION.org_memo=request.POST['memo']
+    ORGANIZATION.save()
+    org=Organization.objects.all()
+    context = {
+        'org':org
+    }
+    return render(request, 'cmdb/basicData/editOrg.html', context)
+
 def supplierManage(request):
  # 判断是否有删除请求，有则删除厂商
     dsupplier = request.POST.getlist('delete_supplier')
@@ -1874,7 +1845,6 @@ def supplierManage(request):
         editID = request.GET['supplierId']
         if editID:
             SUPPLIER = Supplier.objects.get(id=editID)
-            print(SUPPLIER)
     except:
         print("没有supplierId参数")
     context = {
