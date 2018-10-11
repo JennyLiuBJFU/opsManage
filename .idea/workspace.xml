@@ -34,28 +34,28 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="html" value="116" />
+          <entry key="html" value="126" />
           <entry key="js" value="1" />
-          <entry key="py" value="41" />
+          <entry key="py" value="45" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="HTML" value="116" />
+          <entry key="HTML" value="126" />
           <entry key="JavaScript" value="1" />
-          <entry key="Python" value="41" />
+          <entry key="Python" value="45" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="html" value="14675" />
-          <entry key="py" value="4876" />
+          <entry key="html" value="14998" />
+          <entry key="py" value="5052" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="HTML" value="14675" />
-          <entry key="Python" value="4876" />
+          <entry key="HTML" value="14998" />
+          <entry key="Python" value="5052" />
         </counts>
       </usages-collector>
     </session>
@@ -63,28 +63,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/OpsManage/cmdb/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="690">
-              <caret line="47" column="28" selection-start-line="47" selection-start-column="28" selection-end-line="47" selection-end-column="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/OpsManage/OpsManage/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="29" column="83" selection-start-line="29" selection-start-column="11" selection-end-line="29" selection-end-column="83" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/OpsManage/cmdb/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1530">
-              <caret line="103" column="27" selection-start-line="103" selection-start-column="27" selection-end-line="103" selection-end-column="27" />
+            <state relative-caret-position="2045">
+              <caret line="258" column="4" lean-forward="true" selection-start-line="258" selection-start-column="4" selection-end-line="258" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -92,8 +74,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/ServerManage/asset.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3082">
-              <caret line="389" selection-start-line="389" selection-end-line="389" />
+            <state relative-caret-position="410">
+              <caret line="307" column="19" lean-forward="true" selection-start-line="307" selection-start-column="19" selection-end-line="307" selection-end-column="19" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
@@ -103,6 +85,11 @@
               </folding>
             </state>
           </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/editIdc.html">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -118,13 +105,48 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/ServerManage/edit/editARecord.html">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/OpsManage/cmdb/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="659">
+              <caret line="72" column="27" selection-start-line="72" selection-start-column="11" selection-end-line="72" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/OpsManage/cmdb/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-29378">
-              <caret line="67" selection-start-line="67" selection-end-line="67" />
+            <state relative-caret-position="664">
+              <caret line="1961" lean-forward="true" selection-start-line="1961" selection-end-line="1961" />
               <folding>
                 <element signature="e#26#62#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/vendorManage.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2580">
+              <caret line="172" column="13" selection-start-line="172" selection-start-column="13" selection-end-line="172" selection-end-column="13" />
+              <folding>
+                <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/ServerManage/add/addOneToOne/addServer.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="735">
+              <caret line="136" column="46" lean-forward="true" selection-start-line="136" selection-start-column="27" selection-end-line="136" selection-end-column="46" />
             </state>
           </provider>
         </entry>
@@ -140,7 +162,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Device_</find>
       <find>networkDeviceSubmit</find>
       <find>networkde</find>
       <find>network</find>
@@ -170,6 +191,7 @@
       <find>detail</find>
       <find>index</find>
       <find>data-id</find>
+      <find>vendorm</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -183,10 +205,7 @@
         <option value="$PROJECT_DIR$/OpsManage/templates/cmdb/detail.html" />
         <option value="$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/vendorManage(copy).html" />
         <option value="$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/userManage(copy).html" />
-        <option value="$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/supplierManage.html" />
         <option value="$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/idcManage(copy).html" />
-        <option value="$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/vendorManage.html" />
-        <option value="$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/contractManage.html" />
         <option value="$PROJECT_DIR$/OpsManage/templates/cmdb/ServerManage/add/add(copy).html" />
         <option value="$PROJECT_DIR$/OpsManage/templates/cmdb/ServerManage/add/add(bak).html" />
         <option value="$PROJECT_DIR$/OpsManage/templates/base.html" />
@@ -194,7 +213,6 @@
         <option value="$PROJECT_DIR$/OpsManage/cmdb/models.py" />
         <option value="$PROJECT_DIR$/OpsManage/templates/wiki/wiki_edit.html" />
         <option value="$PROJECT_DIR$/OpsManage/templates/cmdb/ServerManage/add/add.html" />
-        <option value="$PROJECT_DIR$/OpsManage/cmdb/urls.py" />
         <option value="$PROJECT_DIR$/OpsManage/templates/cmdb/ServerManage/add/addOneToOne/addNetworkDevice.html" />
         <option value="$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/userManage.html" />
         <option value="$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/idcManage.html" />
@@ -209,7 +227,11 @@
         <option value="$PROJECT_DIR$/OpsManage/templates/search/search.html" />
         <option value="$PROJECT_DIR$/OpsManage/utils/base.py" />
         <option value="$PROJECT_DIR$/OpsManage/utils/org_data.py" />
+        <option value="$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/supplierManage.html" />
+        <option value="$PROJECT_DIR$/OpsManage/cmdb/urls.py" />
         <option value="$PROJECT_DIR$/OpsManage/cmdb/views.py" />
+        <option value="$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/contractManage.html" />
+        <option value="$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/vendorManage.html" />
         <option value="$PROJECT_DIR$/OpsManage/templates/cmdb/ServerManage/asset.html" />
       </list>
     </option>
@@ -263,34 +285,49 @@
               <item name="opsManage" type="b2602c69:ProjectViewProjectNode" />
               <item name="opsManage" type="462c0819:PsiDirectoryNode" />
               <item name="OpsManage" type="462c0819:PsiDirectoryNode" />
-              <item name="media" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="opsManage" type="b2602c69:ProjectViewProjectNode" />
               <item name="opsManage" type="462c0819:PsiDirectoryNode" />
               <item name="OpsManage" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="cmdb" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="opsManage" type="b2602c69:ProjectViewProjectNode" />
               <item name="opsManage" type="462c0819:PsiDirectoryNode" />
               <item name="OpsManage" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="dist" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="cmdb" type="462c0819:PsiDirectoryNode" />
+              <item name="basicData" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="opsManage" type="b2602c69:ProjectViewProjectNode" />
               <item name="opsManage" type="462c0819:PsiDirectoryNode" />
               <item name="OpsManage" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="dist" type="462c0819:PsiDirectoryNode" />
-              <item name="search_dropDown" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="cmdb" type="462c0819:PsiDirectoryNode" />
+              <item name="ServerManage" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="opsManage" type="b2602c69:ProjectViewProjectNode" />
               <item name="opsManage" type="462c0819:PsiDirectoryNode" />
               <item name="OpsManage" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="cmdb" type="462c0819:PsiDirectoryNode" />
+              <item name="ServerManage" type="462c0819:PsiDirectoryNode" />
+              <item name="add" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="opsManage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="opsManage" type="462c0819:PsiDirectoryNode" />
+              <item name="OpsManage" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="cmdb" type="462c0819:PsiDirectoryNode" />
+              <item name="ServerManage" type="462c0819:PsiDirectoryNode" />
+              <item name="add" type="462c0819:PsiDirectoryNode" />
+              <item name="addOneToOne" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -345,7 +382,7 @@
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21914776" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21914776" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -359,7 +396,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.14347357" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.14670981" />
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -381,31 +418,9 @@
     </ignored-roots>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/vendorManage(copy).html" />
     <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/userManage(copy).html" />
-    <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/supplierManage.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="33" column="39" selection-start-line="33" selection-start-column="39" selection-end-line="33" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/idcManage(copy).html" />
     <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/ServerManage/assetMap(copy).html" />
-    <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/contractManage.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="111" selection-start-line="111" selection-end-line="111" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/vendorManage.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="84" column="37" lean-forward="true" selection-start-line="84" selection-start-column="37" selection-end-line="84" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/ServerManage/add/add(copy).html" />
     <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/ServerManage/add/add(bak).html" />
     <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/detail.html">
@@ -430,9 +445,6 @@
           <caret line="111" column="17" lean-forward="true" selection-start-line="107" selection-start-column="8" selection-end-line="114" selection-end-column="15" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/editIdc.html">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/ServerManage/detail.html">
       <provider selected="true" editor-type-id="text-editor">
@@ -518,13 +530,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/ServerManage/add/addOneToOne/addServer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="635">
-          <caret line="131" column="33" selection-start-line="131" selection-start-column="33" selection-end-line="131" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/ServerManage/add/addMore(copy).html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="104">
@@ -556,27 +561,6 @@
           <folding>
             <element signature="n#style#0;n#input#1;n#form#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OpsManage/cmdb/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="690">
-          <caret line="47" column="28" selection-start-line="47" selection-start-column="28" selection-end-line="47" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OpsManage/OpsManage/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="29" column="83" selection-start-line="29" selection-start-column="11" selection-end-line="29" selection-end-column="83" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OpsManage/cmdb/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1530">
-          <caret line="103" column="27" selection-start-line="103" selection-start-column="27" selection-end-line="103" selection-end-column="27" />
         </state>
       </provider>
     </entry>
@@ -636,6 +620,47 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/editIdc.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OpsManage/OpsManage/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="29" column="83" selection-start-line="29" selection-start-column="11" selection-end-line="29" selection-end-column="83" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OpsManage/cmdb/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="664">
+          <caret line="1961" lean-forward="true" selection-start-line="1961" selection-end-line="1961" />
+          <folding>
+            <element signature="e#26#62#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/supplierManage.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="90" column="86" lean-forward="true" selection-start-line="90" selection-start-column="86" selection-end-line="90" selection-end-column="90" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OpsManage/cmdb/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="659">
+          <caret line="72" column="27" selection-start-line="72" selection-start-column="11" selection-end-line="72" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/contractManage.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="469">
+          <caret line="162" column="6" lean-forward="true" selection-start-line="162" selection-start-column="6" selection-end-line="162" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/OpsManage/utils/org_data.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="495">
@@ -646,20 +671,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OpsManage/cmdb/views.py">
+    <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/ServerManage/edit/editARecord.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/ServerManage/add/addOneToOne/addServer.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-29378">
-          <caret line="67" selection-start-line="67" selection-end-line="67" />
+        <state relative-caret-position="735">
+          <caret line="136" column="46" lean-forward="true" selection-start-line="136" selection-start-column="27" selection-end-line="136" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/basicData/vendorManage.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2580">
+          <caret line="172" column="13" selection-start-line="172" selection-start-column="13" selection-end-line="172" selection-end-column="13" />
           <folding>
-            <element signature="e#26#62#0" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OpsManage/cmdb/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2045">
+          <caret line="258" column="4" lean-forward="true" selection-start-line="258" selection-start-column="4" selection-end-line="258" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/ServerManage/asset.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3082">
-          <caret line="389" selection-start-line="389" selection-end-line="389" />
+        <state relative-caret-position="410">
+          <caret line="307" column="19" lean-forward="true" selection-start-line="307" selection-start-column="19" selection-end-line="307" selection-end-column="19" />
           <folding>
             <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />

@@ -1909,10 +1909,20 @@ def vendorManage(request):
         Perm = 1
     else:
         Perm = 0
+
+    VENDOR = ''
+    try:
+        editID = request.GET['vendorId']
+
+        if editID:
+            VENDOR = Vendor.objects.get(id=editID)
+    except:
+        print("没有vendorId参数")
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
         'vendor': vendor,
+        'VENDOR': VENDOR,
         'tab_number': "vendor",
     }
     return render(request, 'cmdb/basicData/vendorManage.html',context)
@@ -1934,8 +1944,22 @@ def addVendorSubmitM(request):
         'Perm': Perm,
         'vendor': vendor
     }
-
     return render(request, 'cmdb/basicData/vendorManage.html', context)
+
+@login_required()
+def editVendorSubmit(request):
+    VENDOR=Vendor.objects.get(id=request.GET['vendorId'])
+    VENDOR.vendor_name=request.POST['name']
+    VENDOR.vendor_phone=request.POST['phone']
+    VENDOR.vendor_memo=request.POST['memo']
+    VENDOR.save()
+    vendors=Vendor.objects.all()
+    context = {
+        'vendor':vendors,
+    }
+    return render(request, 'cmdb/basicData/vendorManage.html', context)
+
+
 
 
 @login_required()

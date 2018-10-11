@@ -70,4 +70,5 @@ urlpatterns = [
     url(r'^editContractSubmit',views.editContractSubmit),
     url(r'^editACabinetSubmit',views.editACabinetSubmit),
     url(r'^editAOrganizationSubmit',views.editAOrganizationSubmit),
+    url(r'^editVendorSubmit',views.editVendorSubmit),
 ]

@@ -50,6 +50,7 @@
                                 <th>名称</th>
                                 <th>电话</th>
                                 <th>备注</th>
+                                <th class="text-center">编辑</th>
                             </tr>
 
                             {% for i in vendor %}
@@ -59,6 +60,12 @@
                                 <td>{{ i.vendor_name }}</td>
                                 <td>{{ i.vendor_phone }}</td>
                                 <td>{{ i.vendor_memo }}</td>
+                                <td class="text-center ">
+                                        <a href="http://127.0.0.1:8000/cmdb/vendorManage?vendorId={{ i.id }}">
+                                            <i class="glyphicon glyphicon-edit text-info"
+                                               style="margin-right: 5px"></i>
+                                        </a>
+                                </td>
                             </tr>
                             {% endfor %}
 
@@ -106,6 +113,43 @@
               </div>
             </form>
           </div>
+
+
+            <!-- 编辑厂商 -->
+             <div class="box box-success" id="editVendorBox" style="display: none">
+            <div class="box-header with-border">
+              <i class="glyphicon glyphicon-edit"></i>
+              <h3 class="box-title">编辑厂商</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" class="contact" action="editVendorSubmit?vendorId={{ VENDOR.id }}" method="post" >
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="editsuppliername">厂商名称</label>
+                  <input type="text" class="form-control" id="editsuppliername" name="name" value="{{ VENDOR.vendor_name }}">
+                </div>
+                <div class="form-group">
+                  <label for="editphone">联系电话</label>
+                  <input type="text" class="form-control" id="editphone" name="phone" value="{{ VENDOR.vendor_phone }}">
+                </div>
+                <div class="form-group">
+                  <label for="memo">备注</label>
+                  <input type="edittext" class="form-control" id="editmemo" name="memo" value="{{ VENDOR.vendor_memo}}">
+                </div>
+
+
+              </div>
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+                <button type="submit" class="btn btn-success pull-right">Submit</button>
+              </div>
+            </form>
+          </div>
+
+
+
         </div>
 
     </div>
@@ -121,4 +165,18 @@
         $("#vendor").attr("id", "current"); // Activate first tab
     });
 </script>
+
+
+<script>
+    $(function () {
+        var x = {{ VENDOR.id }};
+        if (x){
+            $("#editVendorBox").css('display', '');
+        }
+    })
+
+</script>
+
+
+
 {% endblock foot_js %}

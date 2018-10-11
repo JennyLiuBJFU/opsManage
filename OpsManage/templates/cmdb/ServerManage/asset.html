@@ -33,14 +33,14 @@
                     <!-- 增加资产 -->
                     <div class="form-group inline ">
                         <a href="/cmdb/addARecord">
-                            <button class="btn btn-default btn-sm ">添加资产</button>
+                            <button class="btn btn-danger btn-sm ">添加资产</button>
                         </a>
                     </div>
 
                     <div class="form-group inline">
                         <form class="form-inline inline" id="filterForm">
                             <!-- 查询所属单位 -->
-                            <div class="form-group">
+                            <div class="form-group ">
                                 <select class="form-control select2" name="myOrg" id="selectedOrg"
                                         style="width: 130px;font-size: 12px">
                                     <option value="0" selected="selected">所属单位</option>
@@ -312,7 +312,7 @@
                 var args = args1 + "&" + "page=1" + "&" + args2;
                 window.location = "{% url 'cmdb:asset' %}?" + args;
             });
-            $("#selectedOrg").find('option[value="{{myNet}}"]').prop('selected', 'selected')
+            $("#selectedOrg").find('option[value="{{myOrg}}"]').prop('selected', 'selected')
      });
 
     $(function () {
