@@ -37,7 +37,9 @@
                             <button class="btn btn-default btn-sm margin-r-5">添加资产</button>
                         </a>
                     </div>
+
                     <div class="form-group inline ">
+                        <!-- 删除所选  -->
                         <button id="btn3" class="btn btn-default btn-sm margin-r-5 sgBtn" onclick="var txt=  '确定删除所选资产？';window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.warning);">删除选中</button>
 
                     <div class="form-group inline">
@@ -152,11 +154,7 @@
                                         <i class="glyphicon glyphicon-edit text-info"
                                            style="margin-right: 5px"></i>
                                     </a>
-                                    <!--<a id="{{ Asset.id }}" onclick="var txt=  '确定删除这条资产记录？';window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.warning,'',this.id);">-->
-                                        <!--<i class="glyphicon glyphicon-trash text-danger"></i>-->
-
-                                    <!--</a>-->
-                                    <button  type="button" class="btn btn-default" onclick="deleteAssets({{Asset.id}})"><i class="glyphicon glyphicon-trash"></i></button>
+                                    <span  onclick="deleteAssets('{{Asset.asset_name}}', {{Asset.id}})"><i class="glyphicon glyphicon-trash" style="color: #9e0505"></i></span>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -400,31 +398,45 @@
 
 <!-- 删除确认函数 -->
 <script>
-    function deleteAssets(id){
+    function deleteAssets(name,id){
+        var asset_name = '确定要删除'+'<strong style="font-size: 20px;color: orangered">'
+        +name+'</strong>'+'这项资产吗?'+'<br>'+'一旦删除，将无法恢复！'
         $.confirm({
-            title: '警告！',
-            content: '你确认要删除这项资产吗!一旦选择删除，将无法恢复！',
+            theme: 'light',
+            type: 'dark',
+            typeAnimated: true,
+            icon: 'glyphicon glyphicon-alert',
+            closeIcon: true,
+            title: '警告',
+            content: asset_name,
             buttons: {
-                删除: function () {
-                    $.ajax({
-							  type: 'POST',
-							  url: '/cmdb/deleteARecord',
-							  data:{
-									"myid":id,
-								},
-                              success:function () {
-                                  alert("删除成功");
-                                  window.location.reload("/cmdb/asset/");
-                                  },
-                              error:function () {
-                                  alert("删除失败")
-                              },
-							});
+                confirm: {
+                    text: '删除',
+                    btnClass: 'btn-default',
+                    action:function() {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/cmdb/deleteARecord',
+                                data: {
+                                    "myid": id,
+                                },
+                                success: function () {
+                                    alert("删除成功");
+                                    window.location.reload("/cmdb/asset/");
+                                },
+                                error: function () {
+                                    alert("删除失败")
+                                },
+                            });
 
                         },
-                取消: function () {
-                    $.alert('取消删除!');
-                },
+                    },
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'btn-blue',
+                        action:function () {
+                            },
+                        },
 
             }
         });
