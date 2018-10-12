@@ -13,6 +13,7 @@ from django.utils.six import BytesIO
 from django.http import JsonResponse
 from  django.db.models import Q
 from django.shortcuts import HttpResponse, render, redirect
+from .import_org import import_org_info
 
 
 
@@ -2057,7 +2058,9 @@ def devicemodel(request, vendor):
 
 
 
-
+def importorg(request):
+    import_org_info()
+    return (request, 'cmdb/basicData/orgManage.html')
 
 
 
