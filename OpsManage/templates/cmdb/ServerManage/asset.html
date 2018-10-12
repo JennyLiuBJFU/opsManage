@@ -4,6 +4,7 @@
 {% block css_block %}
 <link rel="stylesheet" href="/static/dist/paginationjs/pagination.css">
 <link rel="stylesheet" href="/static/dist/search_dropDown/search_dropDown.css">
+<link rel="stylesheet" href="/static/dist/jquery-confirm/jquery-confirm.min.css">
 
 {% endblock%}
 
@@ -151,10 +152,11 @@
                                         <i class="glyphicon glyphicon-edit text-info"
                                            style="margin-right: 5px"></i>
                                     </a>
-                                    <a id="{{ Asset.id }}" onclick="var txt=  '确定删除这条资产记录？';window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.warning,'',this.id);">
-                                        <i class="glyphicon glyphicon-trash text-danger"></i>
+                                    <!--<a id="{{ Asset.id }}" onclick="var txt=  '确定删除这条资产记录？';window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.warning,'',this.id);">-->
+                                        <!--<i class="glyphicon glyphicon-trash text-danger"></i>-->
 
-                                    </a>
+                                    <!--</a>-->
+                                    <button  type="button" class="btn btn-default" onclick="deleteAssets({{Asset.id}})"><i class="glyphicon glyphicon-trash"></i></button>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -284,6 +286,7 @@
 <script type="text/javascript" src="/static/dist/layer/layer.js"></script>
 <script type="text/javascript" src="/static/dist/paginationjs/pagination.min.js"></script>
 <script type="text/javascript" src="/static/dist/search_dropDown/search_dropDown.js"></script>
+<script type="text/javascript" src="/static/dist/jquery-confirm/jquery-confirm.min.js"></script>
 <!--设备详细页面弹窗-->
 <script type="text/javascript">
     function detail(n) {
@@ -394,4 +397,38 @@
         });
     });
 </script>
+
+<!-- 删除确认函数 -->
+<script>
+    function deleteAssets(id){
+        $.confirm({
+            title: '警告！',
+            content: '你确认要删除这项资产吗!一旦选择删除，将无法恢复！',
+            buttons: {
+                删除: function () {
+                    $.ajax({
+							  type: 'POST',
+							  url: '/cmdb/deleteARecord',
+							  data:{
+									"myid":id,
+								},
+                              success:function () {
+                                  alert("删除成功");
+                                  window.location.reload("/cmdb/asset/");
+                                  },
+                              error:function () {
+                                  alert("删除失败")
+                              },
+							});
+
+                        },
+                取消: function () {
+                    $.alert('取消删除!');
+                },
+
+            }
+        });
+    }
+</script>
+
 {% endblock foot_js %}
