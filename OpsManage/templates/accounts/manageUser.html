@@ -11,6 +11,19 @@
     <style>
         body{padding:20px 40px;margin:0;background:url(/static/img/bg.png);}
     </style>
+        <script type="text/javascript" src="/static/js/jquery-1.7.2.min.js" ></script>
+    <script>
+        $(function () {
+            var x = {{ ADMIN.id }};
+            if (x){
+                $("#editUsersBox").css('display', '');
+            }
+        })
+    </script>
+
+    <link rel="stylesheet" href="/static/css/xcConfirm.css">
+
+    <script type="text/javascript" src="/static/js/xcConfirm.js"></script>
 </head>
 <body>
                 <div class="row" style="margin-top: 10px">
@@ -26,11 +39,12 @@
                             </div>
 
                             <!-- 用户清单 -->
-                            <form method="post" action="http://127.0.0.1:8000/accounts/manageUser">
+                            <form method="post" action="http://127.0.0.1:8000/accounts/manageUser" id="deleteForm">
                                 <div class="box-body table-responsive ">
                                     <table class="table table-hover">
                                         <tr>
                                             <th class="text-center">选择</th>
+                                            <th class="text-center">序号</th>
                                             <th class="text-center">用户名</th>
                                             <th class="text-center">邮箱</th>
                                             <th class="text-center">管理员</th>
@@ -40,6 +54,7 @@
                                         {% for i in admin %}
                                         <tr>
                                             <td class="text-center"><input type="checkbox" name="delete_admin" value="{{ i.pk }}"></td>
+                                            <td class="text-center">{{ forloop.counter }}</td>
                                             <td class="text-center">{{ i.username }}</td>
                                             <td class="text-center">{{ i.email}}</td>
                                             <td class="text-center">{{ i.is_superuser }}</td>
@@ -57,7 +72,7 @@
 
 
                                 <div class="box-footer " >
-                                    <button type="submit" class="btn btn-danger pull-right">Delete</button>
+                                    <button type="button" onclick="var txt=  '确定删除所选用户？';window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.warning);" class="btn btn-danger pull-right">Delete</button>
                                 </div>
                             </form>
 
@@ -110,7 +125,7 @@
                             <!-- /.form start -->
                         </div>
 
-                        <div class="box box-success">
+                        <div class="box box-success" id="editUsersBox" style="display: none">
                             <!-- box-header -->
                             <div class="box-header with-border">
                                 <i class="glyphicon glyphicon-edit"></i>

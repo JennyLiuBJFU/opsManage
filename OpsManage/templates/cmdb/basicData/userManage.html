@@ -3,16 +3,6 @@
 
 {% block css_block %}
 <link href="/static/dist/css/tab_css.css" type="text/css" rel="stylesheet">
-<!--<link href="/static/css/form2.css" type="text/css" rel="stylesheet">-->
-<!--<style>-->
-<!--#selectedTab a {-->
-<!--background: white;-->
-<!--}-->
-
-<!--#selectedTab a::after {-->
-<!--background: white;-->
-<!--}-->
-<!--</style>-->
 {% endblock css_block %}
 
 
@@ -40,11 +30,12 @@
                             </div>
 
                             <!-- 用户清单 -->
-                            <form method="post" action="http://127.0.0.1:8000/cmdb/userManage">
+                            <form method="post" action="http://127.0.0.1:8000/cmdb/userManage" id="deleteForm">
                                 <div class="box-body table-responsive ">
                                     <table class="table table-hover">
                                         <tr>
                                             <th class="text-center">选择</th>
+                                            <th class="text-center">序号</th>
                                             <th class="text-center">用户名</th>
                                             <th class="text-center">邮箱</th>
                                             <th class="text-center">管理员</th>
@@ -54,6 +45,7 @@
                                         {% for i in admin %}
                                         <tr>
                                             <td class="text-center"><input type="checkbox" name="delete_admin" value="{{ i.pk }}"></td>
+                                            <td class="text-center">{{ forloop.counter }}</td>
                                             <td class="text-center">{{ i.username }}</td>
                                             <td class="text-center">{{ i.email}}</td>
                                             <td class="text-center">{{ i.is_superuser }}</td>
@@ -71,7 +63,7 @@
 
 
                                 <div class="box-footer " >
-                                    <button type="submit" class="btn btn-danger pull-right">Delete</button>
+                                    <button type="button" onclick="var txt=  '确定删除所选用户？';window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.warning);" class="btn btn-danger pull-right">Delete</button>
                                 </div>
                             </form>
 
@@ -124,7 +116,7 @@
                             <!-- /.form start -->
                         </div>
 
-                        <div class="box box-success">
+                        <div class="box box-success" id="editUserBox" style="display: none">
                             <!-- box-header -->
                             <div class="box-header with-border">
                                 <i class="glyphicon glyphicon-edit"></i>
@@ -187,4 +179,14 @@
         $("#user").attr("id", "current"); // Activate first tab
     });
 </script>
+
+    <script>
+        $(function () {
+            var x = {{ ADMIN.id }};
+            if (x){
+                $("#editUserBox").css('display', '');
+            }
+        })
+
+    </script>
 {% endblock foot_js %}

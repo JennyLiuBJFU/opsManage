@@ -11,6 +11,19 @@
     <style>
         body{padding:20px 40px;margin:0;background:url(/static/img/bg.png);}
     </style>
+
+    <script type="text/javascript" src="/static/js/jquery-1.7.2.min.js" ></script>
+    <script>
+        $(function () {
+            var x = {{ CABINET.id }};
+            if (x){
+                $("#editCabBox").css('display', '');
+            }
+        })
+    </script>
+    <link rel="stylesheet" href="/static/css/xcConfirm.css">
+
+    <script type="text/javascript" src="/static/js/xcConfirm.js"></script>
 </head>
 <body>
                 <div class="row" style="margin-top: 10px">
@@ -26,11 +39,12 @@
                             </div>
 
                             <!-- 机柜清单 -->
-                            <form method="post" action="editCab?idcId={{ IDC.id }}">
+                            <form method="post" action="editCab?idcId={{ IDC.id }}" id="deleteForm">
                                 <div class="box-body table-responsive ">
                                     <table class="table table-hover">
                                         <tr>
                                             <th class="text-center">选择</th>
+                                            <th class="text-center">序号</th>
                                             <th class="text-center">机柜名称</th>
                                             <th class="text-center">机柜描述</th>
                                             <th class="text-center">机柜高度</th>
@@ -39,10 +53,11 @@
                                         </tr>
                                         {% for i in Cabinets %}
                                             <tr>
-                                            <td class="text-center" ><input type="checkbox" name="delete_cabinets" value="{{ i.pk }}"></td>
-                                            <td class="text-center">{{ i.cabinet_name }}</td>
-                                            <td class="text-center">{{ i.cabinet_desc }}</td>
-                                            <td class="text-center">{{ i.cabinet_height}}</td>
+                                                <td class="text-center" ><input type="checkbox" name="delete_cabinets" value="{{ i.pk }}"></td>
+                                                <td class="text-center">{{ forloop.counter }}</td>
+                                                <td class="text-center">{{ i.cabinet_name }}</td>
+                                                <td class="text-center">{{ i.cabinet_desc }}</td>
+                                                <td class="text-center">{{ i.cabinet_height}}</td>
                                                 <td class="text-center">
                                                     <a href="http://127.0.0.1:8000/cmdb/editCab?idcId={{ IDC.id }}&cabId={{ i.id }}">
                                                         <i class="glyphicon glyphicon-edit text-info"
@@ -56,7 +71,7 @@
 
 
                                 <div class="box-footer " >
-                                    <button type="submit" class="btn btn-danger pull-right">Delete</button>
+                                    <button type="button" onclick="var txt=  '确定删除所选机柜？';window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.warning);" class="btn btn-danger pull-right">Delete</button>
                                 </div>
                             </form>
 
@@ -104,7 +119,7 @@
                             <!-- /.form start -->
                         </div>
 
-                        <div class="box box-success">
+                        <div class="box box-success" id="editCabBox" style="display: none">
                             <!-- box-header -->
                             <div class="box-header with-border">
                                 <i class="glyphicon glyphicon-edit"></i>
@@ -146,3 +161,4 @@
 
                 </div>
 </body>
+
