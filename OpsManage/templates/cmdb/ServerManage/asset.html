@@ -21,27 +21,29 @@
 
 
             <div class="row " style="margin: 20px 0">
-                <div class="col-md-12">
+                <div class="col-md-12 margin-bottom">
                     <!-- 按钮 -->
                     <!-- 显示所有 -->
                     <div class="form-group inline">
                         <a href="/cmdb/asset/">
-                            <button class="btn  btn-sm btn-default ">显示所有</button>
+                            <button class="btn  btn-sm btn-default margin-r-5">显示所有</button>
                         </a>
                     </div>
 
                     <!-- 增加资产 -->
                     <div class="form-group inline ">
                         <a href="/cmdb/addARecord">
-                            <button class="btn btn-danger btn-sm ">添加资产</button>
+                            <button class="btn btn-default btn-sm margin-r-5">添加资产</button>
                         </a>
                     </div>
+                    <div class="form-group inline ">
+                        <button id="btn3" class="btn btn-default btn-sm margin-r-5 sgBtn" onclick="var txt=  '确定删除所选资产？';window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.warning);">删除选中</button>
 
                     <div class="form-group inline">
                         <form class="form-inline inline" id="filterForm">
                             <!-- 查询所属单位 -->
-                            <div class="form-group ">
-                                <select class="form-control select2" name="myOrg" id="selectedOrg"
+                            <div class="form-group margin-r-5">
+                                <select class="form-control select2 text-center" name="myOrg" id="selectedOrg"
                                         style="width: 130px;font-size: 12px">
                                     <option value="0" selected="selected">所属单位</option>
                                     {% for Organization in Organizations %}
@@ -51,8 +53,8 @@
                             </div>
 
                             <!-- 查询设备类型 -->
-                            <div class="form-group">
-                                <select class="form-control  select2 " name="myType" id="selectedType"
+                            <div class="form-group margin-r-5">
+                                <select class="form-control  select2  text-center" name="myType" id="selectedType"
                                         style="width: 130px;font-size: 12px">
                                     <option value="0" selected="selected">资产类型</option>
                                     <option value="1">服务器</option>
@@ -65,7 +67,7 @@
 
                             <!-- 查询所属网络 -->
                             <div class="form-group">
-                                <select class="form-control select2" name="myNet" id="selectedNet"
+                                <select class="form-control select2 text-center" name="myNet" id="selectedNet"
                                         style="width: 130px;font-size: 12px">
                                     <option value="0" selected="selected">所属网络</option>
                                     <option value="1">控制专网</option>
@@ -100,172 +102,177 @@
 
 
             <!-- -------------------表格-------------------------  -->
-            <div class="row ">
+            <div class="row">
                 <!-- 资产表格   -->
                 <div id="div01">
-                    <table id="example2" class="table table-bordered table-hover">
-                        <thead>
-                        <tr>
-                            <th class="text-center">序号</th>
-                            <th class="text-center">资产名称</th>
-                            <th class="text-center">资产类型</th>
-                            <th class="text-center">资产编号</th>
-                            <th class="text-center">设备品牌</th>
-                            <th class="text-center">设备型号</th>
-                            <th class="text-center">设备序列号</th>
-                            <th class="text-center">管理地址</th>
-                            <th class="text-center">所处网络</th>
-                            <th class="text-center">所属单位</th>
-                            <th class="text-center">设备状态</th>
-                            <th class="text-center">操作</th>
-                        </tr>
-                        </thead>
+                    <form action="http://127.0.0.1:8000/cmdb/asset/" id="deleteForm" method="post">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th class="text-center">选择</th>
+                                <th class="text-center">序号</th>
+                                <th class="text-center">资产名称</th>
+                                <th class="text-center">资产类型</th>
+                                <th class="text-center">资产编号</th>
+                                <th class="text-center">设备品牌</th>
+                                <th class="text-center">设备型号</th>
+                                <th class="text-center">设备序列号</th>
+                                <th class="text-center">管理地址</th>
+                                <th class="text-center">所处网络</th>
+                                <th class="text-center">所属单位</th>
+                                <th class="text-center">设备状态</th>
+                                <th class="text-center">操作</th>
+                            </tr>
+                            </thead>
 
-                        <tbody>
-                        {% for Asset in assets %}
-                        <tr>
-                            <td class="text-center">{{ offset_index | add:forloop.counter }}</td>
-                            <td><a href="#">
-                                <li id="asset_detail" style="list-style-type:none"
-                                    onclick="return detail(this.value)"
-                                    value="{{ Asset.id }}"> {{ Asset.asset_name }}
-                                </li>
-                            </a>
-                            </td>
-                            <td class="text-center">{{ Asset.get_asset_type_display }}</td>
-                            <td>{{ Asset.asset_no }}</td>
-                            <td class="text-center">{{ Asset.model.vendor }}</td>
-                            <td>{{ Asset.model }}</td>
-                            <td>{{ Asset.sn }}</td>
-                            <td>{{ Asset.manage_ip }}</td>
-                            <td class="text-center">{{ Asset.get_network_location_display }}</td>
-                            <td class="text-center">{{ Asset.organization }}</td>
-                            <td class="text-center">{{ Asset.get_status_display }}</td>
-                            <td class="text-center">
-                                <a href="http://127.0.0.1:8000/cmdb/editARecord?myid={{ Asset.id }}">
-                                    <i class="glyphicon glyphicon-edit text-info"
-                                       style="margin-right: 5px"></i>
+                            <tbody>
+                            {% for Asset in assets %}
+                            <tr>
+                                <td class="text-center"><input type="checkbox" name="delete_asset" value="{{ Asset.id }}"></td>
+                                <td class="text-center">{{ offset_index | add:forloop.counter }}</td>
+                                <td class="text-center"><a href="#">
+                                    <li id="asset_detail" style="list-style-type:none"
+                                        onclick="return detail(this.value)"
+                                        value="{{ Asset.id }}"> {{ Asset.asset_name }}
+                                    </li>
                                 </a>
-                                <a href="http://127.0.0.1:8000/cmdb/deleteARecord?myid={{ Asset.id }}">
-                                    <i class="glyphicon glyphicon-trash text-danger"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <!-- /row  -->
-            <!-- -------------------表格-------------------------  -->
+                                </td>
+                                <td class="text-center">{{ Asset.get_asset_type_display }}</td>
+                                <td class="text-center">{{ Asset.asset_no }}</td>
+                                <td class="text-center">{{ Asset.model.vendor }}</td>
+                                <td class="text-center">{{ Asset.model }}</td>
+                                <td class="text-center">{{ Asset.sn }}</td>
+                                <td class="text-center">{{ Asset.manage_ip }}</td>
+                                <td class="text-center">{{ Asset.get_network_location_display }}</td>
+                                <td class="text-center">{{ Asset.organization }}</td>
+                                <td class="text-center">{{ Asset.get_status_display }}</td>
+                                <td class="text-center" >
+                                    <a href="http://127.0.0.1:8000/cmdb/editARecord?myid={{ Asset.id }}">
+                                        <i class="glyphicon glyphicon-edit text-info"
+                                           style="margin-right: 5px"></i>
+                                    </a>
+                                    <a id="{{ Asset.id }}" onclick="var txt=  '确定删除这条资产记录？';window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.warning,'',this.id);">
+                                        <i class="glyphicon glyphicon-trash text-danger"></i>
 
-
-            <!-- -------------------分页------------------------- -->
-            <div class="row" id="pageInfo">
-                <!-- --------------每页显示数量------------------- -->
-                <div class="col-md-2">
-                    <form id="pagelenForm">
-                        <span class="text text-right">每页显示</span>
-                        <label for="page_len">
-                            <select name="page_len" id="page_len" class="form-control m-b input-sm">
-                                <!--{% ifequal page_len '10' %}-->
-                                <!--<option value="10" selected>10</option>-->
-                                <!--{% else %}-->
-                                <!--<option value="10">10</option>-->
-                                <!--{% endifequal %}-->
-                                {% ifequal page_len '20' %}
-                                <option value="20" selected>20</option>
-                                {% else %}
-                                <option value="20">20</option>
-                                {% endifequal %}
-                                {% ifequal page_len '50' %}
-                                <option value="50" selected>50</option>
-                                {% else %}
-                                <option value="50">50</option>
-                                {% endifequal %}
-                                {% ifequal page_len '100' %}
-                                <option value="100" selected>100</option>
-                                {% else %}
-                                <option value="100">100</option>
-                                {% endifequal %}
-                            </select>
-                        </label>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
                     </form>
                 </div>
+            </div>
+                <!-- /row  -->
+                <!-- -------------------表格-------------------------  -->
 
 
-                <!-- ----------------页面分页----------------- -->
-                <div class="col-sm-10">
-                    <div class="dataTables_paginate paging_simple_numbers" id="editable_paginate">
-                        <ul class="pagination" style="margin-top: 0; float: right">
+                <!-- -------------------分页------------------------- -->
+                <div class="row" id="pageInfo">
+                    <!-- --------------每页显示数量------------------- -->
+                    <div class="col-md-2">
+                        <form id="pagelenForm">
+                            <span class="text text-right">每页显示</span>
+                            <label for="page_len">
+                                <select name="page_len" id="page_len" class="form-control m-b input-sm">
+                                    <!--{% ifequal page_len '10' %}-->
+                                    <!--<option value="10" selected>10</option>-->
+                                    <!--{% else %}-->
+                                    <!--<option value="10">10</option>-->
+                                    <!--{% endifequal %}-->
+                                    {% ifequal page_len '20' %}
+                                    <option value="20" selected>20</option>
+                                    {% else %}
+                                    <option value="20">20</option>
+                                    {% endifequal %}
+                                    {% ifequal page_len '50' %}
+                                    <option value="50" selected>50</option>
+                                    {% else %}
+                                    <option value="50">50</option>
+                                    {% endifequal %}
+                                    {% ifequal page_len '100' %}
+                                    <option value="100" selected>100</option>
+                                    {% else %}
+                                    <option value="100">100</option>
+                                    {% endifequal %}
+                                </select>
+                            </label>
+                        </form>
+                    </div>
 
-                            <!--向前、start按钮-->
-                            {% if assets.has_previous %}
-                            <li class="paginate_button previous " aria-controls="editable" tabindex="0"
-                                id="editable_previous">
-                                <a class="page" href="?page={{ assets.previous_page_number }}&page_len={{ page_len }}">
-                                    Previous
-                                </a>
-                            </li>
-                            {% else %}
-                            <li class="paginate_button disabled">
-                                <a href="#">Start</a>
-                            </li>
-                            {% endif %}
 
-                            <!--是否显示第一页-->
-                            {% ifequal show_first 1 %}
-                            <li class="paginate_button" aria-controls="editable" tabindex="0">
-                                <a class="page" href="?page=1&page_len={{ page_len }}" title="第1页">1...</a>
-                            </li>
-                            {% endifequal %}
+                    <!-- ----------------页面分页----------------- -->
+                    <div class="col-sm-10">
+                        <div class="dataTables_paginate paging_simple_numbers" id="editable_paginate">
+                            <ul class="pagination" style="margin-top: 0; float: right">
 
-                            <!--正常显示页面-->
-                            {% for page in page_range %}
-                            {% ifequal current_page page %}
-                            <li class="paginate_button active" aria-controls="editable" tabindex="0">
-                                <a class="page" href="?page={{ page }}&page_len={{ page_len }}" title="第{{ page }}页">
-                                    {{ page }}
-                                </a>
-                            </li>
-                            {% else %}
-                            <li class="paginate_button" aria-controls="editable" tabindex="0">
-                                <a class="page" href="?page={{ page }}&page_len={{ page_len }}" title="第{{ page }}页">
-                                    {{ page }}
-                                </a>
-                            </li>
-                            {% endifequal %}
-                            {% endfor %}
+                                <!--向前、start按钮-->
+                                {% if assets.has_previous %}
+                                <li class="paginate_button previous " aria-controls="editable" tabindex="0"
+                                    id="editable_previous">
+                                    <a class="page" href="?page={{ assets.previous_page_number }}&page_len={{ page_len }}">
+                                        Previous
+                                    </a>
+                                </li>
+                                {% else %}
+                                <li class="paginate_button disabled">
+                                    <a href="#">Start</a>
+                                </li>
+                                {% endif %}
 
-                            <!--是否显示最后一页-->
-                            {% ifequal show_end 1 %}
-                            <li class="paginate_button" aria-controls="editable" tabindex="0">
-                                <a class="page" href="?page={{ p.num_pages }}&page_len={{ page_len }}"
-                                   title="第{{ page }}页">
-                                    ...{{ p.num_pages }}
-                                </a>
-                            </li>
-                            {% endifequal %}
+                                <!--是否显示第一页-->
+                                {% ifequal show_first 1 %}
+                                <li class="paginate_button" aria-controls="editable" tabindex="0">
+                                    <a class="page" href="?page=1&page_len={{ page_len }}" title="第1页">1...</a>
+                                </li>
+                                {% endifequal %}
 
-                            <!--向前、end页-->
-                            {% if assets.has_next %}
-                            <li class="paginate_button next" aria-controls="editable" tabindex="0" id="editable_next">
-                                <a class="page"
-                                   href="?page={{ assets.next_page_number }}&page_len={{ page_len }}">Next</a>
-                            </li>
-                            {% else %}
-                            <li class="paginate_button disabled">
-                                <a href="#">End</a>
-                            </li>
-                            {% endif %}
-                        </ul>
+                                <!--正常显示页面-->
+                                {% for page in page_range %}
+                                {% ifequal current_page page %}
+                                <li class="paginate_button active" aria-controls="editable" tabindex="0">
+                                    <a class="page" href="?page={{ page }}&page_len={{ page_len }}" title="第{{ page }}页">
+                                        {{ page }}
+                                    </a>
+                                </li>
+                                {% else %}
+                                <li class="paginate_button" aria-controls="editable" tabindex="0">
+                                    <a class="page" href="?page={{ page }}&page_len={{ page_len }}" title="第{{ page }}页">
+                                        {{ page }}
+                                    </a>
+                                </li>
+                                {% endifequal %}
+                                {% endfor %}
+
+                                <!--是否显示最后一页-->
+                                {% ifequal show_end 1 %}
+                                <li class="paginate_button" aria-controls="editable" tabindex="0">
+                                    <a class="page" href="?page={{ p.num_pages }}&page_len={{ page_len }}"
+                                       title="第{{ page }}页">
+                                        ...{{ p.num_pages }}
+                                    </a>
+                                </li>
+                                {% endifequal %}
+
+                                <!--向前、end页-->
+                                {% if assets.has_next %}
+                                <li class="paginate_button next" aria-controls="editable" tabindex="0" id="editable_next">
+                                    <a class="page"
+                                       href="?page={{ assets.next_page_number }}&page_len={{ page_len }}">Next</a>
+                                </li>
+                                {% else %}
+                                <li class="paginate_button disabled">
+                                    <a href="#">End</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
             <!-- -------------------/分页-------------------------  -->
+
         </div>
         <!-- /container -->
-
     </div>
     <!-- /box -->
 </div>

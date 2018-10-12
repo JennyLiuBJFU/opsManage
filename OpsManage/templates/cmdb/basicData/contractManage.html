@@ -31,7 +31,7 @@
                             </div>
 
                             <!-- 供应商清单 -->
-                            <form method="post" action="contractManage">
+                            <form method="post" action="contractManage" id="deleteForm">
                                 <div class="box-body table-responsive ">
                                     <table class="table table-hover">
                                         <tr>
@@ -46,7 +46,7 @@
                                         {% for i in contract %}
                                             <tr>
                                                 <td class="text-center"><input type="checkbox" name="delete_contract" value="{{ i.pk }}"></td>
-                                                <td class="text-center">{{ i.pk }}</td>
+                                                <td class="text-center">{{ forloop.counter }}</td>
                                                 <td class="text-center">{{ i.contract_number }}</td>
                                                 <td class="text-center">{{ i.contract_name }}</td>
                                                 <td style="max-width: 250px">{{ i.contract_content }}</td>
@@ -64,7 +64,7 @@
 
 
                                 <div class="box-footer " >
-                                    <button type="submit" class="btn btn-danger pull-right">Delete</button>
+                                    <button type="button" onclick="var txt=  '确定删除所选合同？';window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.warning);" class="btn btn-danger pull-right">Delete</button>
                                 </div>
                             </form>
 
@@ -116,7 +116,7 @@
                             <!-- /.form start -->
                         </div>
 
-                        <div class="box box-success">
+                        <div class="box box-success" id="editContractBox" style="display: none">
                             <!-- box-header -->
                             <div class="box-header with-border">
                                 <i class="glyphicon glyphicon-edit"></i>
@@ -172,4 +172,14 @@
         $("#contract").attr("id", "current"); // Activate first tab
     });
 </script>
+
+    <script>
+        $(function () {
+            var x = {{ CONTRACT.id }};
+            if (x){
+                $("#editContractBox").css('display', '');
+            }
+        })
+
+    </script>
 {% endblock foot_js %}

@@ -66,6 +66,13 @@ def pages(post_objects, request):
 
 
 def asset(request):
+    print(request.POST)
+    dasset = request.POST.getlist('delete_asset')
+    if len(dasset):
+        for i in dasset:
+            print(i)
+            Asset.objects.get(pk=i).delete()
+
     USERNAME = str(request.user)
     if request.user.is_superuser:
         Perm = 1
