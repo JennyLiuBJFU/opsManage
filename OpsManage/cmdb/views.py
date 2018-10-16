@@ -989,11 +989,19 @@ def editModel(request):
         Perm = 1
     else:
         Perm = 0
+    MODEL = Device_model()
+    try:
+        editID = request.GET['modelId']
+        if editID:
+            MODEL = Device_model.objects.get(id=editID)
+    except:
+        print("没有modelId参数")
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
         'model': model,
         'vendors':vendors,
+        'MODEL':MODEL,
     }
 
     return render(request, 'cmdb/ServerManage/add/editForeignKey/editModel.html', context)
@@ -1001,8 +1009,8 @@ def editModel(request):
 @login_required()
 def addModelSubmit(request):
     o = Device_model()
-    o.img=request.FILES.get('image')
-    # o.vendor=request.POST['telephone']
+    o.img=request.FILES.get('myfile')
+    o.vendor=Vendor.objects.get(id=request.POST['vendor'])
     o.models=request.POST['models']
     o.save()
     model = Device_model.objects.all()
@@ -1020,13 +1028,30 @@ def addModelSubmit(request):
     return render(request, 'cmdb/ServerManage/add/editForeignKey/editModel.html', context)
 
 
+@login_required()
+def editModelSubmit(request):
+    MODEL=Device_model.objects.get(id=request.GET['modelId'])
+    if request.FILES:
+        MODEL.img=request.FILES.get('image')
+    MODEL.vendor=Vendor.objects.get(id=request.POST['vendor'])
+    MODEL.models=request.POST['models']
+    MODEL.save()
+    model=Device_model.objects.all()
+    vendor=Vendor.objects.all()
+    context = {
+        'model':model,
+        'vendor':vendor,
+    }
+    return render(request, 'cmdb/ServerManage/add/editForeignKey/editModel.html', context)
+
+@login_required()
 def editVendor(request):
     # 判断是否有删除请求，有则删除厂商
     dvendor = request.POST.getlist('delete_vendor')
-    print(dvendor)
     if len(dvendor):
         for i in dvendor:
-           Vendor.objects.get(pk=i).delete()
+
+            Vendor.objects.get(pk=i).delete()
 
     # 查询现有所有厂商对象并传给前段页面
     vendor = Vendor.objects.all()
@@ -1034,12 +1059,21 @@ def editVendor(request):
         Perm = 1
     else:
         Perm = 0
+    VENDOR = Vendor()
+    try:
+        editID = request.GET['vendorId']
+        if editID:
+            VENDOR = Vendor.objects.get(id=editID)
+    except:
+        print("没有vendorId参数")
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
         'vendor': vendor,
+        'VENDOR':VENDOR,
     }
-    return render(request, 'cmdb/ServerManage/add/editForeignKey/editVendor.html',context)
+
+    return render(request, 'cmdb/ServerManage/add/editForeignKey/editVendor.html', context)
 
 @login_required()
 def addVendorSubmit(request):
@@ -1048,7 +1082,7 @@ def addVendorSubmit(request):
     o.vendor_phone=request.POST['phone']
     o.vendor_memo=request.POST['memo']
     o.save()
-    vendor = Vendor.objects.all()
+    vendor=Vendor.objects.all()
     if request.user.is_superuser:
         Perm = 1
     else:
@@ -1056,9 +1090,22 @@ def addVendorSubmit(request):
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
-        'vendor': vendor
+        'vendor':vendor,
     }
+    return render(request, 'cmdb/ServerManage/add/editForeignKey/editVendor.html', context)
 
+
+@login_required()
+def editVendorSubmit(request):
+    VENDOR=Vendor.objects.get(id=request.GET['vendorId'])
+    VENDOR.vendor_name=request.POST['name']
+    VENDOR.vendor_phone=request.POST['phone']
+    VENDOR.vendor_memo=request.POST['memo']
+    VENDOR.save()
+    vendor=Vendor.objects.all()
+    context = {
+        'vendor':vendor,
+    }
     return render(request, 'cmdb/ServerManage/add/editForeignKey/editVendor.html', context)
 
 @login_required()
@@ -1932,7 +1979,7 @@ def addVendorSubmitM(request):
     return render(request, 'cmdb/basicData/vendorManage.html', context)
 
 @login_required()
-def editVendorSubmit(request):
+def editAVendorSubmit(request):
     VENDOR=Vendor.objects.get(id=request.GET['vendorId'])
     VENDOR.vendor_name=request.POST['name']
     VENDOR.vendor_phone=request.POST['phone']
@@ -2047,4 +2094,86 @@ def importorg(request):
     return (request, 'cmdb/basicData/orgManage.html')
 
 
+def modelManage(request):
+    # 判断是否有删除请求，有则删除厂商
+    dmodel = request.POST.getlist('delete_model')
+    if len(dmodel):
+        for i in dmodel:
+            Device_model.objects.get(pk=i).delete()
 
+    # 查询现有所有厂商对象并传给前段页面
+    model = Device_model.objects.all()
+    vendors = Vendor.objects.all()
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+    MODEL = Device_model()
+    try:
+        editID = request.GET['modelId']
+        if editID:
+            MODEL = Device_model.objects.get(id=editID)
+    except:
+        print("没有modelId参数")
+    context = {
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+        'model': model,
+        'vendors': vendors,
+        'MODEL': MODEL,
+    }
+
+    return render(request, 'cmdb/basicData/modelManage.html', context)
+
+
+@login_required()
+def addAModelSubmit(request):
+    o = Device_model()
+    o.img=request.FILES.get('myfile')
+    o.vendor=Vendor.objects.get(id=request.POST['vendor'])
+    o.models=request.POST['models']
+    o.save()
+    model = Device_model.objects.all()
+    vendors = Vendor.objects.all()
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+    context = {
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+        'model': model,
+        'vendors':vendors,
+    }
+    return render(request, 'cmdb/basicData/modelManage.html', context)
+
+
+@login_required()
+def editAModelSubmit(request):
+    MODEL=Device_model.objects.get(id=request.GET['modelId'])
+    if request.FILES:
+        MODEL.img=request.FILES.get('image')
+    MODEL.vendor=Vendor.objects.get(id=request.POST['vendor'])
+    MODEL.models=request.POST['models']
+    MODEL.save()
+    model=Device_model.objects.all()
+    vendor=Vendor.objects.all()
+    context = {
+        'model':model,
+        'vendor':vendor,
+    }
+    return render(request, 'cmdb/basicData/modelManage.html', context)
+
+
+@login_required()
+def editAVendorSubmit(request):
+    VENDOR=Vendor.objects.get(id=request.GET['vendorId'])
+    VENDOR.vendor_name=request.POST['name']
+    VENDOR.vendor_phone=request.POST['phone']
+    VENDOR.vendor_memo=request.POST['memo']
+    VENDOR.save()
+    vendor=Vendor.objects.all()
+    context = {
+        'vendor':vendor,
+    }
+    return render(request, 'cmdb/basicData/vendorManage.html', context)

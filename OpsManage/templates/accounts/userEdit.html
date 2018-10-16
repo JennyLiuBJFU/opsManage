@@ -4,12 +4,10 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
-        <link rel="stylesheet" type="text/css" href="/static/css/demo.css" />
         <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
-		<link rel="stylesheet" type="text/css" href="/static/css/animate-custom.css" />
         <script type="text/javascript">
             function checkPwd(){
-                if (document.getElementById("username").value == document.getElementById("password").value && document.getElementById("username").value){
+                if (document.getElementById("newPassword").value == document.getElementById("checkPassword").value && document.getElementById("checkPassword").value){
                     alert("修改成功，请重新登陆！");
                     window.parent.location.href='http://127.0.0.1:8000/';
                     var index = parent.layer.getFrameIndex(window.name);
@@ -23,26 +21,24 @@
 
         <section>
             {% if flag == 0 %}
-                <div id="container_demo" >
-                    <div id="wrapper">
-                        <div id="login" class="animate form">
-                            <form  class="cd-form" method="post" action="http://127.0.0.1:8000/accounts/newPasswordSubmit">
-                                <h1 style="font-size: 2em;"></h1>
+                        <div class="ld_form" style="margin: 10px auto 0">
+                            <form id="login-form"  method="post" action="http://127.0.0.1:8000/accounts/newPasswordSubmit">
+                                <h3 class="form_title">修改密码</h3>
                                 <p>
-                                    <label for="username" class="youpasswd" data-icon="p"> 新密码 </label>
-                                    <input id="username" name="newPassword" required="required" type="password" placeholder="请输入新密码"/>
+                                    <input type="password" name="newPassword" id="newPassword" class="ld_pass" placeholder="输入新密码"/>
                                 </p>
                                 <p>
-                                    <label for="password" class="youpasswd" data-icon="p"> 再次确认 </label>
-                                    <input id="password" name="checkPassword" required="required" type="password" placeholder="请再次输入密码" />
+                                    <input type="password" name="checkPassword" id="checkPassword" class="ld_pass" placeholder="再次输入"/>
                                 </p>
+                                <div class="ld_login">
+                                    <button onclick="checkPwd()" class="ld_login_in" id="bt-login">登录</button>
+                                    <div id="login-msg"></div>
 
-                                <input type="submit" onclick="checkPwd()" class="btn btn-block btn-primary" style="padding:0.5em; width: 80px;float: right;margin-top: 2em;margin-right: 2em;"  value="确 定">
+                                </div>
 
                             </form>
                         </div>
-                    </div>
-                </div>
+
             {% endif %}
             {% if flag == 1 %}
                 <div id="succeed">
