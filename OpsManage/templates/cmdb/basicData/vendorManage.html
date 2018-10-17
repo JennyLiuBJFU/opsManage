@@ -53,10 +53,9 @@
                                 <td>{{ i.vendor_phone }}</td>
                                 <td>{{ i.vendor_memo }}</td>
                                 <td class="text-center ">
-                                        <a href="http://127.0.0.1:8000/cmdb/vendorManage?vendorId={{ i.id }}">
-                                            <i class="glyphicon glyphicon-edit text-info"
-                                               style="margin-right: 5px"></i>
-                                        </a>
+                                    <a href="http://127.0.0.1:8000/cmdb/vendorManage?vendorId={{ i.id }}">
+                                        <i class="glyphicon glyphicon-edit text-info" style="margin-right: 5px"></i>
+                                    </a>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -85,7 +84,7 @@
               <div class="box-body">
                 <div class="form-group">
                   <label for="suppliername">厂商名称</label>
-                  <input type="text" class="form-control" id="suppliername" name="name" placeholder="vendor name">
+                  <input required type="text" class="form-control" id="suppliername" name="name" placeholder="vendor name">
                 </div>
                 <div class="form-group">
                   <label for="phone">联系电话</label>
@@ -119,7 +118,7 @@
               <div class="box-body">
                 <div class="form-group">
                   <label for="editsuppliername">厂商名称</label>
-                  <input type="text" class="form-control" id="editsuppliername" name="name" value="{{ VENDOR.vendor_name }}">
+                  <input required type="text" class="form-control" id="editsuppliername" name="name" value="{{ VENDOR.vendor_name }}">
                 </div>
                 <div class="form-group">
                   <label for="editphone">联系电话</label>

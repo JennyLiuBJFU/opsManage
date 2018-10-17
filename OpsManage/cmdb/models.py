@@ -137,7 +137,7 @@ class Supplier(models.Model):
 
 class Idc(models.Model):
     """ 数据机房 """
-    organization = models.ForeignKey('Organization', on_delete=models.CASCADE, verbose_name='上级单位')
+    organization = models.ForeignKey('Organization', on_delete=models.CASCADE, verbose_name='所属单位')
     idc_name = models.CharField(max_length=255, verbose_name="机房名称")
     idc_address = models.CharField(max_length=100, blank=True, verbose_name="机房地址")
     idc_memo = models.TextField(max_length=200, blank=True, verbose_name="备注信息")

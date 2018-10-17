@@ -74,6 +74,7 @@
                             {% endfor %}
                         </select>
                         <label class="btn fa fa-check-square-o "></label>
+
                     </div>
                     <!-- /.所属单位 -->
 
@@ -92,9 +93,10 @@
                     <!-- 购买日期 -->
                     <div class="form-group">
                         <label for="purchase_day">购买日期</label><br>
-                        <input required class="form-control" type="date" name="purchase_day" id="purchase_day"
+                        <input required class="form-control inline" type="date" name="purchase_day" id="purchase_day"
                                placeholder="请选择购买日期">
-                        </select>
+                        <label class="btn fa fa-check-square-o"></label>
+
                     </div>
                     <!-- /.购买日期 -->
 
@@ -126,13 +128,14 @@
                     <!-- 设备状态 -->
                     <div class="form-group">
                         <label for="status">设备状态</label><br>
-                        <select class="form-control select2 " id="status" name="status">
+                        <select required class="form-control select2 inline " id="status" name="status">
                             <option value="0">请选择设备状态</option>
                             <option value="1">使用中</option>
                             <option value="2">未使用</option>
                             <option value="3">故障</option>
                             <option value="4">其它</option>
                         </select>
+                        <label class="btn fa fa-check-square-o "></label>
                     </div>
                     <!-- /.设备状态 -->
 
@@ -158,9 +161,10 @@
                     <!-- 过保日期 -->
                     <div class="form-group">
                         <label for="expire_day">过保日期</label><br>
-                        <input required class="form-control" type="date" name="expire_day" id="expire_day"
+                        <input required class="form-control inline" type="date" name="expire_day" id="expire_day"
                                placeholder="请选择过保日期">
-                        </select>
+                        <label class="btn fa fa-check-square-o "></label>
+
                     </div>
                     <!-- /.过保日期 -->
 
@@ -197,13 +201,14 @@
                     <!-- 设备品牌 -->
                     <div class="form-group">
                         <label for="vendor">设备品牌</label><br>
-                        <select class="form-control inline select2" required id="vendor" name="vendor">
+                        <select required class="form-control inline select2" id="vendor" name="vendor">
                             <option value="0">请选择设备品牌</option>
                             {% for vendor in Vendors%}
                             <option value="{{vendor.id}}">{{ vendor.vendor_name}}</option>
                             {% endfor%}
                         </select>
-                        <label class="btn fa fa-check-square-o"></label>
+                        <label class="btn fa fa-check-square-o "></label>
+
                         <a class="btn no-padding no-margin" target="_blank" href="/cmdb/editVendor">
                             <i class="fa  fa-cog"></i>
                         </a>
@@ -242,7 +247,7 @@
                     <!-- 所属网络 -->
                     <div class="form-group">
                         <label for="network_location">所属网络</label><br>
-                        <select class="form-control select2 inline" id="network_location" name="network_location">
+                        <select required class="form-control select2 inline" id="network_location" name="network_location">
                             <option value="0">请选择所属网络</option>
                             <option value="1">控制专网</option>
                             <option value="2">业务内网</option>
@@ -295,9 +300,11 @@
                             {% endfor %}
                         </select>
                         <label class="btn fa fa-check-square-o "></label>
+
                         <a class="btn no-padding no-margin" target="_blank" href="/cmdb/editModel">
                             <i class="fa  fa-cog"></i>
                         </a>
+                        <div style="font-size: 12px; color: grey">*请先选择设备品牌</div>
                     </div>
                     <!-- /.设备型号 -->
                 </div>

@@ -65,7 +65,7 @@ def pages(post_objects, request):
     # 所有对象， 分页器， 本页对象， 所有页码， 本页页码，是否显示第一页，是否显示最后一页,每页对象序号偏移值
     return post_objects, paginator, page_objects, page_range, current_page, show_first, show_end, end_page, offset_index
 
-
+@login_required()
 def asset(request):
     print(request.POST)
     dasset = request.POST.getlist('delete_asset')
@@ -110,7 +110,7 @@ def asset(request):
 
 
 
-
+@login_required()
 def index(request):
     orglist =Organization.objects.all()
     Assets = list(Asset.objects.all())
@@ -144,14 +144,6 @@ def index(request):
     hebei = Organization.objects.get(org_name="河北分局")
     beijing = Organization.objects.get(org_name="北京分局")
     tianjin = Organization.objects.get(org_name="天津分局")
-
-    #查询子单位
-    # def seachchildren(org,orglist):
-    #     children_list = []
-    #     for child in orglist:
-    #         if child.parent_org == org:
-    #             children_list.append(child)
-    #     return children_list
 
     #查询子单位、孙单位
     def seachchildren2(org, orglist,Assets):
@@ -407,11 +399,6 @@ def addSubmit(request):
                                    server__sub_asset_type='1',
                                    organization=Organization.objects.get(id=request.POST['organization'])
                                    )
-
-    print("++++++++++++++++++++++++++")
-    print(servers)
-
-
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
@@ -446,7 +433,7 @@ def addSubmit(request):
     else:
         return render(request, 'cmdb/ServerManage/add/addMore.html', {"ID":ASSET.id})
 
-
+@login_required()
 def editMore(request):
     ID=request.GET['assetId']
     ASSET=Asset.objects.get(id=ID)
@@ -854,35 +841,6 @@ def networkDeviceSubmit (request):
     }
     return render(request, 'cmdb/ServerManage/add/addMore.html', context)
 
-#
-# @login_required()
-# def networkDeviceSubmit (request):
-#     print(request.POST)
-#     ASSET = Asset.objects.get(id=request.POST['assetId'])
-#     NETWORKDEVICE=NetworkDevice()
-#     NETWORKDEVICE.asset=ASSET
-#     if request.POST['sub_asset_type'] != '0':
-#         NETWORKDEVICE.sub_asset_type=request.POST['sub_asset_type']
-#     else:
-#         NETWORKDEVICE.sub_asset_type=None
-#     NETWORKDEVICE.save()
-#     Assets = Asset.objects.all()
-#     Organizations = Organization.objects.all()
-#     ID=request.POST['assetId']
-#     if request.user.is_superuser:
-#         Perm = 1
-#     else:
-#         Perm = 0
-#     context = {
-#         'USERNAME': str(request.user),
-#         'Perm': Perm,
-#         'ID':ID,
-#         'Assets': Assets,
-#         'Organizations':Organizations,
-#     }
-#     return render(request, 'cmdb/ServerManage/add/addMore.html', context)
-
-
 @login_required()
 def storageDeviceSubmit(request):
     print(request.POST)
@@ -938,7 +896,7 @@ def securityDeviceSubmit(request):
     }
     return render(request, 'cmdb/ServerManage/add/addMore.html', context)
 
-
+@login_required()
 def detail(request, v):
     print(request)
     ASSET = Asset.objects.get(id=v)
@@ -970,8 +928,6 @@ def detail(request, v):
         'CabinetSpace': CabinetSpace,
     }
     return render(request, 'cmdb/detail.html', context)
-
-
 
 @login_required()
 def editModel(request):
@@ -1177,9 +1133,6 @@ def editASupplierSubmit(request):
 
 @login_required()
 def deleteARecord(request):
-    print("==================================")
-    print(request)
-    print("==================================")
 
 
     try:
@@ -1859,7 +1812,7 @@ def editAOrganizationSubmit(request):
         'org':org
     }
     return render(request, 'cmdb/basicData/editOrg.html', context)
-
+@login_required()
 def supplierManage(request):
  # 判断是否有删除请求，有则删除厂商
     dsupplier = request.POST.getlist('delete_supplier')
@@ -1926,7 +1879,7 @@ def editASupplierSubmitM(request):
     return render(request, 'cmdb/basicData/supplierManage.html', context)
 
 
-
+@login_required()
 def vendorManage(request):
     # 判断是否有删除请求，有则删除厂商
     dvendor = request.POST.getlist('delete_vendor')
@@ -2028,6 +1981,8 @@ def assetMap(request):
 
 
 #根据设备类型返回设备子类型
+
+
 def subtype(request, id):
      asset_type = int(id)
      subtype_list = []
@@ -2077,6 +2032,7 @@ def subtype(request, id):
 
 
 #根据厂商返回设备型号
+
 def devicemodel(request, vendor):
     vendor_id = vendor
     model_list = []
@@ -2088,12 +2044,11 @@ def devicemodel(request, vendor):
     return JsonResponse({"data": model_list})
 
 
-
 def importorg(request):
     import_org_info()
     return (request, 'cmdb/basicData/orgManage.html')
 
-
+@login_required()
 def modelManage(request):
     # 判断是否有删除请求，有则删除厂商
     dmodel = request.POST.getlist('delete_model')

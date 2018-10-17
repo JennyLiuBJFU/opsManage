@@ -68,14 +68,14 @@
                             <!-- 内存容量 -->
                             <div class="form-group">
                                 <label for="RAM_volume">内存容量(G)</label><br>
-                                <input class="form-control" type="number" id="RAM_volume" name="volume"
+                                <input class="form-control" type="text" id="RAM_volume" name="volume"
                                        placeholder="请输入内存容量">
                             </div>
                             <!-- /内存容量 -->
                             <!-- 内存插槽 -->
                             <div class="form-group">
                                 <label for="RAM_slot">内存插槽</label><br>
-                                <input class="form-control" type="text" id="RAM_slot" name="slot"
+                                <input class="form-control" type="number" id="RAM_slot" name="slot"
                                        placeholder="请输入内存插槽">
                             </div>
                             <!-- /内存插槽 -->
@@ -92,7 +92,7 @@
                             <!-- /内存状态 -->
                             <!-- 提交按钮 -->
                             <div>
-                                <button class="btn btn-success" type="button">取消</button>
+                                <button class="btn btn-success" type="button" onclick="window.location.href='/cmdb/asset'">取消</button>
                                 <button class="btn btn-primary pull-right" type="button submit">添加</button>
                             </div>
                             <!-- /内存状态 -->
@@ -123,21 +123,21 @@
                             <!-- CPU处理速度 -->
                             <div class="form-group">
                                 <label for="CPU_speed">CPU处理速度(G)</label><br>
-                                <input class="form-control" type="number" id="CPU_speed" name="speed"
+                                <input class="form-control" type="text" id="CPU_speed" name="speed"
                                        placeholder="请输入CPU处理速度">
                             </div>
                             <!-- /CPU处理速度 -->
                             <!-- CPU核心数量 -->
                             <div class="form-group">
                                 <label for="CPU_core_count">核心数量</label><br>
-                                <input class="form-control" type="number" id="CPU_core_count" name="core_count"
+                                <input class="form-control" type="number" min="1" max="16" id="CPU_core_count" name="core_count"
                                        placeholder="请输入CPU核数">
                             </div>
                             <!-- /CPU核心数量 -->
                             <!-- CPU插槽 -->
                             <div class="form-group">
                                 <label for="CPU_slot">插槽</label><br>
-                                <input class="form-control" type="text" id="CPU_slot" name="slot"
+                                <input class="form-control" type="number" id="CPU_slot" name="slot"
                                        placeholder="请输入CPU插槽">
                             </div>
                             <!-- /CPU插槽 -->
@@ -154,7 +154,7 @@
                             <!-- /CPU状态 -->
                             <!-- CPU提交按钮 -->
                             <div>
-                                <button class="btn btn-success" type="button">取消</button>
+                                <button class="btn btn-success" type="button" onclick="window.location.href='/cmdb/asset'">取消</button>
                                 <button class="btn btn-primary pull-right" type="button submit">添加</button>
                             </div>
                             <!-- /CPU提交按钮 -->
@@ -200,14 +200,14 @@
                             <!-- 硬盘容量 -->
                             <div class="form-group">
                                 <label for="DISK_volume">硬盘容量(G)</label><br>
-                                <input class="form-control" type="number" id="DISK_volume" name="volume"
+                                <input class="form-control" type="text" id="DISK_volume" name="volume"
                                        placeholder="请输入硬盘容量">
                             </div>
                             <!-- /硬盘容量 -->
                             <!-- 硬盘插槽 -->
                             <div class="form-group">
                                 <label for="DISK_slot">硬盘插槽</label><br>
-                                <input class="form-control" type="text" id="DISK_slot" name="slot"
+                                <input class="form-control" type="number" id="DISK_slot" name="slot"
                                        placeholder="请输入硬盘插槽">
                             </div>
                             <!-- /硬盘插槽 -->
@@ -231,7 +231,7 @@
                             <!-- /硬盘属性 -->
                             <!-- DISK提交按钮 -->
                             <div>
-                                <button class="btn btn-success" type="button">取消</button>
+                                <button class="btn btn-success" type="button" onclick="window.location.href='/cmdb/asset'">取消</button>
                                 <button class="btn btn-primary pull-right" type="button submit">添加</button>
                             </div>
                             <!-- /DISK提交按钮 -->
@@ -271,14 +271,14 @@
                             <!-- 接口带宽 -->
                             <div class="form-group">
                                 <label for="PORT_bandwidth">接口带宽(M)</label><br>
-                                <input class="form-control" type="number" id="PORT_bandwidth" name="bandwidth"
+                                <input class="form-control" type="text" id="PORT_bandwidth" name="bandwidth"
                                        placeholder="请输入接口带宽">
                             </div>
                             <!-- /接口带宽 -->
                             <!-- 接口vlan -->
                             <div class="form-group">
                                 <label for="PORT_vlan">接口vlan</label><br>
-                                <input class="form-control" type="number" id="PORT_vlan" name="vlan"
+                                <input class="form-control" type="text" id="PORT_vlan" name="vlan"
                                        placeholder="请输入接口vlan">
                             </div>
                             <!-- /接口vlan -->
@@ -305,7 +305,7 @@
                             <!-- 网卡插槽 -->
                             <div class="form-group">
                                 <label for="PORT_slot">网卡插槽</label><br>
-                                <input class="form-control" type="text" id="PORT_slot" name="slot"
+                                <input class="form-control" type="number" id="PORT_slot" name="slot"
                                        placeholder="请输入网卡槽位">
                             </div>
                             <!-- /网卡插槽 -->
@@ -322,7 +322,7 @@
                             <!-- /接口状态 -->
                             <!-- 接口提交按钮 -->
                             <div>
-                                <button class="btn btn-success" type="button">取消</button>
+                                <button class="btn btn-success" type="button" onclick="window.location.href='/cmdb/asset'">取消</button>
                                 <button class="btn btn-primary pull-right" type="button submit">添加</button>
                             </div>
                             <!-- /接口提交按钮 -->
@@ -390,7 +390,7 @@
                             <!-- /部件描述 -->
                             <!-- 部件提交按钮 -->
                             <div>
-                                <button class="btn btn-success" type="button">取消</button>
+                                <button class="btn btn-success" type="button" onclick="window.location.href='/cmdb/asset'">取消</button>
                                 <button class="btn btn-primary pull-right" type="button submit">添加</button>
                             </div>
                             <!-- /部件提交按钮 -->
@@ -416,8 +416,12 @@
                 </div>
                 <!--  /boxheader  -->
 
+
                 <!--  boxbody -->
                 <div class="box-body" id="list_box">
+
+
+                    {% if rams %}
 
                     <!-- 显示内存 -->
                     <div class="box-body table-responsive ">
@@ -445,8 +449,9 @@
                             {% endfor %}
                         </table>
                     </div>
+                {% endif %}
                     <!-- /显示内存 -->
-
+                {% if cpus %}
                     <!-- 显示CPU-->
                     <div class="box-body table-responsive ">
                         <span class="text-warning ">CPU信息</span><br>
@@ -475,8 +480,9 @@
                             {% endfor %}
                         </table>
                     </div>
+                {% endif %}
                     <!-- /显示CPU -->
-
+                {% if disks %}
                     <!-- 显示DISK-->
                     <div class="box-body table-responsive ">
                         <span class="text-warning ">硬盘信息</span><br>
@@ -507,8 +513,10 @@
                             {% endfor %}
                         </table>
                     </div>
+                {% endif %}
                     <!-- /显示DISK -->
 
+                {% if ports %}
                     <!-- 显示PORT-->
                     <div class="box-body table-responsive ">
                         <span class="text-warning">接口信息</span><br>
@@ -542,8 +550,9 @@
                             {% endfor %}
                         </table>
                     </div>
+                {% endif %}
                     <!-- /显示PORT -->
-
+                {% if parts %}
                     <!-- 显示部件 -->
                     <div class="box-body table-responsive ">
                         <span class="text-warning">部件信息</span><br>
@@ -572,6 +581,7 @@
                             {% endfor %}
                         </table>
                     </div>
+                {% endif %}
                     <!-- /显示部件 -->
 
 
