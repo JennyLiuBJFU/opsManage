@@ -2056,7 +2056,7 @@ def importorg(request):
     import_org_info()
     return (request, 'cmdb/basicData/orgManage.html')
 
-<<<<<<< HEAD
+
 # 为资产清单页面单位查询项提供数据
 def orglist(request):
     # ------树形图数据计算，排出各单位及其子单位的列表--------
@@ -2087,7 +2087,7 @@ def orglist(request):
         print(zxj_context)
     return JsonResponse(zxj_context,safe=False,)
 
-=======
+
 @login_required()
 def modelManage(request):
     # 判断是否有删除请求，有则删除厂商
@@ -2119,7 +2119,7 @@ def modelManage(request):
     }
 
     return render(request, 'cmdb/basicData/modelManage.html', context)
->>>>>>> 992070b158b690871c5eda340f8cc365b4dde62d
+
 
 
 @login_required()
