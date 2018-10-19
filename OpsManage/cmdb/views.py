@@ -322,8 +322,10 @@ def addSubmit(request):
     ASSET.memo = request.POST['memo']
     ASSET.asset_no = request.POST['asset_no']
     ASSET.sn = request.POST['sn']
-    ASSET.expire_day = request.POST['expire_day']
-    ASSET.purchase_day = request.POST['purchase_day']
+    if request.POST['expire_day']:
+        ASSET.expire_day = request.POST['expire_day']
+    if request.POST['purchase_day']:
+        ASSET.purchase_day = request.POST['purchase_day']
 
     # 把直接select标签的3个值保存到资产对象
     if request.POST['status'] != "0":
@@ -1220,10 +1222,16 @@ def editSubmit(request):
     ASSET.manage_ip = request.POST['manage_ip']
     ASSET.memo = request.POST['memo']
     ASSET.asset_no = request.POST['asset_no']
-    ASSET.expire_day = request.POST['expire_day']
+    if request.POST['expire_day']:
+        ASSET.expire_day = request.POST['expire_day']
+    else:
+        ASSET.expire_day = None
     ASSET.sn = request.POST['sn']
     # ASSET.model = request.POST['model']
-    ASSET.purchase_day = request.POST['purchase_day']
+    if request.POST['purchase_day']:
+        ASSET.purchase_day = request.POST['purchase_day']
+    else:
+        ASSET.purchase_day = None
 
     # 直接select标签的3个
     if request.POST['status']!="0":
