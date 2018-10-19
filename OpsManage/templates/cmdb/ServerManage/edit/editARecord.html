@@ -100,8 +100,6 @@
                     <div class="form-group">
                         <label for="purchase_day">购买日期</label><br>
                         <input required class="form-control inline" type="date" name="purchase_day" id="purchase_day" value="{{ PURCHASE_DAY }}">
-                        <label class="btn fa fa-check-square-o "></label>
-
                     </div>
                     <!-- /.购买日期 -->
 
@@ -179,8 +177,6 @@
                     <div class="form-group">
                         <label for="expire_day">过保日期</label><br>
                         <input required class="form-control inline" type="date" name="expire_day" id="expire_day" value="{{ EXPIRE_DAY }}">
-                        <label class="btn fa fa-check-square-o "></label>
-
                     </div>
                     <!-- /.过保日期 -->
 
@@ -595,7 +591,7 @@
         <!-- /.box-body -->
 
         <div class="box-footer">
-            <button type="button" onclick="doVerify({{ ID }})" class="btn  btn-primary pull-right" >下一步</button>
+            <button type="button" onclick="doVerify({{ ID }})" class="btn  btn-primary pull-right" >完成</button>
             <button type="button" class="btn  btn-success" onclick="window.location.href='/cmdb/asset'">取消</button>
             <button type="button" class="btn btn-warning pull-right margin-r-5" onclick="window.location.href='http://127.0.0.1:8000/cmdb/editMore?assetId={{ ASSET.id }}'">编辑部件</button>
 
