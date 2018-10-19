@@ -15,18 +15,20 @@
     <li id="contract"><a href="http://127.0.0.1:8000/cmdb/contractManage">合同管理</a></li>
     <li id="supplier"><a href="http://127.0.0.1:8000/cmdb/supplierManage">供应商管理</a></li>
     <li id="vendor"><a href="http://127.0.0.1:8000/cmdb/vendorManage">厂商管理</a></li>
+    <li id="model"><a href="http://127.0.0.1:8000/cmdb/modelManage">型号管理</a></li>
+
 </ul>
 
 <div class="box box-group bg-gray-light " style="min-height: 800px;padding-left: 10px;padding-right: 10px">
     <div class="row" style="margin-top: 10px">
 
         <div class="col-sm-8">
-            <div class="box box-warning " >
+            <div class="box box-warning" >
 
                 <div class="box-header with-border">
                     <h3 class="box-title">
                         <i class="glyphicon  glyphicon-tag"></i>
-                        供应商列表
+                        厂商列表
                     </h3>
                 </div>
 
@@ -51,10 +53,9 @@
                                 <td>{{ i.vendor_phone }}</td>
                                 <td>{{ i.vendor_memo }}</td>
                                 <td class="text-center ">
-                                        <a href="http://127.0.0.1:8000/cmdb/vendorManage?vendorId={{ i.id }}">
-                                            <i class="glyphicon glyphicon-edit text-info"
-                                               style="margin-right: 5px"></i>
-                                        </a>
+                                    <a href="http://127.0.0.1:8000/cmdb/vendorManage?vendorId={{ i.id }}">
+                                        <i class="glyphicon glyphicon-edit text-info" style="margin-right: 5px"></i>
+                                    </a>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -79,19 +80,19 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form" class="contact" action="addVendorSubmitM" method="post" id="form">
+            <form role="form" class="vendorcontact" action="addVendorSubmitM" method="post" id="form">
               <div class="box-body">
                 <div class="form-group">
                   <label for="suppliername">厂商名称</label>
-                  <input type="text" class="form-control" id="suppliername" name="name" placeholder="Supplier name">
+                  <input required type="text" class="form-control" id="suppliername" name="name" placeholder="vendor name">
                 </div>
                 <div class="form-group">
                   <label for="phone">联系电话</label>
-                  <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone">
+                  <input type="text" class="form-control" id="phone" name="phone" placeholder="phone">
                 </div>
                 <div class="form-group">
                   <label for="memo">备注</label>
-                  <input type="text" class="form-control" id="memo" name="memo" placeholder="Memo">
+                  <input type="text" class="form-control" id="memo" name="memo" placeholder="memo">
                 </div>
 
 
@@ -113,11 +114,11 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form" class="contact" action="editVendorSubmit?vendorId={{ VENDOR.id }}" method="post" >
+            <form role="form" class="contact" action="editAVendorSubmit?vendorId={{ VENDOR.id }}" method="post" >
               <div class="box-body">
                 <div class="form-group">
                   <label for="editsuppliername">厂商名称</label>
-                  <input type="text" class="form-control" id="editsuppliername" name="name" value="{{ VENDOR.vendor_name }}">
+                  <input required type="text" class="form-control" id="editsuppliername" name="name" value="{{ VENDOR.vendor_name }}">
                 </div>
                 <div class="form-group">
                   <label for="editphone">联系电话</label>

@@ -65,7 +65,7 @@ def pages(post_objects, request):
     # 所有对象， 分页器， 本页对象， 所有页码， 本页页码，是否显示第一页，是否显示最后一页,每页对象序号偏移值
     return post_objects, paginator, page_objects, page_range, current_page, show_first, show_end, end_page, offset_index
 
-
+@login_required()
 def asset(request):
     print(request.POST)
     dasset = request.POST.getlist('delete_asset')
@@ -110,7 +110,7 @@ def asset(request):
 
 
 
-
+@login_required()
 def index(request):
     orglist =Organization.objects.all()
     Assets = list(Asset.objects.all())
@@ -144,14 +144,6 @@ def index(request):
     hebei = Organization.objects.get(org_name="河北分局")
     beijing = Organization.objects.get(org_name="北京分局")
     tianjin = Organization.objects.get(org_name="天津分局")
-
-    #查询子单位
-    # def seachchildren(org,orglist):
-    #     children_list = []
-    #     for child in orglist:
-    #         if child.parent_org == org:
-    #             children_list.append(child)
-    #     return children_list
 
     #查询子单位、孙单位
     def seachchildren2(org, orglist,Assets):
@@ -407,11 +399,6 @@ def addSubmit(request):
                                    server__sub_asset_type='1',
                                    organization=Organization.objects.get(id=request.POST['organization'])
                                    )
-
-    print("++++++++++++++++++++++++++")
-    print(servers)
-
-
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
@@ -446,7 +433,7 @@ def addSubmit(request):
     else:
         return render(request, 'cmdb/ServerManage/add/addMore.html', {"ID":ASSET.id})
 
-
+@login_required()
 def editMore(request):
     ID=request.GET['assetId']
     ASSET=Asset.objects.get(id=ID)
@@ -854,35 +841,6 @@ def networkDeviceSubmit (request):
     }
     return render(request, 'cmdb/ServerManage/add/addMore.html', context)
 
-#
-# @login_required()
-# def networkDeviceSubmit (request):
-#     print(request.POST)
-#     ASSET = Asset.objects.get(id=request.POST['assetId'])
-#     NETWORKDEVICE=NetworkDevice()
-#     NETWORKDEVICE.asset=ASSET
-#     if request.POST['sub_asset_type'] != '0':
-#         NETWORKDEVICE.sub_asset_type=request.POST['sub_asset_type']
-#     else:
-#         NETWORKDEVICE.sub_asset_type=None
-#     NETWORKDEVICE.save()
-#     Assets = Asset.objects.all()
-#     Organizations = Organization.objects.all()
-#     ID=request.POST['assetId']
-#     if request.user.is_superuser:
-#         Perm = 1
-#     else:
-#         Perm = 0
-#     context = {
-#         'USERNAME': str(request.user),
-#         'Perm': Perm,
-#         'ID':ID,
-#         'Assets': Assets,
-#         'Organizations':Organizations,
-#     }
-#     return render(request, 'cmdb/ServerManage/add/addMore.html', context)
-
-
 @login_required()
 def storageDeviceSubmit(request):
     print(request.POST)
@@ -938,7 +896,7 @@ def securityDeviceSubmit(request):
     }
     return render(request, 'cmdb/ServerManage/add/addMore.html', context)
 
-
+@login_required()
 def detail(request, v):
     print(request)
     ASSET = Asset.objects.get(id=v)
@@ -971,8 +929,6 @@ def detail(request, v):
     }
     return render(request, 'cmdb/detail.html', context)
 
-
-
 @login_required()
 def editModel(request):
     # 判断是否有删除请求，有则删除厂商
@@ -989,11 +945,19 @@ def editModel(request):
         Perm = 1
     else:
         Perm = 0
+    MODEL = Device_model()
+    try:
+        editID = request.GET['modelId']
+        if editID:
+            MODEL = Device_model.objects.get(id=editID)
+    except:
+        print("没有modelId参数")
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
         'model': model,
         'vendors':vendors,
+        'MODEL':MODEL,
     }
 
     return render(request, 'cmdb/ServerManage/add/editForeignKey/editModel.html', context)
@@ -1001,8 +965,8 @@ def editModel(request):
 @login_required()
 def addModelSubmit(request):
     o = Device_model()
-    o.img=request.FILES.get('image')
-    # o.vendor=request.POST['telephone']
+    o.img=request.FILES.get('myfile')
+    o.vendor=Vendor.objects.get(id=request.POST['vendor'])
     o.models=request.POST['models']
     o.save()
     model = Device_model.objects.all()
@@ -1020,13 +984,30 @@ def addModelSubmit(request):
     return render(request, 'cmdb/ServerManage/add/editForeignKey/editModel.html', context)
 
 
+@login_required()
+def editModelSubmit(request):
+    MODEL=Device_model.objects.get(id=request.GET['modelId'])
+    if request.FILES:
+        MODEL.img=request.FILES.get('image')
+    MODEL.vendor=Vendor.objects.get(id=request.POST['vendor'])
+    MODEL.models=request.POST['models']
+    MODEL.save()
+    model=Device_model.objects.all()
+    vendor=Vendor.objects.all()
+    context = {
+        'model':model,
+        'vendor':vendor,
+    }
+    return render(request, 'cmdb/ServerManage/add/editForeignKey/editModel.html', context)
+
+@login_required()
 def editVendor(request):
     # 判断是否有删除请求，有则删除厂商
     dvendor = request.POST.getlist('delete_vendor')
-    print(dvendor)
     if len(dvendor):
         for i in dvendor:
-           Vendor.objects.get(pk=i).delete()
+
+            Vendor.objects.get(pk=i).delete()
 
     # 查询现有所有厂商对象并传给前段页面
     vendor = Vendor.objects.all()
@@ -1034,12 +1015,21 @@ def editVendor(request):
         Perm = 1
     else:
         Perm = 0
+    VENDOR = Vendor()
+    try:
+        editID = request.GET['vendorId']
+        if editID:
+            VENDOR = Vendor.objects.get(id=editID)
+    except:
+        print("没有vendorId参数")
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
         'vendor': vendor,
+        'VENDOR':VENDOR,
     }
-    return render(request, 'cmdb/ServerManage/add/editForeignKey/editVendor.html',context)
+
+    return render(request, 'cmdb/ServerManage/add/editForeignKey/editVendor.html', context)
 
 @login_required()
 def addVendorSubmit(request):
@@ -1048,7 +1038,7 @@ def addVendorSubmit(request):
     o.vendor_phone=request.POST['phone']
     o.vendor_memo=request.POST['memo']
     o.save()
-    vendor = Vendor.objects.all()
+    vendor=Vendor.objects.all()
     if request.user.is_superuser:
         Perm = 1
     else:
@@ -1056,9 +1046,22 @@ def addVendorSubmit(request):
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
-        'vendor': vendor
+        'vendor':vendor,
     }
+    return render(request, 'cmdb/ServerManage/add/editForeignKey/editVendor.html', context)
 
+
+@login_required()
+def editVendorSubmit(request):
+    VENDOR=Vendor.objects.get(id=request.GET['vendorId'])
+    VENDOR.vendor_name=request.POST['name']
+    VENDOR.vendor_phone=request.POST['phone']
+    VENDOR.vendor_memo=request.POST['memo']
+    VENDOR.save()
+    vendor=Vendor.objects.all()
+    context = {
+        'vendor':vendor,
+    }
     return render(request, 'cmdb/ServerManage/add/editForeignKey/editVendor.html', context)
 
 @login_required()
@@ -1130,9 +1133,6 @@ def editASupplierSubmit(request):
 
 @login_required()
 def deleteARecord(request):
-    print("==================================")
-    print(request)
-    print("==================================")
 
 
     try:
@@ -1812,7 +1812,7 @@ def editAOrganizationSubmit(request):
         'org':org
     }
     return render(request, 'cmdb/basicData/editOrg.html', context)
-
+@login_required()
 def supplierManage(request):
  # 判断是否有删除请求，有则删除厂商
     dsupplier = request.POST.getlist('delete_supplier')
@@ -1879,7 +1879,7 @@ def editASupplierSubmitM(request):
     return render(request, 'cmdb/basicData/supplierManage.html', context)
 
 
-
+@login_required()
 def vendorManage(request):
     # 判断是否有删除请求，有则删除厂商
     dvendor = request.POST.getlist('delete_vendor')
@@ -1932,7 +1932,7 @@ def addVendorSubmitM(request):
     return render(request, 'cmdb/basicData/vendorManage.html', context)
 
 @login_required()
-def editVendorSubmit(request):
+def editAVendorSubmit(request):
     VENDOR=Vendor.objects.get(id=request.GET['vendorId'])
     VENDOR.vendor_name=request.POST['name']
     VENDOR.vendor_phone=request.POST['phone']
@@ -1981,6 +1981,8 @@ def assetMap(request):
 
 
 #根据设备类型返回设备子类型
+
+
 def subtype(request, id):
      asset_type = int(id)
      subtype_list = []
@@ -2030,6 +2032,7 @@ def subtype(request, id):
 
 
 #根据厂商返回设备型号
+
 def devicemodel(request, vendor):
     vendor_id = vendor
     model_list = []
@@ -2041,11 +2044,11 @@ def devicemodel(request, vendor):
     return JsonResponse({"data": model_list})
 
 
-
 def importorg(request):
     import_org_info()
     return (request, 'cmdb/basicData/orgManage.html')
 
+<<<<<<< HEAD
 # 为资产清单页面单位查询项提供数据
 def orglist(request):
     # ------树形图数据计算，排出各单位及其子单位的列表--------
@@ -2076,5 +2079,110 @@ def orglist(request):
         print(zxj_context)
     return JsonResponse(zxj_context,safe=False,)
 
+=======
+@login_required()
+def modelManage(request):
+    # 判断是否有删除请求，有则删除厂商
+    dmodel = request.POST.getlist('delete_model')
+    if len(dmodel):
+        for i in dmodel:
+            Device_model.objects.get(pk=i).delete()
+
+    # 查询现有所有厂商对象并传给前段页面
+    model = Device_model.objects.all()
+    vendors = Vendor.objects.all()
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+    MODEL = Device_model()
+    try:
+        editID = request.GET['modelId']
+        if editID:
+            MODEL = Device_model.objects.get(id=editID)
+    except:
+        print("没有modelId参数")
+    context = {
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+        'model': model,
+        'vendors': vendors,
+        'MODEL': MODEL,
+    }
+
+    return render(request, 'cmdb/basicData/modelManage.html', context)
+>>>>>>> 992070b158b690871c5eda340f8cc365b4dde62d
 
 
+@login_required()
+def addAModelSubmit(request):
+    o = Device_model()
+    o.img=request.FILES.get('myfile')
+    o.vendor=Vendor.objects.get(id=request.POST['vendor'])
+    o.models=request.POST['models']
+    o.save()
+    model = Device_model.objects.all()
+    vendors = Vendor.objects.all()
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+    context = {
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+        'model': model,
+        'vendors':vendors,
+    }
+    return render(request, 'cmdb/basicData/modelManage.html', context)
+
+
+@login_required()
+def editAModelSubmit(request):
+    MODEL=Device_model.objects.get(id=request.GET['modelId'])
+    if request.FILES:
+        MODEL.img=request.FILES.get('image')
+    MODEL.vendor=Vendor.objects.get(id=request.POST['vendor'])
+    MODEL.models=request.POST['models']
+    MODEL.save()
+    model=Device_model.objects.all()
+    vendor=Vendor.objects.all()
+    context = {
+        'model':model,
+        'vendor':vendor,
+    }
+    return render(request, 'cmdb/basicData/modelManage.html', context)
+
+
+@login_required()
+def editAVendorSubmit(request):
+    VENDOR=Vendor.objects.get(id=request.GET['vendorId'])
+    VENDOR.vendor_name=request.POST['name']
+    VENDOR.vendor_phone=request.POST['phone']
+    VENDOR.vendor_memo=request.POST['memo']
+    VENDOR.save()
+    vendor=Vendor.objects.all()
+    context = {
+        'vendor':vendor,
+    }
+    return render(request, 'cmdb/basicData/vendorManage.html', context)
+
+@login_required()
+def doVerify(request):
+    print(request.POST)
+    ASSET_NAME=request.POST['asset_name']
+    ASSET_NO=request.POST['asset_no']
+    SN=request.POST['sn']
+    assets=Asset.objects.all()
+    asset_name=False
+    asset_no=False
+    sn=False
+    for asset in assets:
+        if asset.id != int(request.POST['assetId']):
+            if asset.asset_name == ASSET_NAME:
+                asset_name=True
+            if asset.asset_no == ASSET_NO:
+                asset_no=True
+            if asset.sn == SN:
+                sn=True
+    response=JsonResponse({"asset_name":asset_name,"asset_no":asset_no,"sn":sn})
+    return response

@@ -72,5 +72,16 @@ urlpatterns = [
     url(r'^editAOrganizationSubmit',views.editAOrganizationSubmit),
     url(r'^editVendorSubmit',views.editVendorSubmit),
     url(r'^importorg/',views.importorg),
+<<<<<<< HEAD
     url(r'^orglist/$', views.orglist),
+=======
+    url(r'editModelSubmit',views.editModelSubmit),
+
+    url(r'modelManage',views.modelManage),
+    url(r'^addAModelSubmit',views.addAModelSubmit),
+    url(r'^editAModelSubmit',views.editAModelSubmit),
+    url(r'^editAVendorSubmit',views.editAVendorSubmit),
+
+    url(r'^doVerify',views.doVerify),
+>>>>>>> 992070b158b690871c5eda340f8cc365b4dde62d
 ]

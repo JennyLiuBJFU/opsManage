@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+
+{% block css_block %}
+<link href="/static/dist/css/tab_css.css" type="text/css" rel="stylesheet">
+{% endblock css_block %}
+
+
+{% block main_content %}
+
+<ul id="tabs">
+    <li id="org"><a href="http://127.0.0.1:8000/cmdb/orgManage">组织机构</a></li>
+    <li id="idc"><a href="http://127.0.0.1:8000/cmdb/idcManage">机房管理</a></li>
+    <li id="user"><a href="http://127.0.0.1:8000/cmdb/userManage">用户管理</a></li>
+    <li id="contract"><a href="http://127.0.0.1:8000/cmdb/contractManage">合同管理</a></li>
+    <li id="supplier"><a href="http://127.0.0.1:8000/cmdb/supplierManage">供应商管理</a></li>
+    <li id="vendor"><a href="http://127.0.0.1:8000/cmdb/vendorManage">厂商管理</a></li>
+    <li id="model"><a href="http://127.0.0.1:8000/cmdb/modelManage">型号管理</a></li>
+
+</ul>
+
+<div class="box box-group bg-gray-light " style="min-height: 800px;padding-left: 10px;padding-right: 10px">
+    <div class="row" style="margin-top: 10px">
+
+                    <div class="col-sm-8">
+                        <div class="box box-warning">
+
+                            <div class="box-header with-border">
+                                <h3 class="box-title">
+                                    <i class="glyphicon glyphicon-file"></i>
+                                    型号列表
+                                </h3>
+                            </div>
+
+                            <!-- 供应商清单 -->
+                            <form method="post" action="modelManage" id="deleteForm">
+                                <div class="box-body table-responsive ">
+                                    <table class="table table-hover">
+                                        <tr>
+                                            <th class="text-center">选择</th>
+                                            <th class="text-center">序号</th>
+                                            <th class="text-center">设备展示</th>
+                                            <th class="text-center">设备厂商</th>
+                                            <th class="text-center">设备型号</th>
+                                            <th class="text-center">编辑</th>
+
+                                        </tr>
+                                        {% for i in model %}
+                                            <tr>
+                                                <td class="text-center"><input type="checkbox" name="delete_model" value="{{ i.pk }}"></td>
+                                                <td class="text-center">{{ forloop.counter }}</td>
+                                                {% if i.img.url %}
+                                                    <td class="text-center"><img width="150px" src='{{ i.img.url}}' /></td>
+                                                {% else %}
+                                                    <td></td>
+                                                {% endif %}
+                                                <td class="text-center">{{ i.vendor.vendor_name }}</td>
+                                                <td class="text-center">{{ i.models }}</td>
+                                                <td class="text-center">
+                                                    <a href="http://127.0.0.1:8000/cmdb/modelManage?modelId={{ i.id }}">
+                                                        <i class="glyphicon glyphicon-edit text-info"
+                                                           style="margin-right: 5px"></i>
+                                                    </a>
+                                            </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+
+
+                                <div class="box-footer " >
+                                    <button type="button" onclick="var txt=  '确定删除所选型号？';window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.warning);" class="btn btn-danger pull-right">Delete</button>
+                                </div>
+                            </form>
+
+                        </div>
+                        <!-- /.box -->
+                    </div>
+
+                    <!-- ---添加用户-- -->
+                    <div class="col-sm-4">
+                        <div class="box box-primary">
+                            <!-- box-header -->
+                            <div class="box-header with-border">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                <h3 class="box-title">添加型号</h3>
+                            </div>
+                            <!-- /.box-header -->
+
+                            <!-- form start -->
+                            <form class="contactl" action="addAModelSubmit" method="post" enctype="multipart/form-data">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label class=" control-label">厂商图片</label>
+                                        <input type="file" name="myfile" accept="image/*">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">设备厂商</label>
+                                        <select class="form-control" name="vendor" >
+                                            <option value="0">请选择设备厂商</option>
+                                            {% for vendor in vendors%}
+                                                <option value={{ vendor.id }}>{{ vendor.vendor_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class=" control-label">设备型号</label>
+                                        <input required class="form-control" type="text" name="models" placeholder="model">
+                                    </div>
+
+                                </div>
+
+                                <!-- box-footer -->
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                                </div>
+                                <!-- /.box-footer -->
+                            </form>
+                            <!-- /.form start -->
+                        </div>
+
+                        <div class="box box-success" id="editModelsBox" style="display: none">
+                            <!-- box-header -->
+                            <div class="box-header with-border">
+                                <i class="glyphicon glyphicon-edit"></i>
+                                <h3 class="box-title">编辑型号</h3>
+                            </div>
+                            <!-- /.box-header -->
+
+                            <!-- form start -->
+                            <form class="contactl" action="editAModelSubmit?modelId={{ MODEL.id }}" method="post" enctype="multipart/form-data">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label class=" control-label">厂商图片</label>
+                                            <input  type="file" name="image">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">设备厂商</label>
+                                        <select class="form-control" name="vendor" >
+                                            <option value="{{ MODEL.vendor }}">{{ MODEL.vendor.vendor_name }}</option>
+                                            {% for vendor in vendors%}
+                                                <option value={{ vendor.id }}>{{ vendor.vendor_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class=" control-label">设备型号</label>
+                                        <input required class="form-control" type="text" name="models" value="{{ MODEL.models }}">
+                                    </div>
+
+                                </div>
+
+                                <!-- box-footer -->
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-success pull-right">Submit</button>
+                                </div>
+                                <!-- /.box-footer -->
+                            </form>
+                            <!-- /.form start -->
+                        </div>
+
+                    </div>
+
+
+    </div>
+</div>
+{% endblock main_content %}
+
+
+
+{% block foot_js %}
+<!-- ----tab效果---- -->
+<script>
+    $(document).ready(function () {
+        $("#model").attr("id", "current"); // Activate first tab
+    });
+</script>
+
+
+<script>
+    $(function () {
+        var x = {{ MODEL.id }};
+        if (x){
+            $("#editModelsBox").css('display', '');
+        }
+    })
+
+</script>
+
+
+
+{% endblock foot_js %}

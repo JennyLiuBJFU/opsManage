@@ -36,24 +36,21 @@ class Asset(models.Model):
     asset_name = models.CharField(max_length=64, unique=True, verbose_name='资产名称')  # 不可重复
     asset_no = models.CharField(max_length=50, unique=True, verbose_name='资产编号')  # 不可重复
     network_location = models.CharField(choices=network_choice, max_length=64, verbose_name='所属网络')
-    organization = models.ForeignKey('Organization', null=True, blank=True, on_delete=models.CASCADE)
-    status = models.CharField(choices=asset_status, max_length=50, default=0, verbose_name='设备状态')
-
-    # vendor = models.ForeignKey('Vendor', null=True, blank=True, on_delete=models.CASCADE)
-    # model = models.CharField(max_length=128, null=True, blank=True, verbose_name='设备型号')
-    model = models.ForeignKey('Device_model', on_delete=models.CASCADE, null=True, blank=True, verbose_name='设备型号')
+    organization = models.ForeignKey('Organization', null=True, blank=True, on_delete=models.SET_NULL, verbose_name='组织机构')
+    status = models.CharField(choices=asset_status, max_length=50, verbose_name='设备状态')
+    model = models.ForeignKey('Device_model', on_delete=models.SET_NULL, null=True, blank=True, verbose_name='设备型号')
     sn = models.CharField(max_length=128, unique=True, verbose_name='产品序列号')  # 不可重复
 
     manage_ip = models.GenericIPAddressField(null=True, blank=True, verbose_name='管理IP')
-    admin = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='admin')
-    idc = models.ForeignKey('Idc', null=True, blank=True, on_delete=models.CASCADE)
-    cabinet = models.ForeignKey('Cabinet', null=True, blank=True, on_delete=models.CASCADE)
+    admin = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='admin', verbose_name='管理员')
+    idc = models.ForeignKey('Idc', null=True, blank=True, on_delete=models.SET_NULL, verbose_name='机房')
+    cabinet = models.ForeignKey('Cabinet', null=True, blank=True, on_delete=models.SET_NULL, verbose_name='机柜')
 
-    contract = models.ForeignKey('Contract', on_delete=models.CASCADE, null=True, blank=True, verbose_name='来源合同')
-    supplier = models.ForeignKey('Supplier', on_delete=models.CASCADE, null=True, blank=True, verbose_name='供应厂商')
+    contract = models.ForeignKey('Contract', on_delete=models.SET_NULL, null=True, blank=True, verbose_name='来源合同')
+    supplier = models.ForeignKey('Supplier', on_delete=models.SET_NULL, null=True, blank=True, verbose_name='供应厂商')
     purchase_day = models.DateField(null=True, blank=True, verbose_name='购买日期')
     expire_day = models.DateField(null=True, blank=True, verbose_name='过保日期')
-    approved_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    approved_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='审批人')
     c_time = models.DateField(null=True, blank=True, verbose_name='批准日期')
     m_time = models.DateField(auto_now=True, verbose_name='更新日期')
     memo = models.CharField(max_length=400, null=True, blank=True, verbose_name='备注')
@@ -75,7 +72,7 @@ class Asset(models.Model):
 
 class Organization(models.Model):
     """ 组织机构  """
-    parent_org = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='parent_level')
+    parent_org = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='parent_level', verbose_name='上级单位')
     org_name = models.CharField(max_length=64, unique=True, verbose_name='单位名称')
     org_address = models.CharField(max_length=64, blank=True, null=True, verbose_name='单位地址')
     org_memo = models.CharField(max_length=64, blank=True, null=True, verbose_name='备注')
@@ -91,8 +88,8 @@ class Organization(models.Model):
 
 class Contract(models.Model):
     """  合同  """
-    contract_number = models.CharField(max_length=128, unique=True, verbose_name='合同编号号')
-    contract_name = models.CharField(max_length=64, verbose_name='合同名称')
+    contract_number = models.CharField(max_length=128, unique=True, verbose_name='合同编号')
+    contract_name = models.CharField(max_length=64, verbose_name='合同名称', unique=True)
     contract_content = models.TextField(blank=True, null=True, verbose_name='合同内容')
     contract_memo = models.TextField(blank=True, null=True, verbose_name='备注')
 
@@ -140,7 +137,7 @@ class Supplier(models.Model):
 
 class Idc(models.Model):
     """ 数据机房 """
-    organization = models.ForeignKey('Organization', on_delete=models.CASCADE)
+    organization = models.ForeignKey('Organization', on_delete=models.CASCADE, verbose_name='所属单位')
     idc_name = models.CharField(max_length=255, verbose_name="机房名称")
     idc_address = models.CharField(max_length=100, blank=True, verbose_name="机房地址")
     idc_memo = models.TextField(max_length=200, blank=True, verbose_name="备注信息")
@@ -156,7 +153,7 @@ class Idc(models.Model):
 
 class Cabinet(models.Model):
     """ 机柜 """
-    idc = models.ForeignKey('Idc', on_delete=models.SET_NULL, null=True, blank=True, verbose_name='所在机房')
+    idc = models.ForeignKey('Idc', on_delete=models.CASCADE, null=True, blank=True, verbose_name='所在机房')
     cabinet_name = models.CharField(max_length=100, verbose_name='机柜名称')
     cabinet_desc = models.CharField(max_length=100, blank=True, verbose_name='机柜描述')
     cabinet_height=models.SmallIntegerField(blank=True, null=True, verbose_name='机柜高度')
@@ -255,11 +252,11 @@ class Server(models.Model):
         (str(2), '手工录入'),
     )
 
-    asset = models.OneToOneField('Asset', on_delete=models.CASCADE)  # 非常关键的一对一关联！
-    sub_asset_type = models.CharField(choices=sub_asset_type_choice, max_length=64, default=0, verbose_name='服务器类型')
-    created_by = models.CharField(choices=created_by_choice, max_length=32, default='auto', verbose_name='添加方式')
-    microcode = models.CharField(max_length=32, verbose_name='微码版本')
-    hosted_on = models.ForeignKey('self', on_delete=models.CASCADE, related_name='hosted_on_server',
+    asset = models.OneToOneField('Asset', on_delete=models.CASCADE, verbose_name='资产')  # 非常关键的一对一关联！
+    sub_asset_type = models.CharField(choices=sub_asset_type_choice, max_length=64, verbose_name='服务器类型')
+    created_by = models.CharField(choices=created_by_choice, max_length=32, verbose_name='添加方式')
+    microcode = models.CharField(max_length=32, verbose_name='微码版本', blank=True, null=True,)
+    hosted_on = models.ForeignKey('self', on_delete=models.CASCADE, related_name='hosted_on_server', verbose_name='宿主机',
                                   blank=True, null=True)  # 虚拟机专用字段
     os_type = models.CharField(choices=os_type_choice, max_length=64, blank=True, null=True, verbose_name='操作系统类型')
     os_distribution = models.CharField(max_length=64, blank=True, null=True, verbose_name='发行版本')
@@ -293,9 +290,8 @@ class SecurityDevice(models.Model):
         (str(12), 'VPN设备'),
     )
 
-    asset = models.OneToOneField('Asset', on_delete=models.CASCADE)
-    sub_asset_type = models.CharField(max_length=64, choices=sub_asset_type_choice, default=0, verbose_name='安全设备类型')
-    memo = models.TextField(max_length=200, blank=True, verbose_name="备注信息")
+    asset = models.OneToOneField('Asset', on_delete=models.CASCADE, verbose_name='资产')
+    sub_asset_type = models.CharField(max_length=64, choices=sub_asset_type_choice, verbose_name='安全设备类型')
 
     def __str__(self):
         return self.asset.asset_name + '--' + self.get_sub_asset_type_display() + ' id:%s' % self.id
@@ -317,8 +313,8 @@ class StorageDevice(models.Model):
         (str(5), '磁带机'),
     )
 
-    asset = models.OneToOneField('Asset', on_delete=models.CASCADE)
-    sub_asset_type = models.CharField(max_length=64, choices=sub_asset_type_choice, default=0, verbose_name='存储设备类型')
+    asset = models.OneToOneField('Asset', on_delete=models.CASCADE, verbose_name='资产')
+    sub_asset_type = models.CharField(max_length=64, choices=sub_asset_type_choice, verbose_name='存储设备类型')
 
     def __str__(self):
         return self.asset.asset_name + '--' + self.get_sub_asset_type_display() + ' id:%s' % self.id
@@ -339,8 +335,8 @@ class NetworkDevice(models.Model):
         (str(4), '无线控制器'),
         (str(5), '无线AP'),
     )
-    asset = models.OneToOneField('Asset', on_delete=models.CASCADE)
-    sub_asset_type = models.CharField(max_length=64, choices=sub_asset_type_choice, default=0, verbose_name='网络设备类型')
+    asset = models.OneToOneField('Asset', on_delete=models.CASCADE, verbose_name='资产')
+    sub_asset_type = models.CharField(max_length=64, choices=sub_asset_type_choice,  verbose_name='网络设备类型')
 
     def __str__(self):
         return '%s--%s--%s <sn:%s>' % (
@@ -384,14 +380,14 @@ class RAM(models.Model):
         (str(2), '故障'),
         (str(3), '下线'),
     )
-    asset = models.ForeignKey('Asset', on_delete=models.CASCADE)
+    asset = models.ForeignKey('Asset', on_delete=models.CASCADE, verbose_name='资产')
     ram_model = models.CharField(max_length=100, blank=True, null=True, verbose_name='内存型号')
     ram_brand = models.CharField(max_length=100, blank=True, null=True, verbose_name='内存品牌')
     ram_volume = models.CharField(max_length=100, blank=True, null=True, verbose_name='内存容量')
-    ram_slot = models.SmallIntegerField(blank=True, null=True, verbose_name='内存插槽')
+    ram_slot = models.CharField(max_length=100,blank=True, null=True, verbose_name='内存插槽')
     ram_status = models.CharField(choices=ram_status_choice, max_length=100, blank=True, null=True, verbose_name='内存状态')
     create_date = models.DateTimeField(blank=True, null=True, verbose_name='创建时间')
-    update_date = models.DateTimeField(auto_now_add=True)
+    update_date = models.DateTimeField(auto_now_add=True, verbose_name='更新时间')
 
     def __str__(self):
         return '%s: %s: %s: %s' % (self.asset.asset_name, self.ram_model, self.ram_slot, self.ram_volume)
@@ -411,16 +407,16 @@ class CPU(models.Model):
         (str(2), '故障'),
         (str(3), '下线'),
     )
-    asset = models.ForeignKey('Asset', on_delete=models.CASCADE)
+    asset = models.ForeignKey('Asset', on_delete=models.CASCADE,verbose_name='资产')
     cpu_model = models.CharField(max_length=100, blank=True, null=True, verbose_name='CPU型号')
     cpu_brand = models.CharField(max_length=100, blank=True, null=True, verbose_name='CPU生产商')
     cpu_speed = models.CharField(max_length=100, blank=True, null=True, verbose_name='CPU容量')
     cpu_core_count = models.SmallIntegerField(blank=True, null=True, verbose_name='CPU核数')
-    cpu_slot = models.SmallIntegerField(blank=True, null=True, verbose_name='CPU插槽')
+    cpu_slot = models.CharField(max_length=100,blank=True, null=True, verbose_name='CPU插槽')
     cpu_status = models.CharField(choices=cpu_status_choice, max_length=100, blank=True, null=True,
                                   verbose_name='CPU状态')
     create_date = models.DateTimeField(blank=True, null=True, verbose_name='创建时间')
-    update_date = models.DateTimeField(auto_now_add=True)
+    update_date = models.DateTimeField(auto_now_add=True, verbose_name='更新时间')
 
     def __str__(self):
         return '%s: %s: %s: %s' % (self.asset.asset_name, self.cpu_model, self.cpu_slot, self.cpu_speed)
@@ -440,14 +436,14 @@ class Disk(models.Model):
         (str(2), '故障'),
         (str(3), '下线'),
     )
-    asset = models.ForeignKey('Asset', on_delete=models.CASCADE)
+    asset = models.ForeignKey('Asset', on_delete=models.CASCADE, verbose_name='资产')
     disk_name = models.CharField(max_length=64, blank=True, null=True, verbose_name='硬盘名称')
     disk_volume = models.CharField(max_length=64, blank=True, null=True, verbose_name='硬盘容量')
     disk_model = models.CharField(max_length=64, blank=True, null=True, verbose_name='硬盘型号')
     disk_brand = models.CharField(max_length=32, blank=True, null=True, verbose_name='硬盘生产商')
     disk_serial = models.CharField(max_length=100, blank=True, null=True, verbose_name='硬盘序列号')
     disk_slot = models.CharField(max_length=100, blank=True, null=True, verbose_name='硬盘插槽')
-    disk_status = models.CharField(choices=disk_status_choice, max_length=100, blank=True, null=True,)
+    disk_status = models.CharField(choices=disk_status_choice, max_length=100, blank=True, null=True,verbose_name='硬盘状态')
     disk_attr = models.CharField(max_length=100, blank=True, null=True, verbose_name='硬盘属性')
 
     def __str__(self):
@@ -480,7 +476,7 @@ class Port(models.Model):
         (str(3), 'AdminDown'),
     )
 
-    asset = models.ForeignKey('Asset', on_delete=models.CASCADE)
+    asset = models.ForeignKey('Asset', on_delete=models.CASCADE,verbose_name='资产')
     port_type = models.CharField(choices=port_type_choice, max_length=100, blank=True, null=True, verbose_name='接口类型')
     port_name = models.CharField(max_length=32, blank=True, null=True, verbose_name='接口名称')
     port_slot = models.CharField(max_length=32, blank=True, null=True, verbose_name='网卡槽位')
@@ -510,7 +506,7 @@ class Parts(models.Model):
         (str(2), '故障'),
         (str(3), '下线'),
     )
-    asset = models.ForeignKey('Asset', on_delete=models.CASCADE)
+    asset = models.ForeignKey('Asset', on_delete=models.CASCADE, verbose_name='资产')
     parts_type = models.CharField(max_length=100, blank=True, null=True, verbose_name='部件类型')
     parts_name = models.CharField(max_length=100, blank=True, null=True, verbose_name='部件名称')
     parts_model = models.CharField(max_length=100, blank=True, null=True, verbose_name='部件型号')
@@ -563,8 +559,8 @@ class EventLog(models.Model):
 
 
 class Device_model(models.Model):
-    img = models.ImageField(upload_to='upload', height_field=None, width_field=None, blank=True, null=True)
-    vendor = models.ForeignKey('Vendor', on_delete=models.SET_NULL, blank=True, null=True, verbose_name='设备厂商')
+    img = models.ImageField(upload_to='upload', height_field=None, width_field=None, blank=True, null=True, verbose_name='图片展示')
+    vendor = models.ForeignKey('Vendor', on_delete=models.CASCADE, blank=True, null=True, verbose_name='设备厂商')
     models = models.CharField(max_length=64, verbose_name='设备型号')
 
 

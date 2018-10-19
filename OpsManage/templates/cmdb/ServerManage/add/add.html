@@ -48,7 +48,7 @@
     </div>
 
     <!-- /.box-header -->
-    <form class="contact" action="addSubmit" method="post" id="form">
+    <form class="contact" action="addSubmit" method="post" id="addForm" enctype=”multipart/form-data”>
         <div class="box-body">
 
             <div class="row" style="margin-top: 25px">
@@ -58,7 +58,7 @@
                     <!-- 资产名称 -->
                     <div class="form-group">
                         <label for="asset_name">资产名称</label><br>
-                        <input required class="form-control inline" type="text" name="asset_name" id="asset_name"
+                        <input  required class="form-control inline" type="text" name="asset_name" id="asset_name"
                                placeholder="请输入资产名称">
                         <label class="btn fa fa-check-square-o "></label>
                     </div>
@@ -74,6 +74,7 @@
                             {% endfor %}
                         </select>
                         <label class="btn fa fa-check-square-o "></label>
+
                     </div>
                     <!-- /.所属单位 -->
 
@@ -92,9 +93,10 @@
                     <!-- 购买日期 -->
                     <div class="form-group">
                         <label for="purchase_day">购买日期</label><br>
-                        <input required class="form-control" type="date" name="purchase_day" id="purchase_day"
+                        <input required class="form-control inline" type="date" name="purchase_day" id="purchase_day"
                                placeholder="请选择购买日期">
-                        </select>
+                        <label class="btn fa fa-check-square-o"></label>
+
                     </div>
                     <!-- /.购买日期 -->
 
@@ -105,7 +107,7 @@
                             <option value="0">审批人</option>
                             {% for User in Users %}
                             <option value={{ User.id}}>{{ User.username }}</option>
-                            {% endfor %}
+                            {% endfor %}enctype=”multipart/form-data”
                         </select>
                     </div>
                     <!-- /.审批人 -->
@@ -126,13 +128,14 @@
                     <!-- 设备状态 -->
                     <div class="form-group">
                         <label for="status">设备状态</label><br>
-                        <select class="form-control select2 " id="status" name="status">
+                        <select required class="form-control select2 inline " id="status" name="status">
                             <option value="0">请选择设备状态</option>
                             <option value="1">使用中</option>
                             <option value="2">未使用</option>
                             <option value="3">故障</option>
                             <option value="4">其它</option>
                         </select>
+                        <label class="btn fa fa-check-square-o "></label>
                     </div>
                     <!-- /.设备状态 -->
 
@@ -158,9 +161,10 @@
                     <!-- 过保日期 -->
                     <div class="form-group">
                         <label for="expire_day">过保日期</label><br>
-                        <input required class="form-control" type="date" name="expire_day" id="expire_day"
+                        <input required class="form-control inline" type="date" name="expire_day" id="expire_day"
                                placeholder="请选择过保日期">
-                        </select>
+                        <label class="btn fa fa-check-square-o "></label>
+
                     </div>
                     <!-- /.过保日期 -->
 
@@ -197,13 +201,17 @@
                     <!-- 设备品牌 -->
                     <div class="form-group">
                         <label for="vendor">设备品牌</label><br>
-                        <select class="form-control inline select2" required id="vendor" name="vendor">
+                        <select required class="form-control inline select2" id="vendor" name="vendor">
                             <option value="0">请选择设备品牌</option>
                             {% for vendor in Vendors%}
                             <option value="{{vendor.id}}">{{ vendor.vendor_name}}</option>
                             {% endfor%}
                         </select>
-                        <label class="btn fa fa-check-square-o"></label>
+                        <label class="btn fa fa-check-square-o "></label>
+
+                        <a class="btn no-padding no-margin" target="_blank" href="/cmdb/editVendor">
+                            <i class="fa  fa-cog"></i>
+                        </a>
                     </div>
                     <!-- /.设备类型 -->
 
@@ -239,7 +247,7 @@
                     <!-- 所属网络 -->
                     <div class="form-group">
                         <label for="network_location">所属网络</label><br>
-                        <select class="form-control select2 inline" id="network_location" name="network_location">
+                        <select required class="form-control select2 inline" id="network_location" name="network_location">
                             <option value="0">请选择所属网络</option>
                             <option value="1">控制专网</option>
                             <option value="2">业务内网</option>
@@ -292,9 +300,11 @@
                             {% endfor %}
                         </select>
                         <label class="btn fa fa-check-square-o "></label>
+
                         <a class="btn no-padding no-margin" target="_blank" href="/cmdb/editModel">
                             <i class="fa  fa-cog"></i>
                         </a>
+                        <div style="font-size: 12px; color: grey">*请先选择设备品牌</div>
                     </div>
                     <!-- /.设备型号 -->
                 </div>
@@ -397,7 +407,7 @@
         <!-- /.box-body -->
 
         <div class="box-footer">
-            <input class="submit btn  btn-primary pull-right" type="submit"  id="submit" value="下一步">
+            <button type="button" onclick="doVerify()" class="btn  btn-primary pull-right" >下一步</button>
             <button type="button" class="btn  btn-success" onclick="window.location.href='/cmdb/asset'">取消</button>
         </div>
 
@@ -477,6 +487,35 @@
         });
     });
 
+    function doVerify(){
+        var asset_name =$("#asset_name").val();
+        var asset_no=$("#asset_no").val();
+        var sn=$("#sn").val();
+        if (asset_name != "" && asset_no != "" && sn != ""){
+            $.ajax({
+                url:"http://127.0.0.1:8000/cmdb/doVerify",
+                data:{"asset_name":asset_name,"asset_no":asset_no,"sn":sn},
+                type:"post",
+                success:function(data){
+                    if(data['asset_name']){
+                        alert("提交失败，资产名称已存在！")
+                    }
+                    else if (data['asset_no']){
+                        alert("提交失败，资产编号已存在！")
+                    }
+                    else if(data['sn']){
+                        alert("提交失败，序列号sn已存在！")
+                    }
+                    else {
+                        document.getElementById('addForm').submit();
+                    }
+                }
+
+            });
+        }else{
+            alert("提交失败，请检查必填项是否已全部填写！")
+        }
+    }
 </script>
 {% endblock foot_js %}
 

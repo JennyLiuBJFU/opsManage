@@ -1,55 +1,51 @@
-{% load staticfiles %}
-<!DOCTYPE html>
-<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6 lt8"> <![endif]-->
-<!--[if IE 7 ]>    <html lang="en" class="no-js ie7 lt8"> <![endif]-->
-<!--[if IE 8 ]>    <html lang="en" class="no-js ie8 lt8"> <![endif]-->
-<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="UTF-8" />
-        <title>运维管理系统</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-        <meta name="description" content="Login and Registration Form with HTML5 and CSS3" />
-        <meta name="keywords" content="html5, css3, form, switch, animation, :target, pseudo-class" />
-        <meta name="author" content="Codrops" />
-        <link rel="stylesheet" type="text/css" href="/static/css/demo.css" />
-        <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
-		<link rel="stylesheet" type="text/css" href="/static/css/animate-custom.css" />
-    </head>
-    <body>
-        <div class="container">
-            <div style="text-align:center;clear:both;">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>运维管理系统</title>
+<meta charset="utf-8">
 
-            </div>
-            <section>				
-                <div id="container_demo" >
-                    <div id="wrapper">
-                        <div id="login" class="animate form">
-                            <form  class="cd-form" method="post" action="http://127.0.0.1:8000/loginSubmit"> 
-                                <h1>welcome</h1>
-                                <p> 
-                                    <label for="username" class="uname" data-icon="u" > 用户名 </label>
-                                    <input id="username" name="username" required="required" type="text" placeholder="请输入用户名"/>
-                                </p>
-                                <p> 
-                                    <label for="password" class="youpasswd" data-icon="p"> 密码 </label>
-                                    <input id="password" name="password" required="required" type="password" placeholder="请输入密码" />
-                                </p>
-                                {% if Flag %}
-                                    <br>
-                                    用户名或密码错误，请重试
-                                {% endif %}
-                                <p class="login button"> 
-                                    <input type="submit" value="Login" />
-								</p>
+<link rel="stylesheet" type="text/css"  href="/static/css/style.css">
+ </head>
+<body>
+	<div class="ld_header">
+		<div class="ld_header_in">
+			<div class="ld_logo">
+				<a href="/"><img src="/static/img/ld_logo.png" alt="logo"></a>
+			</div>
+	    </div>
+	</div>
+	<div class="ldL_con">
+		<div class="ldL_con_in">
+			<div class="ld_form">
+				<form id="login-form"  method="post" action="http://127.0.0.1:8000/loginSubmit">
+					<h3 class="form_title">管理员登录</h3>
+					<p>
+						<input type="text" name="username" id="userName"/>
+					</p>
+					<p>
+						<input type="password" id="password" name="password" class="ld_pass"/>
+					</p>
+                    {% if Flag %}
+                        <br>
+                        用户名或密码错误，请重试
+                    {% endif %}
 
-                            </form>
-                        </div>
-                    </div>
-                </div>  
-            </section>
-        </div>
+					<div class="ld_login">
+						<button class="ld_login_in" id="bt-login">登录</button>
+						<div id="login-msg"></div>
 
-  
-	</body>
+					</div>
+
+				</form>
+			</div>
+		</div>
+
+	</div>
+<div class="ld_footer">
+    <div class="ld_footer_in">
+        <p> Copyright@巴拉巴拉版权所有 某CIP备 号</p>
+        <p>技术支持 某某某网络科技有限公司</p>
+    </div>
+</div>
+ </body>
 </html>

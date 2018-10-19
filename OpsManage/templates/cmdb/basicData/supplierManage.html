@@ -15,6 +15,8 @@
     <li id="contract"><a href="http://127.0.0.1:8000/cmdb/contractManage">合同管理</a></li>
     <li id="supplier"><a href="http://127.0.0.1:8000/cmdb/supplierManage">供应商管理</a></li>
     <li id="vendor"><a href="http://127.0.0.1:8000/cmdb/vendorManage">厂商管理</a></li>
+    <li id="model"><a href="http://127.0.0.1:8000/cmdb/modelManage">型号管理</a></li>
+
 </ul>
 
 <div class="box box-group bg-gray-light " style="min-height: 800px;padding-left: 10px;padding-right: 10px">
@@ -88,17 +90,17 @@
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label class=" control-label">供应商名称</label>
-                                        <input class="form-control" type="text" name="name" placeholder="supplier name">
+                                        <input required class="form-control" type="text" name="name" placeholder="supplier name">
                                     </div>
 
                                     <div class="form-group">
                                         <label class="control-label">联系人</label>
-                                        <input class="form-control" type="text" name="contact" placeholder="contact">
+                                        <input  required class="form-control" type="text" name="contact" placeholder="contact">
                                     </div>
 
                                     <div class="form-group">
                                         <label class=" control-label">联系电话</label>
-                                        <input class="form-control" type="text" name="phone" placeholder="phone">
+                                        <input  required class="form-control" type="text" name="phone" placeholder="phone">
                                     </div>
 
                                     <div class="form-group">
@@ -131,17 +133,17 @@
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label class=" control-label">供应商名称</label>
-                                        <input class="form-control" type="text" name="name" value="{{ SUPPLIER.supplier_name}}">
+                                        <input  required class="form-control" type="text" name="name" value="{{ SUPPLIER.supplier_name}}">
                                     </div>
 
                                     <div class="form-group">
                                         <label class="control-label">联系人</label>
-                                        <input class="form-control" type="text" name="contact" value="{{ SUPPLIER.supplier_contacts }}">
+                                        <input  required class="form-control" type="text" name="contact" value="{{ SUPPLIER.supplier_contacts }}">
                                     </div>
 
                                     <div class="form-group">
                                         <label class=" control-label">联系电话</label>
-                                        <input class="form-control" type="text" name="phone" value="{{ SUPPLIER.supplier_phone}}">
+                                        <input  required class="form-control" type="text" name="phone" value="{{ SUPPLIER.supplier_phone}}">
                                     </div>
 
                                     <div class="form-group">

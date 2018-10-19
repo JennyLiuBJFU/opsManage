@@ -10,13 +10,13 @@
     <div class="row" style="margin-top: 10px">
         <!-- 第一列 -->
             <div class="col-md-8">
-                <div class="box box-default">
+                <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">完善设备信息</h3>
                     </div>
 
-                    <div class="box-body">
-                        <form class="contact" action="serverSubmit" method="post" id="form">
+                    <div class="box-body "style="padding: 10px 30px">
+                        <form  action="serverSubmit" method="post" id="form">
 
                             <!-- 选择设备子类型 -->
                             <div class="form-group">
@@ -27,10 +27,10 @@
 
 
                             <!-- /选择宿主机 -->
-                            <div class="form-group" id="hosted_on_1" style="display: none;">
+                            <div class="form-group margin-bottom" id="hosted_on_1" style="display: none;">
                                 <label for="hosted_on">宿主机</label><br>
                                 <select required class="form-control select2 inline" id="hosted_on" name="hosted_on">
-                                    <option value="0">请宿主机</option>
+                                    <option value="0">请选择宿主机</option>
                                     {% for server in servers %}
                                     <option value={{ server.id}}>{{ server.asset_name }}</option>
                                     {% endfor %}
@@ -40,7 +40,7 @@
 
 
                             <!-- 选择设备微码版本 -->
-                            <div class="form-group">
+                            <div class="form-group margin-bottom">
                                 <label for="microcode">微码版本</label><br>
                                 <input class="form-control" type="text" id="microcode" name="microcode"
                                        placeholder="请输入微码版本">
@@ -49,9 +49,9 @@
 
 
                             <!-- /选择操作系统 -->
-                            <div class="form-group">
+                            <div class="form-group margin-bottom">
                                 <label for="os_type">操作系统类型</label><br>
-                                <select required class="form-control select2 inline" id="os_type" name="os_type">
+                                <select class="form-control select2 inline" id="os_type" name="os_type">
                                     <option value="0">请选择操作系统</option>
                                     <option value="1">Windows</option>
                                     <option value="2">Unix</option>
@@ -63,7 +63,7 @@
 
 
                             <!-- 选择设备发行版本 -->
-                            <div class="form-group">
+                            <div class="form-group margin-bottom">
                                 <label for="os_distribution">发行版本</label><br>
                                 <input class="form-control" type="text" id="os_distribution" name="os_distribution"
                                        placeholder="请输入发行版本">
@@ -71,7 +71,7 @@
                             <!-- /选择设备发行版本 -->
 
                             <!-- 选择设备操作系统版本 -->
-                            <div class="form-group">
+                            <div class="form-group margin-bottom">
                                 <label for="os_release">操作系统版本</label><br>
                                 <input class="form-control" type="text" id="os_release" name="os_release"
                                        placeholder="请输入操作系统版本">
@@ -81,7 +81,7 @@
 
                             <div class="box-footer">
                                 <button class="btn btn-primary pull-right" type="submit"  id="submit" >下一步</button>
-                                <button class="btn btn-success"  onclick="window.location.href='http://127.0.0.1:8000/cmdb/asset'">
+                                <button class="btn btn-success"  type="button" onclick="window.location.href='http://127.0.0.1:8000/cmdb/asset'">
                                     返回
                                 </button>
                             </div>
@@ -97,25 +97,34 @@
 
         <!-- 第二列 -->
         <div class="col-md-4">
-            <div class="box box-primary">
+            <div class="box box-warning">
                 <div class="box-header with-border">
                     <h3 class="box-title">添加的设备信息</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <dl class="dl-horizontal">
-                        <dt>品牌</dt>
-                        <dd>{{ vendor }}</dd>
-                        <dt>类型</dt>
-                        <dd>{{ asset_type_display}}</dd>
-                        <dt>子类型</dt>
-                        <dd>{{ asset_subtype_display }}</dd>
-                        <dt>型号</dt>
-                        <dd>{{ model }}</dd>
-                        <dt>序列号</dt>
-                        <dd>{{ sn }}</dd>
-                    </dl>
-                </div>
+                    <table id="example2" class="table table-bordered table-hover" style="width: 80%; margin: 0 auto;" >
+                        <tr>
+                            <td class="text-center" style="width: 40%">设备品牌</td>
+                            <td class="text-center" style="width: 60%">{{ vendor }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center" style="width: 40%" >设备类型</td>
+                            <td class="text-center" style="width: 60%">{{ asset_type_display }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center" style="width: 40%" >设备子类型</td>
+                            <td class="text-center" style="width: 60%">{{ asset_subtype_display }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center" style="width: 40%" >设备型号</td>
+                            <td class="text-center" style="width: 60%">{{ model }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center" style="width: 40%">设备序列号</td>
+                            <td class="text-center" style="width: 60%">{{ sn }}</td>
+                        </tr>
+                    </table>
                 <!-- /.box-body -->
             </div>
         </div>
@@ -133,7 +142,6 @@
     $(function () {
         var temp ={{asset_subtype}};
         if(temp=='4'){
-            alert("rwerwrwrwr")
           $("#hosted_on_1").css('display', '')
         }
     });
