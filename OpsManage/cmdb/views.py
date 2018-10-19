@@ -929,7 +929,7 @@ def detail(request, v):
         'ASSET': ASSET,
         'CabinetSpace': CabinetSpace,
     }
-    return render(request, 'cmdb/detail.html', context)
+    return render(request, 'cmdb/ServerManage/detail.html', context)
 
 @login_required()
 def editModel(request):
