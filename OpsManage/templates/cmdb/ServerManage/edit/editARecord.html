@@ -430,7 +430,7 @@
                             {% if ASSET.idc %}
                                 <option value="{{ ASSET.idc.id }}" selected="selected">{{ ASSET.idc.idc_name }}</option>
                                 {% else %}
-                                <option value=""0>请选择机房</option>
+                                <option value="0">请选择机房</option>
                             {% endif %}
                             {% for Idc in Idcs %}
                                 <option value={{ Idc.id}}>{{ Idc.idc_name }}</option>
@@ -595,7 +595,7 @@
         <!-- /.box-body -->
 
         <div class="box-footer">
-            <input class="submit btn  btn-primary pull-right" type="submit"  id="submit" value="保存">
+            <button type="button" onclick="doVerify({{ ID }})" class="btn  btn-primary pull-right" >下一步</button>
             <button type="button" class="btn  btn-success" onclick="window.location.href='/cmdb/asset'">取消</button>
             <button type="button" class="btn btn-warning pull-right margin-r-5" onclick="window.location.href='http://127.0.0.1:8000/cmdb/editMore?assetId={{ ASSET.id }}'">编辑部件</button>
 
@@ -677,6 +677,35 @@
         });
     });
 
+    function doVerify(assetId){
+        var asset_name =$("#asset_name").val();
+        var asset_no=$("#asset_no").val();
+        var sn=$("#sn").val();
+        if (asset_name != "" && asset_no != "" && sn != ""){
+            $.ajax({
+                url:"http://127.0.0.1:8000/cmdb/doVerify",
+                data:{"asset_name":asset_name,"asset_no":asset_no,"sn":sn,"assetId":assetId},
+                type:"post",
+                success:function(data){
+                    if(data['asset_name']){
+                        alert("提交失败，资产名称已存在！")
+                    }
+                    else if (data['asset_no']){
+                        alert("提交失败，资产编号已存在！")
+                    }
+                    else if(data['sn']){
+                        alert("提交失败，序列号sn已存在！")
+                    }
+                    else {
+                        document.getElementById('form').submit();
+                    }
+                }
+
+            });
+        }else{
+            alert("提交失败，请检查必填项是否已全部填写！")
+        }
+    }
 </script>
 {% endblock foot_js %}
 

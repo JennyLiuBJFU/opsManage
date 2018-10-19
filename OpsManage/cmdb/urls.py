@@ -78,4 +78,6 @@ urlpatterns = [
     url(r'^addAModelSubmit',views.addAModelSubmit),
     url(r'^editAModelSubmit',views.editAModelSubmit),
     url(r'^editAVendorSubmit',views.editAVendorSubmit),
+
+    url(r'^doVerify',views.doVerify),
 ]

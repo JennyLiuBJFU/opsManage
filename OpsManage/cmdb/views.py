@@ -2132,3 +2132,24 @@ def editAVendorSubmit(request):
         'vendor':vendor,
     }
     return render(request, 'cmdb/basicData/vendorManage.html', context)
+
+@login_required()
+def doVerify(request):
+    print(request.POST)
+    ASSET_NAME=request.POST['asset_name']
+    ASSET_NO=request.POST['asset_no']
+    SN=request.POST['sn']
+    assets=Asset.objects.all()
+    asset_name=False
+    asset_no=False
+    sn=False
+    for asset in assets:
+        if asset.id != int(request.POST['assetId']):
+            if asset.asset_name == ASSET_NAME:
+                asset_name=True
+            if asset.asset_no == ASSET_NO:
+                asset_no=True
+            if asset.sn == SN:
+                sn=True
+    response=JsonResponse({"asset_name":asset_name,"asset_no":asset_no,"sn":sn})
+    return response
