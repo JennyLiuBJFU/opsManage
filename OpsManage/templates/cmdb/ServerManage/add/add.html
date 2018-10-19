@@ -494,7 +494,7 @@
         if (asset_name != "" && asset_no != "" && sn != ""){
             $.ajax({
                 url:"http://127.0.0.1:8000/cmdb/doVerify",
-                data:{"asset_name":asset_name,"asset_no":asset_no,"sn":sn},
+                data:{"asset_name":asset_name,"asset_no":asset_no,"sn":sn,"assetId":'0'},
                 type:"post",
                 success:function(data){
                     if(data['asset_name']){
