@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="/static/dist/paginationjs/pagination.css">
 <!--<link rel="stylesheet" href="/static/dist/search_dropDown/search_dropDown.css">-->
 <link rel="stylesheet" href="/static/dist/jquery-confirm/jquery-confirm.min.css">
-<link rel="stylesheet" href="/static/dist/easyui/easyui.css">
+<!--<link rel="stylesheet" href="/static/dist/easyui/easyui.css">-->
 
 {% endblock%}
 
@@ -45,7 +45,7 @@
 
                     <div class="form-group inline">
                         <form class="form-inline inline" id="filterForm">
-                            <!-- 查询所属单位
+                            <!-- 查询所属单位 -->
                             <div class="form-group margin-r-5">
                                 <select class="form-control select2 text-center" name="myOrg" id="selectedOrg"
                                         style="width: 130px;font-size: 12px">
@@ -56,22 +56,6 @@
                                 </select>
                             </div>
                             <!-- 查询所属单位 -->
-
-
-                             <!-- 查询所属单位测试 -->
-                            <div class="form-group margin-r-5 id=xxx1">
-                                <select class="easyui-combotree  form-control select2 text-center"  url="/cmdb/orglist/" name="myOrg" id="selectedOrg"
-                                        style="width: 130px;font-size: 12px">
-                                    <!--<option value="0" selected="selected">所属单位</option>-->
-
-                                </select>
-                            </div>
-                            <!-- 查询所属单位测试 -->
-
-
-
-
-
 
                             <!-- 查询设备类型 -->
                             <div class="form-group margin-r-5">
@@ -303,7 +287,7 @@
 <script type="text/javascript" src="/static/dist/paginationjs/pagination.min.js"></script>
 <!--<script type="text/javascript" src="/static/dist/search_dropDown/search_dropDown.js"></script>-->
 <script type="text/javascript" src="/static/dist/jquery-confirm/jquery-confirm.min.js"></script>
-<script type="text/javascript" src="/static/dist/easyui/jquery.easyui.min.js"></script>
+<!--<script type="text/javascript" src="/static/dist/easyui/jquery.easyui.min.js"></script>-->
 <!--设备详细页面弹窗-->
 <script type="text/javascript">
     function detail(n) {
@@ -333,8 +317,7 @@
     });
 
     $(function () {
-        $("#xxx1").find('>span:first').change(function () {
-                alert("uuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
+         $("#selectedOrg").change(function () {
                 var args1 = $("#filterForm").serialize();
                 var args2 = $("#pagelenForm").serialize();
                 var args = args1 + "&" + "page=1" + "&" + args2;
