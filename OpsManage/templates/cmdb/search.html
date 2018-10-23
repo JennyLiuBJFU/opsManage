@@ -112,11 +112,11 @@
                             <td>{{ Asset.organization }}</td>
                             <td class="text-center">{{ Asset.get_status_display }}</td>
                             <td class="text-center">
-                                <a href="http://127.0.0.1:8000/cmdb/index/deleteARecord?myid={{ Asset.id }}">
+                                <a href="/cmdb/index/deleteARecord?myid={{ Asset.id }}">
                                     <i class="glyphicon glyphicon-edit text-info"
                                        style="margin-right: 5px"></i>
                                 </a>
-                                <a href="http://127.0.0.1:8000/cmdb/index/editARecord?myid={{ Asset.id }}">
+                                <a href="/cmdb/index/editARecord?myid={{ Asset.id }}">
                                     <i class="glyphicon glyphicon-trash text-danger"></i>
                                 </a>
                             </td>
@@ -215,8 +215,7 @@
 
     {% block foot_js %}
 
-    <script type="text/javascript" src="/static/dist/layer/layer.js"></script>
-    <script type="text/javascript" src="/static/dist/paginationjs/pagination.min.js"></script>
+<script src=" {% static 'dist/paginationjs/pagination.min.js' %}"> </script>
     <!--设备详细页面弹窗-->
     <script type="text/javascript">
         function detail(n) {

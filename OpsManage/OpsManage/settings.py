@@ -58,8 +58,7 @@ ROOT_URLCONF = 'OpsManage.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -78,26 +77,26 @@ WSGI_APPLICATION = 'OpsManage.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'OpsManage',
-#         'USER': 'root',
-#         'PASSWORD': 'boco',
-#         'HOST': '192.168.14.27',
-#         'PORT': '3306',
-#         'OPTIONS': {},
-#         'init_command': 'SET storage_engine=INNODB,'
-#                         'SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED, autocommit=1, names "utf8";',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'OpsManage',
+        'USER': 'root',
+        'PASSWORD': 'boco',
+        'HOST': '192.168.14.27',
+        'PORT': '3306',
+        'OPTIONS': {},
+        'init_command': 'SET storage_engine=INNODB,'
+                        'SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED, autocommit=1, names "utf8";',
+    }
+}
 
 
 
@@ -138,6 +137,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'collect_static')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),

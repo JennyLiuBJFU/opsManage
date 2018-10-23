@@ -373,7 +373,7 @@ def addSubmit(request):
 
 
     #生成设备的二维码
-    obj_url = "http://127.0.0.1/cmdb/detail" + str(ASSET.id)
+    obj_url = "/cmdb/detail" + str(ASSET.id)
     qr = qrcode.QRCode(version=1,
                        error_correction=qrcode.constants.ERROR_CORRECT_L,
                        box_size=8,

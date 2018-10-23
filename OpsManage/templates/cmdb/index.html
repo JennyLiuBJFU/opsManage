@@ -1,10 +1,9 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
 
 {% block main_content %}
 <div class="row">
-
-
 
     <div>
         <div class="col-md-3">
@@ -151,8 +150,9 @@
 
 
 {% block foot_js %}
-<script src="/static/dist/js/echarts.min.js"></script>
-<script src="/static/dist/js/customed_echart.js"></script>
+
+<script src=" {% static 'dist/js/echarts.min.js' %}"> </script>
+<script src=" {% static 'dist/js/customed_echart.js' %}"> </script>
 
 
 
@@ -299,7 +299,7 @@
 
 
 
-<!-- ----组织e机构图------ -->
+<!-- ----组织机构图------ -->
 <script>
     $(function () {
         // 设置表格大小

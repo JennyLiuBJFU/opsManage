@@ -110,7 +110,7 @@
             <div class="row">
                 <!-- 资产表格   -->
                 <div id="div01">
-                    <form action="http://127.0.0.1:8000/cmdb/asset/" id="deleteForm" method="post">
+                    <form action="/cmdb/asset/" id="deleteForm" method="post">
                         <table id="example2" class="table table-bordered table-hover">
                             <thead>
                             <tr>
@@ -152,7 +152,7 @@
                                 <td class="text-center">{{ Asset.organization }}</td>
                                 <td class="text-center">{{ Asset.get_status_display }}</td>
                                 <td class="text-center" >
-                                    <a href="http://127.0.0.1:8000/cmdb/editARecord?myid={{ Asset.id }}">
+                                    <a href="/cmdb/editARecord?myid={{ Asset.id }}">
                                         <i class="glyphicon glyphicon-edit text-info"
                                            style="margin-right: 5px"></i>
                                     </a>

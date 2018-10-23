@@ -153,7 +153,7 @@ class Idc(models.Model):
 
 class Cabinet(models.Model):
     """ 机柜 """
-    idc = models.ForeignKey('Idc', on_delete=models.CASCADE, null=True, blank=True, verbose_name='所在机房')
+    idc = models.ForeignKey('Idc', on_delete=models.CASCADE, null=True, blank=True, verbose_name='所在机房') #删除IDC，保留机柜
     cabinet_name = models.CharField(max_length=100, verbose_name='机柜名称')
     cabinet_desc = models.CharField(max_length=100, blank=True, verbose_name='机柜描述')
     cabinet_height=models.SmallIntegerField(blank=True, null=True, verbose_name='机柜高度')
@@ -252,7 +252,7 @@ class Server(models.Model):
         (str(2), '手工录入'),
     )
 
-    asset = models.OneToOneField('Asset', on_delete=models.CASCADE, verbose_name='资产')  # 非常关键的一对一关联！
+    asset = models.OneToOneField('Asset', on_delete=models.CASCADE, verbose_name='资产')  # 非常关键的一对一关联,删除资产就删除设备！
     sub_asset_type = models.CharField(choices=sub_asset_type_choice, max_length=64, verbose_name='服务器类型')
     created_by = models.CharField(choices=created_by_choice, max_length=32, verbose_name='添加方式')
     microcode = models.CharField(max_length=32, verbose_name='微码版本', blank=True, null=True,)
@@ -290,7 +290,7 @@ class SecurityDevice(models.Model):
         (str(12), 'VPN设备'),
     )
 
-    asset = models.OneToOneField('Asset', on_delete=models.CASCADE, verbose_name='资产')
+    asset = models.OneToOneField('Asset', on_delete=models.CASCADE, verbose_name='资产') #删除资产就删除设备
     sub_asset_type = models.CharField(max_length=64, choices=sub_asset_type_choice, verbose_name='安全设备类型')
 
     def __str__(self):
@@ -313,7 +313,7 @@ class StorageDevice(models.Model):
         (str(5), '磁带机'),
     )
 
-    asset = models.OneToOneField('Asset', on_delete=models.CASCADE, verbose_name='资产')
+    asset = models.OneToOneField('Asset', on_delete=models.CASCADE, verbose_name='资产') #删除资产就删除设备
     sub_asset_type = models.CharField(max_length=64, choices=sub_asset_type_choice, verbose_name='存储设备类型')
 
     def __str__(self):
@@ -335,7 +335,7 @@ class NetworkDevice(models.Model):
         (str(4), '无线控制器'),
         (str(5), '无线AP'),
     )
-    asset = models.OneToOneField('Asset', on_delete=models.CASCADE, verbose_name='资产')
+    asset = models.OneToOneField('Asset', on_delete=models.CASCADE, verbose_name='资产') #删除资产就删除设备
     sub_asset_type = models.CharField(max_length=64, choices=sub_asset_type_choice,  verbose_name='网络设备类型')
 
     def __str__(self):
@@ -380,7 +380,7 @@ class RAM(models.Model):
         (str(2), '故障'),
         (str(3), '下线'),
     )
-    asset = models.ForeignKey('Asset', on_delete=models.CASCADE, verbose_name='资产')
+    asset = models.ForeignKey('Asset', on_delete=models.CASCADE, verbose_name='资产') #删除资产就删除配件
     ram_model = models.CharField(max_length=100, blank=True, null=True, verbose_name='内存型号')
     ram_brand = models.CharField(max_length=100, blank=True, null=True, verbose_name='内存品牌')
     ram_volume = models.CharField(max_length=100, blank=True, null=True, verbose_name='内存容量')

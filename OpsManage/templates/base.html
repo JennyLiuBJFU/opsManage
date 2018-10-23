@@ -1,7 +1,7 @@
-{% load staticfiles %}
 <!DOCTYPE html>
 
 <html>
+{% load staticfiles %}
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,29 +13,27 @@
     {% endblock %}
 
     <!-- Bootstrap 3.3.1 -->
-    <link rel="stylesheet" href="/static/dist/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'dist/bootstrap-3.3.7-dist/css/bootstrap.min.css' %}">
     <!-- Font Awesome 4.7.0-->
-    <link rel="stylesheet" href="/static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="/static/dist/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="{% static 'dist/ionicons/css/ionicons.min.css' %}">
     <!-- Theme style -->
-    <link rel="stylesheet" href="/static/dist/css/AdminLTE.css">
+    <link rel="stylesheet" href="{% static 'dist/css/AdminLTE.css' %}">
     <!-- AdminLTE Skins -->
-    <link rel="stylesheet" href="/static/dist/css/skins/skin-blue-light.min.css">
+    <link rel="stylesheet" href="{% static 'dist/css/skins/skin-blue-light.min.css' %}">
     <!-- Date Picker -->
-        <link rel="stylesheet" href="/static/dist/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="{% static 'dist/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
     <!-- Daterange picker -->
-    <link rel="stylesheet" href="/static/dist/bootstrap-daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="{% static 'dist/bootstrap-daterangepicker/daterangepicker.css' %}">
     <!-- bootstrap wysihtml5 - text editor -->
-    <link rel="stylesheet" href="/static/dist/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
-    <link rel="stylesheet" href="/static/css/xcConfirm.css">
+    <link rel="stylesheet" href="{% static 'dist/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/xcConfirm.css' %}">
 
     <!-- Google Font -->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-    <script type="text/javascript" src="/static/js/jquery-1.7.2.min.js" ></script>
-    <script type="text/javascript" src="/static/dist/layer/layer.js"></script>
-    <script type="text/javascript" src="/static/js/xcConfirm.js"></script>
+
 
     {% block css_block %} {% endblock %}
 
@@ -106,7 +104,7 @@ desired effect
                                  <p>
                                     {{ USERNAME }}
                                     {% if Perm == 1 %}
-                                        <a target="_blank" class="full-opacity-hover" href="http://127.0.0.1:8000/accounts/manageUser" style="margin-top:0.2em; display: block;font-size: 0.7em;color: white;">管理员权限</a>
+                                        <a target="_blank" class="full-opacity-hover" href="/accounts/manageUser" style="margin-top:0.2em; display: block;font-size: 0.7em;color: white;">管理员权限</a>
                                     {% else %}
                                         <small>普通用户</small>
                                     {% endif %}
@@ -133,7 +131,7 @@ desired effect
                                     <a class="btn btn-default btn-flat cd-signin" onclick=" layer.open({type: 2,title:'',closeBtn: 1,area: ['400px', '300px'],shadeClose: true, content: ['/accounts/editAdmin'],});">修改密码</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="http://127.0.0.1:8000/logout" class="btn btn-default btn-flat">注销登录</a>
+                                    <a href="/logout" class="btn btn-default btn-flat">注销登录</a>
                                 </div>
                             </li>
                         </ul>
@@ -301,24 +299,27 @@ desired effect
 
 
 <!-- jQuery 3.3.1 -->
-<script type="text/javascript" src="/static/dist/js/jquery-3.3.1.min.js"></script>
+<script src=" {% static 'dist/js/jquery-3.3.1.min.js' %}"> </script>
 <!-- jQuery UI  -->
-<script type="text/javascript"  src="/static/dist/jquery-ui/jquery-ui.min.js"></script>
+<script src=" {% static 'dist/jquery-ui/jquery-ui.min.js' %}"> </script>
 <!-- Bootstrap 3.3.7 -->
-<script type="text/javascript"  src="/static/dist/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script src=" {% static 'dist/bootstrap-3.3.7-dist/js/bootstrap.min.js' %}"> </script>
 <!-- Morris.js charts -->
-<script type="text/javascript" src="/static/dist/raphael/raphael.min.js"></script>
+<script src=" {% static 'dist/raphael/raphael.min.js' %}"> </script>
 <!-- daterangepicker -->
-<script type="text/javascript" src="/static/dist/moment/min/moment.min.js"></script>
-<script type="text/javascript" src="/static/dist/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src=" {% static 'dist/moment/min/moment.min.js' %}"> </script>
+<script src=" {% static 'dist/bootstrap-daterangepicker/daterangepicker.js' %}"> </script>
 <!-- datepicker -->
-<script type="text/javascript" src="/static/dist/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script src=" {% static 'dist/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"> </script>
 <!-- Bootstrap WYSIHTML5 -->
-<script type="text/javascript" src="/static/dist/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<script src=" {% static 'dist/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js' %}"> </script>
 <!-- Slimscroll -->
-<script type="text/javascript" src="/static/dist/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src=" {% static 'dist/jquery-slimscroll/jquery.slimscroll.min.js' %}"> </script>
 <!-- AdminLTE App -->
-<script type="text/javascript" src="/static/dist/js/adminlte.min.js"></script>
+<script src=" {% static 'dist/js/adminlte.min.js' %}"> </script>
+<!--<script type="text/javascript" src="/static/js/jquery-1.7.2.min.js" ></script>-->
+<script src=" {% static 'dist/layer/layer.js' %}"> </script>
+<script src=" {% static 'js/xcConfirm.js' %}"> </script>
 
 <script>
     $.widget.bridge('uibutton', $.ui.button);

@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>运维管理系统</title>
+<meta charset="utf-8">
+
+<link rel="stylesheet" type="text/css"  href="/static/css/style.css">
+ </head>
+<body>
+	<div class="ld_header">
+		<div class="ld_header_in">
+			<!--<div class="ld_logo">-->
+				<!--<a href="/"><img src="/static/img/ld_logo.png" alt="logo"></a>-->
+			<!--</div>-->
+	    </div>
+	</div>
+	<div class="ldL_con">
+		<div class="ldL_con_in">
+			<div class="ld_form">
+				<form id="login-form"  method="post" action="/loginSubmit">
+					<h3 class="form_title">管理员登录</h3>
+					<p>
+						<input type="text" name="username" id="userName"/>
+					</p>
+					<p>
+						<input type="password" id="password" name="password" class="ld_pass"/>
+					</p>
+                    {% if Flag %}
+                        <br>
+                        用户名或密码错误，请重试
+                    {% endif %}
+
+					<div class="ld_login">
+						<button class="ld_login_in" id="bt-login">登录</button>
+						<div id="login-msg"></div>
+
+					</div>
+
+				</form>
+			</div>
+		</div>
+
+	</div>
+<div class="ld_footer">
+    <div class="ld_footer_in">
+        <p> Copyright@巴拉巴拉版权所有 某CIP备 号</p>
+        <p>技术支持 某某某网络科技有限公司</p>
+    </div>
+</div>
+ </body>
+</html>
