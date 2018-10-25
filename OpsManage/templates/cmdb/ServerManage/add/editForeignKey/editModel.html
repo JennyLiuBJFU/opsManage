@@ -65,7 +65,7 @@
                                                 <td class="text-center">{{ i.vendor.vendor_name }}</td>
                                                 <td class="text-center">{{ i.models }}</td>
                                                 <td class="text-center">
-                                                    <a href="http://127.0.0.1:8000/cmdb/editModel?modelId={{ i.id }}">
+                                                    <a href="/cmdb/editModel?modelId={{ i.id }}">
                                                         <i class="glyphicon glyphicon-edit text-info"
                                                            style="margin-right: 5px"></i>
                                                     </a>
@@ -111,7 +111,7 @@
                                                 <option value={{ vendor.id }}>{{ vendor.vendor_name }}</option>
                                             {% endfor %}
                                         </select>
-                                        <a class="btn buttons"  target="_blank" href="http://127.0.0.1:8000/cmdb/editVendor">
+                                        <a class="btn buttons"  target="_blank" href="/cmdb/editVendor">
                                             <i class="glyphicon glyphicon-edit text-info">add</i>
                                         </a>
                                     </div>
@@ -156,7 +156,7 @@
                                                 <option value={{ vendor.id }}>{{ vendor.vendor_name }}</option>
                                             {% endfor %}
                                         </select>
-                                        <a class="btn buttons"  target="_blank" href="http://127.0.0.1:8000/cmdb/editVendor">
+                                        <a class="btn buttons"  target="_blank" href="/cmdb/editVendor">
                                             <i class="glyphicon glyphicon-edit text-info">add</i>
                                         </a>
                                     </div>

@@ -3,8 +3,9 @@
 
 {% block css_block %}
 <link rel="stylesheet" href="/static/dist/paginationjs/pagination.css">
-<link rel="stylesheet" href="/static/dist/search_dropDown/search_dropDown.css">
+<!--<link rel="stylesheet" href="/static/dist/search_dropDown/search_dropDown.css">-->
 <link rel="stylesheet" href="/static/dist/jquery-confirm/jquery-confirm.min.css">
+<!--<link rel="stylesheet" href="/static/dist/easyui/easyui.css">-->
 
 {% endblock%}
 
@@ -54,6 +55,7 @@
                                     {% endfor %}
                                 </select>
                             </div>
+                            <!-- 查询所属单位 -->
 
                             <!-- 查询设备类型 -->
                             <div class="form-group margin-r-5">
@@ -108,7 +110,7 @@
             <div class="row">
                 <!-- 资产表格   -->
                 <div id="div01">
-                    <form action="http://127.0.0.1:8000/cmdb/asset/" id="deleteForm" method="post">
+                    <form action="/cmdb/asset/" id="deleteForm" method="post">
                         <table id="example2" class="table table-bordered table-hover">
                             <thead>
                             <tr>
@@ -150,7 +152,7 @@
                                 <td class="text-center">{{ Asset.organization }}</td>
                                 <td class="text-center">{{ Asset.get_status_display }}</td>
                                 <td class="text-center" >
-                                    <a href="http://127.0.0.1:8000/cmdb/editARecord?myid={{ Asset.id }}">
+                                    <a href="/cmdb/editARecord?myid={{ Asset.id }}">
                                         <i class="glyphicon glyphicon-edit text-info"
                                            style="margin-right: 5px"></i>
                                     </a>
@@ -283,8 +285,9 @@
 
 <script type="text/javascript" src="/static/dist/layer/layer.js"></script>
 <script type="text/javascript" src="/static/dist/paginationjs/pagination.min.js"></script>
-<script type="text/javascript" src="/static/dist/search_dropDown/search_dropDown.js"></script>
+<!--<script type="text/javascript" src="/static/dist/search_dropDown/search_dropDown.js"></script>-->
 <script type="text/javascript" src="/static/dist/jquery-confirm/jquery-confirm.min.js"></script>
+<!--<script type="text/javascript" src="/static/dist/easyui/jquery.easyui.min.js"></script>-->
 <!--设备详细页面弹窗-->
 <script type="text/javascript">
     function detail(n) {
@@ -314,7 +317,7 @@
     });
 
     $(function () {
-        $("#selectedOrg").change(function () {
+         $("#selectedOrg").change(function () {
                 var args1 = $("#filterForm").serialize();
                 var args2 = $("#pagelenForm").serialize();
                 var args = args1 + "&" + "page=1" + "&" + args2;

@@ -9,13 +9,13 @@
 {% block main_content %}
 
 <ul id="tabs">
-    <li id="org"><a href="http://127.0.0.1:8000/cmdb/orgManage">组织机构</a></li>
-    <li id="idc"><a href="http://127.0.0.1:8000/cmdb/idcManage">机房管理</a></li>
-    <li id="user"><a href="http://127.0.0.1:8000/cmdb/userManage">用户管理</a></li>
-    <li id="contract"><a href="http://127.0.0.1:8000/cmdb/contractManage">合同管理</a></li>
-    <li id="supplier"><a href="http://127.0.0.1:8000/cmdb/supplierManage">供应商管理</a></li>
-    <li id="vendor"><a href="http://127.0.0.1:8000/cmdb/vendorManage">厂商管理</a></li>
-    <li id="model"><a href="http://127.0.0.1:8000/cmdb/modelManage">型号管理</a></li>
+    <li id="org"><a href="/cmdb/orgManage">组织机构</a></li>
+    <li id="idc"><a href="/cmdb/idcManage">机房管理</a></li>
+    <li id="user"><a href="/cmdb/userManage">用户管理</a></li>
+    <li id="contract"><a href="/cmdb/contractManage">合同管理</a></li>
+    <li id="supplier"><a href="/cmdb/supplierManage">供应商管理</a></li>
+    <li id="vendor"><a href="http:/cmdb/vendorManage">厂商管理</a></li>
+    <li id="model"><a href="/cmdb/modelManage">型号管理</a></li>
 
 </ul>
 
@@ -54,7 +54,7 @@
                                                 <td style="max-width: 250px">{{ i.contract_content }}</td>
                                                 <td class="text-center">{{ i.contract_memo }}</td>
                                                 <td class="text-center" class="text-center">
-                                                    <a href="http://127.0.0.1:8000/cmdb/contractManage?contractId={{ i.id }}">
+                                                    <a href="/cmdb/contractManage?contractId={{ i.id }}">
                                                         <i class="glyphicon glyphicon-edit text-info"
                                                            style="margin-right: 5px"></i>
                                                     </a>

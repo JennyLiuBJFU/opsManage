@@ -39,7 +39,7 @@
                             </div>
 
                             <!-- 用户清单 -->
-                            <form method="post" action="http://127.0.0.1:8000/accounts/manageUser" id="deleteForm">
+                            <form method="post" action="/accounts/manageUser" id="deleteForm">
                                 <div class="box-body table-responsive ">
                                     <table class="table table-hover">
                                         <tr>
@@ -59,7 +59,7 @@
                                             <td class="text-center">{{ i.email}}</td>
                                             <td class="text-center">{{ i.is_superuser }}</td>
                                             <td class="text-center">
-                                                <a href="http://127.0.0.1:8000/accounts/manageUser?userId={{ i.id }}">
+                                                <a href="/accounts/manageUser?userId={{ i.id }}">
                                                     <i class="glyphicon glyphicon-edit text-info"
                                                        style="margin-right: 5px"></i>
                                                 </a>

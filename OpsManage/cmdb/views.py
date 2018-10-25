@@ -373,7 +373,7 @@ def addSubmit(request):
 
 
     #生成设备的二维码
-    obj_url = "http://127.0.0.1/cmdb/detail" + str(ASSET.id)
+    obj_url = "/cmdb/detail" + str(ASSET.id)
     qr = qrcode.QRCode(version=1,
                        error_correction=qrcode.constants.ERROR_CORRECT_L,
                        box_size=8,
@@ -2056,6 +2056,38 @@ def importorg(request):
     import_org_info()
     return (request, 'cmdb/basicData/orgManage.html')
 
+
+# 为资产清单页面单位查询项提供数据
+def orglist(request):
+    # ------树形图数据计算，排出各单位及其子单位的列表--------
+    zxj = Organization.objects.get(org_name="中线局")
+    zxj_context = []
+
+    # 查询分局局对象
+    fenju_list = Organization.objects.filter(parent_org=zxj.id)
+
+    # 逐级生成各级组织名称
+    for fenju in fenju_list:
+        guanlichu_list = Organization.objects.filter(parent_org=fenju.id)
+        fenju_name = fenju.org_name
+        list_tmp = []
+        for guanlichu in guanlichu_list:
+            xiandizhan_list = Organization.objects.filter(parent_org=guanlichu.id)
+            guanlichu_name = guanlichu.org_name
+            xdz_list = []
+            for xiandizhan in xiandizhan_list:
+                xdz_context = {"id": xiandizhan.id, "text": xiandizhan.org_name}
+                xdz_list.append(xdz_context)
+            glc_context = {"id": guanlichu.id, "text": guanlichu_name, "children": xdz_list}
+            list_tmp.append(glc_context)
+        fenju_context = {"id": fenju.id, "text": fenju_name, "children": list_tmp}
+        zxj_context.append(fenju_context)
+
+        print("!!!!!!!!!!!!@@@@@@@@@@!!!!!!!!")
+        print(zxj_context)
+    return JsonResponse(zxj_context,safe=False,)
+
+
 @login_required()
 def modelManage(request):
     # 判断是否有删除请求，有则删除厂商
@@ -2087,6 +2119,7 @@ def modelManage(request):
     }
 
     return render(request, 'cmdb/basicData/modelManage.html', context)
+
 
 
 @login_required()

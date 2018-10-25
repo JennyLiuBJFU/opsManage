@@ -9,7 +9,7 @@
             function checkPwd(){
                 if (document.getElementById("newPassword").value == document.getElementById("checkPassword").value && document.getElementById("checkPassword").value){
                     alert("修改成功，请重新登陆！");
-                    window.parent.location.href='http://127.0.0.1:8000/';
+                    window.parent.location.href='/';
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
                 }
@@ -22,7 +22,7 @@
         <section>
             {% if flag == 0 %}
                         <div class="ld_form" style="margin: 10px auto 0">
-                            <form id="login-form"  method="post" action="http://127.0.0.1:8000/accounts/newPasswordSubmit">
+                            <form id="login-form"  method="post" action="/accounts/newPasswordSubmit">
                                 <h3 class="form_title">修改密码</h3>
                                 <p>
                                     <input type="password" name="newPassword" id="newPassword" class="ld_pass" placeholder="输入新密码"/>
@@ -43,14 +43,14 @@
             {% if flag == 1 %}
                 <div id="succeed">
                     <span style="position: absolute;left: 40%;top: 40%;font-size: 2em;">修改成功</span>
-{#                    <button onclick="window.parent.location.href='http://127.0.0.1:8000/';var index = parent.layer.getFrameIndex(window.name);parent.layer.close(index);"></button>#}
+{#                    <button onclick="window.parent.location.href='/';var index = parent.layer.getFrameIndex(window.name);parent.layer.close(index);"></button>#}
                 </div>
             {% endif %}
             {% if flag == 2 %}
                 <div id="failed" style="position: absolute;left: 40%;top: 40%;">
                     <span style="font-size: 2em;">修改失败</span>
                     <br>
-                    <a style=" display:block; margin:2em auto;color: #0b58a2;" href="http://127.0.0.1:8000/accounts/editAdmin">重试</a>
+                    <a style=" display:block; margin:2em auto;color: #0b58a2;" href="/accounts/editAdmin">重试</a>
                 </div>
             {% endif %}
         </section>

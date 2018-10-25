@@ -24,13 +24,13 @@
 {% block main_content %}
 
 <ul id="tabs">
-    <li id="org"><a href="http://127.0.0.1:8000/cmdb/orgManage">组织机构</a></li>
-    <li id="idc"><a href="http://127.0.0.1:8000/cmdb/idcManage">机房管理</a></li>
-    <li id="user"><a href="http://127.0.0.1:8000/cmdb/userManage">用户管理</a></li>
-    <li id="contract"><a href="http://127.0.0.1:8000/cmdb/contractManage">合同管理</a></li>
-    <li id="supplier"><a href="http://127.0.0.1:8000/cmdb/supplierManage">供应商管理</a></li>
-    <li id="vendor"><a href="http://127.0.0.1:8000/cmdb/vendorManage">厂商管理</a></li>
-    <li id="model"><a href="http://127.0.0.1:8000/cmdb/modelManage">型号管理</a></li>
+    <li id="org"><a href="/cmdb/orgManage">组织机构</a></li>
+    <li id="idc"><a href="/cmdb/idcManage">机房管理</a></li>
+    <li id="user"><a href="/cmdb/userManage">用户管理</a></li>
+    <li id="contract"><a href="/cmdb/contractManage">合同管理</a></li>
+    <li id="supplier"><a href="/cmdb/supplierManage">供应商管理</a></li>
+    <li id="vendor"><a href="/cmdb/vendorManage">厂商管理</a></li>
+    <li id="model"><a href="/cmdb/modelManage">型号管理</a></li>
 
 </ul>
 
@@ -82,7 +82,7 @@
                                 <!-- ------弹出机柜图------ -->
                             </div>
                             <div class="inline ">
-                                <a target="blank" href="http://127.0.0.1:8000/cmdb/editCab?idcId={{ idc.id }}">
+                                <a target="blank" href="/cmdb/editCab?idcId={{ idc.id }}">
                                     <span class="fa fa-edit text-warning media-middle" style="font-size: 18px"></span>
                                 </a>
                             </div>
@@ -95,7 +95,7 @@
                 <div class="box-footer">
                     <div class="inline pull-right">
                         <button class="btn btn-xs btn-primary"
-                            onclick="window.open('http://127.0.0.1:8000/cmdb/cabDetail?idcId={{ idc.id }}')">
+                            onclick="window.open('/cmdb/cabDetail?idcId={{ idc.id }}')">
                             机柜图
                         </button>
                     </div>
@@ -105,7 +105,7 @@
         </div>
         {% endfor %}
         <div style="clear: left">
-            <button class="btn btn-success" style="width: 100px;margin-left: 30px;margin-bottom: 20px;" onclick="window.open('http://127.0.0.1:8000/cmdb/addIdc')">添加机房</button>
+            <button class="btn btn-success" style="width: 100px;margin-left: 30px;margin-bottom: 20px;" onclick="window.open('/cmdb/addIdc')">添加机房</button>
 
         </div>
     </div>

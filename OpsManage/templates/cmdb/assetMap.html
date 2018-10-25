@@ -2,7 +2,7 @@
 
 
 {% block css_block %}
-<link href="/static/dist/css/tab_css.css" type="text/css" rel="stylesheet">
+<link type="text/css" rel="stylesheet" href="{% static 'dist/css/tab_css.css' %}">
 <style type="text/css">
     .idcicon{
         color: #9e0505;
@@ -73,7 +73,7 @@
                                 <!-- ------弹出机柜图------ -->
                                 <br>
                                 <button class="btn btn-xs btn-primary margin-r-5 pull-right"
-                                        onclick="window.open('http://127.0.0.1:8000/cmdb/cabDetail?idcId={{ idc.id }}')">
+                                        onclick="window.open('/cmdb/cabDetail?idcId={{ idc.id }}')">
                                     机柜图
                                 </button>
 

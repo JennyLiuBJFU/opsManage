@@ -593,7 +593,7 @@
         <div class="box-footer">
             <button type="button" onclick="doVerify({{ ID }})" class="btn  btn-primary pull-right" >完成</button>
             <button type="button" class="btn  btn-success" onclick="window.location.href='/cmdb/asset'">取消</button>
-            <button type="button" class="btn btn-warning pull-right margin-r-5" onclick="window.location.href='http://127.0.0.1:8000/cmdb/editMore?assetId={{ ASSET.id }}'">编辑部件</button>
+            <button type="button" class="btn btn-warning pull-right margin-r-5" onclick="window.location.href='/cmdb/editMore?assetId={{ ASSET.id }}'">编辑部件</button>
 
         </div>
 
@@ -679,7 +679,7 @@
         var sn=$("#sn").val();
         if (asset_name != "" && asset_no != "" && sn != ""){
             $.ajax({
-                url:"http://127.0.0.1:8000/cmdb/doVerify",
+                url:"/cmdb/doVerify",
                 data:{"asset_name":asset_name,"asset_no":asset_no,"sn":sn,"assetId":assetId},
                 type:"post",
                 success:function(data){
