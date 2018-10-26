@@ -2,21 +2,15 @@
 
 
 from  django.core.paginator import *
-import json
-from django.shortcuts import render
-from django.http import HttpResponse
 from cmdb.models import *
 from django.contrib.auth.decorators import login_required
 import numpy
 import qrcode
-from django.utils.six import BytesIO
 from django.http import JsonResponse
-from  django.db.models import Q
 from django.shortcuts import HttpResponse, render, redirect
 from .import_org import import_org_info
 
-
-
+from django.contrib.auth.models import User, Group
 # 分页函数
 def page_list_return(total, current=1):
     """
@@ -82,7 +76,7 @@ def asset(request):
     asset_find=[]
 
     page_len = request.GET.get('page_len', '')
-    Organizations = Organization.objects.all()
+    # Organizations = Organization.objects.all()
 
     #查询关键字列表
     myType = int(request.GET.get('myType', "0"))
@@ -97,10 +91,26 @@ def asset(request):
     if myNet != 0:
        search_dict['network_location'] = myNet
 
-    if len(asset_find) >= 0:
-        asset_find = Asset.objects.filter(**search_dict)
-    else:
-        asset_find = Asset.objects.all()
+    USER=User.objects.get(username=request.user.username)
+
+    myAsset=Asset.objects.filter(**search_dict)
+
+    org_incharge = []
+
+    for i in USER.groups.all():
+        organization=Organization.objects.get(org_name=i.name)
+        org_incharge.append(organization) #自己
+        for oSon in Organization.objects.filter(parent_org=organization):
+            org_incharge.append(oSon) #子辈
+            for oGrandSon in Organization.objects.filter(parent_org = oSon):
+                org_incharge.append(oGrandSon) #孙子辈
+                for oGrandGrandSon in Organization.objects.filter(parent_org = oGrandSon):
+                    org_incharge.append(oGrandGrandSon) #重孙辈
+        for ORG in org_incharge:
+            for a in myAsset.filter(organization=ORG):
+                asset_find.append(a)
+
+
 
     # 所有对象， 分页器， 本页对象， 所有页码， 本页页码，是否显示第一页，是否显示最后一页
     assets_list, p, assets, page_range, current_page, show_first, show_end, end_page, offset_index = pages(asset_find, request)
@@ -247,7 +257,6 @@ def index(request):
 @login_required()
 def addARecord(request):
     Vendors = Vendor.objects.all()
-    Organizations = Organization.objects.all()
     Users=User.objects.all()
     Contracts=Contract.objects.all()
     Suppliers=Supplier.objects.all()
@@ -255,12 +264,23 @@ def addARecord(request):
         Perm = 1
     else:
         Perm = 0
+    USER=User.objects.get(username=request.user.username)
+    org_incharge = []
+    for i in USER.groups.all():
+        organization=Organization.objects.get(org_name=i.name)
+        org_incharge.append(organization) #自己
+        for oSon in Organization.objects.filter(parent_org=organization):
+            org_incharge.append(oSon) #子辈
+            for oGrandSon in Organization.objects.filter(parent_org = oSon):
+                org_incharge.append(oGrandSon) #孙子辈
+                for oGrandGrandSon in Organization.objects.filter(parent_org = oGrandSon):
+                    org_incharge.append(oGrandGrandSon) #重孙辈
 
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
         'Vendors': Vendors,
-        'Organizations': Organizations,
+        'Organizations': org_incharge,
         'Users':Users,
         'Contracts':Contracts,
         'Suppliers':Suppliers,
@@ -1186,6 +1206,17 @@ def editARecord(request):
         Perm = 1
     else:
         Perm = 0
+    USER=User.objects.get(username=request.user.username)
+    org_incharge = []
+    for i in USER.groups.all():
+        organization=Organization.objects.get(org_name=i.name)
+        org_incharge.append(organization) #自己
+        for oSon in Organization.objects.filter(parent_org=organization):
+            org_incharge.append(oSon) #子辈
+            for oGrandSon in Organization.objects.filter(parent_org = oSon):
+                org_incharge.append(oGrandSon) #孙子辈
+                for oGrandGrandSon in Organization.objects.filter(parent_org = oGrandSon):
+                    org_incharge.append(oGrandGrandSon) #重孙辈
     context = {
         'USERNAME': str(request.user),
         'Perm': Perm,
@@ -1194,8 +1225,7 @@ def editARecord(request):
         'CabSpaces':listc,
         'CSSelected':CSSelected,
         'Vendors': Vendors,
-        'Organizations': Organizations,
-        # 'Tags': Tags,
+        'Organizations': org_incharge,
         'Users': Users,
         'IDCs': IDCs,
         'Contracts': Contracts,
@@ -1280,12 +1310,7 @@ def editSubmit(request):
     else:
         ASSET.approved_by=None
 
-    # 多对多1个，目前未考虑，暂时按照外键处理
     ASSET.save()
-    # tag_list = request.POST.getlist('tag', '')
-    # for t in tag_list:
-    #     ASSET.tags.add(Tag.objects.get(id=t))
-    # ASSET.save()
 
     CSSelected=CabinetSpace.objects.filter(asset=ASSET)
     for css in CSSelected:
@@ -1377,17 +1402,9 @@ def editSubmit(request):
         Perm = 1
     else:
         Perm = 0
-    # context = {
-    #     'USERNAME': str(request.user),
-    #     'Perm': Perm,
-    #     'Assets': Assets,
-    #     'Organizations': Organizations
-    # }
-    # return render(request, 'cmdb/ServerManage/asset.html', context)
     asset_find = []
 
     page_len = request.GET.get('page_len', '')
-    Organizations = Organization.objects.all()
 
     # 查询关键字列表
     myType = int(request.GET.get('myType', "0"))
@@ -1402,10 +1419,25 @@ def editSubmit(request):
     if myNet != 0:
         search_dict['network_location'] = myNet
 
-    if len(asset_find) >= 0:
-        asset_find = Asset.objects.filter(**search_dict)
-    else:
-        asset_find = Asset.objects.all()
+    USER = User.objects.get(username=request.user.username)
+    org_incharge = []
+
+    myAsset = Asset.objects.filter(**search_dict)
+
+    for i in USER.groups.all():
+        organization = Organization.objects.get(org_name=i.name)
+        org_incharge.append(organization)  # 自己
+
+        for oSon in Organization.objects.filter(parent_org=organization):
+            org_incharge.append(oSon)  # 子辈
+            for oGrandSon in Organization.objects.filter(parent_org=oSon):
+                org_incharge.append(oGrandSon)  # 孙子辈
+                for oGrandGrandSon in Organization.objects.filter(parent_org=oGrandSon):
+                    org_incharge.append(oGrandGrandSon)  # 重孙辈
+        print(org_incharge)
+        for ORG in org_incharge:
+            for a in myAsset.filter(organization=ORG):
+                asset_find.append(a)
 
     # 所有对象， 分页器， 本页对象， 所有页码， 本页页码，是否显示第一页，是否显示最后一页
     assets_list, p, assets, page_range, current_page, show_first, show_end, end_page, offset_index = pages(asset_find,
@@ -1460,7 +1492,22 @@ def idcManage(request):
         Perm = 1
     else:
         Perm = 0
-    Idc_list = Idc.objects.all()
+    USER=User.objects.get(username=request.user.username)
+    org_incharge = []
+    for i in USER.groups.all():
+        organization=Organization.objects.get(org_name=i.name)
+        org_incharge.append(organization) #自己
+        for oSon in Organization.objects.filter(parent_org=organization):
+            org_incharge.append(oSon) #子辈
+            for oGrandSon in Organization.objects.filter(parent_org = oSon):
+                org_incharge.append(oGrandSon) #孙子辈
+                for oGrandGrandSon in Organization.objects.filter(parent_org = oGrandSon):
+                    org_incharge.append(oGrandGrandSon) #重孙辈
+    Idc_list=[]
+    for o in org_incharge:
+        for IDC in Idc.objects.filter(organization=o):
+            Idc_list.append(IDC)
+
     peridc_asset_count = []
     for idc in Idc_list:
         servercount = len(idc.asset_set.filter(asset_type=1))
@@ -1547,11 +1594,22 @@ def editACabinetSubmit(request):
 
 @login_required()
 def addIdc(request):
-    Organizations=Organization.objects.all()
+    org_incharge = []
+    USER=User.objects.get(username=request.user.username)
+
+    for i in USER.groups.all():
+        organization = Organization.objects.get(org_name=i.name)
+        org_incharge.append(organization)  # 自己
+        for oSon in Organization.objects.filter(parent_org=organization):
+            org_incharge.append(oSon)  # 子辈
+            for oGrandSon in Organization.objects.filter(parent_org=oSon):
+                org_incharge.append(oGrandSon)  # 孙子辈
+                for oGrandGrandSon in Organization.objects.filter(parent_org=oGrandSon):
+                    org_incharge.append(oGrandGrandSon)  # 重孙辈
     successFlag=0
     context={
         'successFlag':successFlag,
-        'Organizations':Organizations,
+        'Organizations':org_incharge,
     }
     return render (request,'cmdb/basicData/addIdc.html',context)
 @login_required()
@@ -1574,12 +1632,24 @@ def idcSubmit(request):
 @login_required()
 def editIdc (request):
     IDC = Idc.objects.get(id=request.GET['idcId'])
-    Organizations = Organization.objects.all()
+    USER=User.objects.get(username=request.user.username)
+
+    org_incharge = []
+
+    for i in USER.groups.all():
+        organization = Organization.objects.get(org_name=i.name)
+        org_incharge.append(organization)  # 自己
+        for oSon in Organization.objects.filter(parent_org=organization):
+            org_incharge.append(oSon)  # 子辈
+            for oGrandSon in Organization.objects.filter(parent_org=oSon):
+                org_incharge.append(oGrandSon)  # 孙子辈
+                for oGrandGrandSon in Organization.objects.filter(parent_org=oGrandSon):
+                    org_incharge.append(oGrandGrandSon)  # 重孙辈
     successFlag = 0
     context = {
         'IDC':IDC,
         'successFlag': successFlag,
-        'Organizations': Organizations,
+        'Organizations': org_incharge,
     }
     return render(request, 'cmdb/basicData/editIdc.html', context)
 @login_required()

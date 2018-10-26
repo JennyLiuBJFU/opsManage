@@ -36,12 +36,14 @@
                 <div class="box-header with-border">
                         <span class="fa fa-sitemap"></span>
                         <h3 class="box-title">组织结构(京津冀)</h3>
-                        <a href="/cmdb/editOrg" target="_blank" style="margin-left: 1em;">
-                            <span class="fa fa-gear text-primary pull-right" style="font-size: 18px"></span>
-                        </a>
-                        <a href="/cmdb/importorg/" style="margin-left: 1em;">
-                            <span class="fa fa-repeat text-primary pull-right" style="font-size: 18px"></span>
-                        </a>
+                        {% if Perm %}
+                            <a href="/cmdb/editOrg" target="_blank" style="margin-left: 1em;">
+                                <span class="fa fa-gear text-primary pull-right" style="font-size: 18px"></span>
+                            </a>
+                        {% endif %}
+{#                        <a href="/cmdb/importorg/" style="margin-left: 1em;">#}
+{#                            <span class="fa fa-repeat text-primary pull-right" style="font-size: 18px"></span>#}
+{#                        </a>#}
                 </div>
 
                 <div class="box-body">
