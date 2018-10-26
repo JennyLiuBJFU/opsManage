@@ -80,4 +80,5 @@ urlpatterns = [
     url(r'^editAVendorSubmit',views.editAVendorSubmit),
 
     url(r'^doVerify',views.doVerify),
+    url(r'userVerify',views.userVerify),
 ]
