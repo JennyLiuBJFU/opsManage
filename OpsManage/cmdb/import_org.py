@@ -1,5 +1,7 @@
 from .models import Organization
 import xlrd
+from django.contrib.auth.models import User, Group
+
 
 
 def import_org_info():
@@ -17,6 +19,9 @@ def import_org_info():
         neworg.org_address = org_info[1]
         print(org_info[0], "--------", org_info[1])
         neworg.save()
+        newgroup=Group()
+        newgroup.name=org_info[1]
+        newgroup.save()
 
 
 

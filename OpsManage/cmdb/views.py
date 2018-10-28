@@ -91,9 +91,9 @@ def asset(request):
     if myNet != 0:
        search_dict['network_location'] = myNet
 
-    USER=User.objects.get(username=request.user.username)
-
     myAsset=Asset.objects.filter(**search_dict)
+
+    USER=User.objects.get(username=request.user.username)
 
     org_incharge = []
 
@@ -1705,7 +1705,27 @@ def userManage(request):
     if len(dadmin):
         for i in dadmin:
             User.objects.get(pk=i).delete()
-    admin=User.objects.all()
+    USER=User.objects.get(username=request.user.username)
+
+    org_incharge = []
+
+    for i in USER.groups.all():
+        organization=Organization.objects.get(org_name=i.name)
+        org_incharge.append(organization) #自己
+        for oSon in Organization.objects.filter(parent_org=organization):
+            org_incharge.append(oSon) #子辈
+            for oGrandSon in Organization.objects.filter(parent_org = oSon):
+                org_incharge.append(oGrandSon) #孙子辈
+                for oGrandGrandSon in Organization.objects.filter(parent_org = oGrandSon):
+                    org_incharge.append(oGrandGrandSon) #重孙辈
+    admin=[]
+    groups=[]
+    for ORG in org_incharge:
+        GROUP=Group.objects.get(name=ORG.org_name)
+        groups.append(GROUP)
+        for g in GROUP.user_set.all():
+            admin.append(g)
+    # admin=User.objects.all()
     ADMIN = User()
     try:
         editID = request.GET['userId']
@@ -1722,7 +1742,8 @@ def userManage(request):
         'USERNAME': str(request.user),
         'Perm': Perm,
         'tab_number': "user",
-        "ADMIN":ADMIN
+        "ADMIN":ADMIN,
+        "groups":groups,
 
     }
     return render(request,'cmdb/basicData/userManage.html',context)
@@ -1730,10 +1751,37 @@ def userManage(request):
 @login_required()
 def addUserSubmit(request):
     user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
-    if str(request.POST['perm']) != '0':
-        user.is_superuser = True
+    try :
+        if str(request.POST['perm']) != '0':
+            user.is_superuser = True
+    except:
+        print("不是管理员")
+    if request.POST['group']!='0':
+        GROUP=Group.objects.get(id=request.POST['group'])
+        user.groups.add(GROUP)
+        print(user.groups.all())
     user.save()
-    admin = User.objects.all()
+    # admin = User.objects.all()
+    USER=User.objects.get(username=request.user.username)
+
+    org_incharge = []
+
+    for i in USER.groups.all():
+        organization = Organization.objects.get(org_name=i.name)
+        org_incharge.append(organization)  # 自己
+        for oSon in Organization.objects.filter(parent_org=organization):
+            org_incharge.append(oSon)  # 子辈
+            for oGrandSon in Organization.objects.filter(parent_org=oSon):
+                org_incharge.append(oGrandSon)  # 孙子辈
+                for oGrandGrandSon in Organization.objects.filter(parent_org=oGrandSon):
+                    org_incharge.append(oGrandGrandSon)  # 重孙辈
+    admin = []
+    groups = []
+    for ORG in org_incharge:
+        GROUP = Group.objects.get(name=ORG.org_name)
+        groups.append(GROUP)
+        for g in GROUP.user_set.all():
+            admin.append(g)
     if request.user.is_superuser:
         Perm = 1
     else:
@@ -1742,6 +1790,8 @@ def addUserSubmit(request):
         'admin': admin,
         'USERNAME': str(request.user),
         'Perm': Perm,
+        "groups": groups,
+
     }
     return render(request,'cmdb/basicData/userManage.html',context)
 
@@ -1752,12 +1802,48 @@ def editAdminSubmit(request):
     user.username=request.POST['username']
     user.email=request.POST['email']
     user.set_password(request.POST['password'])
-    if str(request.POST['perm']) != '0':
-        user.is_superuser = True
+    try :
+        if str(request.POST['perm']) != '0':
+            user.is_superuser = True
+    except:
+        print("不是管理员")
+    if request.POST['group']!='0':
+        GROUP=Group.objects.get(id=request.POST['group'])
+        user.groups.clear()
+        user.groups.add(GROUP)
+        print(user.groups.all())
     user.save()
-    admin = User.objects.all()
+    # admin = User.objects.all()
+    USER=User.objects.get(username=request.user.username)
+
+    org_incharge = []
+
+    for i in USER.groups.all():
+        organization = Organization.objects.get(org_name=i.name)
+        org_incharge.append(organization)  # 自己
+        for oSon in Organization.objects.filter(parent_org=organization):
+            org_incharge.append(oSon)  # 子辈
+            for oGrandSon in Organization.objects.filter(parent_org=oSon):
+                org_incharge.append(oGrandSon)  # 孙子辈
+                for oGrandGrandSon in Organization.objects.filter(parent_org=oGrandSon):
+                    org_incharge.append(oGrandGrandSon)  # 重孙辈
+    admin = []
+    groups = []
+    for ORG in org_incharge:
+        GROUP = Group.objects.get(name=ORG.org_name)
+        groups.append(GROUP)
+        for g in GROUP.user_set.all():
+            admin.append(g)
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
     context = {
-        'admin': admin
+        'admin': admin,
+        'USERNAME': str(request.user),
+        'Perm': Perm,
+        "groups": groups,
+
     }
     return render(request, 'cmdb/basicData/userManage.html', context)
 
@@ -2263,4 +2349,18 @@ def doVerify(request):
             if asset.sn == SN:
                 sn=True
     response=JsonResponse({"asset_name":asset_name,"asset_no":asset_no,"sn":sn})
+    return response
+
+
+@login_required()
+def userVerify(request):
+    print(request.POST)
+    USERNAME=request.POST['username']
+    username=False
+    users=User.objects.all()
+    for user in users:
+        if user.id != int(request.POST['userId']):
+            if user.username == USERNAME:
+                username=True
+    response=JsonResponse({"username":username})
     return response

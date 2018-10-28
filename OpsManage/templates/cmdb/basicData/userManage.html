@@ -38,6 +38,7 @@
                                         <tr>
                                             <th class="text-center">选择</th>
                                             <th class="text-center">序号</th>
+                                            <th class="text-center">所属分组</th>
                                             <th class="text-center">用户名</th>
                                             <th class="text-center">邮箱</th>
                                             <th class="text-center">管理员</th>
@@ -48,6 +49,15 @@
                                         <tr>
                                             <td class="text-center"><input type="checkbox" name="delete_admin" value="{{ i.pk }}"></td>
                                             <td class="text-center">{{ forloop.counter }}</td>
+                                            {% if i.groups.all %}
+                                                <td class="text-center">
+                                                    {% for iGroup in i.groups.all %}
+                                                        {{ iGroup}}
+                                                    {% endfor %}
+                                                </td>
+                                            {% else %}
+                                                <td></td>
+                                            {% endif %}
                                             <td class="text-center">{{ i.username }}</td>
                                             <td class="text-center">{{ i.email}}</td>
                                             <td class="text-center">{{ i.is_superuser }}</td>
@@ -65,7 +75,7 @@
 
 
                                 <div class="box-footer " >
-                                    <button type="button" onclick="var txt=  '确定删除所选用户？';window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.warning);" class="btn btn-danger pull-right">Delete</button>
+                                    <button type="button" onclick="var txt=  '确定删除所选用户？';window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.warning);" class="btn btn-danger pull-right">删除用户</button>
                                 </div>
                             </form>
 
@@ -84,11 +94,11 @@
                             <!-- /.box-header -->
 
                             <!-- form start -->
-                            <form class="contactl" action="addUserSubmit" method="post" id="form">
+                            <form class="contactl" action="addUserSubmit" method="post" id="addForm">
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label class=" control-label">用户名</label>
-                                        <input class="form-control" type="text" name="username" placeholder="username">
+                                        <input class="form-control" type="text" id="addUsername" name="username" placeholder="username">
                                     </div>
 
                                     <div class="form-group">
@@ -98,20 +108,31 @@
 
                                     <div class="form-group">
                                         <label class=" control-label">账户密码</label>
-                                        <input class="form-control" type="text" name="password" placeholder="password">
+                                        <input class="form-control" type="password" name="password" placeholder="password">
                                     </div>
                                     <div class="form-group">
-                                        <label class=" control-label">用户权限</label>
-                                        <select class="form-control" name="perm" >
-                                            <option value="0">普通用户</option>
-                                            <option value="1">管理员</option>
+                                        <label class="control-label">所属分组</label>
+                                        <select required class="form-control" name="group" >
+                                            <option value="0">请选择所属分组</option>
+                                            {% for group in groups%}
+                                                <option value={{ group.id }}>{{ group.name }}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
+                                    {% if Perm %}
+                                        <div class="form-group">
+                                            <label class=" control-label">用户权限</label>
+                                            <select class="form-control" name="perm" >
+                                                <option value="0">普通用户</option>
+                                                <option value="1">管理员</option>
+                                            </select>
+                                        </div>
+                                    {% endif %}
                                 </div>
 
                                 <!-- box-footer -->
                                 <div class="box-footer">
-                                    <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                                    <button type="button" onclick="addUserVerify()" class="btn  btn-primary pull-right" >添加用户</button>
                                 </div>
                                 <!-- /.box-footer -->
                             </form>
@@ -127,11 +148,11 @@
                             <!-- /.box-header -->
 
                             <!-- form start -->
-                            <form class="contactl" action="editAdminSubmit?userId={{ ADMIN.id }}" method="post" id="form">
+                            <form class="contactl" action="editAdminSubmit?userId={{ ADMIN.id }}" method="post" id="editForm">
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label class=" control-label">用户名</label>
-                                        <input class="form-control" type="text" name="username" value="{{ ADMIN.username }}">
+                                        <input class="form-control" type="text" id="editUsername" name="username" value="{{ ADMIN.username }}">
                                     </div>
 
                                     <div class="form-group">
@@ -141,26 +162,37 @@
 
                                     <div class="form-group">
                                         <label class=" control-label">账户密码</label>
-                                        <input class="form-control" type="text" name="password" value="{{ ADMIN.password }}">
+                                        <input class="form-control" type="password" name="password" value="{{ ADMIN.password }}">
                                     </div>
                                     <div class="form-group">
-                                        <label class=" control-label">用户权限</label>
-                                        <select class="form-control" name="perm" >
-                                            {% if ADMIN.is_superuser%}
-                                                <option value="1">管理员</option>
-                                                <option value="0">普通用户</option>
-                                            {% else %}
-                                                <option value="0">普通用户</option>
-                                                <option value="1">管理员</option>
-
-                                            {% endif %}
+                                        <label class="control-label">所属分组</label>
+                                        <select class="form-control" name="group" >
+                                            <option value="0">请选择所属分组</option>
+                                            {% for group in groups%}
+                                                <option value={{ group.id }}>{{ group.name }}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
+                                    {% if Perm %}
+                                        <div class="form-group">
+                                            <label class=" control-label">用户权限</label>
+                                            <select class="form-control" name="perm" >
+                                                {% if ADMIN.is_superuser%}
+                                                    <option value="1">管理员</option>
+                                                    <option value="0">普通用户</option>
+                                                {% else %}
+                                                    <option value="0">普通用户</option>
+                                                    <option value="1">管理员</option>
+
+                                                {% endif %}
+                                            </select>
+                                        </div>
+                                    {% endif %}
                                 </div>
 
                                 <!-- box-footer -->
                                 <div class="box-footer">
-                                    <button type="submit" class="btn btn-success pull-right">Submit</button>
+                                    <button type="button" onclick="editUserVerify({{ ADMIN.id }})" class="btn  btn-success pull-right" >保存编辑</button>
                                 </div>
                                 <!-- /.box-footer -->
                             </form>
@@ -190,5 +222,49 @@
             }
         })
 
+    </script>
+    <script>
+    function addUserVerify(){
+        var addUsername =$("#addUsername").val();
+        if (addUsername != ""){
+            $.ajax({
+                url:"/cmdb/userVerify",
+                data:{"username":addUsername,"userId":'0'},
+                type:"post",
+                success:function(data){
+                    if(data['username']){
+                        alert("提交失败，此用户名已存在！")
+                    }
+                    else {
+                        document.getElementById('addForm').submit();
+                    }
+                }
+
+            });
+        }else{
+            alert("提交失败，用户名为空！")
+        }
+    }
+    function editUserVerify(userId){
+        var editUsername =$("#editUsername").val();
+        if (editUsername != ""){
+            $.ajax({
+                url:"/cmdb/userVerify",
+                data:{"username":editUsername,"userId":userId},
+                type:"post",
+                success:function(data){
+                    if(data['username']){
+                        alert("提交失败，此用户名已存在！")
+                    }
+                    else {
+                        document.getElementById('editForm').submit();
+                    }
+                }
+
+            });
+        }else{
+            alert("提交失败，用户名为空！")
+        }
+    }
     </script>
 {% endblock foot_js %}

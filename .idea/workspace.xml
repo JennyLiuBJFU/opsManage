@@ -78,7 +78,7 @@
         <entry file="file://$PROJECT_DIR$/OpsManage/templates/base.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="119">
-              <caret line="321" selection-start-line="321" selection-end-line="321" selection-end-column="56" />
+              <caret line="323" selection-start-line="323" selection-end-line="323" selection-end-column="56" />
             </state>
           </provider>
         </entry>
@@ -95,7 +95,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/ServerManage/add/addMore.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="38">
+            <state relative-caret-position="120">
               <caret line="8" column="5" lean-forward="true" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
             </state>
           </provider>
@@ -380,7 +380,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.34471545" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.20813008" />
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -703,7 +703,7 @@
     <entry file="file://$PROJECT_DIR$/OpsManage/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
-          <caret line="321" selection-start-line="321" selection-end-line="321" selection-end-column="56" />
+          <caret line="323" selection-start-line="323" selection-end-line="323" selection-end-column="56" />
         </state>
       </provider>
     </entry>
@@ -716,7 +716,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/OpsManage/templates/cmdb/ServerManage/add/addMore.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
+        <state relative-caret-position="120">
           <caret line="8" column="5" lean-forward="true" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
         </state>
       </provider>

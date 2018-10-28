@@ -1,6 +1,8 @@
 from django.shortcuts import render
 import cmdb.models
 from django.contrib.auth import authenticate, login, logout
+from cmdb.import_org import import_org_info
+
 
 
 def login_view(request):
@@ -152,7 +154,7 @@ def loginSubmit(request):
 
     else:
         Flag=1
-        return render(request,'login_bak.html',{'Flag':Flag})
+        return render(request,'login.html',{'Flag':Flag})
 
 def logout_view(request):
     logout(request)
