@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 
 {% block css_block %}
-<link href="/static/dist/css/bootstrap-multiselect.css" rel="stylesheet">
-<script type="text/javascript" src="/static/dist/js/xcConfirm.js"></script>
+<!--<link href="/static/dist/css/bootstrap-multiselect.css" rel="stylesheet">-->
+<link rel="stylesheet" href="{% static 'dist/css/bootstrap-multiselect.css' %}">
+<!--<script type="text/javascript" src="/static/dist/js/xcConfirm.js"></script>-->
+<script src=" {% static 'dist/js/xcConfirm.js' %}"> </script>
 <style type="text/css">
     select.select2 {
         width: 85%;
@@ -604,7 +606,8 @@
 {% endblock main_content %}
 
 {% block foot_js %}
-<script type="text/javascript" src="/static/dist/layer/layer.js"></script>
+<!--<script type="text/javascript" src="/static/dist/layer/layer.js"></script>-->
+<script src=" {% static 'dist/layer/layer.js' %}"> </script>
 <script>
     //根据设备类型显示设备子类型
     $(function () {
