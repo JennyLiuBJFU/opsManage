@@ -1582,10 +1582,19 @@ def editACabinetSubmit(request):
     CABINET=Cabinet.objects.get(id=request.GET['cabId'])
     CABINET.cabinet_name=request.POST['name']
     CABINET.cabinet_desc=request.POST['desc']
+    cabspaces=CabinetSpace.objects.filter(cabinet=CABINET)
+    for c in cabspaces:
+        CabinetSpace.objects.get(id=c.id).delete()
     CABINET.cabinet_height=request.POST['height']
     CABINET.save()
-    IDC=request.POST['idcId']
+    IDC=Idc.objects.get(id=request.POST['idcId'])
     Cabinets=Cabinet.objects.filter(idc=IDC)
+    for i in range(1,int(request.POST['height'])+1):
+        CABSPACE=CabinetSpace()
+        CABSPACE.cabinet=CABINET
+        CABSPACE.cabinet_location=str(i)
+        CABSPACE.save()
+        print(CABSPACE)
     context = {
         'IDC': IDC,
         'Cabinets': Cabinets,
