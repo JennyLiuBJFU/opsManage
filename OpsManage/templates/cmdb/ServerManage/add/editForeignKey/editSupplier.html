@@ -41,6 +41,7 @@
 
                             <!-- 供应商清单 -->
                             <form method="post" action="editSupplier" id="deleteForm">
+                                {% csrf_token %}
                                 <div class="box-body table-responsive ">
                                     <table class="table table-hover">
                                         <tr>
@@ -94,6 +95,7 @@
 
                             <!-- form start -->
                             <form class="contactl" action="addSupplierSubmit" method="post" id="form">
+                                {% csrf_token %}
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label class=" control-label">供应商名称</label>
@@ -136,6 +138,7 @@
 
                             <!-- form start -->
                             <form class="contactl" action="editSupplierSubmit?supplierId={{ SUPPLIER.id }}" method="post">
+                                {% csrf_token %}
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label class=" control-label">供应商名称</label>

@@ -23,6 +23,7 @@
             {% if flag == 0 %}
                         <div class="ld_form" style="margin: 10px auto 0">
                             <form id="login-form"  method="post" action="/accounts/newPasswordSubmit">
+                                {% csrf_token %}
                                 <h3 class="form_title">修改密码</h3>
                                 <p>
                                     <input type="password" name="newPassword" id="newPassword" class="ld_pass" placeholder="输入新密码"/>

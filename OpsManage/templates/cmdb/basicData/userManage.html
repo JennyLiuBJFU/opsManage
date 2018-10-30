@@ -33,6 +33,7 @@
 
                             <!-- 用户清单 -->
                             <form method="post" action="/cmdb/userManage" id="deleteForm">
+                                {% csrf_token %}
                                 <div class="box-body table-responsive ">
                                     <table class="table table-hover">
                                         <tr>
@@ -95,6 +96,7 @@
 
                             <!-- form start -->
                             <form class="contactl" action="addUserSubmit" method="post" id="addForm">
+                                {% csrf_token %}
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label class=" control-label">用户名</label>
@@ -149,6 +151,7 @@
 
                             <!-- form start -->
                             <form class="contactl" action="editAdminSubmit?userId={{ ADMIN.id }}" method="post" id="editForm">
+                                {% csrf_token %}
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label class=" control-label">用户名</label>

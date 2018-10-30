@@ -34,6 +34,7 @@
 
                             <!-- 供应商清单 -->
                             <form method="post" action="modelManage" id="deleteForm">
+                                {% csrf_token %}
                                 <div class="box-body table-responsive ">
                                     <table class="table table-hover">
                                         <tr>
@@ -50,7 +51,7 @@
                                                 <td class="text-center"><input type="checkbox" name="delete_model" value="{{ i.pk }}"></td>
                                                 <td class="text-center">{{ forloop.counter }}</td>
                                                 {% if i.img.url %}
-                                                    <td class="text-center"><img width="150px" src='{{ i.img.url}}' /></td>
+                                                   <td class="text-center"><img width="150px" src='{{ i.img.url}}' /></td>
                                                 {% else %}
                                                     <td></td>
                                                 {% endif %}
@@ -89,6 +90,7 @@
 
                             <!-- form start -->
                             <form class="contactl" action="addAModelSubmit" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label class=" control-label">厂商图片</label>
@@ -131,6 +133,7 @@
 
                             <!-- form start -->
                             <form class="contactl" action="editAModelSubmit?modelId={{ MODEL.id }}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label class=" control-label">厂商图片</label>

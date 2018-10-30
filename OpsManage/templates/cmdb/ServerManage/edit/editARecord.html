@@ -4,7 +4,7 @@
 <!--<link href="/static/dist/css/bootstrap-multiselect.css" rel="stylesheet">-->
 <link rel="stylesheet" href="{% static 'dist/css/bootstrap-multiselect.css' %}">
 <!--<script type="text/javascript" src="/static/dist/js/xcConfirm.js"></script>-->
-<script src=" {% static 'dist/js/xcConfirm.js' %}"> </script>
+
 <style type="text/css">
     select.select2 {
         width: 85%;
@@ -51,6 +51,7 @@
 
     <!-- /.box-header -->
     <form class="contact" action="editSubmit?myid={{ ID }}" method="post" id="form">
+        {% csrf_token %}
         <div class="box-body">
 
             <div class="row" style="margin-top: 25px">
@@ -608,6 +609,7 @@
 {% block foot_js %}
 <!--<script type="text/javascript" src="/static/dist/layer/layer.js"></script>-->
 <script src=" {% static 'dist/layer/layer.js' %}"> </script>
+<script  src=" {% static 'dist/js/xcConfirm.js' %}"> </script>
 <script>
     //根据设备类型显示设备子类型
     $(function () {

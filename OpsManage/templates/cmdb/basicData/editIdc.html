@@ -61,6 +61,7 @@
         <div class="container" >
             {% if successFlag == 0%}
                 <form class="contact" action="submitIdcEdit?idcId={{ IDC.id }}" method="post" id="form" style="padding: 0 30px;">
+                    {% csrf_token %}
                     <div class="row clearfix" style="width:100%; margin: 0 auto;">
                         <div class="lbl">
                             <label>

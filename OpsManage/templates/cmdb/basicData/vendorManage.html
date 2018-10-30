@@ -34,6 +34,7 @@
 
                 <!-- 供应商清单 -->
                 <form method="post" action="vendorManage">
+                    {% csrf_token %}
                     <div class="box-body table-responsive ">
                         <table class="table table-hover">
                             <tr>
@@ -81,6 +82,7 @@
             <!-- /.box-header -->
             <!-- form start -->
             <form role="form" class="vendorcontact" action="addVendorSubmitM" method="post" id="form">
+                {% csrf_token %}
               <div class="box-body">
                 <div class="form-group">
                   <label for="suppliername">厂商名称</label>
@@ -115,6 +117,7 @@
             <!-- /.box-header -->
             <!-- form start -->
             <form role="form" class="contact" action="editAVendorSubmit?vendorId={{ VENDOR.id }}" method="post" >
+                {% csrf_token %}
               <div class="box-body">
                 <div class="form-group">
                   <label for="editsuppliername">厂商名称</label>

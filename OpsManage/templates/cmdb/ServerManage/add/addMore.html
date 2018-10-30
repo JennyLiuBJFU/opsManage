@@ -48,6 +48,7 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="RAM">
                         <form class="tab-pane active" action="RAMSubmit" method="post">
+                            {% csrf_token %}
                             <!-- 上传资产ID -->
                             <input type="hidden" name="assetId" value="{{ ID }}">
                             <!-- /上传资产ID -->
@@ -103,6 +104,7 @@
 
                     <div class="tab-pane" id="CPU">
                         <form class="tab-pane active" action="CPUSubmit" method="post">
+                            {% csrf_token %}
                             <!-- 上传资产ID -->
                             <input type="hidden" name="assetId" value="{{ ID }}">
                             <!-- /上传资产ID -->
@@ -166,6 +168,7 @@
                     <!-- 添加硬盘 -->
                     <div class="tab-pane" id="DISK">
                         <form class="tab-pane active" action="DiskSubmit" method="post">
+                            {% csrf_token %}
                             <!-- 上传资产ID -->
                             <input type="hidden" name="assetId" value="{{ ID }}">
                             <!-- /上传资产ID -->
@@ -243,6 +246,7 @@
                     <!-- 添加接口 -->
                     <div class="tab-pane" id="PORT">
                         <form class="tab-pane active" action="PortSubmit" method="post">
+                            {% csrf_token %}
                             <!-- 上传资产ID -->
                             <input type="hidden" name="assetId" value="{{ ID }}">
                             <!-- /上传资产ID -->
@@ -333,6 +337,7 @@
                     <!-- 添加部件 -->
                     <div class="tab-pane" id="Other">
                         <form class="tab-pane active" action="PartSubmit" method="post">
+                            {% csrf_token %}
                             <!-- 上传资产ID -->
                             <input type="hidden" name="assetId" value="{{ ID }}">
                             <!-- /上传资产ID -->
