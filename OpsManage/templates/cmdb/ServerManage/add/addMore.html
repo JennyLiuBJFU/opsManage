@@ -1,10 +1,13 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
 {% block css_block %}
-<link href="/static/css/form2.css" type="text/css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/dist/paginationjs/pagination.css">
+<!--<link href="/static/css/form2.css" type="text/css" rel="stylesheet">-->
+<!--<link rel="stylesheet" href="{% static 'css/form2.css' %}">-->
+<!--<link rel="stylesheet" href="/static/dist/paginationjs/pagination.css">-->
+<link rel="stylesheet" href="{% static 'dist/paginationjs/pagination.css' %}">
 <!--<link rel="stylesheet" href="/static/dist/search_dropDown/search_dropDown.css">-->
-<link rel="stylesheet" href="/static/dist/jquery-confirm/jquery-confirm.min.css">
+<link rel="stylesheet" href="{% static 'dist/jquery-confirm/jquery-confirm.min.css' %}">
 <!--<link rel="stylesheet" href="/static/dist/easyui/easyui.css">-->
 
 <style>
@@ -23,6 +26,9 @@
         border: white;
     }
 </style>
+
+<link rel="stylesheet" href="{% static 'dist/jquery-confirm/jquery-confirm.min.css' %}">
+
 {% endblock css_block %}
 
 {% block main_content %}
@@ -621,9 +627,13 @@
 {% endblock main_content %}
 
 {% block foot_js %}
-    <script type="text/javascript" src="/static/dist/jquery-confirm/jquery-confirm.min.js"></script>
-    <script type="text/javascript" src="/static/dist/layer/layer.js"></script>
-    <script type="text/javascript" src="/static/dist/paginationjs/pagination.min.js"></script>
+    <!--<script type="text/javascript" src="/static/dist/jquery-confirm/jquery-confirm.min.js"></script>-->
+
+    <!--<script type="text/javascript" src="/static/dist/layer/layer.js"></script>-->
+    <!--<script src=" {% static 'dist/layer/layer.js' %}"> </script>-->
+    <!--<script type="text/javascript" src="/static/dist/paginationjs/pagination.min.js"></script>-->
+    <script src=" {% static 'dist/paginationjs/pagination.min.js' %}"> </script>
+    <script src=" {% static 'dist/jquery-confirm/jquery-confirm.min.js' %}"> </script>
 
 
 <script>
