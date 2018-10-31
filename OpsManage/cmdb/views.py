@@ -388,7 +388,8 @@ def addSubmit(request):
             CABSPACE.asset = ASSET
             CABSPACE.save()
         ASSET.height = num * 22 - 2
-        ASSET.cab_location = ASSET.cabinet.cabinet_height - hPlace
+        ASSET.cab_location = (ASSET.cabinet.cabinet_height - hPlace)*22+20
+        print(ASSET.cab_location)
     ASSET.save()
 
 
@@ -516,8 +517,8 @@ def RAMSubmit(request):
 
 @login_required()
 def RAMDelete(request):
-    ID=request.GET['assetId']
-    ram=RAM.objects.get(id=request.GET['ramId'])
+    ID=request.POST['assetId']
+    ram=RAM.objects.get(id=request.POST['ramId'])
     print(ram)
     ram.delete()
     ASSET=Asset.objects.get(id=ID)
@@ -1260,6 +1261,8 @@ def editSubmit(request):
     # ASSET.model = request.POST['model']
     if request.POST['purchase_day']:
         ASSET.purchase_day = request.POST['purchase_day']
+        print(request.POST['purchase_day'])
+        print(type(request.POST['purchase_day']))
     else:
         ASSET.purchase_day = None
 
@@ -1335,9 +1338,7 @@ def editSubmit(request):
         ASSET.height=None
         ASSET.cab_location=None
     ASSET.save()
-    print("!!!!!!!!!!!!!!!!!!!")
-    print(ASSET.height)
-    print(ASSET.cab_location)
+
 
     if ASSET.asset_type=="1" :
         if Server.objects.filter(asset=ASSET):
@@ -1396,7 +1397,6 @@ def editSubmit(request):
         STORAGEDEVICE.save()
 
     Assets = Asset.objects.all()
-    print(Assets)
     Organizations=Organization.objects.all()
     if request.user.is_superuser:
         Perm = 1
@@ -1434,7 +1434,6 @@ def editSubmit(request):
                 org_incharge.append(oGrandSon)  # 孙子辈
                 for oGrandGrandSon in Organization.objects.filter(parent_org=oGrandSon):
                     org_incharge.append(oGrandGrandSon)  # 重孙辈
-        print(org_incharge)
         for ORG in org_incharge:
             for a in myAsset.filter(organization=ORG):
                 asset_find.append(a)

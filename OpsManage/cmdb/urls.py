@@ -81,4 +81,5 @@ urlpatterns = [
 
     url(r'^doVerify',views.doVerify),
     url(r'userVerify',views.userVerify),
+
 ]
