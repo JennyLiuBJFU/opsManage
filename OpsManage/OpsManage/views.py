@@ -2,17 +2,15 @@ from django.shortcuts import render
 import cmdb.models
 from django.contrib.auth import authenticate, login, logout
 from cmdb.import_org import import_org_info
-from cmdb.import_asset import import_server_info,import_VM_info
-
-
+from cmdb.import_asset import import_server_info,import_VM_info,import_otherDevice_info
 
 def login_view(request):
     return render (request,'login.html')
 
-
 def loginSubmit(request):
-    import_server_info()
-    import_VM_info()
+    # import_server_info()
+    # import_VM_info()
+    # import_otherDevice_info()
     name=request.POST['username']
     pwd=request.POST['password']
     user= authenticate(username=name, password=pwd)
