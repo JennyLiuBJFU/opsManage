@@ -517,8 +517,8 @@ def RAMSubmit(request):
 
 @login_required()
 def RAMDelete(request):
-    ID=request.GET['assetId']
-    ram=RAM.objects.get(id=request.GET['ramId'])
+    ID=request.POST['assetId']
+    ram=RAM.objects.get(id=request.POST['ramId'])
     print(ram)
     ram.delete()
     ASSET=Asset.objects.get(id=ID)

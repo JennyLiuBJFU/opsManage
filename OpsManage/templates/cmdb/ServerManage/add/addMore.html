@@ -2,6 +2,11 @@
 
 {% block css_block %}
 <link href="/static/css/form2.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/dist/paginationjs/pagination.css">
+<!--<link rel="stylesheet" href="/static/dist/search_dropDown/search_dropDown.css">-->
+<link rel="stylesheet" href="/static/dist/jquery-confirm/jquery-confirm.min.css">
+<!--<link rel="stylesheet" href="/static/dist/easyui/easyui.css">-->
+
 <style>
     .tab-pane {
         padding-left: 10px;
@@ -428,23 +433,27 @@
                         <span class="text-warning">RAM信息</span><br>
                         <table class="table table-hover table-condensed">
                             <tr>
-                                <th>序号</th>
-                                <th>厂商</th>
-                                <th>型号</th>
-                                <th>容量</th>
-                                <th>插槽</th>
-                                <th>状态</th>
-                                <th>更新时间</th>
+                                <th class="text-center">序号</th>
+                                <th class="text-center">厂商</th>
+                                <th class="text-center">型号</th>
+                                <th class="text-center">容量</th>
+                                <th class="text-center">插槽</th>
+                                <th class="text-center">状态</th>
+                                <th class="text-center">更新时间</th>
+                                <th class="text-center">操作</th>
                             </tr>
                             {% for r in rams %}
                             <tr>
-                                <td>{{ forloop.counter}}</td>
-                                <td>{{ r.ram_brand }}</td>
-                                <td>{{ r.ram_model }}</td>
-                                <td>{{ r.ram_volume }}</td>
-                                <td>{{ r.ram_slot }}</td>
-                                <td><span class="label label-success">{{ r.get_ram_status_display }}</span></td>
-                                <td>{{ r.update_date }}</td>
+                                <td class="text-center">{{ forloop.counter}}</td>
+                                <td class="text-center">{{ r.ram_brand }}</td>
+                                <td class="text-center">{{ r.ram_model }}</td>
+                                <td class="text-center">{{ r.ram_volume }}</td>
+                                <td class="text-center">{{ r.ram_slot }}</td>
+                                <td class="text-center"><span class="label label-success">{{ r.get_ram_status_display }}</span></td>
+                                <td class="text-center">{{ r.update_date }}</td>
+                                <td class="text-center">
+                                    <span  onclick="deleteRAM('{{r.ram_model}}', {{r.id}},{{ ID }})"><i class="glyphicon glyphicon-trash" style="color: #9e0505"></i></span>                                    </a>
+                                </td>
                             </tr>
                             {% endfor %}
                         </table>
@@ -606,5 +615,57 @@
 </div>
 {% endblock main_content %}
 
+{% block foot_js %}
+    <script type="text/javascript" src="/static/dist/jquery-confirm/jquery-confirm.min.js"></script>
+    <script type="text/javascript" src="/static/dist/layer/layer.js"></script>
+    <script type="text/javascript" src="/static/dist/paginationjs/pagination.min.js"></script>
 
+
+<script>
+    function deleteRAM(name,ramId,assetId){
+        var delete_name = '确定要删除'+'<strong style="font-size: 20px;color: orangered">'
+        +name+'</strong>'+'这个RAM吗?'+'<br>'+'一旦删除，将无法恢复！';
+        $.confirm({
+            theme: 'light',
+            type: 'dark',
+            typeAnimated: true,
+            icon: 'glyphicon glyphicon-alert',
+            closeIcon: true,
+            title: '警告',
+            content: delete_name,
+            buttons: {
+                confirm: {
+                    text: '删除',
+                    btnClass: 'btn-default',
+                    action:function() {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/cmdb/RAMDelete',
+                                data: {
+                                    "assetId": assetId,
+                                    "ramId":ramId,
+                                },
+                                success: function () {
+                                    alert("删除成功");
+                                    window.location.reload("/cmdb/editMore?assetId="+assetId);
+                                },
+                                error: function () {
+                                    alert("删除失败")
+                                },
+                            });
+
+                        },
+                    },
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'btn-blue',
+                        action:function () {
+                            },
+                        },
+
+            }
+        });
+    }
+</script>
+{% endblock foot_js %}
 
