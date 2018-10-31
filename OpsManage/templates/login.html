@@ -43,9 +43,10 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
+    <p class="login-box-msg">请输入用户及密码</p>
 
     <form id="login-form"  method="post" action="/loginSubmit">
+      {% csrf_token %}
       <div class="form-group has-feedback">
         <input type="text" class="form-control" name="username" id="userName" placeholder="User">
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -62,13 +63,13 @@
         <div class="col-xs-8">
           <div class="checkbox icheck">
             <label>
-              <input type="checkbox"> Remember Me
+              <input type="checkbox"> 记住用户名
             </label>
           </div>
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat">登录</button>
         </div>
         <!-- /.col -->
       </div>

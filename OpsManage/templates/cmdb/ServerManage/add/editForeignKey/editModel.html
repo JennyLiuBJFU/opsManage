@@ -42,6 +42,7 @@
 
                             <!-- 供应商清单 -->
                             <form method="post" action="editModel" id="deleteForm">
+                                {% csrf_token %}
                                 <div class="box-body table-responsive ">
                                     <table class="table table-hover">
                                         <tr>
@@ -97,6 +98,7 @@
 
                             <!-- form start -->
                             <form class="contactl" action="addModelSubmit" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label class=" control-label">厂商图片</label>
@@ -142,6 +144,7 @@
 
                             <!-- form start -->
                             <form class="contactl" action="editModelSubmit?modelId={{ MODEL.id }}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label class=" control-label">厂商图片</label>

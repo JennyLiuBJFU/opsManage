@@ -34,6 +34,7 @@
 
                             <!-- 供应商清单 -->
                             <form method="post" action="contractManage" id="deleteForm">
+                                {% csrf_token %}
                                 <div class="box-body table-responsive ">
                                     <table class="table table-hover">
                                         <tr>
@@ -86,6 +87,7 @@
 
                             <!-- form start -->
                             <form class="contactl" action="addContractSubmitM" method="post" id="form">
+                                {% csrf_token %}
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label class=" control-label">合同名称</label>
@@ -128,6 +130,7 @@
 
                             <!-- form start -->
                             <form class="contactl" action="editContractSubmit?contractId={{ CONTRACT.id }}" method="post">
+                                {% csrf_token %}
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label class=" control-label">合同名称</label>

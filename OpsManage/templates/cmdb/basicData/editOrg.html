@@ -40,6 +40,7 @@
 
                             <!-- 供应商清单 -->
                             <form method="post" action="editOrg" id="deleteForm">
+                                {% csrf_token %}
                                 <div class="box-body table-responsive ">
                                     <table class="table table-hover">
                                         <tr>
@@ -93,6 +94,7 @@
 
                             <!-- form start -->
                             <form class="contactl" action="addOrgSubmit" method="post" id="form">
+                                {% csrf_token %}
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label class=" control-label">单位名称</label>
@@ -140,6 +142,7 @@
 
                             <!-- form start -->
                             <form class="contactl" action="editAOrganizationSubmit?orgId={{ ORGANIZATION.id }}" method="post">
+                                {% csrf_token %}
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label class=" control-label">单位名称</label>

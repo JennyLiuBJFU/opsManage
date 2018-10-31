@@ -40,6 +40,7 @@
 
                             <!-- 机柜清单 -->
                             <form method="post" action="editCab?idcId={{ IDC.id }}" id="deleteForm">
+                                {% csrf_token %}
                                 <div class="box-body table-responsive ">
                                     <table class="table table-hover">
                                         <tr>
@@ -91,6 +92,7 @@
 
                             <!-- form start -->
                             <form class="contactl" action="addCabSubmit?idcId={{ IDC.id }}" method="post" id="form">
+                                {% csrf_token %}
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label class=" control-label">机柜名称</label>
@@ -128,7 +130,12 @@
                             <!-- /.box-header -->
 
                             <!-- form start -->
+<<<<<<< HEAD
+                            <form class="contactl" action="editACabinetSubmit?cabId={{ CABINET.id }}" method="post">
+                                {% csrf_token %}
+=======
                             <form class="contactl" action="editACabinetSubmit?cabId={{ CABINET.id }}&idcId={{ IDC.id }}" method="post">
+>>>>>>> e2620017482241e8ea4141c080b9feec11573646
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label class=" control-label">机柜名称</label>

@@ -165,6 +165,7 @@ class Cabinet(models.Model):
         db_table = 'cmdb_cabinet'
         verbose_name = '机柜'
         verbose_name_plural = verbose_name
+        ordering = ['cabinet_name']
 
 
 class CabinetSpace(models.Model):

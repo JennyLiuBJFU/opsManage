@@ -17,6 +17,7 @@
 
                     <div class="box-body "style="padding: 10px 30px">
                         <form  action="serverSubmit" method="post" id="form">
+                            {% csrf_token %}
 
                             <!-- 选择设备子类型 -->
                             <div class="form-group">

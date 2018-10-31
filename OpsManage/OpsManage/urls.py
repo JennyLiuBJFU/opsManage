@@ -18,6 +18,7 @@ from django.urls import path
 from django.conf.urls import include, url
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic.base import RedirectView
 from . import views
 
 urlpatterns = [
@@ -30,6 +31,7 @@ urlpatterns = [
     url(r'^search/', include(('haystack.urls', 'haystack'), namespace='haystack')),
     url(r'^wiki/', include(('wiki.urls', 'wiki'), namespace='wiki')),
     url(r'^api/', include(('api.urls', 'api'), namespace='api')),
+    url(r'^favicon.ico$',RedirectView.as_view(url=r'static/ico/favicon.ico')),
 ]
 
 
