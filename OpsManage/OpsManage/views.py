@@ -2,6 +2,7 @@ from django.shortcuts import render
 import cmdb.models
 from django.contrib.auth import authenticate, login, logout
 from cmdb.import_org import import_org_info
+from cmdb.import_asset import import_server_info,import_VM_info
 
 
 
@@ -10,15 +11,15 @@ def login_view(request):
 
 
 def loginSubmit(request):
+    import_server_info()
+    import_VM_info()
     name=request.POST['username']
     pwd=request.POST['password']
     user= authenticate(username=name, password=pwd)
-    print(user)
     print('########################Login successfully############################')
     if user is not None:
         login(request,user)
         print(user)
-
         orglist = cmdb.models.Organization.objects.all()
         Assets = list(cmdb.models.Asset.objects.all())
 
@@ -69,8 +70,6 @@ def loginSubmit(request):
 
             for a in Assets:
                 for o in children_list:
-                    print("组织")
-                    print(o)
                     if (a.organization == o):
                         if (a.asset_type == "1"):
                              server_count += 1
