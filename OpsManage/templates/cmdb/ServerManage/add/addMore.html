@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block css_block %}
-<link href="/static/css/form2.css" type="text/css" rel="stylesheet">
+{#<link href="/static/css/form2.css" type="text/css" rel="stylesheet">#}
     <link rel="stylesheet" href="/static/dist/paginationjs/pagination.css">
 <!--<link rel="stylesheet" href="/static/dist/search_dropDown/search_dropDown.css">-->
 <link rel="stylesheet" href="/static/dist/jquery-confirm/jquery-confirm.min.css">
@@ -466,25 +466,30 @@
                         <span class="text-warning ">CPU信息</span><br>
                         <table class="table table-hover table-condensed">
                             <tr>
-                                <th>序号</th>
-                                <th>厂商</th>
-                                <th>型号</th>
-                                <th>处理速度</th>
-                                <th>内核数量</th>
-                                <th>插槽</th>
-                                <th>状态</th>
-                                <th>更新时间</th>
+                                <th class="text-center">序号</th>
+                                <th class="text-center">厂商</th>
+                                <th class="text-center">型号</th>
+                                <th class="text-center">处理速度</th>
+                                <th class="text-center">内核数量</th>
+                                <th class="text-center">插槽</th>
+                                <th class="text-center">状态</th>
+                                <th class="text-center">更新时间</th>
+                                <th class="text-center">操作</th>
+
                             </tr>
                             {% for c in cpus%}
                             <tr>
-                                <td>{{ forloop.counter}}</td>
-                                <td>{{ c.cpu_brand}}</td>
-                                <td>{{ c.cpu_model}}</td>
-                                <td>{{ c.cpu_speed}}</td>
-                                <td>{{ c.cpu_core_count}}</td>
-                                <td>{{ c.cpu_slot}}</td>
-                                <td><span class="label label-success">{{ c.get_cpu_status_display  }}</span></td>
-                                <td>{{ c.update_date}}</td>
+                                <td class="text-center">{{ forloop.counter}}</td>
+                                <td class="text-center">{{ c.cpu_brand}}</td>
+                                <td class="text-center">{{ c.cpu_model}}</td>
+                                <td class="text-center">{{ c.cpu_speed}}</td>
+                                <td class="text-center">{{ c.cpu_core_count}}</td>
+                                <td class="text-center">{{ c.cpu_slot}}</td>
+                                <td class="text-center"><span class="label label-success">{{ c.get_cpu_status_display  }}</span></td>
+                                <td class="text-center">{{ c.update_date}}</td>
+                                <td class="text-center">
+                                    <span  onclick="deleteCPU('{{c.cpu_model}}', {{c.id}},{{ ID }})"><i class="glyphicon glyphicon-trash" style="color: #9e0505"></i></span>                                    </a>
+                                </td>
                             </tr>
                             {% endfor %}
                         </table>
@@ -497,27 +502,32 @@
                         <span class="text-warning ">硬盘信息</span><br>
                         <table class="table table-hover table-condensed">
                             <tr>
-                                <th>序号</th>
-                                <th>名称</th>
-                                <th>厂商</th>
-                                <th>型号</th>
-                                <th>硬盘容量</th>
-                                <th>序列号</th>
-                                <th>插槽</th>
-                                <th>状态</th>
-                                <th>属性</th>
+                                <th class="text-center">序号</th>
+                                <th class="text-center">名称</th>
+                                <th class="text-center">厂商</th>
+                                <th class="text-center">型号</th>
+                                <th class="text-center">硬盘容量</th>
+                                <th class="text-center">序列号</th>
+                                <th class="text-center">插槽</th>
+                                <th class="text-center">状态</th>
+                                <th class="text-center">属性</th>
+                                <th class="text-center">操作</th>
+
                             </tr>
                             {% for d in disks %}
                             <tr>
-                                <td>{{ forloop.counter}}</td>
-                                <td>{{ d.disk_name }}</td>
-                                <td>{{ d.disk_brand }}</td>
-                                <td>{{ d.disk_model }}</td>
-                                <td>{{ d.disk_volume }}</td>
-                                <td>{{ d.disk_serial }}</td>
-                                <td>{{ d.disk_slot }}</td>
-                                <td><span class="label label-success">{{ d.get_disk_status_display }}</span></td>
-                                <td>{{ d.disk_attr }}</td>
+                                <td class="text-center">{{ forloop.counter}}</td>
+                                <td class="text-center">{{ d.disk_name }}</td>
+                                <td class="text-center">{{ d.disk_brand }}</td>
+                                <td class="text-center">{{ d.disk_model }}</td>
+                                <td class="text-center">{{ d.disk_volume }}</td>
+                                <td class="text-center">{{ d.disk_serial }}</td>
+                                <td class="text-center">{{ d.disk_slot }}</td>
+                                <td class="text-center"><span class="label label-success">{{ d.get_disk_status_display }}</span></td>
+                                <td class="text-center">{{ d.disk_attr }}</td>
+                                <td class="text-center">
+                                    <span  onclick="deleteDisk('{{d.disk_name}}', {{d.id}},{{ ID }})"><i class="glyphicon glyphicon-trash" style="color: #9e0505"></i></span>                                    </a>
+                                </td>
                             </tr>
                             {% endfor %}
                         </table>
@@ -531,30 +541,34 @@
                         <span class="text-warning">接口信息</span><br>
                         <table class="table table-hover table-condensed">
                             <tr>
-                                <th>序号</th>
-                                <th>名称</th>
-                                <th>类型</th>
-                                <th>带宽</th>
-                                <th>vlan</th>
-                                <th>IP</th>
-                                <th>Mask</th>
-                                <th>SubIP</th>
-                                <th>网卡槽位</th>
-                                <th>状态</th>
+                                <th class="text-center">序号</th>
+                                <th class="text-center">名称</th>
+                                <th class="text-center">类型</th>
+                                <th class="text-center">带宽</th>
+                                <th class="text-center">vlan</th>
+                                <th class="text-center">IP</th>
+                                <th class="text-center">Mask</th>
+                                <th class="text-center">SubIP</th>
+                                <th class="text-center">网卡槽位</th>
+                                <th class="text-center">状态</th>
+                                <th class="text-center">操作</th>
+
                             </tr>
                             {% for po in ports %}
                             <tr>
-                                <td>{{ forloop.counter}}</td>
-                                <td>{{ po.port_name }}</td>
-                                <td>{{po.get_port_type_display }}</td>
-                                <td>{{ po.bandwidth }}</td>
-                                <td>{{ po.vlan }}</td>
-                                <td>{{ po.ip }}</td>
-                                <td>{{ po.mask }}</td>
-                                <td>{{ po.sub_ip }}</td>
-                                <td>{{ po.port_slot }}</td>
-                                <td><span class="label label-success">{{ po.get_status_display}}</span></td>
-
+                                <td class="text-center">{{ forloop.counter}}</td>
+                                <td class="text-center">{{ po.port_name }}</td>
+                                <td class="text-center">{{po.get_port_type_display }}</td>
+                                <td class="text-center">{{ po.bandwidth }}</td>
+                                <td class="text-center">{{ po.vlan }}</td>
+                                <td class="text-center">{{ po.ip }}</td>
+                                <td class="text-center">{{ po.mask }}</td>
+                                <td class="text-center">{{ po.sub_ip }}</td>
+                                <td class="text-center">{{ po.port_slot }}</td>
+                                <td class="text-center"><span class="label label-success">{{ po.get_status_display}}</span></td>
+                                <td class="text-center">
+                                    <span  onclick="deletePort('{{po.port_name}}', {{po.id}},{{ ID }})"><i class="glyphicon glyphicon-trash" style="color: #9e0505"></i></span>                                    </a>
+                                </td>
                             </tr>
                             {% endfor %}
                         </table>
@@ -567,25 +581,30 @@
                         <span class="text-warning">部件信息</span><br>
                         <table class="table table-hover table-condensed">
                             <tr>
-                                <th>序号</th>
-                                <th>名称</th>
-                                <th>类型</th>
-                                <th>型号</th>
-                                <th>序列号</th>
-                                <th>插槽</th>
-                                <th>状态</th>
-                                <th>描述</th>
+                                <th class="text-center">序号</th>
+                                <th class="text-center">名称</th>
+                                <th class="text-center">类型</th>
+                                <th class="text-center">型号</th>
+                                <th class="text-center">序列号</th>
+                                <th class="text-center">插槽</th>
+                                <th class="text-center">状态</th>
+                                <th class="text-center">描述</th>
+                                <th class="text-center">操作</th>
+
                             </tr>
                             {% for pa in parts %}
                             <tr>
-                                <td>{{ forloop.counter}}</td>
-                                <td>{{ pa.parts_name}}</td>
-                                <td>{{ pa.parts_type}}</td>
-                                <td>{{ pa.parts_model}}</td>
-                                <td>{{ pa.parts_sn}}</td>
-                                <td>{{ pa.parts_slot}}</td>
-                                <td><span class="label label-success">{{ pa.get_parts_status_display}}</span></td>
-                                <td>{{ pa.memo}}</td>
+                                <td class="text-center">{{ forloop.counter}}</td>
+                                <td class="text-center">{{ pa.parts_name}}</td>
+                                <td class="text-center">{{ pa.parts_type}}</td>
+                                <td class="text-center">{{ pa.parts_model}}</td>
+                                <td class="text-center">{{ pa.parts_sn}}</td>
+                                <td class="text-center">{{ pa.parts_slot}}</td>
+                                <td class="text-center"><span class="label label-success">{{ pa.get_parts_status_display}}</span></td>
+                                <td class="text-center">{{ pa.memo}}</td>
+                                <td class="text-center">
+                                    <span  onclick="deletePart('{{pa.parts_name}}', {{pa.id}},{{ ID }})"><i class="glyphicon glyphicon-trash" style="color: #9e0505"></i></span>                                    </a>
+                                </td>
                             </tr>
                             {% endfor %}
                         </table>
@@ -644,6 +663,194 @@
                                 data: {
                                     "assetId": assetId,
                                     "ramId":ramId,
+                                },
+                                success: function () {
+                                    alert("删除成功");
+                                    window.location.reload("/cmdb/editMore?assetId="+assetId);
+                                },
+                                error: function () {
+                                    alert("删除失败")
+                                },
+                            });
+
+                        },
+                    },
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'btn-blue',
+                        action:function () {
+                            },
+                        },
+
+            }
+        });
+    }
+</script>
+
+    <script>
+        function deleteCPU(name,cpuId,assetId){
+        var delete_name = '确定要删除'+'<strong style="font-size: 20px;color: orangered">'
+        +name+'</strong>'+'这个CPU吗?'+'<br>'+'一旦删除，将无法恢复！';
+        $.confirm({
+            theme: 'light',
+            type: 'dark',
+            typeAnimated: true,
+            icon: 'glyphicon glyphicon-alert',
+            closeIcon: true,
+            title: '警告',
+            content: delete_name,
+            buttons: {
+                confirm: {
+                    text: '删除',
+                    btnClass: 'btn-default',
+                    action:function() {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/cmdb/CPUDelete',
+                                data: {
+                                    "assetId": assetId,
+                                    "cpuId":cpuId,
+                                },
+                                success: function () {
+                                    alert("删除成功");
+                                    window.location.reload("/cmdb/editMore?assetId="+assetId);
+                                },
+                                error: function () {
+                                    alert("删除失败")
+                                },
+                            });
+
+                        },
+                    },
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'btn-blue',
+                        action:function () {
+                            },
+                        },
+
+            }
+        });
+    }
+</script>
+
+    <script>
+        function deleteDisk(name,diskId,assetId){
+        var delete_name = '确定要删除'+'<strong style="font-size: 20px;color: orangered">'
+        +name+'</strong>'+'这个硬盘吗?'+'<br>'+'一旦删除，将无法恢复！';
+        $.confirm({
+            theme: 'light',
+            type: 'dark',
+            typeAnimated: true,
+            icon: 'glyphicon glyphicon-alert',
+            closeIcon: true,
+            title: '警告',
+            content: delete_name,
+            buttons: {
+                confirm: {
+                    text: '删除',
+                    btnClass: 'btn-default',
+                    action:function() {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/cmdb/DiskDelete',
+                                data: {
+                                    "assetId": assetId,
+                                    "diskId":diskId,
+                                },
+                                success: function () {
+                                    alert("删除成功");
+                                    window.location.reload("/cmdb/editMore?assetId="+assetId);
+                                },
+                                error: function () {
+                                    alert("删除失败")
+                                },
+                            });
+
+                        },
+                    },
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'btn-blue',
+                        action:function () {
+                            },
+                        },
+
+            }
+        });
+    }
+</script>
+
+    <script>
+        function deletePort(name,portId,assetId){
+        var delete_name = '确定要删除'+'<strong style="font-size: 20px;color: orangered">'
+        +name+'</strong>'+'这个接口吗?'+'<br>'+'一旦删除，将无法恢复！';
+        $.confirm({
+            theme: 'light',
+            type: 'dark',
+            typeAnimated: true,
+            icon: 'glyphicon glyphicon-alert',
+            closeIcon: true,
+            title: '警告',
+            content: delete_name,
+            buttons: {
+                confirm: {
+                    text: '删除',
+                    btnClass: 'btn-default',
+                    action:function() {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/cmdb/PortDelete',
+                                data: {
+                                    "assetId": assetId,
+                                    "portId":portId,
+                                },
+                                success: function () {
+                                    alert("删除成功");
+                                    window.location.reload("/cmdb/editMore?assetId="+assetId);
+                                },
+                                error: function () {
+                                    alert("删除失败")
+                                },
+                            });
+
+                        },
+                    },
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'btn-blue',
+                        action:function () {
+                            },
+                        },
+
+            }
+        });
+    }
+</script>
+
+    <script>
+        function deletePart(name,partId,assetId){
+        var delete_name = '确定要删除'+'<strong style="font-size: 20px;color: orangered">'
+        +name+'</strong>'+'这个部件吗?'+'<br>'+'一旦删除，将无法恢复！';
+        $.confirm({
+            theme: 'light',
+            type: 'dark',
+            typeAnimated: true,
+            icon: 'glyphicon glyphicon-alert',
+            closeIcon: true,
+            title: '警告',
+            content: delete_name,
+            buttons: {
+                confirm: {
+                    text: '删除',
+                    btnClass: 'btn-default',
+                    action:function() {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/cmdb/PartDelete',
+                                data: {
+                                    "assetId": assetId,
+                                    "partId":partId,
                                 },
                                 success: function () {
                                     alert("删除成功");

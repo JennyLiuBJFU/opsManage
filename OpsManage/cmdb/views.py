@@ -580,8 +580,8 @@ def CPUSubmit(request):
 
 @login_required()
 def CPUDelete(request):
-    ID=request.GET['assetId']
-    cpu=CPU.objects.get(id=request.GET['cpuId'])
+    ID=request.POST['assetId']
+    cpu=CPU.objects.get(id=request.POST['cpuId'])
     cpu.delete()
     ASSET=Asset.objects.get(id=ID)
     rams=RAM.objects.filter(asset=ASSET)
@@ -644,8 +644,8 @@ def DiskSubmit(request):
 
 @login_required()
 def DiskDelete(request):
-    ID=request.GET['assetId']
-    disk=Disk.objects.get(id=request.GET['diskId'])
+    ID=request.POST['assetId']
+    disk=Disk.objects.get(id=request.POST['diskId'])
     disk.delete()
     ASSET=Asset.objects.get(id=ID)
     rams=RAM.objects.filter(asset=ASSET)
@@ -709,8 +709,8 @@ def PortSubmit(request):
 
 @login_required()
 def PortDelete(request):
-    ID=request.GET['assetId']
-    port=Port.objects.get(id=request.GET['portId'])
+    ID=request.POST['assetId']
+    port=Port.objects.get(id=request.POST['portId'])
     port.delete()
     ASSET=Asset.objects.get(id=ID)
     rams=RAM.objects.filter(asset=ASSET)
@@ -772,8 +772,8 @@ def PartSubmit(request):
 
 @login_required()
 def PartDelete(request):
-    ID=request.GET['assetId']
-    part=Parts.objects.get(id=request.GET['partId'])
+    ID=request.POST['assetId']
+    part=Parts.objects.get(id=request.POST['partId'])
     part.delete()
     ASSET=Asset.objects.get(id=ID)
     rams=RAM.objects.filter(asset=ASSET)
