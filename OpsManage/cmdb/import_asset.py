@@ -53,7 +53,7 @@ def import_server_info():
         newasset.memo=asset_info[23]
         newasset.save()
 
-        obj_url = "/cmdb/detail" + str(newasset.id)
+        obj_url = "192.168.14.27/cmdb/detail" + str(newasset.id)
         qr = qrcode.QRCode(version=1,
                            error_correction=qrcode.constants.ERROR_CORRECT_L,
                            box_size=8,
@@ -143,7 +143,7 @@ def import_VM_info():
         newasset.memo=asset_info[23]
         newasset.save()
 
-        obj_url = "/cmdb/detail" + str(newasset.id)
+        obj_url = "192.168.14.27/cmdb/detail" + str(newasset.id)
         qr = qrcode.QRCode(version=1,
                            error_correction=qrcode.constants.ERROR_CORRECT_L,
                            box_size=8,
@@ -243,7 +243,7 @@ def import_otherDevice_info():
         newasset.memo=asset_info[20]
         newasset.save()
 
-        obj_url = "/cmdb/detail" + str(newasset.id)
+        obj_url = "192.168.14.27/cmdb/detail" + str(newasset.id)
         qr = qrcode.QRCode(version=1,
                            error_correction=qrcode.constants.ERROR_CORRECT_L,
                            box_size=8,
