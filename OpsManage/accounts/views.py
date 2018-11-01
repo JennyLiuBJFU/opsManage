@@ -5,6 +5,18 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import Permission
 from django.contrib.auth import authenticate, login, logout
 
+def login_view(request):
+    try:
+        nextUrl=request.GET['next']
+        print(nextUrl)
+
+    except:
+        nextUrl='0'
+    context={
+        'nextUrl':nextUrl,
+    }
+    return render (request,'login.html',context)
+
 @login_required()
 def editAdmin(request):
     if  request.user.is_superuser:

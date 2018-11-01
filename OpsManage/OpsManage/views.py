@@ -1,11 +1,21 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import cmdb.models
 from django.contrib.auth import authenticate, login, logout
 from cmdb.import_org import import_org_info
 from cmdb.import_asset import import_server_info,import_VM_info,import_otherDevice_info
+from django.http import HttpResponseRedirect
 
 def login_view(request):
-    return render (request,'login.html')
+    try:
+        nextUrl=request.GET['next']
+        print('nextUrl')
+
+    except:
+        nextUrl='0'
+    context={
+        'nextUrl':nextUrl,
+    }
+    return render (request,'login.html',context)
 
 def loginSubmit(request):
     # import_server_info()
@@ -18,6 +28,14 @@ def loginSubmit(request):
     if user is not None:
         login(request,user)
         print(user)
+
+        if request.POST['nextUrl'] != '0':
+            url='http://127.0.0.1:8000'+request.POST['nextUrl']
+            url=url.replace('%3','?')
+            url=url.replace('%3D','=')
+            url=url.replace('%26','&')
+            return HttpResponseRedirect(url)
+
         orglist = cmdb.models.Organization.objects.all()
         Assets = list(cmdb.models.Asset.objects.all())
 
