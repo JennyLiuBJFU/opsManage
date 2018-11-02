@@ -32,6 +32,7 @@ urlpatterns = [
     url(r'^wiki/', include(('wiki.urls', 'wiki'), namespace='wiki')),
     url(r'^api/', include(('api.urls', 'api'), namespace='api')),
     url(r'^favicon.ico$',RedirectView.as_view(url=r'static/ico/favicon.ico')),
+
 ]
 
 
