@@ -289,6 +289,11 @@ class SecurityDevice(models.Model):
         (str(10), '网络准入系统'),
         (str(11), '网闸设备'),
         (str(12), 'VPN设备'),
+        (str(13),'堡垒机'),
+        (str(14),'DDOS'),
+        (str(15),'漏洞扫描'),
+        (str(16),'AUG网络安全审计系统'),
+        (str(17),'终端准入控制系统')
     )
 
     asset = models.OneToOneField('Asset', on_delete=models.CASCADE, verbose_name='资产') #删除资产就删除设备

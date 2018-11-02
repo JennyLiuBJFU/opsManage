@@ -47,6 +47,7 @@
 
                     <div class="form-group inline">
                         <form class="form-inline inline" id="filterForm">
+                            {% csrf_token %}
                             <!-- 查询所属单位 -->
                             <div class="form-group margin-r-5">
                                 <select class="form-control select2 text-center" name="myOrg" id="selectedOrg"
@@ -92,6 +93,7 @@
                     <!-- search form  -->
                     <div class="form-inline  pull-right">
                         <form class="form-group" method='get' action="/search/"  id="searchForm">
+                            {% csrf_token %}
                             <input class="form-control" type="search" name="q" placeholder="Search..."
                                    style="width: 130px">
                             <span class="input-group-btn inline">
@@ -113,6 +115,7 @@
                 <!-- 资产表格   -->
                 <div id="div01">
                     <form action="/cmdb/asset/" id="deleteForm" method="post">
+                        {% csrf_token %}
                         <table id="example2" class="table table-bordered table-hover">
                             <thead>
                             <tr>
@@ -176,6 +179,7 @@
                     <!-- --------------每页显示数量------------------- -->
                     <div class="col-md-2">
                         <form id="pagelenForm">
+                        {% csrf_token %}
                             <span class="text text-right">每页显示</span>
                             <label for="page_len">
                                 <select name="page_len" id="page_len" class="form-control m-b input-sm">
