@@ -43,13 +43,13 @@ def import_server_info():
         newasset.cabinet=Cabinet.objects.get(cabinet_name=asset_info[11])
         newasset.cab_location=(newasset.cabinet.cabinet_height-int(asset_info[12]))*22+20
         newasset.height=int(asset_info[13])*22-2
-        newasset.contract=Contract.objects.get(contract_name=asset_info[14])
-        newasset.supplier=Supplier.objects.get(supplier_name=asset_info[15])
-        print(asset_info[16])
-        print(type(asset_info[16]))
-        newasset.purchase_day=asset_info[16]
-        newasset.expire_day=asset_info[17]
-        newasset.approved_by=User.objects.get(username=asset_info[18])
+
+        # newasset.contract=Contract.objects.get(contract_name=asset_info[14])
+        # newasset.supplier=Supplier.objects.get(supplier_name=asset_info[15])
+        # newasset.purchase_day=asset_info[16]
+        # newasset.expire_day=asset_info[17]
+        # newasset.approved_by=User.objects.get(username=asset_info[18])
+
         newasset.memo=asset_info[23]
         newasset.save()
 
@@ -83,7 +83,7 @@ def import_server_info():
         elif asset_info[0] == '刀片机':
             newserver.sub_asset_type='3'
         newserver.created_by='2'
-        newserver.microcode=asset_info[19]
+        # newserver.microcode=asset_info[19]
         if asset_info[20] == 'Windows':
             newserver.os_type='1'
         elif asset_info[20] == 'Unix':
@@ -214,8 +214,6 @@ def import_otherDevice_info():
             newasset.network_location='2'
         elif asset_info[4] == '业务外网':
             newasset.network_location='3'
-        print(asset_info[5])
-        print(type(asset_info[5]))
         Org=Organization.objects.get(org_name=asset_info[5])
         newasset.organization=Org
         if asset_info[6] == '使用中':
@@ -232,15 +230,18 @@ def import_otherDevice_info():
         USER=User.objects.get(username=asset_info[10])
         newasset.admin=USER
         newasset.idc=Idc.objects.get(idc_name=asset_info[11])
-        newasset.cabinet=Cabinet.objects.get(cabinet_name=asset_info[12])
-        newasset.cab_location=(newasset.cabinet.cabinet_height-int(asset_info[13]))*22+20
-        newasset.height=int(asset_info[14])*22-2
-        newasset.contract=Contract.objects.get(contract_name=asset_info[15])
-        newasset.supplier=Supplier.objects.get(supplier_name=asset_info[16])
-        newasset.purchase_day=asset_info[17]
-        newasset.expire_day=asset_info[18]
-        newasset.approved_by=User.objects.get(username=asset_info[19])
-        newasset.memo=asset_info[20]
+        if str(asset_info[12])!='0.0':
+            newasset.cabinet=Cabinet.objects.get(cabinet_name=asset_info[12])
+        if str(asset_info[13])!='0.0':
+            newasset.cab_location=(newasset.cabinet.cabinet_height-int(asset_info[13]))*22+20
+        if str(asset_info[14])!='0.0':
+            newasset.height=int(asset_info[14])*22-2
+        # newasset.contract=Contract.objects.get(contract_name=asset_info[15])
+        # newasset.supplier=Supplier.objects.get(supplier_name=asset_info[16])
+        # newasset.purchase_day=asset_info[17]
+        # newasset.expire_day=asset_info[18]
+        # newasset.approved_by=User.objects.get(username=asset_info[19])
+        # newasset.memo=asset_info[20]
         newasset.save()
 
         obj_url = "192.168.14.27/cmdb/detail" + str(newasset.id)
@@ -305,6 +306,16 @@ def import_otherDevice_info():
                 newSecurityDevice.sub_asset_type='11'
             elif asset_info[1]=='VPN设备':
                 newSecurityDevice.sub_asset_type='12'
+            elif asset_info[1]=='堡垒机':
+                newSecurityDevice.sub_asset_type='13'
+            elif asset_info[1] == 'DDOS':
+                newSecurityDevice.sub_asset_type='14'
+            elif asset_info[1] == '漏洞扫描':
+                newSecurityDevice.sub_asset_type='15'
+            elif asset_info[1] == 'AUG网络安全审计系统':
+                newSecurityDevice.sub_asset_type='16'
+            elif asset_info[1]=='终端准入控制系统':
+                newSecurityDevice.sub_asset_type='17'
             newSecurityDevice.save()
         elif asset_info[0] == '存储设备':
             newStorageDevice=StorageDevice()
