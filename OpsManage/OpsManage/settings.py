@@ -77,26 +77,26 @@ WSGI_APPLICATION = 'OpsManage.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'OpsManage',
-        'USER': 'root',
-        'PASSWORD': 'boco',
-        'HOST': '192.168.14.27',
-        'PORT': '3306',
-        'OPTIONS': {},
-        'init_command': 'SET storage_engine=INNODB,'
-                        'SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED, autocommit=1, names "utf8";',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'OpsManage',
+#         'USER': 'root',
+#         'PASSWORD': 'boco',
+#         'HOST': '192.168.14.27',
+#         'PORT': '3306',
+#         'OPTIONS': {},
+#         'init_command': 'SET storage_engine=INNODB,'
+#                         'SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED, autocommit=1, names "utf8";',
+#     }
+# }
 
 
 
@@ -127,7 +127,7 @@ SESSION_COOKIE_PATH = "/"  # Session的cookie保存的路径（默认）
 SESSION_COOKIE_DOMAIN = None  # Session的cookie保存的域名（默认）
 SESSION_COOKIE_SECURE = False # 是否Https传输cookie（默认）
 SESSION_COOKIE_HTTPONLY = True  # 是否Session的cookie只支持http传输（默认）
-SESSION_COOKIE_AGE = 120 # Session的cookie失效日期（2周）（默认）
+SESSION_COOKIE_AGE = 2000000  # Session的cookie失效日期（2周）（默认）
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # 是否关闭浏览器使得Session过期（默认）
 SESSION_SAVE_EVERY_REQUEST = False  # 是否每次请求都保存Session，默认修改之后才保存（默认）
 

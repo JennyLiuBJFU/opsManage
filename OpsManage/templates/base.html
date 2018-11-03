@@ -322,9 +322,35 @@ desired effect
 <!--<script type="text/javascript" src="/static/js/jquery-1.7.2.min.js" ></script>-->
 <script src=" {% static 'dist/layer/layer.js' %}"> </script>
 <script src=" {% static 'js/xcConfirm.js' %}"> </script>
+<script src=" {% static 'js/ifvisible.min.js' %}"> </script>
 
 <script>
     $.widget.bridge('uibutton', $.ui.button);
+</script>
+
+
+<script>
+function checkUserFun(){
+    var maxTime = 1*60; // seconds  (2小时)
+    var time = maxTime;
+    $('body').on('keydown mousemove mousedown click scroll', function(e){
+        time = maxTime; // reset
+    });
+    var intervalId = setInterval(function(){
+        time--;
+        if(time <= 0) {
+            ShowInvalidLoginMessage();
+            clearInterval(intervalId);
+        }
+    },1000)
+    function ShowInvalidLoginMessage(){
+　　　　　//清除用户信息
+        // alert('页面失效，请重新登录');
+        window.location.href = "/logout";
+        //跳转到登录页面
+    }
+}
+checkUserFun()
 </script>
 
 {% block foot_js %} {% endblock %}
