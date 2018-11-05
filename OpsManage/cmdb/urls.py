@@ -46,8 +46,6 @@ urlpatterns = [
     url(r'^deleteAIdc', views.deleteAIdc),
     url(r'^cabDetail', views.cabDetail),
     url(r'^idcManage',views.idcManage),
-    # url(r'^userManage',views.userManage),
-    # url(r'addUserSubmit',views.addUserSubmit),
     url(r'^contractManage',views.contractManage),
     url(r'^addContractSubmit',views.addContractSubmit),
     url(r'^orgManage',views.orgManage),
@@ -63,8 +61,6 @@ urlpatterns = [
     url(r'^showidcs(\d+)/$', views.showidcs),
     url(r'^showcabs(\d+)/$', views.showcabs),
     url(r'^showcabspace(\d+)/$', views.showcabspace),
-
-    # url(r'^editAdminSubmit',views.editAdminSubmit),
     url(r'^editSupplierSubmit$',views.editASupplierSubmit),
     url(r'^editSupplierSubmitM',views.editASupplierSubmitM),
     url(r'^editContractSubmit',views.editContractSubmit),
@@ -73,13 +69,9 @@ urlpatterns = [
     url(r'^editVendorSubmit',views.editVendorSubmit),
     url(r'^importorg/',views.importorg),
     url(r'editModelSubmit',views.editModelSubmit),
-
     url(r'modelManage',views.modelManage),
     url(r'^addAModelSubmit',views.addAModelSubmit),
     url(r'^editAModelSubmit',views.editAModelSubmit),
     url(r'^editAVendorSubmit',views.editAVendorSubmit),
-
     url(r'^doVerify',views.doVerify),
-    # url(r'userVerify',views.userVerify),
-
 ]
