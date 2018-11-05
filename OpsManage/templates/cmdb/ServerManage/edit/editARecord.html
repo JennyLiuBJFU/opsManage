@@ -686,6 +686,9 @@
         var asset_no=$("#asset_no").val();
         var sn=$("#sn").val();
         if (asset_name != "" && asset_no != "" && sn != ""){
+            $.ajaxSetup({
+               data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
+            });
             $.ajax({
                 url:"/cmdb/doVerify",
                 data:{"asset_name":asset_name,"asset_no":asset_no,"sn":sn,"assetId":assetId},
