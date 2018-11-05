@@ -130,12 +130,12 @@
                             <!-- /.box-header -->
 
                             <!-- form start -->
-<<<<<<< HEAD
+
                             <form class="contactl" action="editACabinetSubmit?cabId={{ CABINET.id }}" method="post">
                                 {% csrf_token %}
-=======
+
                             <form class="contactl" action="editACabinetSubmit?cabId={{ CABINET.id }}&idcId={{ IDC.id }}" method="post">
->>>>>>> e2620017482241e8ea4141c080b9feec11573646
+
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label class=" control-label">机柜名称</label>
@@ -169,3 +169,26 @@
                 </div>
 </body>
 
+<script>
+function checkUserFun(){
+    var maxTime = 2*60; // seconds
+    var time = maxTime;
+    $('body').on('keydown mousemove mousedown click scroll', function(e){
+        time = maxTime; // reset
+    });
+    var intervalId = setInterval(function(){
+        time--;
+        if(time <= 0) {
+            ShowInvalidLoginMessage();
+            clearInterval(intervalId);
+        }
+    },1000)
+    function ShowInvalidLoginMessage(){
+　　　　　//清除用户信息
+        // alert('页面失效，请重新登录');
+        window.location.href = "/accounts/logout";
+        //跳转到登录页面
+    }
+}
+checkUserFun()
+</script>

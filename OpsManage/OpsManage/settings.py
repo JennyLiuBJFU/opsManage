@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'captcha',
     'cmdb',
     'haystack',
     'wiki',
@@ -77,26 +78,26 @@ WSGI_APPLICATION = 'OpsManage.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-#
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'OpsManage',
-#         'USER': 'root',
-#         'PASSWORD': 'boco',
-#         'HOST': '192.168.14.27',
-#         'PORT': '3306',
-#         'OPTIONS': {},
-#         'init_command': 'SET storage_engine=INNODB,'
-#                         'SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED, autocommit=1, names "utf8";',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+#
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'OpsManage',
+        'USER': 'root',
+        'PASSWORD': 'boco',
+        'HOST': '192.168.14.27',
+        'PORT': '3306',
+        'OPTIONS': {},
+        'init_command': 'SET storage_engine=INNODB,'
+                        'SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED, autocommit=1, names "utf8";',
+    }
+}
 
 
 
@@ -131,6 +132,22 @@ SESSION_COOKIE_AGE = 2000000  # Session的cookie失效日期（2周）（默认�
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # 是否关闭浏览器使得Session过期（默认）
 SESSION_SAVE_EVERY_REQUEST = False  # 是否每次请求都保存Session，默认修改之后才保存（默认）
 
+#随机验证码设置
+# 格式
+CAPTCHA_OUTPUT_FORMAT = u'%(text_field)s %(hidden_field)s %(image)s'
+# 噪点样式
+CAPTCHA_NOISE_FUNCTIONS = ('captcha.helpers.noise_null',  # 没有样式
+                           # 'captcha.helpers.noise_arcs', # 线
+                           # 'captcha.helpers.noise_dots', # 点
+                           )
+# 图片大小
+CAPTCHA_IMAGE_SIZE = (100, 25)
+CAPTCHA_BACKGROUND_COLOR = '#ffffff'
+CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.random_char_challenge'  # 图片中的文字为随机英文字母，如 mdsh
+# CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'    # 图片中的文字为数字表达式，如1+2=</span>
+
+CAPTCHA_LENGTH = 4  # 字符个数
+CAPTCHA_TIMEOUT = 1  # 超时(minutes)
 
 
 

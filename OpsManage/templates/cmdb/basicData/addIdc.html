@@ -126,5 +126,30 @@
     </section>
 
 </body>
+
+<script>
+function checkUserFun(){
+    var maxTime = 2*60; // seconds
+    var time = maxTime;
+    $('body').on('keydown mousemove mousedown click scroll', function(e){
+        time = maxTime; // reset
+    });
+    var intervalId = setInterval(function(){
+        time--;
+        if(time <= 0) {
+            ShowInvalidLoginMessage();
+            clearInterval(intervalId);
+        }
+    },1000)
+    function ShowInvalidLoginMessage(){
+　　　　　//清除用户信息
+        // alert('页面失效，请重新登录');
+        window.location.href = "/accounts/logout";
+        //跳转到登录页面
+    }
+}
+checkUserFun()
+</script>
+
 </html>
 

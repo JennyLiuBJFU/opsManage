@@ -46,8 +46,8 @@ urlpatterns = [
     url(r'^deleteAIdc', views.deleteAIdc),
     url(r'^cabDetail', views.cabDetail),
     url(r'^idcManage',views.idcManage),
-    url(r'^userManage',views.userManage),
-    url(r'addUserSubmit',views.addUserSubmit),
+    # url(r'^userManage',views.userManage),
+    # url(r'addUserSubmit',views.addUserSubmit),
     url(r'^contractManage',views.contractManage),
     url(r'^addContractSubmit',views.addContractSubmit),
     url(r'^orgManage',views.orgManage),
@@ -57,14 +57,14 @@ urlpatterns = [
     url(r'^addSupplierSubmitM',views.addSupplierSubmitM),
     url(r'^vendorManage',views.vendorManage),
     url(r'^addVendorSubmitM',views.addVendorSubmitM),
-    url(r'^assetMap',views.assetMap),
+    url(r'^assetMap',views.assetMap, name='assetMap'),
     url(r'^asset_subtype(\d+)/$', views.subtype),
     url(r'^device_model(\d+)/$', views.devicemodel),
     url(r'^showidcs(\d+)/$', views.showidcs),
     url(r'^showcabs(\d+)/$', views.showcabs),
     url(r'^showcabspace(\d+)/$', views.showcabspace),
 
-    url(r'^editAdminSubmit',views.editAdminSubmit),
+    # url(r'^editAdminSubmit',views.editAdminSubmit),
     url(r'^editSupplierSubmit$',views.editASupplierSubmit),
     url(r'^editSupplierSubmitM',views.editASupplierSubmitM),
     url(r'^editContractSubmit',views.editContractSubmit),
@@ -80,6 +80,6 @@ urlpatterns = [
     url(r'^editAVendorSubmit',views.editAVendorSubmit),
 
     url(r'^doVerify',views.doVerify),
-    url(r'userVerify',views.userVerify),
+    # url(r'userVerify',views.userVerify),
 
 ]

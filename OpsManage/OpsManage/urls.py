@@ -19,20 +19,20 @@ from django.conf.urls import include, url
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic.base import RedirectView
-from . import views
+from OpsManage.views import index
+# import  captcha
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^$',views.login_view),
-    url(r'^loginSubmit$',views.loginSubmit),
-    url(r'^logout$',views.logout_view),
-    url(r'^accounts/', include('accounts.urls')),
-    url('^cmdb/', include(('cmdb.urls', 'cmdb'), namespace='cmdb')), #django2.0必须在include里面加上应用的名字
+    url(r'^$', index, name='index'),
+    url(r'^accounts/', include(('accounts.urls', 'accounts'), namespace='accounts')),
+    url(r'^cmdb/', include(('cmdb.urls', 'cmdb'), namespace='cmdb')), #django2.0必须在include里面加上应用的名字
     url(r'^search/', include(('haystack.urls', 'haystack'), namespace='haystack')),
     url(r'^wiki/', include(('wiki.urls', 'wiki'), namespace='wiki')),
     url(r'^api/', include(('api.urls', 'api'), namespace='api')),
     url(r'^favicon.ico$',RedirectView.as_view(url=r'static/ico/favicon.ico')),
-
+    url(r'^captcha/', include('captcha.urls')),
 ]
 
 

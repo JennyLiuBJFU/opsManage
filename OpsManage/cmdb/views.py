@@ -122,6 +122,12 @@ def asset(request):
 
 @login_required()
 def index(request):
+    USERNAME = str(request.user)
+    if request.user.is_superuser:
+        Perm = 1
+    else:
+        Perm = 0
+
     orglist =Organization.objects.all()
     Assets = list(Asset.objects.all())
 
@@ -176,8 +182,6 @@ def index(request):
 
         for a in Assets:
             for o in children_list:
-                print("组织")
-                print(o)
                 if (a.organization == o):
                     if (a.asset_type == "1"):
                         server_count += 1
@@ -228,6 +232,8 @@ def index(request):
 
 
     context = {
+        'USERNAME': str(request.user),
+        'Perm': Perm,
         'org_data': org_dic,
         'asset_total': len(Assets),
         'server_total': server_total,
@@ -1706,7 +1712,8 @@ def cabDetail(request):
     }
     return render (request,'cmdb/basicData/cabDetail.html',context)
 
-
+'''
+迁移到accounts应用下
 @login_required()
 def userManage(request):
     dadmin = request.POST.getlist('delete_admin')
@@ -1755,7 +1762,10 @@ def userManage(request):
 
     }
     return render(request,'cmdb/basicData/userManage.html',context)
+'''
 
+'''
+迁移到accounts应用下
 @login_required()
 def addUserSubmit(request):
     user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
@@ -1802,8 +1812,11 @@ def addUserSubmit(request):
 
     }
     return render(request,'cmdb/basicData/userManage.html',context)
+'''
 
 
+"""
+迁移到account应用下
 @login_required()
 def editAdminSubmit(request):
     user=User.objects.get(id=request.GET['userId'])
@@ -1854,6 +1867,8 @@ def editAdminSubmit(request):
 
     }
     return render(request, 'cmdb/basicData/userManage.html', context)
+"""
+
 
 @login_required()
 def contractManage(request):
@@ -2141,7 +2156,7 @@ def assetMap(request):
                             "storgecount": storgecount,
                             }
                       }
-        peridc_asset_count.append(asset_count)
+        peridc_asset_count.append('asset_count')
 
     context = {
         'USERNAME': str(request.user),
@@ -2359,7 +2374,8 @@ def doVerify(request):
     response=JsonResponse({"asset_name":asset_name,"asset_no":asset_no,"sn":sn})
     return response
 
-
+'''
+迁移到accounts目录下
 @login_required()
 def userVerify(request):
     print(request.POST)
@@ -2372,3 +2388,4 @@ def userVerify(request):
                 username=True
     response=JsonResponse({"username":username})
     return response
+'''
