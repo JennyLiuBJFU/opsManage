@@ -62,6 +62,16 @@
             </div>
             <span style="color: red">{{ loginForm.password.errors }}</span>
 
+             <div class="form-group">
+                  {{ loginForm.captcha.errors }}
+                  {{ loginForm.captcha.label_tag }}
+                  {{ loginForm.captcha }}
+              </div>
+
+              <!--<button type="reset" class="btn btn-default pull-left">重置</button>-->
+
+
+
             <div class="row">
                 <div class="col-xs-8">
                     <div class="checkbox icheck">

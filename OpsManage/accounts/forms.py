@@ -3,6 +3,7 @@
 from django import forms
 from django.contrib import auth
 # from accounts.models import UserInfo, RoleList, PermissionList
+from captcha.fields import CaptchaField
 
 
 class LoginForm(forms.Form):
@@ -21,6 +22,7 @@ class LoginForm(forms.Form):
                                widget=forms.PasswordInput(attrs={'class': 'form-control',
                                                                  'placeholder': 'Password'}),
                                )
+    captcha = CaptchaField(label='验证码', )
 
     # def __init__(self, request=None, *args, **kwargs):
     #     self.request = request
