@@ -430,6 +430,7 @@
         });
     });
 
+
     //根据厂商显示设备型号
     $(function () {
         $("#vendor").change(function () {
@@ -507,9 +508,7 @@
                         alert("提交失败，序列号sn已存在！")
                     }
                     else {
-                        document.getEleme            $.ajaxSetup({
-               data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
-            });ntById('addForm').submit();
+                        document.getElementById('addForm').submit();
                     }
                 }
 

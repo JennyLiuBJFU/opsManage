@@ -5,7 +5,6 @@ from django.contrib import auth
 # from accounts.models import UserInfo, RoleList, PermissionList
 from captcha.fields import CaptchaField
 
-
 class LoginForm(forms.Form):
     username = forms.CharField(required=True,
                                label='username',

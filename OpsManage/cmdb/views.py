@@ -9,6 +9,7 @@ import qrcode
 from django.http import JsonResponse
 from django.shortcuts import HttpResponse, render, redirect
 from .import_org import import_org_info
+from  .operateLogs import WriteLog
 
 from django.contrib.auth.models import User, Group
 # 分页函数
@@ -380,7 +381,6 @@ def addSubmit(request):
         ASSET.cabinet = Cabinet.objects.get(id=request.POST['cabinet'])
     ASSET.save()
 
-
     #生成机柜空间
     CapSpasId = request.POST.getlist('cabSpace')
     num = 0
@@ -398,7 +398,6 @@ def addSubmit(request):
         print(ASSET.cab_location)
     ASSET.save()
 
-
     #生成设备的二维码
     obj_url = "192.168.14.27/cmdb/detail" + str(ASSET.id)
     qr = qrcode.QRCode(version=1,
@@ -413,6 +412,7 @@ def addSubmit(request):
     img.save(img_name)
     ASSET.qrcode = img_name
     ASSET.save()
+
     # 生成二维码完毕
 
     #生成添加Server页面的信息
@@ -448,19 +448,29 @@ def addSubmit(request):
         NETWORKDEVICE.asset=ASSET
         NETWORKDEVICE.sub_asset_type=asset_subtype
         NETWORKDEVICE.save()
-        return render(request, 'cmdb/ServerManage/add/addMore.html', {"ID":ASSET.id})
+        WriteLog(request.user.username, '网络设备', NETWORKDEVICE.asset.asset_name, '1','1')
+
+        return render(request, 'cmdb/ServerManage/add/addMore.html',{"ID": ASSET.id, 'Perm': Perm, 'USERNAME': str(request.user)})
     elif ASSET.asset_type=='3':
         SECURITYDEVICE=SecurityDevice()
         SECURITYDEVICE.asset=ASSET
         SECURITYDEVICE.sub_asset_type=asset_subtype
-        return render(request, 'cmdb/ServerManage/add/addMore.html', {"ID":ASSET.id})
+        SECURITYDEVICE.save()
+        WriteLog(request.user.username, '安全设备', SECURITYDEVICE.asset.asset_name, '1','1')
+
+        return render(request, 'cmdb/ServerManage/add/addMore.html',{"ID": ASSET.id, 'Perm': Perm, 'USERNAME': str(request.user)})
     elif ASSET.asset_type=='4':
         STORAGEDEVICE=StorageDevice()
         STORAGEDEVICE.asset=ASSET
         STORAGEDEVICE.sub_asset_type=asset_subtype
-        return render(request, 'cmdb/ServerManage/add/addMore.html', {"ID":ASSET.id})
+        STORAGEDEVICE.save()
+        WriteLog(request.user.username, '存储设备', STORAGEDEVICE.asset.asset_name, '1','1')
+
+        return render(request, 'cmdb/ServerManage/add/addMore.html',{"ID": ASSET.id, 'Perm': Perm, 'USERNAME': str(request.user)})
     else:
-        return render(request, 'cmdb/ServerManage/add/addMore.html', {"ID":ASSET.id})
+        WriteLog(request.user.username, '资产', ASSET.asset_name, '1','1')
+        return render(request, 'cmdb/ServerManage/add/addMore.html',{"ID": ASSET.id, 'Perm': Perm, 'USERNAME': str(request.user)})
+
 
 @login_required()
 def editMore(request):
@@ -500,6 +510,8 @@ def RAMSubmit(request):
     ram.ram_slot=request.POST['slot']
     ram.ram_status=request.POST['status']
     ram.save()
+    WriteLog(request.user.username, 'ram', ASSET.asset_name, '1','2')
+
     rams = RAM.objects.filter(asset=ASSET)
     cpus = CPU.objects.filter(asset=ASSET)
     disks = Disk.objects.filter(asset=ASSET)
@@ -563,6 +575,8 @@ def CPUSubmit(request):
     cpu.cpu_slot=request.POST['slot']
     cpu.cpu_status=request.POST['status']
     cpu.save()
+    WriteLog(request.user.username, 'cpu', ASSET.asset_name, '1','2')
+
     rams = RAM.objects.filter(asset=ASSET)
     cpus = CPU.objects.filter(asset=ASSET)
     disks = Disk.objects.filter(asset=ASSET)
@@ -627,6 +641,7 @@ def DiskSubmit(request):
     disk.disk_status=request.POST['status']
     disk.disk_attr=request.POST['attr']
     disk.save()
+    WriteLog(request.user.username, 'disk', ASSET.asset_name, '1','2')
     rams = RAM.objects.filter(asset=ASSET)
     cpus = CPU.objects.filter(asset=ASSET)
     disks = Disk.objects.filter(asset=ASSET)
@@ -656,7 +671,8 @@ def DiskDelete(request):
     ASSET=Asset.objects.get(id=ID)
     rams=RAM.objects.filter(asset=ASSET)
     cpus = CPU.objects.filter(asset=ASSET)
-    disks = Disk.objects.filter(asset=ASSET)
+    disks = Disk.objects.filter(asset=
+ASSET)
     ports = Port.objects.filter(asset=ASSET)
     parts = Parts.objects.filter(asset=ASSET)
     if request.user.is_superuser:
@@ -668,6 +684,8 @@ def DiskDelete(request):
         'Perm': Perm,
         'ID': ID,
         'rams': rams,
+
+
         'cpus': cpus,
         'disks': disks,
         'ports': ports,
@@ -683,6 +701,7 @@ def PortSubmit(request):
     port=Port()
     port.asset=ASSET
     port.port_type=request.POST['type']
+
     port.port_name=request.POST['name']
     port.port_slot=request.POST['slot']
     port.vlan=request.POST['vlan']
@@ -692,6 +711,7 @@ def PortSubmit(request):
     port.bandwidth=request.POST['bandwidth']
     port.status=request.POST['status']
     port.save()
+    WriteLog(request.user.username, 'port', ASSET.asset_name, '1','2')
     rams = RAM.objects.filter(asset=ASSET)
     cpus = CPU.objects.filter(asset=ASSET)
     disks = Disk.objects.filter(asset=ASSET)
@@ -733,6 +753,7 @@ def PortDelete(request):
         'Perm': Perm,
         'ID': ID,
         'rams': rams,
+
         'cpus': cpus,
         'disks': disks,
         'ports': ports,
@@ -755,6 +776,7 @@ def PartSubmit(request):
     part.parts_status=request.POST['status']
     part.memo=request.POST['partDesc']
     part.save()
+    WriteLog(request.user.username, 'part', ASSET.asset_name, '1','2')
     rams = RAM.objects.filter(asset=ASSET)
     cpus = CPU.objects.filter(asset=ASSET)
     disks = Disk.objects.filter(asset=ASSET)
@@ -774,7 +796,8 @@ def PartSubmit(request):
         'ports': ports,
         'parts': parts,
     }
-    return render(request,'cmdb/ServerManage/add/addMore.html',context)
+    return render(request, 'cmdb/ServerManage/add/addMore.html', context)
+
 
 @login_required()
 def PartDelete(request):
@@ -818,6 +841,7 @@ def serverSubmit(request):
         SERVER.sub_asset_type=request.POST['sub_asset_type']
     else:
         SERVER.sub_asset_type=None
+
     if request.POST['os_type'] != '0':
         SERVER.os_type = request.POST['os_type']
     else:
@@ -826,106 +850,15 @@ def serverSubmit(request):
     SERVER.os_distribution=request.POST['os_distribution']
     SERVER.os_release=request.POST['os_release']
     SERVER.save()
+    WriteLog(request.user.username, '服务器', ASSET.asset_name, '1','1')
 
-    # Assets = Asset.objects.all()
-    # Organizations = Organization.objects.all()
-    ID = request.POST['assetid']
     if request.user.is_superuser:
         Perm = 1
     else:
         Perm = 0
-    context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'ID':ID,
-        # 'Assets': Assets,
-        # 'Organizations':Organizations,
-    }
-    return render(request, 'cmdb/ServerManage/add/addMore.html', context)
+    return render(request, 'cmdb/ServerManage/add/addMore.html', {"ID": ASSET.id,'Perm':Perm,'USERNAME':str(request.user)})
 
 
-@login_required()
-def networkDeviceSubmit (request):
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-
-    ASSET = Asset.objects.get(id=request.POST['asset_id'])
-    NETWORKDEVICE = NetworkDevice()
-    if request.POST['asset_subtype'] != '0':
-        NETWORKDEVICE.sub_asset_type=request.POST['asset_subtype']
-    else:
-        NETWORKDEVICE.sub_asset_type = None
-    NETWORKDEVICE.asset=ASSET
-    NETWORKDEVICE.save()
-
-    # Organizations = Organization.objects.all()
-    # ID=request.POST['asset_id']
-
-    context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'ID':request.POST['asset_id'],
-    }
-    return render(request, 'cmdb/ServerManage/add/addMore.html', context)
-
-@login_required()
-def storageDeviceSubmit(request):
-    print(request.POST)
-    ASSET = Asset.objects.get(id=request.POST['assetId'])
-    STORAGEDEVICE = StorageDevice()
-    STORAGEDEVICE.asset = ASSET
-    if request.POST['sub_asset_type'] != '0':
-        STORAGEDEVICE.sub_asset_type = request.POST['sub_asset_type']
-    else:
-        STORAGEDEVICE.sub_asset_type=None
-    STORAGEDEVICE.save()
-    Assets = Asset.objects.all()
-    Organizations = Organization.objects.all()
-    ID=request.POST['assetId']
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'ID':ID,
-        'Assets': Assets,
-        'Organizations': Organizations,
-    }
-    return render(request, 'cmdb/ServerManage/add/addMore.html', context)
-
-@login_required()
-def securityDeviceSubmit(request):
-    print(request.POST)
-    ASSET = Asset.objects.get(id=request.POST['assetId'])
-    SECURITYDEVICE = SecurityDevice()
-    SECURITYDEVICE.asset = ASSET
-    if request.POST['sub_asset_type'] != '0':
-        SECURITYDEVICE.sub_asset_type = request.POST['sub_asset_type']
-    else:
-        SECURITYDEVICE.sub_asset_type=None
-    SECURITYDEVICE.memo=request.POST['memo']
-    SECURITYDEVICE.save()
-    Assets = Asset.objects.all()
-    Organizations = Organization.objects.all()
-    ID=request.POST['assetId']
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    context = {
-        'USERNAME': str(request.user),
-        'Perm': Perm,
-        'ID':ID,
-        'Assets': Assets,
-        'Organizations': Organizations,
-    }
-    return render(request, 'cmdb/ServerManage/add/addMore.html', context)
-
-@login_required()
 def detail(request, v):
     print(request)
     ASSET = Asset.objects.get(id=v)
@@ -998,6 +931,7 @@ def addModelSubmit(request):
     o.vendor=Vendor.objects.get(id=request.POST['vendor'])
     o.models=request.POST['models']
     o.save()
+    WriteLog(request.user.username, '型号', o.models, '1','1')
     model = Device_model.objects.all()
     vendors = Vendor.objects.all()
     if request.user.is_superuser:
@@ -1021,6 +955,7 @@ def editModelSubmit(request):
     MODEL.vendor=Vendor.objects.get(id=request.POST['vendor'])
     MODEL.models=request.POST['models']
     MODEL.save()
+    WriteLog(request.user.username, '型号', MODEL.models, '2','1')
     model=Device_model.objects.all()
     vendor=Vendor.objects.all()
     context = {

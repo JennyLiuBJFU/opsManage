@@ -538,26 +538,23 @@ class EventLog(models.Model):
     日志.在关联对象被删除的时候，不能一并删除，需保留日志。因此，on_delete=models.SET_NULL。
     """
     event_type_choice = (
-        (str(1), '硬件变更'),
-        (str(2), '新增配件'),
-        (str(3), '设备下线'),
-        (str(4), '设备上线'),
-        (str(5), '定期维护'),
-        (str(6), '业务上线'),
-        (str(7), '其它'),
+        (str(1), '增加'),
+        (str(2), '删除'),
+        (str(3), '修改'),
     )
-
-    asset = models.ForeignKey('Asset', blank=True, null=True, on_delete=models.SET_NULL)  # 当资产审批成功时有这项数据
-    name = models.CharField(max_length=128, verbose_name='事件名称')
-    event_type = models.CharField(max_length=64, choices=event_type_choice, default=4, verbose_name='事件类型')
-    component = models.CharField(max_length=256, blank=True, null=True, verbose_name='事件子项')
-    detail = models.TextField(verbose_name='事件详情')
+    log_type_choice = (
+        (str(1), '普通'),
+        (str(2), '部件'),
+    )
+    object_type = models.CharField(max_length=128, verbose_name='对象类型')
+    object_name = models.CharField(max_length=128, verbose_name='对象名称')
+    event_type = models.CharField(max_length=64, choices=event_type_choice, verbose_name='事件类型')
     date = models.DateTimeField(auto_now_add=True, verbose_name='事件时间')
-    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)  # 自动更新资产数据时没有执行人
-    memo = models.TextField(blank=True, null=True, verbose_name='备注')
+    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
+    log_type= models.CharField(max_length=64, choices=log_type_choice, verbose_name='日志类型')
 
     def __str__(self):
-        return self.name
+        return self.object_name
 
     class Meta:
         verbose_name = '事件纪录'
