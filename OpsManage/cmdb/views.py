@@ -1120,6 +1120,8 @@ def deleteARecord(request):
         v = request.POST['myid']
         deleted_asset = Asset.objects.get(id=v)
         deleted_asset.delete()
+        WriteLog(request.user.username, '资产', deleted_asset.asset_name, '2', '1')
+
         ret = True
     except:
         print("传给删除资产函数的asset_id错误")
@@ -1503,6 +1505,7 @@ def editCab(request):
     if len(dCabinets):
         for i in dCabinets:
             Cabinet.objects.get(pk=i).delete()
+            WriteLog(request.user.username, '机柜', Cabinet.objects.get(pk=i).cabinet_name, '2', '1')
     IDC=Idc.objects.get(id=request.GET['idcId'])
     Cabinets=Cabinet.objects.filter(idc=IDC)
     CABINET = Cabinet()
@@ -1647,6 +1650,8 @@ def submitIdcEdit(request):
 def deleteAIdc (request):
     IDC = Idc.objects.get(id=request.GET['idcId'])
     IDC.delete()
+    WriteLog(request.user.username, '机房', IDC.idc_name, '2', '1')
+
     successFlag = 2
     Organizations = Organization.objects.all()
     context = {
@@ -1679,6 +1684,7 @@ def contractManage(request):
     if len(dcontract):
         for i in dcontract:
             Contract.objects.get(pk=i).delete()
+            WriteLog(request.user.username, '合同', Contract.contract_name, '2', '1')
 
     # 查询现有所有厂商对象并传给前段页面
     contract = Contract.objects.all()
@@ -1747,6 +1753,7 @@ def editOrg(request):
     if len(dorg):
         for i in dorg:
            Organization.objects.get(pk=i).delete()
+           WriteLog(request.user.username, '组织机构', Organization.objects.get(pk=i).org_name, '2', '1')
 
     # 查询现有所有厂商对象并传给前段页面
     org = Organization.objects.all()
@@ -1816,8 +1823,9 @@ def supplierManage(request):
     if len(dsupplier):
         for i in dsupplier:
             Supplier.objects.get(pk=i).delete()
+            WriteLog(request.user.username, '供应商', Supplier.objects.get(pk=i).supplier_name, '2', '1')
 
-    # 查询现有所有厂商对象并传给前段页面
+ # 查询现有所有厂商对象并传给前段页面
     supplier = Supplier.objects.all()
     if request.user.is_superuser:
         Perm = 1
@@ -1888,6 +1896,7 @@ def vendorManage(request):
     if len(dvendor):
         for i in dvendor:
            Vendor.objects.get(pk=i).delete()
+           WriteLog(request.user.username, '厂商', Vendor.objects.get(pk=i).vendor_name, '2', '1')
 
     # 查询现有所有厂商对象并传给前段页面
     vendor = Vendor.objects.all()
@@ -2090,6 +2099,7 @@ def modelManage(request):
     if len(dmodel):
         for i in dmodel:
             Device_model.objects.get(pk=i).delete()
+            WriteLog(request.user.username, '型号', Device_model.objects.get(pk=i).models, '2', '1')
 
     # 查询现有所有厂商对象并传给前段页面
     model = Device_model.objects.all()
