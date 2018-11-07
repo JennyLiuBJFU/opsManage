@@ -66,8 +66,8 @@ def asset(request):
     dasset = request.POST.getlist('delete_asset')
     if len(dasset):
         for i in dasset:
-            print(i)
             Asset.objects.get(pk=i).delete()
+            WriteLog(request.user.username, '资产', Asset.objects.get(pk=i).asset_name, '2', '1')
 
     USERNAME = str(request.user)
     if request.user.is_superuser:
@@ -537,8 +537,9 @@ def RAMSubmit(request):
 def RAMDelete(request):
     ID=request.POST['assetId']
     ram=RAM.objects.get(id=request.POST['ramId'])
-    print(ram)
     ram.delete()
+    WriteLog(request.user.username, 'ram', Asset.objects.get(id=ID).asset_name, '2', '2')
+
     ASSET=Asset.objects.get(id=ID)
     rams=RAM.objects.filter(asset=ASSET)
     cpus = CPU.objects.filter(asset=ASSET)
@@ -604,6 +605,8 @@ def CPUDelete(request):
     cpu=CPU.objects.get(id=request.POST['cpuId'])
     cpu.delete()
     ASSET=Asset.objects.get(id=ID)
+    WriteLog(request.user.username, 'cpu', ASSET.asset_name, '2', '2')
+
     rams=RAM.objects.filter(asset=ASSET)
     cpus = CPU.objects.filter(asset=ASSET)
     disks = Disk.objects.filter(asset=ASSET)
@@ -669,6 +672,8 @@ def DiskDelete(request):
     disk=Disk.objects.get(id=request.POST['diskId'])
     disk.delete()
     ASSET=Asset.objects.get(id=ID)
+    WriteLog(request.user.username, 'disk', ASSET.asset_name, '2', '2')
+
     rams=RAM.objects.filter(asset=ASSET)
     cpus = CPU.objects.filter(asset=ASSET)
     disks = Disk.objects.filter(asset=
@@ -739,6 +744,8 @@ def PortDelete(request):
     port=Port.objects.get(id=request.POST['portId'])
     port.delete()
     ASSET=Asset.objects.get(id=ID)
+    WriteLog(request.user.username, 'port', ASSET.asset_name, '2', '2')
+
     rams=RAM.objects.filter(asset=ASSET)
     cpus = CPU.objects.filter(asset=ASSET)
     disks = Disk.objects.filter(asset=ASSET)
@@ -805,6 +812,8 @@ def PartDelete(request):
     part=Parts.objects.get(id=request.POST['partId'])
     part.delete()
     ASSET=Asset.objects.get(id=ID)
+    WriteLog(request.user.username, 'part', ASSET.asset_name, '2', '2')
+
     rams=RAM.objects.filter(asset=ASSET)
     cpus = CPU.objects.filter(asset=ASSET)
     disks = Disk.objects.filter(asset=ASSET)
@@ -899,6 +908,7 @@ def editModel(request):
         for i in dmodel:
 
             Device_model.objects.get(pk=i).delete()
+            WriteLog(request.user.username, '型号', Device_model.objects.get(pk=i).models, '2', '1')
 
     # 查询现有所有厂商对象并传给前段页面
     model = Device_model.objects.all()
@@ -955,7 +965,7 @@ def editModelSubmit(request):
     MODEL.vendor=Vendor.objects.get(id=request.POST['vendor'])
     MODEL.models=request.POST['models']
     MODEL.save()
-    WriteLog(request.user.username, '型号', MODEL.models, '2','1')
+    WriteLog(request.user.username, '型号', MODEL.models, '3','1')
     model=Device_model.objects.all()
     vendor=Vendor.objects.all()
     context = {
@@ -972,6 +982,7 @@ def editVendor(request):
         for i in dvendor:
 
             Vendor.objects.get(pk=i).delete()
+            WriteLog(request.user.username, '厂商', Vendor.objects.get(pk=i).vendor_name, '2', '1')
 
     # 查询现有所有厂商对象并传给前段页面
     vendor = Vendor.objects.all()
@@ -1002,6 +1013,7 @@ def addVendorSubmit(request):
     o.vendor_phone=request.POST['phone']
     o.vendor_memo=request.POST['memo']
     o.save()
+    WriteLog(request.user.username, '厂商', o.vendor_name, '1','1')
     vendor=Vendor.objects.all()
     if request.user.is_superuser:
         Perm = 1
@@ -1014,7 +1026,6 @@ def addVendorSubmit(request):
     }
     return render(request, 'cmdb/ServerManage/add/editForeignKey/editVendor.html', context)
 
-
 @login_required()
 def editVendorSubmit(request):
     VENDOR=Vendor.objects.get(id=request.GET['vendorId'])
@@ -1022,6 +1033,8 @@ def editVendorSubmit(request):
     VENDOR.vendor_phone=request.POST['phone']
     VENDOR.vendor_memo=request.POST['memo']
     VENDOR.save()
+    WriteLog(request.user.username, '厂商', VENDOR.vendor_name, '3','1')
+
     vendor=Vendor.objects.all()
     context = {
         'vendor':vendor,
@@ -1035,6 +1048,7 @@ def editSupplier(request):
     if len(dsupplier):
         for i in dsupplier:
             Supplier.objects.get(pk=i).delete()
+            WriteLog(request.user.username, '供应商', Supplier.objects.get(pk=i).supplier_name, '2', '1')
 
     # 查询现有所有厂商对象并传给前段页面
     supplier = Supplier.objects.all()
@@ -1066,6 +1080,7 @@ def addSupplierSubmit(request):
     o.supplier_phone = request.POST['phone']
     o.supplier_memo = request.POST['memo']
     o.save()
+    WriteLog(request.user.username, '供应商', o.supplier_name, '1','1')
     supplier = Supplier.objects.all()
     if request.user.is_superuser:
         Perm = 1
@@ -1088,6 +1103,8 @@ def editASupplierSubmit(request):
     SUPPLIER.supplier_phone=request.POST['phone']
     SUPPLIER.supplier_memo=request.POST['memo']
     SUPPLIER.save()
+    WriteLog(request.user.username, '供应商', SUPPLIER.supplier_name, '3','1')
+
     supplier=Supplier.objects.all()
     context = {
         'supplier':supplier,
@@ -1303,6 +1320,8 @@ def editSubmit(request):
         SERVER.os_distribution = request.POST['os_distribution']
         SERVER.os_release = request.POST['os_release']
         SERVER.save()
+        WriteLog(request.user.username, '服务器', ASSET.asset_name, '3', '1')
+
     elif ASSET.asset_type=="2":
         if NetworkDevice.objects.filter(asset=ASSET):
             NETWORKDEVICE=NetworkDevice.objects.get(asset=ASSET)
@@ -1314,6 +1333,8 @@ def editSubmit(request):
         else:
             NETWORKDEVICE.sub_asset_type=None
         NETWORKDEVICE.save()
+        WriteLog(request.user.username, '网络设备', ASSET.asset_name, '3', '1')
+
     elif ASSET.asset_type == "3":
         if SecurityDevice.objects.filter(asset=ASSET):
             SECURITYDEVICE = SecurityDevice.objects.get(asset=ASSET)
@@ -1325,6 +1346,8 @@ def editSubmit(request):
         else:
             SECURITYDEVICE.sub_asset_type=None
         SECURITYDEVICE.save()
+        WriteLog(request.user.username, '安全设备', ASSET.asset_name, '3', '1')
+
     elif ASSET.asset_type=="4":
         if StorageDevice.objects.filter(asset=ASSET):
             STORAGEDEVICE = StorageDevice.objects.get(asset=ASSET)
@@ -1336,6 +1359,7 @@ def editSubmit(request):
         else:
             STORAGEDEVICE.sub_asset_type=None
         STORAGEDEVICE.save()
+        WriteLog(request.user.username, '存储设备', ASSET.asset_name, '3', '1')
 
     Assets = Asset.objects.all()
     Organizations=Organization.objects.all()
@@ -1509,7 +1533,8 @@ def addCabSubmit(request):
         CABSPACE.cabinet=CAB
         CABSPACE.cabinet_location=str(i)
         CABSPACE.save()
-        print(CABSPACE)
+    WriteLog(request.user.username, '机柜', CAB.cabinet_name, '1', '1')
+
     context = {
         'IDC': IDC,
         'Cabinets': Cabinets,
@@ -1534,7 +1559,8 @@ def editACabinetSubmit(request):
         CABSPACE.cabinet=CABINET
         CABSPACE.cabinet_location=str(i)
         CABSPACE.save()
-        print(CABSPACE)
+    WriteLog(request.user.username, '机柜', CABINET.cabinet_name, '3', '1')
+
     context = {
         'IDC': IDC,
         'Cabinets': Cabinets,
@@ -1563,14 +1589,13 @@ def addIdc(request):
     return render (request,'cmdb/basicData/addIdc.html',context)
 @login_required()
 def idcSubmit(request):
-    print(request.POST)
     IDC=Idc()
     IDC.idc_name=request.POST['name']
     IDC.idc_address=request.POST['address']
     IDC.organization=Organization.objects.get(id=request.POST['organization'])
     IDC.idc_memo=request.POST['memo']
     IDC.save()
-    print(IDC)
+    WriteLog(request.user.username, '机房', IDC.idc_name, '1', '1')
     successFlag=1
     Organizations = Organization.objects.all()
     context = {
@@ -1603,14 +1628,14 @@ def editIdc (request):
     return render(request, 'cmdb/basicData/editIdc.html', context)
 @login_required()
 def submitIdcEdit(request):
-    print(request.POST)
     IDC = Idc.objects.get(id=request.GET['idcId'])
     IDC.idc_name=request.POST['name']
     IDC.idc_address=request.POST['address']
     IDC.organization=Organization.objects.get(id=request.POST['organization'])
     IDC.idc_memo=request.POST['memo']
     IDC.save()
-    print(IDC)
+    WriteLog(request.user.username, '机房', IDC.idc_name, '3', '1')
+
     successFlag=1
     Organizations = Organization.objects.all()
     context = {
@@ -1685,6 +1710,8 @@ def addContractSubmit(request):
     o.contract_content = request.POST['content']
     o.contract_memo = request.POST['memo']
     o.save()
+    WriteLog(request.user.username, '合同', o.contract_name, '1', '1')
+
     contract = Contract.objects.all()
     if request.user.is_superuser:
         Perm = 1
@@ -1705,6 +1732,7 @@ def editContractSubmit(request):
     CONTRACT.contract_content=request.POST['content']
     CONTRACT.contract_memo=request.POST['memo']
     CONTRACT.save()
+    WriteLog(request.user.username, '合同', CONTRACT.contract_name, '3', '1')
     contract=Contract.objects.all()
     context = {
         'contract':contract,
@@ -1750,6 +1778,8 @@ def addOrgSubmit(request):
     parent_org=Organization.objects.get(id=request.POST['parent_org'])
     o.parent_org=parent_org
     o.save()
+    WriteLog(request.user.username, '组织机构', o.org_name, '1', '1')
+
     org = Organization.objects.all()
     if request.user.is_superuser:
         Perm = 1
@@ -1772,6 +1802,8 @@ def editAOrganizationSubmit(request):
     ORGANIZATION.parent_org=Organization.objects.get(id=request.POST['parent_org'])
     ORGANIZATION.org_memo=request.POST['memo']
     ORGANIZATION.save()
+    WriteLog(request.user.username, '组织机构', ORGANIZATION.org_name, '3', '1')
+
     org=Organization.objects.all()
     context = {
         'org':org
@@ -1815,6 +1847,8 @@ def addSupplierSubmitM(request):
     o.supplier_phone = request.POST['phone']
     o.supplier_memo = request.POST['memo']
     o.save()
+    WriteLog(request.user.username, '供应商', o.supplier_name, '1', '1')
+
     supplier = Supplier.objects.all()
     if request.user.is_superuser:
         Perm = 1
@@ -1837,6 +1871,8 @@ def editASupplierSubmitM(request):
     SUPPLIER.supplier_phone=request.POST['phone']
     SUPPLIER.supplier_memo=request.POST['memo']
     SUPPLIER.save()
+    WriteLog(request.user.username, '供应商', SUPPLIER.supplier_name, '3', '1')
+
     supplier=Supplier.objects.all()
     context = {
         'supplier':supplier,
@@ -1884,6 +1920,7 @@ def addVendorSubmitM(request):
     o.vendor_phone=request.POST['phone']
     o.vendor_memo=request.POST['memo']
     o.save()
+    WriteLog(request.user.username, '厂商',o.vendor_name, '1', '1')
     vendor = Vendor.objects.all()
     if request.user.is_superuser:
         Perm = 1
@@ -1903,6 +1940,7 @@ def editAVendorSubmit(request):
     VENDOR.vendor_phone=request.POST['phone']
     VENDOR.vendor_memo=request.POST['memo']
     VENDOR.save()
+    WriteLog(request.user.username, '厂商', VENDOR.vendor_name, '3', '1')
     vendors=Vendor.objects.all()
     context = {
         'vendor':vendors,
@@ -2086,6 +2124,8 @@ def addAModelSubmit(request):
     o.vendor=Vendor.objects.get(id=request.POST['vendor'])
     o.models=request.POST['models']
     o.save()
+    WriteLog(request.user.username, '型号', o.models, '1', '1')
+
     model = Device_model.objects.all()
     vendors = Vendor.objects.all()
     if request.user.is_superuser:
@@ -2109,6 +2149,7 @@ def editAModelSubmit(request):
     MODEL.vendor=Vendor.objects.get(id=request.POST['vendor'])
     MODEL.models=request.POST['models']
     MODEL.save()
+    WriteLog(request.user.username, '型号', MODEL.models, '3', '1')
     model=Device_model.objects.all()
     vendor=Vendor.objects.all()
     context = {
@@ -2126,6 +2167,8 @@ def editAVendorSubmit(request):
     VENDOR.vendor_memo=request.POST['memo']
     VENDOR.save()
     vendor=Vendor.objects.all()
+    WriteLog(request.user.username, '厂商', VENDOR.vendor_name, '3', '1')
+
     context = {
         'vendor':vendor,
     }
