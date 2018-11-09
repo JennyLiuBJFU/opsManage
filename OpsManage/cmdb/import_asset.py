@@ -53,19 +53,19 @@ def import_server_info():
         newasset.memo=asset_info[23]
         newasset.save()
 
-        obj_url = "192.168.14.27/cmdb/detail" + str(newasset.id)
-        qr = qrcode.QRCode(version=1,
-                           error_correction=qrcode.constants.ERROR_CORRECT_L,
-                           box_size=8,
-                           border=2,
-                           )
-        qr.add_data(obj_url)
-        qr.make(fit=True)
-        img = qr.make_image()
-        img_name = 'media/QRcode_imgs/' + newasset.asset_name + '.png'
-        img.save(img_name)
-        newasset.qrcode = img_name
-        newasset.save()
+        # obj_url = "192.168.14.27/cmdb/detail" + str(newasset.id)
+        # qr = qrcode.QRCode(version=1,
+        #                    error_correction=qrcode.constants.ERROR_CORRECT_L,
+        #                    box_size=8,
+        #                    border=2,
+        #                    )
+        # qr.add_data(obj_url)
+        # qr.make(fit=True)
+        # img = qr.make_image()
+        # img_name = 'media/QRcode_imgs/' + newasset.asset_name + '.png'
+        # img.save(img_name)
+        # newasset.qrcode = img_name
+        # newasset.save()
 
         location=str(int(asset_info[12]))
         for i in range(0,int(asset_info[13])):
@@ -244,19 +244,20 @@ def import_otherDevice_info():
         # newasset.memo=asset_info[20]
         newasset.save()
 
-        obj_url = "192.168.14.27/cmdb/detail" + str(newasset.id)
-        qr = qrcode.QRCode(version=1,
-                           error_correction=qrcode.constants.ERROR_CORRECT_L,
-                           box_size=8,
-                           border=2,
-                           )
-        qr.add_data(obj_url)
-        qr.make(fit=True)
-        img = qr.make_image()
-        img_name = 'media/QRcode_imgs/' + newasset.asset_name + '.png'
-        img.save(img_name)
-        newasset.qrcode = img_name
-        newasset.save()
+        #
+        # obj_url = "192.168.14.27/cmdb/detail" + str(newasset.id)
+        # qr = qrcode.QRCode(version=1,
+        #                    error_correction=qrcode.constants.ERROR_CORRECT_L,
+        #                    box_size=8,
+        #                    border=2,
+        #                    )
+        # qr.add_data(obj_url)
+        # qr.make(fit=True)
+        # img = qr.make_image()
+        # img_name = 'media/QRcode_imgs/' + newasset.asset_name + '.png'
+        # img.save(img_name)
+        # newasset.qrcode = img_name
+        # newasset.save()
 
         location=str(int(asset_info[13]))
         for i in range(0,int(asset_info[14])):

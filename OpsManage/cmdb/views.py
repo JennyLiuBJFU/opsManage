@@ -66,8 +66,8 @@ def asset(request):
     dasset = request.POST.getlist('delete_asset')
     if len(dasset):
         for i in dasset:
+            WriteLog(request.user.username, '资产', Asset.objects.get(pk=i).asset_name,'0','2' )
             Asset.objects.get(pk=i).delete()
-            WriteLog(request.user.username, '资产', Asset.objects.get(pk=i).asset_name, '2', '1')
 
     USERNAME = str(request.user)
     if request.user.is_superuser:
@@ -123,6 +123,8 @@ def asset(request):
 
 @login_required()
 def index(request):
+    # import_org_info()
+
     USERNAME = str(request.user)
     if request.user.is_superuser:
         Perm = 1
@@ -448,7 +450,7 @@ def addSubmit(request):
         NETWORKDEVICE.asset=ASSET
         NETWORKDEVICE.sub_asset_type=asset_subtype
         NETWORKDEVICE.save()
-        WriteLog(request.user.username, '网络设备', NETWORKDEVICE.asset.asset_name, '1','1')
+        WriteLog(request.user.username, '网络设备', NETWORKDEVICE.asset.asset_name,'0', '1')
 
         return render(request, 'cmdb/ServerManage/add/addMore.html',{"ID": ASSET.id, 'Perm': Perm, 'USERNAME': str(request.user)})
     elif ASSET.asset_type=='3':
@@ -456,7 +458,7 @@ def addSubmit(request):
         SECURITYDEVICE.asset=ASSET
         SECURITYDEVICE.sub_asset_type=asset_subtype
         SECURITYDEVICE.save()
-        WriteLog(request.user.username, '安全设备', SECURITYDEVICE.asset.asset_name, '1','1')
+        WriteLog(request.user.username, '安全设备', SECURITYDEVICE.asset.asset_name,'0', '1')
 
         return render(request, 'cmdb/ServerManage/add/addMore.html',{"ID": ASSET.id, 'Perm': Perm, 'USERNAME': str(request.user)})
     elif ASSET.asset_type=='4':
@@ -464,11 +466,11 @@ def addSubmit(request):
         STORAGEDEVICE.asset=ASSET
         STORAGEDEVICE.sub_asset_type=asset_subtype
         STORAGEDEVICE.save()
-        WriteLog(request.user.username, '存储设备', STORAGEDEVICE.asset.asset_name, '1','1')
+        WriteLog(request.user.username, '存储设备', STORAGEDEVICE.asset.asset_name, '0', '1')
 
         return render(request, 'cmdb/ServerManage/add/addMore.html',{"ID": ASSET.id, 'Perm': Perm, 'USERNAME': str(request.user)})
     else:
-        WriteLog(request.user.username, '资产', ASSET.asset_name, '1','1')
+        WriteLog(request.user.username, '资产', ASSET.asset_name, '0', '1')
         return render(request, 'cmdb/ServerManage/add/addMore.html',{"ID": ASSET.id, 'Perm': Perm, 'USERNAME': str(request.user)})
 
 
@@ -510,7 +512,7 @@ def RAMSubmit(request):
     ram.ram_slot=request.POST['slot']
     ram.ram_status=request.POST['status']
     ram.save()
-    WriteLog(request.user.username, 'ram', ASSET.asset_name, '1','2')
+    WriteLog(request.user.username, 'ram',ram.ram_model,ASSET.id, '1')
 
     rams = RAM.objects.filter(asset=ASSET)
     cpus = CPU.objects.filter(asset=ASSET)
@@ -537,8 +539,9 @@ def RAMSubmit(request):
 def RAMDelete(request):
     ID=request.POST['assetId']
     ram=RAM.objects.get(id=request.POST['ramId'])
+    WriteLog(request.user.username, 'ram',ram.ram_model,ID, '2')
+
     ram.delete()
-    WriteLog(request.user.username, 'ram', Asset.objects.get(id=ID).asset_name, '2', '2')
 
     ASSET=Asset.objects.get(id=ID)
     rams=RAM.objects.filter(asset=ASSET)
@@ -576,7 +579,7 @@ def CPUSubmit(request):
     cpu.cpu_slot=request.POST['slot']
     cpu.cpu_status=request.POST['status']
     cpu.save()
-    WriteLog(request.user.username, 'cpu', ASSET.asset_name, '1','2')
+    WriteLog(request.user.username, 'cpu',cpu.cpu_model, ASSET.id, '1')
 
     rams = RAM.objects.filter(asset=ASSET)
     cpus = CPU.objects.filter(asset=ASSET)
@@ -603,9 +606,10 @@ def CPUSubmit(request):
 def CPUDelete(request):
     ID=request.POST['assetId']
     cpu=CPU.objects.get(id=request.POST['cpuId'])
-    cpu.delete()
     ASSET=Asset.objects.get(id=ID)
-    WriteLog(request.user.username, 'cpu', ASSET.asset_name, '2', '2')
+    WriteLog(request.user.username, 'cpu',cpu.cpu_model,ID, '2')
+    cpu.delete()
+
 
     rams=RAM.objects.filter(asset=ASSET)
     cpus = CPU.objects.filter(asset=ASSET)
@@ -644,7 +648,7 @@ def DiskSubmit(request):
     disk.disk_status=request.POST['status']
     disk.disk_attr=request.POST['attr']
     disk.save()
-    WriteLog(request.user.username, 'disk', ASSET.asset_name, '1','2')
+    WriteLog(request.user.username, 'disk', disk.disk_name,ASSET.id, '1')
     rams = RAM.objects.filter(asset=ASSET)
     cpus = CPU.objects.filter(asset=ASSET)
     disks = Disk.objects.filter(asset=ASSET)
@@ -670,9 +674,10 @@ def DiskSubmit(request):
 def DiskDelete(request):
     ID=request.POST['assetId']
     disk=Disk.objects.get(id=request.POST['diskId'])
-    disk.delete()
     ASSET=Asset.objects.get(id=ID)
-    WriteLog(request.user.username, 'disk', ASSET.asset_name, '2', '2')
+    WriteLog(request.user.username, 'disk',disk.disk_name, ID, '2')
+    disk.delete()
+
 
     rams=RAM.objects.filter(asset=ASSET)
     cpus = CPU.objects.filter(asset=ASSET)
@@ -716,7 +721,7 @@ def PortSubmit(request):
     port.bandwidth=request.POST['bandwidth']
     port.status=request.POST['status']
     port.save()
-    WriteLog(request.user.username, 'port', ASSET.asset_name, '1','2')
+    WriteLog(request.user.username, 'port', port.port_name,ASSET.id, '1')
     rams = RAM.objects.filter(asset=ASSET)
     cpus = CPU.objects.filter(asset=ASSET)
     disks = Disk.objects.filter(asset=ASSET)
@@ -742,9 +747,10 @@ def PortSubmit(request):
 def PortDelete(request):
     ID=request.POST['assetId']
     port=Port.objects.get(id=request.POST['portId'])
-    port.delete()
     ASSET=Asset.objects.get(id=ID)
-    WriteLog(request.user.username, 'port', ASSET.asset_name, '2', '2')
+    WriteLog(request.user.username, 'port',port.port_name, ID, '2')
+    port.delete()
+
 
     rams=RAM.objects.filter(asset=ASSET)
     cpus = CPU.objects.filter(asset=ASSET)
@@ -783,7 +789,7 @@ def PartSubmit(request):
     part.parts_status=request.POST['status']
     part.memo=request.POST['partDesc']
     part.save()
-    WriteLog(request.user.username, 'part', ASSET.asset_name, '1','2')
+    WriteLog(request.user.username, 'part',part.parts_name, ASSET.id, '1')
     rams = RAM.objects.filter(asset=ASSET)
     cpus = CPU.objects.filter(asset=ASSET)
     disks = Disk.objects.filter(asset=ASSET)
@@ -810,9 +816,9 @@ def PartSubmit(request):
 def PartDelete(request):
     ID=request.POST['assetId']
     part=Parts.objects.get(id=request.POST['partId'])
-    part.delete()
     ASSET=Asset.objects.get(id=ID)
-    WriteLog(request.user.username, 'part', ASSET.asset_name, '2', '2')
+    WriteLog(request.user.username, 'part', part.parts_name,ID, '2')
+    part.delete()
 
     rams=RAM.objects.filter(asset=ASSET)
     cpus = CPU.objects.filter(asset=ASSET)
@@ -859,7 +865,7 @@ def serverSubmit(request):
     SERVER.os_distribution=request.POST['os_distribution']
     SERVER.os_release=request.POST['os_release']
     SERVER.save()
-    WriteLog(request.user.username, '服务器', ASSET.asset_name, '1','1')
+    WriteLog(request.user.username, '服务器', ASSET.asset_name, '0', '1')
 
     if request.user.is_superuser:
         Perm = 1
@@ -906,9 +912,9 @@ def editModel(request):
     dmodel = request.POST.getlist('delete_model')
     if len(dmodel):
         for i in dmodel:
+            WriteLog(request.user.username, '型号', Device_model.objects.get(pk=i).models, '0', '2')
 
             Device_model.objects.get(pk=i).delete()
-            WriteLog(request.user.username, '型号', Device_model.objects.get(pk=i).models, '2', '1')
 
     # 查询现有所有厂商对象并传给前段页面
     model = Device_model.objects.all()
@@ -941,7 +947,7 @@ def addModelSubmit(request):
     o.vendor=Vendor.objects.get(id=request.POST['vendor'])
     o.models=request.POST['models']
     o.save()
-    WriteLog(request.user.username, '型号', o.models, '1','1')
+    WriteLog(request.user.username, '型号', o.models, '0', '1')
     model = Device_model.objects.all()
     vendors = Vendor.objects.all()
     if request.user.is_superuser:
@@ -965,7 +971,7 @@ def editModelSubmit(request):
     MODEL.vendor=Vendor.objects.get(id=request.POST['vendor'])
     MODEL.models=request.POST['models']
     MODEL.save()
-    WriteLog(request.user.username, '型号', MODEL.models, '3','1')
+    WriteLog(request.user.username, '型号', MODEL.models,'0',  '3')
     model=Device_model.objects.all()
     vendor=Vendor.objects.all()
     context = {
@@ -980,9 +986,9 @@ def editVendor(request):
     dvendor = request.POST.getlist('delete_vendor')
     if len(dvendor):
         for i in dvendor:
+            WriteLog(request.user.username, '厂商', Vendor.objects.get(pk=i).vendor_name, '0', '2')
 
             Vendor.objects.get(pk=i).delete()
-            WriteLog(request.user.username, '厂商', Vendor.objects.get(pk=i).vendor_name, '2', '1')
 
     # 查询现有所有厂商对象并传给前段页面
     vendor = Vendor.objects.all()
@@ -1013,7 +1019,7 @@ def addVendorSubmit(request):
     o.vendor_phone=request.POST['phone']
     o.vendor_memo=request.POST['memo']
     o.save()
-    WriteLog(request.user.username, '厂商', o.vendor_name, '1','1')
+    WriteLog(request.user.username, '厂商', o.vendor_name, '0', '1')
     vendor=Vendor.objects.all()
     if request.user.is_superuser:
         Perm = 1
@@ -1033,7 +1039,7 @@ def editVendorSubmit(request):
     VENDOR.vendor_phone=request.POST['phone']
     VENDOR.vendor_memo=request.POST['memo']
     VENDOR.save()
-    WriteLog(request.user.username, '厂商', VENDOR.vendor_name, '3','1')
+    WriteLog(request.user.username, '厂商', VENDOR.vendor_name,'0',  '3')
 
     vendor=Vendor.objects.all()
     context = {
@@ -1046,9 +1052,11 @@ def editSupplier(request):
     # 判断是否有删除请求，有则删除厂商
     dsupplier = request.POST.getlist('delete_supplier')
     if len(dsupplier):
+
         for i in dsupplier:
+            WriteLog(request.user.username, '供应商', Supplier.objects.get(pk=i).supplier_name,'0',  '2')
+
             Supplier.objects.get(pk=i).delete()
-            WriteLog(request.user.username, '供应商', Supplier.objects.get(pk=i).supplier_name, '2', '1')
 
     # 查询现有所有厂商对象并传给前段页面
     supplier = Supplier.objects.all()
@@ -1080,7 +1088,7 @@ def addSupplierSubmit(request):
     o.supplier_phone = request.POST['phone']
     o.supplier_memo = request.POST['memo']
     o.save()
-    WriteLog(request.user.username, '供应商', o.supplier_name, '1','1')
+    WriteLog(request.user.username, '供应商', o.supplier_name,'0',  '1')
     supplier = Supplier.objects.all()
     if request.user.is_superuser:
         Perm = 1
@@ -1103,7 +1111,7 @@ def editASupplierSubmit(request):
     SUPPLIER.supplier_phone=request.POST['phone']
     SUPPLIER.supplier_memo=request.POST['memo']
     SUPPLIER.save()
-    WriteLog(request.user.username, '供应商', SUPPLIER.supplier_name, '3','1')
+    WriteLog(request.user.username, '供应商', SUPPLIER.supplier_name,'0',  '3')
 
     supplier=Supplier.objects.all()
     context = {
@@ -1119,8 +1127,9 @@ def deleteARecord(request):
     try:
         v = request.POST['myid']
         deleted_asset = Asset.objects.get(id=v)
+        WriteLog(request.user.username, '资产', deleted_asset.asset_name, '0', '2')
+
         deleted_asset.delete()
-        WriteLog(request.user.username, '资产', deleted_asset.asset_name, '2', '1')
 
         ret = True
     except:
@@ -1322,7 +1331,7 @@ def editSubmit(request):
         SERVER.os_distribution = request.POST['os_distribution']
         SERVER.os_release = request.POST['os_release']
         SERVER.save()
-        WriteLog(request.user.username, '服务器', ASSET.asset_name, '3', '1')
+        WriteLog(request.user.username, '服务器', ASSET.asset_name,'0',  '3')
 
     elif ASSET.asset_type=="2":
         if NetworkDevice.objects.filter(asset=ASSET):
@@ -1335,7 +1344,7 @@ def editSubmit(request):
         else:
             NETWORKDEVICE.sub_asset_type=None
         NETWORKDEVICE.save()
-        WriteLog(request.user.username, '网络设备', ASSET.asset_name, '3', '1')
+        WriteLog(request.user.username, '网络设备', ASSET.asset_name, '0', '3')
 
     elif ASSET.asset_type == "3":
         if SecurityDevice.objects.filter(asset=ASSET):
@@ -1348,7 +1357,7 @@ def editSubmit(request):
         else:
             SECURITYDEVICE.sub_asset_type=None
         SECURITYDEVICE.save()
-        WriteLog(request.user.username, '安全设备', ASSET.asset_name, '3', '1')
+        WriteLog(request.user.username, '安全设备', ASSET.asset_name,'0',  '3')
 
     elif ASSET.asset_type=="4":
         if StorageDevice.objects.filter(asset=ASSET):
@@ -1361,7 +1370,7 @@ def editSubmit(request):
         else:
             STORAGEDEVICE.sub_asset_type=None
         STORAGEDEVICE.save()
-        WriteLog(request.user.username, '存储设备', ASSET.asset_name, '3', '1')
+        WriteLog(request.user.username, '存储设备', ASSET.asset_name, '0', '3')
 
     Assets = Asset.objects.all()
     Organizations=Organization.objects.all()
@@ -1504,8 +1513,9 @@ def editCab(request):
     dCabinets = request.POST.getlist('delete_cabinets')
     if len(dCabinets):
         for i in dCabinets:
+            WriteLog(request.user.username, '机柜', Cabinet.objects.get(pk=i).cabinet_name, '0', '2')
+
             Cabinet.objects.get(pk=i).delete()
-            WriteLog(request.user.username, '机柜', Cabinet.objects.get(pk=i).cabinet_name, '2', '1')
     IDC=Idc.objects.get(id=request.GET['idcId'])
     Cabinets=Cabinet.objects.filter(idc=IDC)
     CABINET = Cabinet()
@@ -1536,7 +1546,7 @@ def addCabSubmit(request):
         CABSPACE.cabinet=CAB
         CABSPACE.cabinet_location=str(i)
         CABSPACE.save()
-    WriteLog(request.user.username, '机柜', CAB.cabinet_name, '1', '1')
+    WriteLog(request.user.username, '机柜', CAB.cabinet_name, '0', '1')
 
     context = {
         'IDC': IDC,
@@ -1562,7 +1572,7 @@ def editACabinetSubmit(request):
         CABSPACE.cabinet=CABINET
         CABSPACE.cabinet_location=str(i)
         CABSPACE.save()
-    WriteLog(request.user.username, '机柜', CABINET.cabinet_name, '3', '1')
+    WriteLog(request.user.username, '机柜', CABINET.cabinet_name, '0', '3')
 
     context = {
         'IDC': IDC,
@@ -1598,7 +1608,7 @@ def idcSubmit(request):
     IDC.organization=Organization.objects.get(id=request.POST['organization'])
     IDC.idc_memo=request.POST['memo']
     IDC.save()
-    WriteLog(request.user.username, '机房', IDC.idc_name, '1', '1')
+    WriteLog(request.user.username, '机房', IDC.idc_name,'0',  '1')
     successFlag=1
     Organizations = Organization.objects.all()
     context = {
@@ -1637,7 +1647,7 @@ def submitIdcEdit(request):
     IDC.organization=Organization.objects.get(id=request.POST['organization'])
     IDC.idc_memo=request.POST['memo']
     IDC.save()
-    WriteLog(request.user.username, '机房', IDC.idc_name, '3', '1')
+    WriteLog(request.user.username, '机房', IDC.idc_name,'0',  '3')
 
     successFlag=1
     Organizations = Organization.objects.all()
@@ -1649,8 +1659,9 @@ def submitIdcEdit(request):
 @login_required()
 def deleteAIdc (request):
     IDC = Idc.objects.get(id=request.GET['idcId'])
+    WriteLog(request.user.username, '机房', IDC.idc_name, '0', '2')
+
     IDC.delete()
-    WriteLog(request.user.username, '机房', IDC.idc_name, '2', '1')
 
     successFlag = 2
     Organizations = Organization.objects.all()
@@ -1683,8 +1694,9 @@ def contractManage(request):
     dcontract = request.POST.getlist('delete_contract')
     if len(dcontract):
         for i in dcontract:
+            WriteLog(request.user.username, '合同', Contract.contract_name, '0', '2')
+
             Contract.objects.get(pk=i).delete()
-            WriteLog(request.user.username, '合同', Contract.contract_name, '2', '1')
 
     # 查询现有所有厂商对象并传给前段页面
     contract = Contract.objects.all()
@@ -1716,7 +1728,7 @@ def addContractSubmit(request):
     o.contract_content = request.POST['content']
     o.contract_memo = request.POST['memo']
     o.save()
-    WriteLog(request.user.username, '合同', o.contract_name, '1', '1')
+    WriteLog(request.user.username, '合同', o.contract_name,'0',  '1')
 
     contract = Contract.objects.all()
     if request.user.is_superuser:
@@ -1738,7 +1750,7 @@ def editContractSubmit(request):
     CONTRACT.contract_content=request.POST['content']
     CONTRACT.contract_memo=request.POST['memo']
     CONTRACT.save()
-    WriteLog(request.user.username, '合同', CONTRACT.contract_name, '3', '1')
+    WriteLog(request.user.username, '合同', CONTRACT.contract_name,'0',  '3')
     contract=Contract.objects.all()
     context = {
         'contract':contract,
@@ -1752,8 +1764,10 @@ def editOrg(request):
     print(dorg)
     if len(dorg):
         for i in dorg:
+
+           WriteLog(request.user.username, '组织机构', Organization.objects.get(pk=i).org_name,'0',  '2')
+
            Organization.objects.get(pk=i).delete()
-           WriteLog(request.user.username, '组织机构', Organization.objects.get(pk=i).org_name, '2', '1')
 
     # 查询现有所有厂商对象并传给前段页面
     org = Organization.objects.all()
@@ -1785,7 +1799,7 @@ def addOrgSubmit(request):
     parent_org=Organization.objects.get(id=request.POST['parent_org'])
     o.parent_org=parent_org
     o.save()
-    WriteLog(request.user.username, '组织机构', o.org_name, '1', '1')
+    WriteLog(request.user.username, '组织机构', o.org_name,'0',  '1')
 
     org = Organization.objects.all()
     if request.user.is_superuser:
@@ -1809,7 +1823,7 @@ def editAOrganizationSubmit(request):
     ORGANIZATION.parent_org=Organization.objects.get(id=request.POST['parent_org'])
     ORGANIZATION.org_memo=request.POST['memo']
     ORGANIZATION.save()
-    WriteLog(request.user.username, '组织机构', ORGANIZATION.org_name, '3', '1')
+    WriteLog(request.user.username, '组织机构', ORGANIZATION.org_name,'0',  '3')
 
     org=Organization.objects.all()
     context = {
@@ -1822,8 +1836,9 @@ def supplierManage(request):
     dsupplier = request.POST.getlist('delete_supplier')
     if len(dsupplier):
         for i in dsupplier:
+            WriteLog(request.user.username, '供应商', Supplier.objects.get(pk=i).supplier_name,'0',  '2')
+
             Supplier.objects.get(pk=i).delete()
-            WriteLog(request.user.username, '供应商', Supplier.objects.get(pk=i).supplier_name, '2', '1')
 
  # 查询现有所有厂商对象并传给前段页面
     supplier = Supplier.objects.all()
@@ -1855,7 +1870,7 @@ def addSupplierSubmitM(request):
     o.supplier_phone = request.POST['phone']
     o.supplier_memo = request.POST['memo']
     o.save()
-    WriteLog(request.user.username, '供应商', o.supplier_name, '1', '1')
+    WriteLog(request.user.username, '供应商', o.supplier_name, '0', '1')
 
     supplier = Supplier.objects.all()
     if request.user.is_superuser:
@@ -1879,7 +1894,7 @@ def editASupplierSubmitM(request):
     SUPPLIER.supplier_phone=request.POST['phone']
     SUPPLIER.supplier_memo=request.POST['memo']
     SUPPLIER.save()
-    WriteLog(request.user.username, '供应商', SUPPLIER.supplier_name, '3', '1')
+    WriteLog(request.user.username, '供应商', SUPPLIER.supplier_name, '0', '3')
 
     supplier=Supplier.objects.all()
     context = {
@@ -1895,8 +1910,9 @@ def vendorManage(request):
     print(dvendor)
     if len(dvendor):
         for i in dvendor:
+           WriteLog(request.user.username, '厂商', Vendor.objects.get(pk=i).vendor_name, '0', '2')
+
            Vendor.objects.get(pk=i).delete()
-           WriteLog(request.user.username, '厂商', Vendor.objects.get(pk=i).vendor_name, '2', '1')
 
     # 查询现有所有厂商对象并传给前段页面
     vendor = Vendor.objects.all()
@@ -1929,7 +1945,7 @@ def addVendorSubmitM(request):
     o.vendor_phone=request.POST['phone']
     o.vendor_memo=request.POST['memo']
     o.save()
-    WriteLog(request.user.username, '厂商',o.vendor_name, '1', '1')
+    WriteLog(request.user.username, '厂商',o.vendor_name, '0', '1')
     vendor = Vendor.objects.all()
     if request.user.is_superuser:
         Perm = 1
@@ -1949,7 +1965,7 @@ def editAVendorSubmit(request):
     VENDOR.vendor_phone=request.POST['phone']
     VENDOR.vendor_memo=request.POST['memo']
     VENDOR.save()
-    WriteLog(request.user.username, '厂商', VENDOR.vendor_name, '3', '1')
+    WriteLog(request.user.username, '厂商', VENDOR.vendor_name, '0', '3')
     vendors=Vendor.objects.all()
     context = {
         'vendor':vendors,
@@ -2098,8 +2114,10 @@ def modelManage(request):
     dmodel = request.POST.getlist('delete_model')
     if len(dmodel):
         for i in dmodel:
+
+            WriteLog(request.user.username, '型号', Device_model.objects.get(pk=i).models, '0', '2')
+
             Device_model.objects.get(pk=i).delete()
-            WriteLog(request.user.username, '型号', Device_model.objects.get(pk=i).models, '2', '1')
 
     # 查询现有所有厂商对象并传给前段页面
     model = Device_model.objects.all()
@@ -2134,7 +2152,7 @@ def addAModelSubmit(request):
     o.vendor=Vendor.objects.get(id=request.POST['vendor'])
     o.models=request.POST['models']
     o.save()
-    WriteLog(request.user.username, '型号', o.models, '1', '1')
+    WriteLog(request.user.username, '型号', o.models,'0',  '1')
 
     model = Device_model.objects.all()
     vendors = Vendor.objects.all()
@@ -2159,7 +2177,7 @@ def editAModelSubmit(request):
     MODEL.vendor=Vendor.objects.get(id=request.POST['vendor'])
     MODEL.models=request.POST['models']
     MODEL.save()
-    WriteLog(request.user.username, '型号', MODEL.models, '3', '1')
+    WriteLog(request.user.username, '型号', MODEL.models, '0', '3')
     model=Device_model.objects.all()
     vendor=Vendor.objects.all()
     context = {
@@ -2177,7 +2195,7 @@ def editAVendorSubmit(request):
     VENDOR.vendor_memo=request.POST['memo']
     VENDOR.save()
     vendor=Vendor.objects.all()
-    WriteLog(request.user.username, '厂商', VENDOR.vendor_name, '3', '1')
+    WriteLog(request.user.username, '厂商', VENDOR.vendor_name,'0',  '3')
 
     context = {
         'vendor':vendor,
@@ -2204,3 +2222,15 @@ def doVerify(request):
                 sn=True
     response=JsonResponse({"asset_name":asset_name,"asset_no":asset_no,"sn":sn})
     return response
+
+def eventLog(request):
+    if request.user.is_superuser:
+        Perm=1
+    else:
+        Perm=0
+    context={
+        'eventlogs':EventLog.objects.all().order_by('-date'),
+        'USERNAME':str(request.user),
+        'Perm':Perm,
+    }
+    return render(request, 'cmdb/eventLog.html',context)

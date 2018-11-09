@@ -51,8 +51,6 @@ def logout_view(request):
     print('########################Logout successfully############################')
     return redirect('/accounts/login/')
 
-
-
 @login_required()
 def editAdmin(request):
     if request.user.is_superuser:
@@ -65,27 +63,27 @@ def editAdmin(request):
         'flag': 0,
     }
     return render(request, 'accounts/userEdit.html', context)
-
-
-@login_required()
-def setPassword(request):
-    dadmin = request.POST.getlist('delete_admin')
-    print(dadmin)
-    if len(dadmin):
-        for i in dadmin:
-            User.objects.get(pk=i).delete()
-    if request.user.is_superuser:
-        Perm = 1
-    else:
-        Perm = 0
-    admin = User.objects.all()
-    context = {
-        'admin': admin,
-        'USERNAME': str(request.user),
-        'Flag': 1,
-        'Perm': Perm,
-    }
-    return render(request, 'cmdb/ServerManage/index.html', context)
+#
+#
+# @login_required()
+# def setPassword(request):
+#     dadmin = request.POST.getlist('delete_admin')
+#     print(dadmin)
+#     if len(dadmin):
+#         for i in dadmin:
+#             User.objects.get(pk=i).delete()
+#     if request.user.is_superuser:
+#         Perm = 1
+#     else:
+#         Perm = 0
+#     admin = User.objects.all()
+#     context = {
+#         'admin': admin,
+#         'USERNAME': str(request.user),
+#         'Flag': 1,
+#         'Perm': Perm,
+#     }
+#     return render(request, 'cmdb/ServerManage/index.html', context)
 
 
 @login_required()

@@ -48,7 +48,6 @@
 
         <form id="login-form" method="post" action="{% url 'accounts:login'%}" novalidate>
             {% csrf_token %}
-
             <span style="color: red">{{ login_error}}</span>
             <div class="form-group has-feedback">
                 {{ loginForm.username }}

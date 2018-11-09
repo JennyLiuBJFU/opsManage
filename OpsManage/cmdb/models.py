@@ -542,16 +542,14 @@ class EventLog(models.Model):
         (str(2), '删除'),
         (str(3), '修改'),
     )
-    log_type_choice = (
-        (str(1), '普通'),
-        (str(2), '部件'),
-    )
+
+
     object_type = models.CharField(max_length=128, verbose_name='对象类型')
     object_name = models.CharField(max_length=128, verbose_name='对象名称')
-    event_type = models.CharField(max_length=64, choices=event_type_choice, verbose_name='事件类型')
+    event_type = models.CharField(choices=event_type_choice, max_length=128, verbose_name='事件类型')
     date = models.DateTimeField(auto_now_add=True, verbose_name='事件时间')
     user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
-    log_type= models.CharField(max_length=64, choices=log_type_choice, verbose_name='日志类型')
+    toAsset=models.ForeignKey(Asset, blank=True, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.object_name

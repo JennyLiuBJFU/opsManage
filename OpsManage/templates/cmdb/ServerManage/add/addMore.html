@@ -677,6 +677,9 @@
                     text: '删除',
                     btnClass: 'btn-default',
                     action:function() {
+                        $.ajaxSetup({
+                           data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
+                        });
                             $.ajax({
                                 type: 'POST',
                                 url: '/cmdb/RAMDelete',
@@ -724,6 +727,9 @@
                     text: '删除',
                     btnClass: 'btn-default',
                     action:function() {
+                        $.ajaxSetup({
+                           data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
+                        });
                             $.ajax({
                                 type: 'POST',
                                 url: '/cmdb/CPUDelete',
@@ -771,6 +777,9 @@
                     text: '删除',
                     btnClass: 'btn-default',
                     action:function() {
+                        $.ajaxSetup({
+                           data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
+                        });
                             $.ajax({
                                 type: 'POST',
                                 url: '/cmdb/DiskDelete',
@@ -818,6 +827,9 @@
                     text: '删除',
                     btnClass: 'btn-default',
                     action:function() {
+                        $.ajaxSetup({
+                           data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
+                        });
                             $.ajax({
                                 type: 'POST',
                                 url: '/cmdb/PortDelete',
@@ -865,6 +877,9 @@
                     text: '删除',
                     btnClass: 'btn-default',
                     action:function() {
+                            $.ajaxSetup({
+                               data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
+                            });
                             $.ajax({
                                 type: 'POST',
                                 url: '/cmdb/PartDelete',

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block css_block %}
+<!--<link rel="stylesheet" href="/static/dist/paginationjs/pagination.css">-->
+<link rel="stylesheet" href="{% static 'dist/paginationjs/pagination.css' %}">
+<!--<link rel="stylesheet" href="/static/dist/search_dropDown/search_dropDown.css">-->
+<link rel="stylesheet" href="{% static 'dist/jquery-confirm/jquery-confirm.min.css' %}">
+<!--<link rel="stylesheet" href="/static/dist/easyui/easyui.css">-->
+
+{% endblock%}
+
+
+{% block main_content %}
+
+        <div >
+            <div class="box box-info" >
+
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="glyphicon  glyphicon-file"></i>
+                        操作日志
+                    </h3>
+                </div>
+
+                <!-- 供应商清单 -->
+                    <div class="box-body table-responsive ">
+                        <table class="table table-hover">
+                            {% for event in eventlogs %}
+                                <tr>
+                                    <td>
+
+                                        <span class="margin-r-5">
+                                            {% if event.event_type == '1'%}
+                                                <i class="glyphicon glyphicon-plus" style="color: green"></i>
+                                            {% elif event.event_type == '2' %}
+                                                <i class="glyphicon glyphicon-trash" style="color:#9e0505"></i>
+                                            {% elif event.event_type == '3' %}
+                                                <i class="glyphicon glyphicon-pencil" style="color: orange"></i>
+                                            {% endif %}
+                                        </span>
+                                        <span class="margin-r-5">{{ event.date }}</span>
+                                        <span class="margin-r-5">{{ event.user.username }}</span>
+                                        <span class="margin-r-5">{{ event.get_event_type_display }}</span>
+                                        {% if event.toAsset %}
+                                            <span>
+                                                <
+                                            </span>
+                                            <span>{{ event.toAsset.get_asset_type_display }}</span>
+                                            <span class="margin-r-5">
+                                                >
+                                            </span>
+                                            <span class="margin-r-5">{{ event.toAsset.asset_name }}</span>
+                                            <span class="margin-r-5">的</span>
+                                        {% endif %}
+                                        <span>
+                                            <
+                                        </span>
+                                        <span>{{ event.object_type }}</span>
+                                        <span class="margin-r-5">
+                                            >
+                                        </span>
+                                        <span class="margin-r-5">{{ event.object_name }}</span>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+
+            </div>
+            <!-- /.box -->
+        </div>
+
+{% endblock main_content %}

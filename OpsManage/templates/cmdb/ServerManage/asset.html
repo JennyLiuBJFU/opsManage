@@ -50,7 +50,8 @@
                             {% csrf_token %}
                             <!-- 查询所属单位 -->
                             <div class="form-group margin-r-5">
-                                <select class="form-control select2 text-center" name="myOrg" id="selectedOrg"
+
+ <select class="form-control select2 text-center" name="myOrg" id="selectedOrg"
                                         style="width: 130px;font-size: 12px">
                                     <option value="0" selected="selected">所属单位</option>
                                     {% for Organization in org_incharge %}
@@ -426,6 +427,9 @@
                     text: '删除',
                     btnClass: 'btn-default',
                     action:function() {
+                            $.ajaxSetup({
+                               data:{csrfmiddlewaretoken:'{{ csrf_token }}'}
+                            });
                             $.ajax({
                                 type: 'POST',
                                 url: '/cmdb/deleteARecord',

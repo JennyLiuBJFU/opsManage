@@ -71,4 +71,6 @@ urlpatterns = [
     url(r'^editAModelSubmit',views.editAModelSubmit),
     url(r'^editAVendorSubmit',views.editAVendorSubmit),
     url(r'^doVerify',views.doVerify),
+
+    url(r'eventLog',views.eventLog),
 ]
